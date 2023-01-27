@@ -12,6 +12,7 @@ module.exports = {
         experimentalImportSupport: false,
         inlineRequires: true,
       },
+
     }),
   },
 };

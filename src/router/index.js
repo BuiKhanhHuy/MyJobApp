@@ -12,7 +12,7 @@ const RootStack = createNativeStackNavigator();
 
 const Router = () => {
   return (
-    <RootStack.Navigator initialRouteName="Splash">
+    <RootStack.Navigator initialRouteName="Login">
       <RootStack.Screen
         name="Logo"
         component={LogoScreen}
@@ -23,7 +23,11 @@ const Router = () => {
         component={SplashScreen}
         options={{headerShown: false}}
       />
-      <RootStack.Screen name="Login" component={LoginScreen} />
+      <RootStack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{headerShown: false}}
+      />
       <RootStack.Screen name="SignUp" component={SignUpScreen} />
       <RootStack.Screen
         name="ForgotPassword"
