@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
 apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
@@ -97,7 +98,7 @@ android {
 
     namespace "com.myjobapp"
     defaultConfig {
-        applicationId "com.myjobapp"
+        applicationId "com.myjob"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -155,6 +156,7 @@ dependencies {
     implementation("com.facebook.react:react-android")
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

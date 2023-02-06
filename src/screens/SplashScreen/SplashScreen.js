@@ -1,5 +1,38 @@
-import {StyleSheet} from 'react-native';
-import COLORS from '../../assets/colors/colors';
+import React from 'react';
+import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import COLORS from '../../constants/colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+const SplashScreen = () => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.headerArea}>
+        <Text style={styles.logoName}>MyJob</Text>
+      </View>
+      <View style={styles.imageArea}>
+        <Image
+          style={styles.splashImage}
+          source={require('../../assets/images/splash.png')}
+        />
+      </View>
+      <View style={styles.titleArea}>
+        <Text style={[styles.titleText, styles.titleTextLine1]}>Tìm kiếm</Text>
+        <Text style={[styles.titleText, styles.titleTextLine2]}>Công việc </Text>
+        <Text style={[styles.titleText, styles.titleTextLine3]}>Tại đây!</Text>
+        <Text style={styles.subText}>
+          Explore all the most exciting job roles based on your interest and
+          study major.
+        </Text>
+      </View>
+      <View style={styles.footerArea}>
+        <TouchableOpacity style={styles.nextButton}>
+          <AntDesign name="arrowright" style={styles.arrowRightIcon} />
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   container: {
@@ -15,14 +48,14 @@ const styles = StyleSheet.create({
   },
   logoName: {
     textAlign: 'right',
-    marginTop: 51,
+    marginTop: 45,
     fontFamily: 'DMSans-Bold',
     fontSize: 22,
     lineHeight: 23,
     color: COLORS.black,
   },
   imageArea: {
-    flex: 7,
+    flex: 6,
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
@@ -37,7 +70,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontFamily: 'DMSans-Bold',
-    lineHeight: 38,
+    lineHeight: 42,
     fontSize: 40,
   },
   titleTextLine1: {
@@ -80,4 +113,5 @@ const styles = StyleSheet.create({
   arrowRightIcon: {color: COLORS.white, fontSize: 27},
 });
 
-export default styles;
+
+export default SplashScreen;

@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">MyJobApp</string>
+    <string name="app_name">MyJob</string>
+    <string name="facebook_app_id">503591871851468</string>
+    <string name="fb_login_protocol_scheme">fb503591871851468</string>
+    <string name="facebook_client_token">87054023f865721b313376d492bb4c04</string>
 </resources>

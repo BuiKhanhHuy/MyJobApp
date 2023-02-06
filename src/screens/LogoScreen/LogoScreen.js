@@ -1,4 +1,19 @@
-import {StyleSheet} from 'react-native';
+import React from 'react';
+import {Text, View, Image, StyleSheet} from 'react-native';
+
+const LogoScreen = () => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.logoContent}>
+        <Image
+          style={styles.logoImage}
+          source={require('../../assets/images/logo/icon.png')}
+        />
+        <Text style={styles.logoName}>MyJob</Text>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -25,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default styles;
+export default LogoScreen;
