@@ -3,7 +3,7 @@ import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import COLORS from '../../constants/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const SplashScreen = () => {
+const SplashScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerArea}>
@@ -25,14 +25,13 @@ const SplashScreen = () => {
         </Text>
       </View>
       <View style={styles.footerArea}>
-        <TouchableOpacity style={styles.nextButton}>
+        <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate("Login")}>
           <AntDesign name="arrowright" style={styles.arrowRightIcon} />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -94,24 +93,23 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: 'flex-end',
   },
-  nextButton: {
-    backgroundColor: COLORS.primary,
-    width: 60,
-    height: 60,
-    borderRadius: 100,
-    padding: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.25,
-    elevation: 6,
-    shadowColor: COLORS.black,
+nextButton: {
+  backgroundColor: COLORS.primary,
+  width: 60,
+  height: 60,
+  borderRadius: 100,
+  padding: 18,
+  alignItems: 'center',
+  justifyContent: 'center',
+  shadowOffset: {
+    width: 0,
+    height: 4,
   },
-  arrowRightIcon: {color: COLORS.white, fontSize: 27},
+  shadowOpacity: 0.25,
+  elevation: 6,
+  shadowColor: COLORS.black,
+},
+arrowRightIcon: {color: COLORS.white, fontSize: 27},
 });
-
 
 export default SplashScreen;

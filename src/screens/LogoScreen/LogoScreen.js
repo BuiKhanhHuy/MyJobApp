@@ -1,42 +1,43 @@
-import React from 'react';
-import {Text, View, Image, StyleSheet} from 'react-native';
+import * as React from 'react';
+import {Text, StyleSheet, View, Image} from 'react-native';
+import {FontFamily, Color, FontSize} from '../../constants/globalStyles';
 
 const LogoScreen = () => {
   return (
-    <View style={styles.container}>
-      <View style={styles.logoContent}>
+    <View style={styles.logo}>
+      <View style={styles.logoChild}>
         <Image
           style={styles.logoImage}
+          resizeMode="cover"
           source={require('../../assets/images/logo/icon.png')}
         />
-        <Text style={styles.logoName}>MyJob</Text>
+        <Text style={styles.myJobText}>MyJob</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  logo: {
+    backgroundColor: Color.primary,
+    flex: 1,
     width: '100%',
     height: '100%',
-    backgroundColor: '#130160',
+    justifyContent: 'center',
+  },
+  logoChild: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logoContent: {
-    alignItems: 'center',
-  },
   logoImage: {
-    width: 60,
     height: 60,
+    width: 60,
   },
-  logoName: {
-    marginTop: 1,
-    fontFamily: 'DMSans-Bold',
-    fontSize: 26,
+  myJobText: {
+    fontSize: FontSize.size_xxxl,
     lineHeight: 34,
-    color: '#FFFFFF',
-    textAlign: 'center',
+    fontFamily: FontFamily.dMSansBold,
+    color: Color.white,
   },
 });
 

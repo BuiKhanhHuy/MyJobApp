@@ -1,7 +1,8 @@
 import React from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {CheckBox} from '@rneui/themed';
 import {useForm} from 'react-hook-form';
+import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk';
 import COLORS from '../../constants/colors';
 import TextInputCustom from '../../components/TextInputCustom';
 import TouchableOpacityCustom from '../../components/TouchableOpacityCustom';
@@ -12,6 +13,30 @@ const LoginScreen = ({navigation}) => {
   const handleLogin = data => {
     console.log('LOGIN DATA: ', data);
   };
+
+  const handleFacebookLogin = () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log('==> Login cancelled');
+        } else {
+          console.log(
+            '==> Login success with permissions: ' +
+              result.grantedPermissions.toString(),
+          );
+          AccessToken.getCurrentAccessToken().then(data => {
+            console.log('data: ', data);
+            console.log(data.accessToken.toString());
+          });
+        }
+      },
+      function (error) {
+        console.log('==> Login fail with error: ' + error);
+      },
+    );
+  };
+
+  const handleGoogleLogin = () => {};
 
   return (
     <View style={styles.container}>
@@ -84,9 +109,18 @@ const LoginScreen = ({navigation}) => {
           </View>
           <View style={{marginTop: 19}}>
             <TouchableOpacityCustom
+              text="ĐĂNG NHẬP VỚI FACEBOOK"
+              textColor={COLORS.white}
+              bgColor={'#1a77f2'}
+              onPress={handleFacebookLogin}
+            />
+          </View>
+          <View style={{marginTop: 19}}>
+            <TouchableOpacityCustom
               text="ĐĂNG NHẬP VỚI GOOGLE"
-              textColor={COLORS.primary}
-              bgColor={COLORS.gray1}
+              textColor={COLORS.white}
+              bgColor={'#dc4e41'}
+              onPress={handleGoogleLogin}
             />
           </View>
         </View>
