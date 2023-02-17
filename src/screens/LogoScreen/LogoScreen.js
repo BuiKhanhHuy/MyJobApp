@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Text, StyleSheet, View, Image} from 'react-native';
-import {FontFamily, Color, FontSize} from '../../constants/globalStyles';
+import {FontFamily, Color, FontSize, Logo} from '../../constants/globalStyles';
 
 const LogoScreen = () => {
   return (
@@ -9,7 +9,7 @@ const LogoScreen = () => {
         <Image
           style={styles.logoImage}
           resizeMode="cover"
-          source={require('../../assets/images/logo/icon.png')}
+          source={Logo.lightLogoMedium}
         />
         <Text style={styles.myJobText}>MyJob</Text>
       </View>
@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoImage: {
-    height: 60,
-    width: 60,
+    height: 65,
+    width: 65,
   },
   myJobText: {
-    fontSize: FontSize.size_xxxl,
+    fontSize: FontSize.size_6md,
     lineHeight: 34,
     fontFamily: FontFamily.dMSansBold,
     color: Color.white,

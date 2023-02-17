@@ -1,88 +1,170 @@
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Feather from 'react-native-vector-icons/Feather';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {
+  Animated,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Text,
+} from 'react-native';
+import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {
+  Border,
+  Color,
+  FontFamily,
+  FontSize,
+  Margin,
+  Padding,
+} from '../constants/globalStyles';
+
 import HomeRouter from './home.routes';
 import MyConnectionRouter from './myConnection.routes';
-import ChatRouter from './chat.routes';
-import BookmarkRouter from './bookmark.routes';
-import COLORS from '../constants/colors';
+import ProfileRouter from './profile.routes';
+import SearchRouter from './search.routes';
 
-const Tab = createBottomTabNavigator();
+export default BottomTabNavigator = () => {
+  const _renderIcon = (routeName, selectedTab) => {
+    let icon = '';
+    let label = '';
+    switch (routeName) {
+      case 'HomeTab':
+        icon = 'ios-home-outline';
+        label = 'Trang chủ';
+        break;
+      case 'SearchTab':
+        icon = 'ios-search-outline';
+        label = 'Việc làm';
+        break;
+      case 'MyConnectionTab':
+        icon = 'ios-share-social-outline';
+        label = 'Bài viết';
+        break;
+      case 'ProfileTab':
+        icon = 'person-outline';
+        label = 'Cá nhân';
+        break;
+    }
 
-const customCreatePostButton = size => {
+    return (
+      <>
+        <Ionicons
+          name={icon}
+          size={25}
+          color={
+            routeName === selectedTab ? Color.secondary : Color.darkgray_100
+          }
+        />
+        <Text
+          style={{
+            color:
+              routeName === selectedTab ? Color.secondary : Color.darkgray_100,
+            fontFamily: FontFamily.dMSansMedium,
+            fontSize: FontSize.size_1sm,
+            marginTop: Margin.m_3xs,
+          }}>
+          {label}
+        </Text>
+      </>
+    );
+  };
+
+  const renderTabBar = ({routeName, selectedTab, navigate}) => {
+    return (
+      <TouchableOpacity
+        onPress={() => navigate(routeName)}
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingVertical: Padding.p_5xs,
+        }}>
+        {_renderIcon(routeName, selectedTab)}
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <TouchableOpacity
-      style={{
-        height: 36,
-        width: 36,
-        borderRadius: 68,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#0D0140',
-      }}>
-      <AntDesign
-        name="plus"
-        color={COLORS.white}
-        style={{fontSize: size - 2}}
-      />
-    </TouchableOpacity>
-  );
-};
-
-const BottomTabNavigator = () => {
-  return (
-    <Tab.Navigator
+    <CurvedBottomBar.Navigator
+      strokeWidth={1}
+      style={styles.bottomBar}
+      height={55}
+      circleWidth={55}
+      bgColor="white"
       initialRouteName="HomeTab"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({color, size}) => {
-          if (route.name == 'HomeTab')
-            return (
-              <Feather name="home" color={color} style={{fontSize: size}} />
-            );
-          else if (route.name == 'MyConnectionTab')
-            return (
-              <MaterialCommunityIcons
-                name="atom-variant"
-                color={color}
-                style={{fontSize: size}}
-              />
-            );
-          else if (route.name == 'ChatTab')
-            return (
-              <Feather
-                name="message-square"
-                color={color}
-                style={{fontSize: size}}
-              />
-            );
-          else if (route.name == 'BookmarkTab')
-            return (
-              <Feather name="bookmark" color={color} style={{fontSize: size}} />
-            );
-        },
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: '#FCA34D',
-        tabBarInactiveTintColor: '#A49EB5',
-        tabBarStyle: {height: 55},
-      })}>
-      <Tab.Screen name="HomeTab" component={HomeRouter} />
-      <Tab.Screen name="MyConnectionTab" component={MyConnectionRouter} />
-      <Tab.Screen
-        name="CreatePost"
-        options={{
-          tabBarLabel: '',
-          tabBarIcon: ({size}) => customCreatePostButton(size),
-        }}
+      renderCircle={({selectedTab, navigate}) => (
+        <Animated.View style={styles.btnCircle}>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+            }}
+            onPress={() => navigate('ChatBotScreen')}>
+            <Image
+              source={require('../assets/images/icons/chatbot-icon.png')}
+              style={{width: 35, height: 35}}
+            />
+          </TouchableOpacity>
+        </Animated.View>
+      )}
+      screenOptions={{headerShown: false}}
+      tabBar={renderTabBar}>
+      <CurvedBottomBar.Screen
+        position="LEFT"
+        name="HomeTab"
         component={HomeRouter}
       />
-      <Tab.Screen name="ChatTab" component={ChatRouter} />
-      <Tab.Screen name="BookmarkTab" component={BookmarkRouter} />
-    </Tab.Navigator>
+      <CurvedBottomBar.Screen
+        position="LEFT"
+        name="SearchTab"
+        component={SearchRouter}
+      />
+      <CurvedBottomBar.Screen
+        position="RIGHT"
+        name="MyConnectionTab"
+        component={MyConnectionRouter}
+      />
+      <CurvedBottomBar.Screen
+        position="RIGHT"
+        name="ProfileTab"
+        component={ProfileRouter}
+      />
+    </CurvedBottomBar.Navigator>
   );
 };
 
-export default BottomTabNavigator;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: Padding.p_10sm,
+  },
+  button: {
+    marginVertical: Margin.m_5xs,
+  },
+  bottomBar: {},
+  btnCircle: {
+    width: 60,
+    height: 60,
+    borderRadius: Border.br_5lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Color.primary,
+    padding: Padding.p_10xs,
+    elevation: 5,
+    shadowColor: Color.primary,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    bottom: Margin.m_10md,
+  },
+  imgCircle: {
+    width: 30,
+    height: 30,
+    tintColor: 'gray',
+  },
+  img: {
+    width: 30,
+    height: 30,
+  },
+});
+

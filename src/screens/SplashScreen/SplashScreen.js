@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import COLORS from '../../constants/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import COLORS from '../../constants/colors';
 
 const SplashScreen = ({navigation}) => {
   return (

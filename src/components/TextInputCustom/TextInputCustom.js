@@ -1,6 +1,14 @@
 import {TextInput, View, Text, StyleSheet} from 'react-native';
 import {Controller} from 'react-hook-form';
-import COLORS from '../../constants/colors';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import {
+  Border,
+  Color,
+  FontFamily,
+  FontSize,
+  Margin,
+  Padding,
+} from '../../constants/globalStyles';
 
 const TextInputCustom = ({
   control,
@@ -15,7 +23,7 @@ const TextInputCustom = ({
       name={name}
       rules={rules}
       render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
-        <View style={styles.container}>
+        <View style={[styles.container]}>
           <TextInput
             value={value}
             onChangeText={onChange}
@@ -23,11 +31,14 @@ const TextInputCustom = ({
             placeholder={placeholder}
             style={[
               styles.textInput,
-              error && {borderWidth: 1, borderColor: COLORS.lighterRed},
+              error && {
+                borderWidth: Border.br_1xs,
+                borderColor: Color.lighterRed,
+              },
             ]}
             secureTextEntry={secureTextEntry}
           />
-          <Text style={styles.errorText}>{error && error.message}</Text>
+          {error && <Text style={styles.errorText}>{error.message}</Text>}
         </View>
       )}
     />
@@ -37,17 +48,29 @@ const TextInputCustom = ({
 const styles = StyleSheet.create({
   container: {},
   textInput: {
-    backgroundColor: COLORS.white,
-    borderRadius: 10,
-    padding: 17,
+    backgroundColor: Color.white,
+    fontFamily: FontFamily.dMSansMedium,
+    fontSize: FontSize.size_2sm,
+    lineHeight: 16,
+    color: Color.darkgray_100,
+    borderRadius: Border.br_10xs,
+    padding: Padding.p_7sm,
     height: 50,
   },
+  iconStyle: {
+    position: 'absolute',
+    zIndex: 1,
+    left: Margin.m_7sm,
+    top: Margin.m_2sm,
+    fontSize: FontSize.size_4md,
+    color: Color.darkgray_100,
+  },
   errorText: {
-    color: 'red',
-    fontFamily: 'DMSans-Regular',
-    fontSize: 12,
+    color: Color.red,
+    fontFamily: FontFamily.dMSansRegular,
+    fontSize: FontSize.size_2sm,
     lineHeight: 16,
-    paddingTop: 3,
+    paddingTop: Padding.p_3xs,
   },
 });
 
