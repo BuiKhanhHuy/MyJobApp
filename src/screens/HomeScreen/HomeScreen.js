@@ -1,128 +1,77 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  ScrollView,
-  RefreshControl,
-} from 'react-native';
-import {
-  FontFamily,
-  FontSize,
-  Color,
-  Padding,
-  Border,
-} from '../../constants/globalStyles';
+import {Avatar, Box, HStack, ScrollView, Text, View, VStack} from 'native-base';
+
 import JobTypePopulars from '../../components/JobTypePopulars/JobTypePopulars';
 import {RecentJobPosts} from '../../components/JobPosts';
 
 const HomeScreen = ({navigation}) => {
-
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={{flex: 1}}>
-          <View>
-            <Text style={styles.welcomeTitle}>Xin chào,</Text>
-          </View>
-          <View>
-            <Text style={styles.welcomeTitle}>Bùi Khánh Huy</Text>
-          </View>
+    <View padding="6" flexDirection="column">
+      <View
+        flexDirection="row"
+        justifyContent="space-between"
+        paddingBottom={2}>
+        <View>
+          <Text
+            fontFamily="dMSansBold"
+            fontSize="2xl"
+            lineHeight="sm"
+            color="myJobCustomColors.purpleBlue">
+            Hello,
+          </Text>
+          <Text
+            fontFamily="dMSansBold"
+            fontSize="2xl"
+            lineHeight="sm"
+            color="myJobCustomColors.purpleBlue">
+            Bùi Khánh Huy
+          </Text>
         </View>
         <View>
-          <Image
-            style={styles.avatar}
+          <Avatar
+            bg="green.500"
             source={{
-              uri: 'https://snack-web-player.s3.us-west-1.amazonaws.com/v2/46/static/media/react-native-logo.79778b9e.png',
-            }}
-          />
+              uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+            }}>
+            KH
+          </Avatar>
         </View>
       </View>
-      <ScrollView
-        style={styles.scrollViewContainer}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={true} colors={[Color.primary]} />
-        }>
-        <View style={{flex: 1, flexDirection: 'column'}}>
-          <View style={styles.banner}>
-            <Image
-              style={{width: '100%', height: 200}}
-              source={{
-                uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/v1676043960/tam_anh_myjob/a2we0s9as6hzkybn1tn5.png',
-              }}
-              resizeMode="stretch"
-            />
-          </View>
-          <View style={styles.category}>
-            <View style={{paddingBottom: Padding.p_6md}}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View>
+          <View height="48" marginTop={4} backgroundColor={'blue.100'}></View>
+          <View height="56" marginTop={6}>
+            <View>
               <Text
-                style={{
-                  fontFamily: FontFamily.dMSansBold,
-                  fontSize: FontSize.size_6sm,
-                  lineHeight: 21,
-                  color: Color.black,
-                }}>
-                Tìm kiếm công việc của bạn
+                fontFamily="DMSans-Bold"
+                fontSize="md"
+                lineHeight="sm"
+                color="myJobCustomColors.haitiBluePurple">
+                Find Your Job
               </Text>
             </View>
-            {/* Start: Job type poplulars */}
-            <JobTypePopulars />
-            {/* End: Job type poplulars */}
+            <View height="100%" paddingTop={4}>
+              <JobTypePopulars />
+            </View>
           </View>
-          <View style={styles.jobList}>
-            <View style={{paddingBottom: Padding.p_6sm}}>
+          <View marginTop={10}>
+            <View>
               <Text
-                style={{
-                  fontFamily: FontFamily.dMSansBold,
-                  fontSize: FontSize.size_6sm,
-                  lineHeight: 21,
-                  color: Color.black,
-                }}>
-                Danh sách công việc gần đây
+                fontFamily="DMSans-Bold"
+                fontSize="md"
+                lineHeight="sm"
+                color="myJobCustomColors.haitiBluePurple">
+                Recent Job List
               </Text>
             </View>
-            {/* Start: Job list */}
-            <RecentJobPosts />
-            {/* End: Job list */}
+            <View paddingTop={4}>
+              <RecentJobPosts />
+            </View>
           </View>
         </View>
       </ScrollView>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: Padding.p_10sm,
-    paddingTop: Padding.p_10sm,
-  },
-  welcomeTitle: {
-    fontFamily: FontFamily.dMSansBold,
-    color: Color.midnightblue_200,
-    fontSize: FontSize.size_2md,
-    lineHeight: 27,
-  },
-  header: {
-    flexDirection: 'row',
-    paddingBottom: Padding.p_5xs,
-  },
-  avatar: {
-    width: 36,
-    height: 36,
-    borderRadius: Border.br_10xl,
-  },
-  banner: {
-    paddingBottom: Padding.p_4md,
-  },
-  scrollViewContainer: {
-    height: '100%',
-  },
-  category: {
-    flex: 8,
-  },
-  jobList: {flex: 4},
-});
 
 export default HomeScreen;

@@ -1,80 +1,113 @@
 import React from 'react';
-import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
-import {Color, Padding} from '../../constants/globalStyles';
-import JobPost from '../JobPost/JobPost';
+import {Text, View, Image, StyleSheet, ScrollView} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
-const JobPosts = () => {
-  const [jobPosts, setJobPosts] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
-  const [limit, setLimit] = React.useState(2);
-  React.useEffect(() => {
-    const loadJobPost = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch(
-          `https://dummyjson.com/posts?limit=${limit}&skip=${
-            limit * (currentPage - 1)
-          }`,
-        );
-        console.log(
-          `https://dummyjson.com/posts?limit=${limit}&skip=${
-            limit * (currentPage - 1)
-          }`,
-        );
-        if (res.status !== 200)
-          Promise.reject(`Co loi xay ra, status = ${res.status}`);
-
-        const data = await res.json();
-        const posts = data.posts;
-
-        setJobPosts([...jobPosts, ...posts]);
-        setLimit(data.limit);
-      } catch (err) {
-        console.error(`ERROR: ${err}`);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadJobPost();
-  }, [currentPage]);
-
-  const JobItem = ({item}) => (
-    <View key={item.id} style={styles.item}>
-      <JobPost />
-    </View>
-  );
-
-  const renderFooter = () =>
-    isLoading ? (
-      <View style={styles.loadingFooter}>
-        <ActivityIndicator size="large" color={Color.primary} />
+const JobPost = () => {
+  const keyworkDescription = name => {
+    return (
+      <View
+        style={{
+          paddingVertical: 7,
+          paddingHorizontal: 23,
+          borderRadius: 8,
+          backgroundColor: '#cbc9d4',
+          marginRight: 10,
+        }}>
+        <Text
+          style={{
+            lineHeight: 13,
+            fontSize: 10,
+            color: '#524b6b',
+            fontFamily: 'DMSans-Medium',
+          }}>
+          {name}
+        </Text>
       </View>
-    ) : null;
-
-  const handleLoadMore = () => {
-    try {
-      let newPage = currentPage + 1;
-      setCurrentPage(newPage);
-    } catch (err) {
-      console.error(`ERROR: ${err}`);
-    } finally {
-        setIsLoading(false);
-      }
-    console.log('render')
+    );
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={jobPosts}
-        keyExtractor={item => item.id}
-        renderItem={item => JobItem(item)}
-        ListFooterComponent={renderFooter}
-        onEndReachedThreshold={0}
-        onEndReached={handleLoadMore}
-      />
+      <View style={styles.header}>
+        <View>
+          <Image
+            source={{uri: 'https://img.icons8.com/fluency/1x/google-logo.png'}}
+            style={styles.logo}
+          />
+        </View>
+        <View style={{justifyContent: 'flex-start'}}>
+          <Feather name="bookmark" size={20} color={'#524b6b'} />
+        </View>
+      </View>
+      <View style={{paddingTop: 10}}>
+        <Text
+          style={{
+            fontFamily: 'DMSans-Bold',
+            color: '#150a33',
+            fontSize: 14,
+            height: 18,
+            lineHeight: 18,
+          }}>
+          UI/UX Designer
+        </Text>
+      </View>
+      <View style={{paddingTop: 4}}>
+        <Text
+          style={{
+            height: 16,
+            lineHeight: 16,
+            fontSize: 12,
+            color: '#524b6b',
+            fontFamily: 'DMSans-Medium',
+          }}>
+          Google inc - California, USA
+        </Text>
+      </View>
+      <View style={{paddingVertical: 20}}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {[
+            keyworkDescription('Design'),
+            keyworkDescription('Ho Chi Minh City'),
+            keyworkDescription('Work from home'),
+            keyworkDescription('Manager'),
+          ]}
+        </ScrollView>
+      </View>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View>
+          <Text
+            style={{
+              fontSize: 10,
+              lineHeight: 13,
+              fontFamily: 'DMSans-Regular',
+              color: '#aaa6b9',
+            }}>
+            25 minutes ago
+          </Text>
+        </View>
+        <View>
+          <Text>
+            <Text
+              style={{
+                lineHeight: 18,
+                fontSize: 14,
+                fontFamily: 'DMSans-Bold',
+                color: '#000',
+              }}>
+              $14k
+            </Text>
+            <Text
+              style={{
+                lineHeight: 16,
+                fontSize: 12,
+                fontFamily: 'DMSans-Medium',
+                color: '#aaa6b9',
+              }}>
+              /mon
+            </Text>
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };
@@ -82,13 +115,25 @@ const JobPosts = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 20,
+    shadowOpacity: 0.18,
+    shadowColor: '#99ABC6',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
   },
-  item: {
-    marginVertical: 8,
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  loadingFooter: {
-    paddingVertical: Padding.p_5xs,
+  logo: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
   },
 });
 
-export default JobPosts;
+export default JobPost;

@@ -8,14 +8,6 @@ import {
 } from 'react-native';
 import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {
-  Border,
-  Color,
-  FontFamily,
-  FontSize,
-  Margin,
-  Padding,
-} from '../constants/globalStyles';
 
 import HomeRouter from './home.routes';
 import MyConnectionRouter from './myConnection.routes';
@@ -51,16 +43,16 @@ export default BottomTabNavigator = () => {
           name={icon}
           size={25}
           color={
-            routeName === selectedTab ? Color.secondary : Color.darkgray_100
+            routeName === selectedTab ? '#FCA34D' :'#aaa6b9'
           }
         />
         <Text
           style={{
             color:
-              routeName === selectedTab ? Color.secondary : Color.darkgray_100,
-            fontFamily: FontFamily.dMSansMedium,
-            fontSize: FontSize.size_1sm,
-            marginTop: Margin.m_3xs,
+              routeName === selectedTab ? '#FCA34D' :'#aaa6b9',
+            fontFamily:  'DMSans-Medium',
+            fontSize: 11,
+            marginTop: 3,
           }}>
           {label}
         </Text>
@@ -76,7 +68,7 @@ export default BottomTabNavigator = () => {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          paddingVertical: Padding.p_5xs,
+          paddingVertical: 5,
         }}>
         {_renderIcon(routeName, selectedTab)}
       </TouchableOpacity>
@@ -90,7 +82,7 @@ export default BottomTabNavigator = () => {
       height={55}
       circleWidth={55}
       bgColor="white"
-      initialRouteName="HomeTab"
+      initialRouteName="SearchTab"
       renderCircle={({selectedTab, navigate}) => (
         <Animated.View style={styles.btnCircle}>
           <TouchableOpacity
@@ -135,27 +127,27 @@ export default BottomTabNavigator = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: Padding.p_10sm,
+    padding: 20,
   },
   button: {
-    marginVertical: Margin.m_5xs,
+    marginVertical: 5,
   },
   bottomBar: {},
   btnCircle: {
     width: 60,
     height: 60,
-    borderRadius: Border.br_5lg,
+    borderRadius: 45,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Color.primary,
-    padding: Padding.p_10xs,
+    backgroundColor: '#130160',
+    padding: 10,
     elevation: 5,
-    shadowColor: Color.primary,
+    shadowColor: '#130160',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    bottom: Margin.m_10md,
+    bottom: 30,
   },
   imgCircle: {
     width: 30,

@@ -1,178 +1,137 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import {CheckBox} from '@rneui/themed';
+import {Box, Text, View, VStack} from 'native-base';
 import {useForm} from 'react-hook-form';
-import COLORS from '../../constants/colors';
+import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk';
+
 import TextInputCustom from '../../components/TextInputCustom';
-import TouchableOpacityCustom from '../../components/TouchableOpacityCustom';
+import ButtonCustom from '../../components/ButtonCustom';
 
 const SignUpScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
 
-  const handleSignUp = data => {
-    console.log('SIGN UP DATA: ', data);
+  const handleLogin = data => {
+    console.log('LOGIN DATA: ', data);
   };
 
+  const handleFacebookLogin = () => {
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      function (result) {
+        if (result.isCancelled) {
+          console.log('==> Login cancelled');
+        } else {
+          console.log(
+            '==> Login success with permissions: ' +
+              result.grantedPermissions.toString(),
+          );
+          AccessToken.getCurrentAccessToken().then(data => {
+            console.log('data: ', data);
+            console.log(data.accessToken.toString());
+          });
+        }
+      }, 
+      function (error) {
+        console.log('==> Login fail with error: ' + error);
+      },
+    );
+  };
+
+  const handleGoogleLogin = () => {};
+
   return (
-    <View style={styles.container}>
-      <View style={styles.areaText}>
-        <Text style={styles.titleText}>Tạo tài khoản</Text>
-        <Text style={styles.subTitleText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor
-        </Text>
+    <View paddingX="7" paddingTop="12">
+      <View height="18%">
+        <VStack alignItems="center">
+          <Text
+            textAlign="center"
+            fontFamily="dMSansBold"
+            fontSize="3xl"
+            lineHeight="md"
+            color="myJobCustomColors.purpleBlue">
+            Tạo tài khoản
+          </Text>
+          <Text textAlign="center" paddingTop="1.5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor
+          </Text>
+        </VStack>
       </View>
-      <View style={styles.areaInput}>
-        <View>
-          <Text style={styles.titleInput}>Họ tên</Text>
-          <View style={{paddingTop: 10}}>
+      <View height="50%">
+        <VStack space={2}>
+          <Box>
             <TextInputCustom
               control={control}
               name="fullName"
               rules={{required: {value: true, message: 'Họ tên là bắt buộc'}}}
-              placeholder="Nhập họ tên"
-              secureTextEntry={true}
+              label="Họ và tên"
+              placeholder="Nhập họ và tên"
             />
-          </View>
-        </View>
-        <View style={{marginTop: 14}}>
-          <Text style={styles.titleInput}>Email</Text>
-          <View style={{paddingTop: 10}}>
+          </Box>
+          <Box>
             <TextInputCustom
               control={control}
               name="email"
               rules={{required: {value: true, message: 'Email là bắt buộc'}}}
+              label="Email"
               placeholder="Nhập email"
-              secureTextEntry={true}
             />
-          </View>
-        </View>
-        <View style={{marginTop: 14}}>
-          <Text style={styles.titleInput}>Mật khẩu</Text>
-          <View style={{paddingTop: 10}}>
+          </Box>
+          <Box>
             <TextInputCustom
               control={control}
               name="password"
               rules={{required: {value: true, message: 'Mật khẩu là bắt buộc'}}}
               placeholder="Nhập mật khẩu"
+              label="Mật khẩu"
               secureTextEntry={true}
             />
-          </View>
-        </View>
-        <View style={{paddingTop: 20, flexDirection: 'row'}}>
-          <View style={{flex: 1, alignItems: 'flex-start'}}>
-            <CheckBox
-              size={24}
-              title="Nhớ thông tin đăng nhập"
-              fontFamily="DMSans-Medium"
-              textStyle={{fontSize: 12}}
-              containerStyle={{
-                backgroundColor: 'transparent',
-                margin: 0,
-                marginLeft: 0,
-                padding: 0,
-              }}
-            />
-          </View>
-          <View
-            style={{flex: 1, alignItems: 'flex-end', justifyContent: 'center'}}>
-            <Text style={[styles.titleInput, {textAlignVertical: 'center'}]}>
-              Quên mật khẩu?
-            </Text>
-          </View>
-        </View>
+          </Box>
+          <Box></Box>
+        </VStack>
       </View>
-      <View style={styles.areaButton}>
-        <View style={styles.button}>
-          <View>
-            <TouchableOpacityCustom
-              text="ĐĂNG KÝ"
-              textColor={COLORS.white}
-              bgColor={COLORS.primary}
-              onPress={handleSubmit(handleSignUp)}
+      <View>
+        <VStack space={3} paddingX="4">
+          <Box>
+            <ButtonCustom
+              text="ĐĂNG NHẬP"
+              textColor="myJobCustomColors.white"
+              bgColor="myJobCustomColors.darkIndigo"
+              onPress={handleSubmit(handleLogin)}
             />
-          </View>
-          <View style={{marginTop: 19}}>
-            <TouchableOpacityCustom
-              text="ĐĂNG KÝ VỚI GOOGLE"
-              textColor={COLORS.primary}
-              bgColor={COLORS.gray1}
-            />
-          </View>
-        </View>
-        <View style={styles.question}>
-          <Text style={styles.signUpText}>
-            Bạn đã có tài khoản?{' '}
-            <Text
-              style={{
-                color: COLORS.secondary,
-                textDecorationLine: 'underline',
+          </Box>
+          <Box>
+            <ButtonCustom
+              text="ĐĂNG NHẬP VỚI FACEBOOK"
+              textColor="myJobCustomColors.darkIndigo"
+              bgColor="myJobCustomColors.moonrakerPurplyBlue"
+              leftIcon={{
+                iconName: 'facebook',
+                iconColor: 'myJobCustomColors.darkIndigo',
               }}
-              onPress={() => navigation.navigate('Login')}>
-              Đăng nhập
+              onPress={handleFacebookLogin}
+            />
+          </Box>
+          <Box>
+            <ButtonCustom
+              text="ĐĂNG KÝ VỚI GOOGLE"
+              textColor="myJobCustomColors.darkIndigo"
+              bgColor="myJobCustomColors.moonrakerPurplyBlue"
+              leftIcon={{
+                iconName: 'google',
+                iconColor: 'myJobCustomColors.darkIndigo',
+              }}
+              onPress={handleGoogleLogin}
+            />
+          </Box>
+          <Box alignItems="center" paddingTop="1.5">
+            <Text fontFamily="dMSansRegular" fontSize="xs" lineHeight="xs">
+              <Text>Bạn đã có tài khoản?</Text>{' '}
+              <Text color="myJobCustomColors.neonCarrot">Đăng nhập</Text>
             </Text>
-          </Text>
-        </View>
+          </Box>
+        </VStack>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 29,
-    height: '100%',
-    backgroundColor: COLORS.background,
-    flex: 1,
-    flexDirection: 'column',
-  },
-  areaText: {
-    flex: 3,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  titleText: {
-    fontFamily: 'DMSans-Bold',
-    fontSize: 30,
-    lineHeight: 39,
-    textAlign: 'center',
-    paddingTop: 11,
-    color: COLORS.bigTitle,
-  },
-  subTitleText: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: 12,
-    lineHeight: 19,
-    textAlign: 'center',
-    color: COLORS.text,
-  },
-  areaInput: {
-    flex: 7,
-    paddingTop: 11,
-  },
-  titleInput: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: 12,
-    lineHeight: 16,
-    color: COLORS.bigTitle,
-  },
-  areaButton: {
-    flex: 5,
-  },
-  button: {
-    paddingHorizontal: 30,
-  },
-  question: {
-    flex: 6,
-  },
-  signUpText: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: 12,
-    lineHeight: 16,
-    color: COLORS.text,
-    paddingTop: 16,
-    textAlign: 'center',
-  },
-});
 
 export default SignUpScreen;

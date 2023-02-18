@@ -1,41 +1,42 @@
 import React from 'react';
+import {useTheme} from 'native-base';
 import {View, StyleSheet} from 'react-native';
-import {Color, Margin, Padding} from '../../constants/globalStyles';
 import JobTypePopular from '../JobTypePopular/JobTypePopular';
 
 const JobTypePopulars = () => {
+  const {colors, } = useTheme();
+
   return (
     <View style={styles.container}>
-      <View style={{flex: 1, marginRight: Margin.m_10xs}}>
+      <View style={{flex: 1, marginRight: 10}}>
         <JobTypePopular
           imageUrl={require('../../assets/images/job-type-popular-icon.png')}
           title="44.5K"
           subTitle="Remote Job"
-          bgColor={Color.powderblue}
+          bgColor={colors.myJobCustomColors.frenchPass}
         />
       </View>
-      <View
-        style={{flex: 1, marginLeft: Margin.m_10xs, flexDirection: 'column'}}>
+      <View style={{flex: 1, marginLeft: 10, flexDirection: 'column'}}>
         <View
           style={{
             flex: 1,
-            marginBottom: Margin.m_10xs,
+            marginBottom: 10,
           }}>
           <JobTypePopular
             title="66.8K"
             subTitle="Full time"
-            bgColor={Color.plum}
+            bgColor={colors.myJobCustomColors.paleViolet}
           />
         </View>
         <View
           style={{
             flex: 1,
-            marginTop: Margin.m_10xs,
+            marginTop: 10,
           }}>
           <JobTypePopular
             title="11.5K"
             subTitle="Part time"
-            bgColor={Color.peachpuff}
+            bgColor={colors.myJobCustomColors.lightApricot}
           />
         </View>
       </View>
@@ -48,7 +49,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     height: 170,
-    paddingBottom: Padding.p_9sm,
   },
 });
 

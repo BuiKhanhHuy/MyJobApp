@@ -1,77 +1,102 @@
-import {TextInput, View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {
+  Center,
+  FormControl,
+  Icon,
+  Input,
+  Pressable,
+  Text,
+  WarningOutlineIcon,
+} from 'native-base';
 import {Controller} from 'react-hook-form';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-import {
-  Border,
-  Color,
-  FontFamily,
-  FontSize,
-  Margin,
-  Padding,
-} from '../../constants/globalStyles';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const TextInputCustom = ({
   control,
   name,
-  rules = {},
+  rules = {}, 
   placeholder,
-  secureTextEntry,
+  label = 'Email',
+  height = 'large',
+  leftIconName = null,
+  secureTextEntry = false,
 }) => {
+  const [show, setShow] = React.useState(false);
+
   return (
     <Controller
       control={control}
       name={name}
       rules={rules}
-      render={({field: {value, onChange, onBlur}, fieldState: {error}}) => (
-        <View style={[styles.container]}>
-          <TextInput
-            value={value}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            placeholder={placeholder}
-            style={[
-              styles.textInput,
-              error && {
-                borderWidth: Border.br_1xs,
-                borderColor: Color.lighterRed,
-              },
-            ]}
-            secureTextEntry={secureTextEntry}
-          />
-          {error && <Text style={styles.errorText}>{error.message}</Text>}
-        </View>
+      render={({
+        field: {value, onChange, onBlur},
+        fieldState: {error, invalid},
+      }) => (
+        <Center>
+          <FormControl isInvalid={invalid}>
+            {label && (
+              <FormControl.Label>
+                <Text
+                  fontFamily="dMSansMedium"
+                  fontSize="xs"
+                  color="myJobCustomColors.purpleBlue"
+                  paddingBottom="0.5">
+                  {label}
+                </Text>
+              </FormControl.Label>
+            )}
+            <Input
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder={placeholder}
+              style={{height: height === 'large' ? 50 : 40}}
+              borderWidth={invalid ? '1' : '0'}
+              borderRadius="10"
+              isInvalid={invalid}
+              invalidOutlineColor="myJobCustomColors.lightRed"
+              backgroundColor="myJobCustomColors.white"
+              shadow="myJobCustomShadows.0"
+              fontFamily="dMSansRegular"
+              fontSize="xs"
+              lineHeight="xs"
+              color="myJobCustomColors.mulledWine"
+              InputLeftElement={
+                leftIconName ? (
+                  <Icon
+                    as={<Fontisto name={leftIconName} />}
+                    size={5}
+                    ml="3"
+                    color="myJobCustomColors.blueGrey"
+                  />
+                ) : (
+                  leftIconName
+                )
+              }
+              type={secureTextEntry ? (show ? 'text' : 'password') : 'text'}
+              InputRightElement={
+                secureTextEntry ? (
+                  <Pressable onPress={() => setShow(!show)}>
+                    <Icon
+                      as={<Ionicons name={show ? 'eye' : 'eye-off'} />}
+                      size={6}
+                      mr="2"
+                      color="myJobCustomColors.blueGrey"
+                    />
+                  </Pressable>
+                ) : null
+              }
+            />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}>
+              {error && error.message}
+            </FormControl.ErrorMessage>
+          </FormControl>
+        </Center>
       )}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  container: {},
-  textInput: {
-    backgroundColor: Color.white,
-    fontFamily: FontFamily.dMSansMedium,
-    fontSize: FontSize.size_2sm,
-    lineHeight: 16,
-    color: Color.darkgray_100,
-    borderRadius: Border.br_10xs,
-    padding: Padding.p_7sm,
-    height: 50,
-  },
-  iconStyle: {
-    position: 'absolute',
-    zIndex: 1,
-    left: Margin.m_7sm,
-    top: Margin.m_2sm,
-    fontSize: FontSize.size_4md,
-    color: Color.darkgray_100,
-  },
-  errorText: {
-    color: Color.red,
-    fontFamily: FontFamily.dMSansRegular,
-    fontSize: FontSize.size_2sm,
-    lineHeight: 16,
-    paddingTop: Padding.p_3xs,
-  },
-});
 
 export default TextInputCustom;

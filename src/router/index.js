@@ -2,6 +2,8 @@ import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Color} from '../constants/globalStyles';
 
+import Header from '../components/Header';
+
 import LogoScreen from '../screens/LogoScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -45,8 +47,8 @@ const Router = () => {
         screenOptions={{
           headerTransparent: false,
           headerShown: true,
+          headerTintColor: '#514A6B',
           title: '',
-          headerTintColor: Color.dimgray,
         }}>
         {/* Start: Home */}
         <RootStack.Group></RootStack.Group>

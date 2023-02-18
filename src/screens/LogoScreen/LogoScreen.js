@@ -1,44 +1,26 @@
 import * as React from 'react';
-import {Text, StyleSheet, View, Image} from 'react-native';
-import {FontFamily, Color, FontSize, Logo} from '../../constants/globalStyles';
+import {Text, View, Image, Center} from 'native-base';
+import {APP_NAME, LOGO_IMAGE} from '../../constants/globalStyles';
 
 const LogoScreen = () => {
   return (
-    <View style={styles.logo}>
-      <View style={styles.logoChild}>
-        <Image
-          style={styles.logoImage}
-          resizeMode="cover"
-          source={Logo.lightLogoMedium}
-        />
-        <Text style={styles.myJobText}>MyJob</Text>
-      </View>
+    <View
+      backgroundColor="myJobCustomColors.darkIndigo"
+      size="full"
+      alignItems="center"
+      justifyContent="center">
+      <Center>
+        <Image source={LOGO_IMAGE.lightLogoMedium} alt={APP_NAME} size="sm" />
+        <Text
+          fontSize="2xl"
+          fontFamily="dMSansBold"
+          _light={{color: 'myJobCustomColors.white'}}
+          _dark={{color: 'myJobCustomColors.white'}}>
+          {APP_NAME}
+        </Text>
+      </Center>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  logo: {
-    backgroundColor: Color.primary,
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-  },
-  logoChild: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logoImage: {
-    height: 65,
-    width: 65,
-  },
-  myJobText: {
-    fontSize: FontSize.size_6md,
-    lineHeight: 34,
-    fontFamily: FontFamily.dMSansBold,
-    color: Color.white,
-  },
-});
 
 export default LogoScreen;

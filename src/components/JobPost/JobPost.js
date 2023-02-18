@@ -1,14 +1,6 @@
 import React from 'react';
 import {Text, View, Image, StyleSheet, ScrollView} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import {
-  Border,
-  Color,
-  FontFamily,
-  FontSize,
-  Margin,
-  Padding,
-} from '../../constants/globalStyles';
 
 const JobPost = () => {
   const keyworkDescription = name => {
@@ -17,16 +9,16 @@ const JobPost = () => {
         style={{
           paddingVertical: 7,
           paddingHorizontal: 23,
-          borderRadius: Border.br_8xs,
-          backgroundColor: Color.lightgray_100,
-          marginRight: Margin.m_10xs,
+          borderRadius: 8,
+          backgroundColor: '#cbc9d4',
+          marginRight: 10,
         }}>
         <Text
           style={{
             lineHeight: 13,
-            fontSize: FontSize.size_10xs,
-            color: Color.dimgray,
-            fontFamily: FontFamily.dMSansMedium,
+            fontSize: 10,
+            color: '#524b6b',
+            fontFamily: 'DMSans-Medium',
           }}>
           {name}
         </Text>
@@ -44,38 +36,34 @@ const JobPost = () => {
           />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
-          <Feather
-            name="bookmark"
-            size={FontSize.size_10sm}
-            color={Color.dimgray}
-          />
+          <Feather name="bookmark" size={20} color={'#524b6b'} />
         </View>
       </View>
-      <View style={{paddingTop: Padding.p_10xs}}>
+      <View style={{paddingTop: 10}}>
         <Text
           style={{
-            fontFamily: FontFamily.dMSansBold,
-            color: Color.gray_300,
-            fontSize: FontSize.size_4sm,
+            fontFamily: 'DMSans-Bold',
+            color: '#150a33',
+            fontSize: 14,
             height: 18,
             lineHeight: 18,
           }}>
           UI/UX Designer
         </Text>
       </View>
-      <View style={{paddingTop: Padding.p_4xs}}>
+      <View style={{paddingTop: 4}}>
         <Text
           style={{
             height: 16,
             lineHeight: 16,
-            fontSize: FontSize.size_2sm,
-            color: Color.dimgray,
-            fontFamily: FontFamily.dMSansMedium,
+            fontSize: 12,
+            color: '#524b6b',
+            fontFamily: 'DMSans-Medium',
           }}>
           Google inc - California, USA
         </Text>
       </View>
-      <View style={{paddingVertical: Padding.p_10sm}}>
+      <View style={{paddingVertical: 20}}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           {[
             keyworkDescription('Design'),
@@ -89,10 +77,10 @@ const JobPost = () => {
         <View>
           <Text
             style={{
-              fontSize: FontSize.size_10xs,
+              fontSize: 10,
               lineHeight: 13,
-              fontFamily: FontFamily.dMSansRegular,
-              color: Color.darkgray_100,
+              fontFamily: 'DMSans-Regular',
+              color: '#aaa6b9',
             }}>
             25 minutes ago
           </Text>
@@ -102,18 +90,18 @@ const JobPost = () => {
             <Text
               style={{
                 lineHeight: 18,
-                fontSize: FontSize.size_4sm,
-                fontFamily: FontFamily.dMSansBold,
-                color: Color.black,
+                fontSize: 14,
+                fontFamily: 'DMSans-Bold',
+                color: '#000',
               }}>
               $14k
             </Text>
             <Text
               style={{
                 lineHeight: 16,
-                fontSize: FontSize.size_2sm,
-                fontFamily: FontFamily.dMSansMedium,
-                color: Color.darkgray_100,
+                fontSize: 12,
+                fontFamily: 'DMSans-Medium',
+                color: '#aaa6b9',
               }}>
               /mon
             </Text>
@@ -127,9 +115,10 @@ const JobPost = () => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    backgroundColor: Color.white,
-    borderRadius: Border.br_10sm,
-    padding: Padding.p_10sm,
+    height: 210,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 20,
     shadowOpacity: 0.18,
     shadowColor: '#99ABC6',
     shadowOffset: {

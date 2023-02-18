@@ -9,14 +9,6 @@ import {
   Dimensions,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {
-  Border,
-  Color,
-  FontFamily,
-  FontSize,
-  Padding,
-} from '../../constants/globalStyles';
-import {TextInputSearch} from '../../components/TextInputCustom';
 
 const {width: screenWidth} = Dimensions.get('window');
 
@@ -29,8 +21,8 @@ const SpecializationScreen = ({navigation}) => {
             <FontAwesome5
               name="hand-holding-heart"
               style={{
-                fontSize: FontSize.size_5md,
-                color: Color.darkorange,
+                fontSize: 25,
+                color: '#ff9228',
               }}
             />
           </View>
@@ -49,7 +41,7 @@ const SpecializationScreen = ({navigation}) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={{flex: 9}}>
-          <TextInputSearch placeholder="Tìm kiếm" />
+          {/* <TextInputSearch placeholder="Tìm kiếm" /> */}
         </View>
         <View style={{flex: 1.5, alignItems: 'flex-end'}}>
           <TouchableOpacity onPress={() => navigation.navigate('FilterScreen')}>
@@ -57,9 +49,9 @@ const SpecializationScreen = ({navigation}) => {
               style={{
                 height: 40,
                 width: 40,
-                backgroundColor: Color.darkorange,
-                borderRadius: Border.br_10xs,
-                padding: Padding.p_8xs,
+                backgroundColor: '#ff9228',
+                borderRadius: 10,
+                padding: 8,
               }}>
               <Image
                 source={require('../../assets/images/icons/filter-icon.png')}
@@ -75,14 +67,14 @@ const SpecializationScreen = ({navigation}) => {
           <Text
             style={{
               lineHeight: 21,
-              fontSize: FontSize.size_6sm,
-              fontFamily: FontFamily.dMSansBold,
-              color: Color.gray_300,
+              fontSize: 16,
+              fontFamily: 'DMSans-Bold',
+              color: '#150a33',
             }}>
             Specialization
           </Text>
         </View>
-        <View style={{height: '100%', paddingTop: Padding.p_10sm}}>
+        <View style={{height: '100%', paddingTop: 20}}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             overScrollMode="never">
@@ -109,7 +101,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     height: '100%',
     flex: 1,
-    padding: Padding.p_10sm,
+    padding: 20,
   },
   back: {
     flex: 1,
@@ -132,35 +124,35 @@ const styles = StyleSheet.create({
   box: {
     width: screenWidth / 2 - 40 + 12,
     height: screenWidth / 2,
-    padding: Padding.p_5md,
-    backgroundColor: Color.white,
-    borderRadius: Border.br_10sm,
+    padding: 25,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
     elevation: 5,
     shadowOffset: {width: 0, height: 4},
-    shadowColor: Color.shadow_color,
+    shadowColor: '#99ABC6',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   icon: {
     width: 80,
     height: 80,
-    padding: Padding.p_7sm,
+    padding: 17,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Color.orange_100,
-    borderRadius: Border.br_10xl,
+    backgroundColor: '#fff5f3',
+    borderRadius: 50,
   },
   titleText: {
-    fontFamily: FontFamily.dMSansBold,
+    fontFamily: 'DMSans-Bold',
     lineHeight: 18,
-    fontSize: FontSize.size_4sm,
-    color: Color.midnightblue_100,
+    fontSize: 14,
+    color: '#150b3d',
   },
   subTitleText: {
-    fontFamily: FontFamily.dMSansMedium,
+    fontFamily: 'DMSans-Medium',
     lineHeight: 16,
-    fontSize: FontSize.size_2sm,
-    color: Color.darkgray_100,
+    fontSize: 12,
+    color: '#aaa6b9',
   },
 });
 

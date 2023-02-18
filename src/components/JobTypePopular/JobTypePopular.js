@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {Border, Color, FontFamily, Padding} from '../../constants/globalStyles';
 
 const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
   return (
@@ -9,12 +8,12 @@ const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
         style={{
           height: '100%',
           backgroundColor: bgColor,
-          borderRadius: Border.br_6xs,
+          borderRadius: 6,
           alignItems: 'center',
           justifyContent: 'center',
         }}>
         {imageUrl && (
-          <View style={{paddingBottom: Padding.p_4md}}>
+          <View style={{paddingBottom: 24}}>
             <Image source={imageUrl} style={{width: 34, height: 34}} />
           </View>
         )}
@@ -22,12 +21,12 @@ const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
           style={[
             styles.text,
             {
-              fontFamily: FontFamily.dMSansBold,
+              fontFamily: 'DMSans-Bold',
             },
           ]}>
           {title}
         </Text>
-        <Text style={[styles.text, {fontFamily: FontFamily.dMSansMedium}]}>
+        <Text style={[styles.text, {fontFamily: 'DMSans-Medium'}]}>
           {subTitle}
         </Text>
       </View>
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   text: {
-    color: Color.midnightblue_200,
+    color: '#0d0140',
   },
 });
 

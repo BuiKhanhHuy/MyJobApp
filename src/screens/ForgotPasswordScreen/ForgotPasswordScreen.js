@@ -1,121 +1,80 @@
 import React from 'react';
-import {Text, View, Image, StyleSheet, Dimensions} from 'react-native';
+import {Box, Center, Image, Text, View, VStack} from 'native-base';
 import {useForm} from 'react-hook-form';
-import COLORS from '../../constants/colors';
-import TextInputCustom from '../../components/TextInputCustom';
-import TouchableOpacityCustom from '../../components/TouchableOpacityCustom';
 
-const {width: screenWidth} = Dimensions.get('window');
+import TextInputCustom from '../../components/TextInputCustom';
+import ButtonCustom from '../../components/ButtonCustom';
+
 const ForgotPasswordScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
 
-  const handleForgotPassword = data => {
-    console.log('Forgot password data: ', data);
+  const handleResetPassword = () => {
+    console.log('>> RESET PASSWORD.');
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.areaText}>
-        <Text style={styles.titleText}>Quên mật khẩu</Text>
-        <Text style={styles.subTitleText}>
-          Để đặt lại mật khẩu, bạn cần có email hoặc số điện thoại di động có
-          thể được xác thực
-        </Text>
+    <View paddingX="7" paddingTop="12">
+      <View height="20%">
+        <VStack alignItems="center">
+          <Text
+            textAlign="center"
+            fontFamily="dMSansBold"
+            fontSize="3xl"
+            lineHeight="md"
+            color="myJobCustomColors.purpleBlue">
+            Quên mật khẩu
+          </Text>
+          <Text textAlign="center" paddingTop="1.5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor
+          </Text>
+        </VStack>
       </View>
-      <View style={styles.areaImage}>
-        <View>
+      <View height="25%" justifyContent="center" alignItems="center">
+        <Center>
           <Image
-            style={{width: screenWidth / 3, height: screenWidth / 3}}
-            resizeMode="contain"
             source={require('../../assets/images/forgot-password.png')}
+            alt="IMAGE"
+            size="xl"
+            resizeMode="contain"
           />
-        </View>
+        </Center>
       </View>
-      <View style={styles.areaInput}>
-        <View>
-          <Text style={styles.titleInput}>Email</Text>
-          <View style={{paddingTop: 10}}>
+      <View height="20%" justifyContent="flex-end">
+        <VStack>
+          <Box>
             <TextInputCustom
               control={control}
               name="email"
               rules={{required: {value: true, message: 'Email là bắt buộc'}}}
+              label="Email"
               placeholder="Nhập email"
-              secureTextEntry={true}
             />
-          </View>
-        </View>
+          </Box>
+        </VStack>
       </View>
-      <View style={styles.areaButton}>
-        <View style={styles.button}>
-          <View>
-            <TouchableOpacityCustom
-              text="ĐẶT LẠI MẬT KHẨU"
-              textColor={COLORS.white}
-              bgColor={COLORS.primary}
-              onPress={handleSubmit(handleForgotPassword)}
+      <View paddingTop="8">
+        <VStack space={4}>
+          <Box>
+            <ButtonCustom
+              text="CẬP NHẬT MẬT KHẨU"
+              textColor="myJobCustomColors.white"
+              bgColor="myJobCustomColors.darkIndigo"
+              onPress={handleResetPassword}
             />
-          </View>
-          <View style={{marginTop: 19}}>
-            <TouchableOpacityCustom
+          </Box>
+          <Box>
+            <ButtonCustom
               text="QUAY LẠI ĐĂNG NHẬP"
-              textColor={COLORS.primary}
-              bgColor={COLORS.gray1}
-              onPress={() => navigation.navigate('Login')}
+              textColor="myJobCustomColors.darkIndigo"
+              bgColor="myJobCustomColors.moonrakerPurplyBlue"
+              onPress={() => console.log('ON CALL BACK LOGIN')}
             />
-          </View>
-        </View>
+          </Box>
+        </VStack>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 29,
-    height: '100%',
-    backgroundColor: COLORS.background,
-    flex: 1,
-    flexDirection: 'column',
-  },
-  areaText: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  titleText: {
-    fontFamily: 'DMSans-Bold',
-    fontSize: 30,
-    lineHeight: 39,
-    textAlign: 'center',
-    paddingTop: 11,
-    color: COLORS.bigTitle,
-  },
-  subTitleText: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: 12,
-    lineHeight: 19,
-    textAlign: 'center',
-    color: COLORS.text,
-  },
-  areaImage: {
-    flex: 2.5,
-    alignItems: 'center',
-  },
-  areaInput: {
-    flex: 1.5,
-    paddingTop: 11,
-  },
-  titleInput: {
-    fontFamily: 'DMSans-Medium',
-    fontSize: 12,
-    lineHeight: 16,
-    color: COLORS.bigTitle,
-  },
-  areaButton: {
-    flex: 4,
-  },
-  button: {
-    paddingHorizontal: 30,
-  },
-});
 export default ForgotPasswordScreen;
