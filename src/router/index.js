@@ -26,7 +26,7 @@ const RootStack = createNativeStackNavigator();
 const Router = () => {
   return (
     <RootStack.Navigator
-      initialRouteName="MainTab"
+      initialRouteName="FilterScreen"
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Logo" component={LogoScreen} />
       <RootStack.Screen name="Splash" component={SplashScreen} />
