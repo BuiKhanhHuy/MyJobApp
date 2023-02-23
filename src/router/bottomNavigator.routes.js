@@ -82,7 +82,7 @@ export default BottomTabNavigator = () => {
       height={55}
       circleWidth={55}
       bgColor="white"
-      initialRouteName="SearchTab"
+      initialRouteName="ProfileTab"
       renderCircle={({selectedTab, navigate}) => (
         <Animated.View style={styles.btnCircle}>
           <TouchableOpacity

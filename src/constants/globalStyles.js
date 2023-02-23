@@ -9,8 +9,7 @@ export const LOGO_IMAGE = {
   darkLogoLarge: require('../assets/images/logo/dark-logo-large.png'),
 };
 
-export const IMAGES = {
-}
+export const IMAGES = {};
 
 export const COLOR = {
   myJobCustomColors: {
@@ -143,6 +142,15 @@ export const SHADOWS = {
       },
       shadowOpacity: 0.18,
       elevation: 15,
+    },
+    1: {
+      shadowColor: 'rgba(172, 200, 211, 0.2)',
+      shadowOffset: {
+        width: 83,
+        height: 4,
+      },
+      shadowOpacity: 0.2,
+      elevation: 16,
     },
   },
 };

@@ -33,7 +33,7 @@ const CheckboxCustom = ({
                     fontFamily="dMSansRegular"
                     fontSize="xs"
                     lineHeight="xs"
-                    my={2}>
+                    my={4}>
                     {val.name}
                   </Text>
                 </Checkbox>

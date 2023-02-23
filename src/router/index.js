@@ -18,15 +18,18 @@ import BottomTabNavigator from './bottomNavigator.routes';
 import {FilterScreen, SpecializationScreen} from '../screens/SearchScreen';
 // ChatBot
 import ChatBotScreen from '../screens/ChatBotScreen';
-// MyConnection
+// Discover
 // Profile
+import {AboutMeScreen} from '../screens/ProfileScreen';
+// Map
+import MapScreen from '../screens/MapScreen';
 
 const RootStack = createNativeStackNavigator();
 
 const Router = () => {
   return (
     <RootStack.Navigator
-      initialRouteName="FilterScreen"
+      initialRouteName="AboutMeScreen"
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Logo" component={LogoScreen} />
       <RootStack.Screen name="Splash" component={SplashScreen} />
@@ -70,13 +73,21 @@ const Router = () => {
         </RootStack.Group>
         {/* End: ChatBot */}
 
-        {/* Start: MyConnection */}
+        {/* Start: Discover */}
         <RootStack.Group></RootStack.Group>
-        {/* End: MyConnection */}
+        {/* End: Discover */}
 
         {/* Start: Profile */}
-        <RootStack.Group></RootStack.Group>
+        <RootStack.Group>
+          <RootStack.Screen name="AboutMeScreen" component={AboutMeScreen} />
+        </RootStack.Group>
         {/* End: Profile */}
+
+        {/* Start: Map */}
+        <RootStack.Group>
+          <RootStack.Screen name="MapScreen" component={MapScreen} />
+        </RootStack.Group>
+        {/* End: Map */}
       </RootStack.Group>
     </RootStack.Navigator>
   );

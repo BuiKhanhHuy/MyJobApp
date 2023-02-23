@@ -65,12 +65,10 @@ const JobPost = () => {
       </View>
       <View style={{paddingVertical: 20}}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {[
-            keyworkDescription('Design'),
-            keyworkDescription('Ho Chi Minh City'),
-            keyworkDescription('Work from home'),
-            keyworkDescription('Manager'),
-          ]}
+          {keyworkDescription('Design')}
+          {keyworkDescription('Ho Chi Minh City')}
+          {keyworkDescription('Work from home')}
+          {keyworkDescription('Manager')}
         </ScrollView>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>

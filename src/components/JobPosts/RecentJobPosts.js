@@ -1,12 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import JobPost from '../JobPost';
+
+const data = [1, 2, 3, 4, 5];
 
 const RecentJobPosts = () => {
   return (
     <View style={styles.container}>
-      {[{id: 1}, {id: 2}, {id: 3}, {id: 4}].map(value => (
-        <View key={value.id} style={styles.item}>
+      {data.map(value => (
+        <View key={value} style={styles.item}>
           <JobPost />
         </View>
       ))}

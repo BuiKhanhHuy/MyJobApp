@@ -5,6 +5,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {NativeBaseProvider, extendTheme} from 'native-base';
 // Theme
 import {COLOR, FONTS, CONFIG, SHADOWS} from './constants/globalStyles';
+// Action Sheet
+import {SheetProvider} from 'react-native-actions-sheet/dist/src/provider';
+import './sheets';
 // Router
 import Router from './router';
 
@@ -13,15 +16,17 @@ const App = () => {
     colors: COLOR,
     fonts: FONTS,
     config: CONFIG,
-    shadows: SHADOWS
+    shadows: SHADOWS,
   });
 
   return (
     <NativeBaseProvider theme={theme}>
-      <NavigationContainer>
-        <StatusBar />
-        <Router />
-      </NavigationContainer>
+      <SheetProvider>
+        <NavigationContainer>
+          <StatusBar />
+          <Router />
+        </NavigationContainer>
+      </SheetProvider>
     </NativeBaseProvider>
   );
 };
