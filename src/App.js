@@ -19,6 +19,7 @@ const App = () => {
     shadows: SHADOWS,
   });
 
+
   return (
     <NativeBaseProvider theme={theme}>
       <SheetProvider>

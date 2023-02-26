@@ -2,14 +2,12 @@ import React from 'react';
 import {Box, HStack, Icon, Text, View, VStack} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import ProfileCard from './ProfileCard';
+import ProfileCard from '../ProfileCard';
 
-const WorkExperienceCard = () => {
+
+const EducationCard = () => {
   return (
-    <ProfileCard
-      titleIcon="briefcase"
-      title="Work experience"
-      isShowDivider={true}>
+    <ProfileCard titleIcon="graduation" title="Education" isShowDivider={true}>
       <View>
         <VStack space={5}>
           {[1, 2, 3, 4].map(val => (
@@ -23,7 +21,7 @@ const WorkExperienceCard = () => {
                         lineHeight="sm"
                         fontSize="sm"
                         color="myJobCustomColors.haitiBluePurple">
-                        Manager {val}
+                        Information Technology {val}
                       </Text>
                     </Box>
                   </HStack>
@@ -47,7 +45,7 @@ const WorkExperienceCard = () => {
                   fontSize="xs"
                   lineHeight="sm"
                   color="myJobCustomColors.mulledWine">
-                  Amazon Inc
+                  University of Oxford
                 </Text>
               </Box>
               <Box>
@@ -56,7 +54,7 @@ const WorkExperienceCard = () => {
                   fontSize="xs"
                   lineHeight="sm"
                   color="myJobCustomColors.mulledWine">
-                  Jan 2015 - Feb 2022
+                  Sep 2010 - Aug 2013
                 </Text>
               </Box>
             </View>
@@ -67,4 +65,4 @@ const WorkExperienceCard = () => {
   );
 };
 
-export default WorkExperienceCard;
+export default EducationCard;

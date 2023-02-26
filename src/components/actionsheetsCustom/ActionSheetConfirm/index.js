@@ -2,7 +2,8 @@ import React from 'react';
 import {Text, useTheme, View, VStack} from 'native-base';
 import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
-import ButtonCustom from '../ButtonCustom';
+import ButtonCustom from '../../ButtonCustom';
+
 
 function ActionSheetConfirm({sheetId, payload}) {
   const {sizes} = useTheme();

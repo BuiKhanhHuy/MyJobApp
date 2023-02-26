@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text} from 'native-base';
 
-import ProfileCard from './ProfileCard';
+import ProfileCard from '../ProfileCard';
+
 
 const AboutMeCard = () => {
   return (

@@ -18,7 +18,9 @@
     "@react-navigation/native-stack": "^6.9.8",
     "@rneui/base": "^0.0.0-edge.2",
     "@rneui/themed": "^0.0.0-edge.2",
+    "axios": "^1.3.4",
     "native-base": "^3.4.25",
+    "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-hook-form": "^7.42.1",
     "react-native": "0.71.1",
@@ -29,13 +31,17 @@
     "react-native-gesture-handler": "^2.9.0",
     "react-native-google-signin": "^2.1.1",
     "react-native-ionicons": "^4.6.5",
+    "react-native-keychain": "^8.1.1",
     "react-native-maps": "^1.4.0",
     "react-native-reanimated": "^2.14.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.19.0",
     "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-webview": "^11.26.1"
+    "react-native-webview": "^11.26.1",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -2,8 +2,8 @@ import * as React from 'react';
 import {Avatar, Fab, Icon, ScrollView, Text, View} from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import JobTypePopulars from '../../components/JobTypePopulars/JobTypePopulars';
-import {RecentJobPosts} from '../../components/JobPosts';
+import JobTypePopulars from '../../components/JobTypePopulars';
+import RecentJobPosts from '../../components/RecentJobPosts';
 
 const HomeScreen = ({navigation}) => {
   return (

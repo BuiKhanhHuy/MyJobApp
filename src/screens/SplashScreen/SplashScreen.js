@@ -54,6 +54,7 @@ const SplashScreen = ({navigation}) => {
       </View>
       <View height="15%" alignItems="flex-end" justifyContent="center">
         <IconButton
+          onPress={() => navigation.navigate('Login')}
           backgroundColor="myJobCustomColors.darkIndigo"
           shadow={'6'}
           variant="solid"

@@ -1,7 +1,8 @@
 import React from 'react';
 import {useTheme} from 'native-base';
 import {View, StyleSheet} from 'react-native';
-import JobTypePopular from '../JobTypePopular/JobTypePopular';
+
+import JobTypePopular from "../JobTypePopular";
 
 const JobTypePopulars = () => {
   const {colors, } = useTheme();

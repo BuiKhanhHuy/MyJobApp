@@ -1,16 +1,45 @@
 import React from 'react';
+import * as Keychain from 'react-native-keychain';
 import {Box, Text, View, VStack} from 'native-base';
 import {useForm} from 'react-hook-form';
 import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk';
 
 import TextInputCustom from '../../components/TextInputCustom';
 import ButtonCustom from '../../components/ButtonCustom';
+import authService from '../../services/authService';
 
 const LoginScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
 
   const handleLogin = data => {
-    console.log('LOGIN DATA: ', data);
+    const getAccesToken = async (email, password, role_name) => {
+      try {
+        const resData = await authService.getAccessToken(
+          email,
+          password,
+          role_name,
+        );
+
+        const accessToken = resData.data.access_token;
+        const refreshToken = resData.data.refresh_token;
+
+        console.log('access_token_truoc: ', accessToken);
+        console.log('refresh_token_truoc: ', refreshToken);
+
+        // Store the credentials
+        await Keychain.setInternetCredentials(
+          'MyJob',
+          accessToken,
+          refreshToken,
+        ).then(value => console.log(value));
+      } catch (error) {
+        console.log('ERROR: ', error);
+      } finally {
+        console.log('finally');
+      }
+    };
+
+    getAccesToken(data.email, data.password, 'JOB_SEEKER');
   };
 
   const handleFacebookLogin = () => {
@@ -79,7 +108,7 @@ const LoginScreen = ({navigation}) => {
           <Box></Box>
         </VStack>
       </View>
-      <View >
+      <View>
         <VStack space={4} paddingX="4">
           <Box>
             <ButtonCustom

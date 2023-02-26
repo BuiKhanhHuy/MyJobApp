@@ -15,12 +15,13 @@ import SuccessfullyScreen from '../screens/SuccessfullyScreen';
 import BottomTabNavigator from './bottomNavigator.routes';
 // Home
 // Search
-import {FilterScreen, SpecializationScreen} from '../screens/SearchScreen';
+import FilterScreen from '../screens/FilterScreen';
+import SpecializationScreen from '../screens/SpecializationScreen';
 // ChatBot
 import ChatBotScreen from '../screens/ChatBotScreen';
 // Discover
 // Profile
-import {AboutMeScreen} from '../screens/ProfileScreen';
+import AboutMeScreen from '../screens/AboutMeScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
 
@@ -29,7 +30,7 @@ const RootStack = createNativeStackNavigator();
 const Router = () => {
   return (
     <RootStack.Navigator
-      initialRouteName="AboutMeScreen"
+      initialRouteName="Login"
       screenOptions={{headerShown: false}}>
       <RootStack.Screen name="Logo" component={LogoScreen} />
       <RootStack.Screen name="Splash" component={SplashScreen} />

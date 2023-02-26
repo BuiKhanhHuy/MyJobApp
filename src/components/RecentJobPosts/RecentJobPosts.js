@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
+
 import JobPost from '../JobPost';
 
 const data = [1, 2, 3, 4, 5];

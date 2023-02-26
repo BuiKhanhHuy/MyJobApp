@@ -15,8 +15,9 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {AboutMeCard, WorkExperienceCard} from '../../components/ProfileCard';
-import EducationCard from '../../components/ProfileCard/EducationCard';
+import AboutMeCard from '../components/profileCards/AboutMeCard';
+import WorkExperienceCard from '../components/profileCards/WorkExperienceCard';
+import EducationCard from '../components/profileCards/EducationCard';
 
 const ProfileScreen = () => {
   const {colors} = useTheme();
