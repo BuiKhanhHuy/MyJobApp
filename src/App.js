@@ -2,33 +2,34 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {NativeBaseProvider, extendTheme} from 'native-base';
-// Theme
-import {COLOR, FONTS, CONFIG, SHADOWS} from './constants/globalStyles';
-// Action Sheet
-import {SheetProvider} from 'react-native-actions-sheet/dist/src/provider';
-import './sheets';
+import SplashScreen from 'react-native-splash-screen';
 // Router
 import Router from './router';
+// Logo Screen
+import LogoScreen from './screens/LogoScreen';
 
 const App = () => {
-  const theme = extendTheme({
-    colors: COLOR,
-    fonts: FONTS,
-    config: CONFIG,
-    shadows: SHADOWS,
-  });
+  const [loading, setLoading] = React.useState(true);
 
+  React.useEffect(() => {
+    console.log('>> Tắt splash screen hình ảnh thật.');
+    SplashScreen.hide();
+    console.log('>> call api user && call api configs');
+    setTimeout(() => {
+      console.log('DONE');
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return <LogoScreen />;
+  }
 
   return (
-    <NativeBaseProvider theme={theme}>
-      <SheetProvider>
-        <NavigationContainer>
-          <StatusBar />
-          <Router />
-        </NavigationContainer>
-      </SheetProvider>
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <StatusBar />
+      <Router />
+    </NavigationContainer>
   );
 };
 

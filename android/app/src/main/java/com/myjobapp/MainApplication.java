@@ -1,6 +1,7 @@
 package com.myjobapp;
 
 // import com.oblador.keychain.KeychainPackage;
+// import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import android.app.Application;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
       // example:
       // packages.add(new MyReactNativePackage());
       // packages.add(new KeychainPackage());
+      // packages.add(new SplashScreenReactPackage());
       return packages;
     }
 

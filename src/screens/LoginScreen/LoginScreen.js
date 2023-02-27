@@ -10,6 +10,7 @@ import authService from '../../services/authService';
 
 const LoginScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
+  const form = useForm()
 
   const handleLogin = data => {
     const getAccesToken = async (email, password, role_name) => {
@@ -23,19 +24,20 @@ const LoginScreen = ({navigation}) => {
         const accessToken = resData.data.access_token;
         const refreshToken = resData.data.refresh_token;
 
-        console.log('access_token_truoc: ', accessToken);
-        console.log('refresh_token_truoc: ', refreshToken);
-
         // Store the credentials
         await Keychain.setInternetCredentials(
           'MyJob',
           accessToken,
           refreshToken,
-        ).then(value => console.log(value));
+        )
+          .then(value => {
+            console.log('LƯU THÀNH CÔNG ACCESS TOKEN: ', accessToken);
+            console.log("TIẾP TỤC LOAD THÔNG TIN USER!")
+          })
+          .catch(err => console.log('LƯU THẤT BẠI ACCESS TOKEN (Đang có lỗi vui lòng đăng nhập lại): ', accessToken));
       } catch (error) {
-        console.log('ERROR: ', error);
+        console.log('LỖI KHI GỌI API LẤY ACCESS TOKEN: ', error);
       } finally {
-        console.log('finally');
       }
     };
 

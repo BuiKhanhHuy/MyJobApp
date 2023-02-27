@@ -4,7 +4,6 @@ import {Color} from '../constants/globalStyles';
 
 import Header from '../components/Header';
 
-import LogoScreen from '../screens/LogoScreen';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
@@ -30,9 +29,8 @@ const RootStack = createNativeStackNavigator();
 const Router = () => {
   return (
     <RootStack.Navigator
-      initialRouteName="Login"
-      screenOptions={{headerShown: false}}>
-      <RootStack.Screen name="Logo" component={LogoScreen} />
+      initialRouteName="MainTab"
+      screenOptions={{headerShown: false, animation: 'fade_from_bottom'}}>
       <RootStack.Screen name="Splash" component={SplashScreen} />
       <RootStack.Screen name="Login" component={LoginScreen} />
       <RootStack.Screen name="SignUp" component={SignUpScreen} />

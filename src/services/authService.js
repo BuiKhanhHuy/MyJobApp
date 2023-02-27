@@ -1,8 +1,8 @@
 import httpRequest from '../utils/httpRequest';
 
 const authService = {
-  getAccessToken: (email, password, role_name) => {
-    const url = 'auth/token/';
+  login: (email, password, role_name) => {
+    const url = 'api/auth/token/';
 
     var formData = new FormData();
     formData.append('grant_type', 'password');
@@ -15,13 +15,22 @@ const authService = {
     formData.append('password', password);
     formData.append('role_name', role_name);
 
-    return httpRequest.post(url, formData);
+    const resData = httpRequest.post(url, formData);
+    // Tiep tuc luu access token và refresh token tai day
   },
-  refreshAccessToken: () => {
-    console.log('REFRESH TOKEN');
+  logout: () => {
+    // Remove access token va refresh token tai day
   },
-  getCurrentUser: () => {
-    console.log('GET CURRENT USER');
+  jobSeekerRegister: () => {
+    // Ket qua tra ve cua dang ky tai khoang nguoi tim viec
+  },
+  employerRegister: () => {
+    // Ket qua tra ve cua dang ky tai khoang nha tuyen dung
+  },
+  getUserInfo: () => {
+    const url = 'auth/user-info/';
+
+    return httpRequest.get(url);
   },
 };
 
