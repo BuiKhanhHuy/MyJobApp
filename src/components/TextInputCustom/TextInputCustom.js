@@ -15,7 +15,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const TextInputCustom = ({
   control,
   name,
-  rules = {}, 
   placeholder,
   label = 'Email',
   height = 'large',
@@ -28,7 +27,6 @@ const TextInputCustom = ({
     <Controller
       control={control}
       name={name}
-      rules={rules}
       render={({
         field: {value, onChange, onBlur},
         fieldState: {error, invalid},

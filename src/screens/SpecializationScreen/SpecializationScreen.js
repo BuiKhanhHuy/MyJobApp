@@ -38,7 +38,7 @@ const SpecializationScreen = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <View style={styles.header}>
         <View style={{flex: 9}}>
           {/* <TextInputSearch placeholder="Tìm kiếm" /> */}

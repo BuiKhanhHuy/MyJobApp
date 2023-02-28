@@ -1,7 +1,7 @@
 import httpRequest from '../utils/httpRequest';
 
 const authService = {
-  login: (email, password, role_name) => {
+  getToken: (email, password, role_name) => {
     const url = 'api/auth/token/';
 
     var formData = new FormData();
@@ -15,10 +15,10 @@ const authService = {
     formData.append('password', password);
     formData.append('role_name', role_name);
 
-    const resData = httpRequest.post(url, formData);
-    // Tiep tuc luu access token và refresh token tai day
+    return httpRequest.post(url, formData);
   },
-  logout: () => {
+  convertToken: () => {},
+  revokToken: () => {
     // Remove access token va refresh token tai day
   },
   jobSeekerRegister: () => {
@@ -28,7 +28,7 @@ const authService = {
     // Ket qua tra ve cua dang ky tai khoang nha tuyen dung
   },
   getUserInfo: () => {
-    const url = 'auth/user-info/';
+    const url = 'api/auth/user-info/';
 
     return httpRequest.get(url);
   },

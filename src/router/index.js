@@ -26,20 +26,30 @@ import MapScreen from '../screens/MapScreen';
 
 const RootStack = createNativeStackNavigator();
 
-const Router = () => {
+const Router = ({isAuthenticated}) => {
   return (
     <RootStack.Navigator
       initialRouteName="MainTab"
-      screenOptions={{headerShown: false, animation: 'fade_from_bottom'}}>
-      <RootStack.Screen name="Splash" component={SplashScreen} />
-      <RootStack.Screen name="Login" component={LoginScreen} />
-      <RootStack.Screen name="SignUp" component={SignUpScreen} />
-      <RootStack.Screen
-        name="ForgotPassword"
-        component={ForgotPasswordScreen}
-      />
-      <RootStack.Screen name="CheckEmail" component={CheckEmailScreen} />
-      <RootStack.Screen name="Successfully" component={SuccessfullyScreen} />
+      screenOptions={{
+        headerShown: false,
+        animation: 'fade_from_bottom',
+      }}>
+      {!isAuthenticated && (
+        <>
+          <RootStack.Screen name="Login" component={LoginScreen} />
+          <RootStack.Screen name="SignUp" component={SignUpScreen} />
+          <RootStack.Screen
+            name="ForgotPassword"
+            component={ForgotPasswordScreen}
+          />
+          <RootStack.Screen name="CheckEmail" component={CheckEmailScreen} />
+          <RootStack.Screen
+            name="Successfully"
+            component={SuccessfullyScreen}
+          />
+          <RootStack.Screen name="Splash" component={SplashScreen} />
+        </>
+      )}
 
       {/* Start: Navigator */}
       <RootStack.Screen name="MainTab" component={BottomTabNavigator} />
@@ -47,7 +57,7 @@ const Router = () => {
 
       <RootStack.Group
         screenOptions={{
-          headerTransparent: false,
+          headerTransparent: true,
           headerShown: true,
           headerTintColor: '#514A6B',
           title: '',

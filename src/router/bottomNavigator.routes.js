@@ -42,15 +42,12 @@ export default BottomTabNavigator = () => {
         <Ionicons
           name={icon}
           size={25}
-          color={
-            routeName === selectedTab ? '#FCA34D' :'#aaa6b9'
-          }
+          color={routeName === selectedTab ? '#FCA34D' : '#aaa6b9'}
         />
         <Text
           style={{
-            color:
-              routeName === selectedTab ? '#FCA34D' :'#aaa6b9',
-            fontFamily:  'DMSans-Medium',
+            color: routeName === selectedTab ? '#FCA34D' : '#aaa6b9',
+            fontFamily: 'DMSans-Medium',
             fontSize: 11,
             marginTop: 3,
           }}>
@@ -82,7 +79,7 @@ export default BottomTabNavigator = () => {
       height={55}
       circleWidth={55}
       bgColor="white"
-      initialRouteName="ProfileTab"
+      initialRouteName="HomeTab"
       renderCircle={({selectedTab, navigate}) => (
         <Animated.View style={styles.btnCircle}>
           <TouchableOpacity
@@ -159,4 +156,3 @@ const styles = StyleSheet.create({
     height: 30,
   },
 });
-

@@ -1,22 +1,9 @@
 import React from 'react';
 import {View, Text, Image, Center, Box, VStack, IconButton} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import authService from '../../services/authService';
 
 const SplashScreen = ({navigation}) => {
   React.useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const resData = await authService.getUserInfo();
-
-        console.log('>>>> USER INFO O SPLASH SCREEN LÀ: ', resData);
-      } catch (error) {
-        
-      } finally {
-      }
-    };
-
-    getUserInfo();
   }, []);
 
   return (
@@ -70,7 +57,7 @@ const SplashScreen = ({navigation}) => {
       </View>
       <View height="15%" alignItems="flex-end" justifyContent="center">
         <IconButton
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('MainTab')}
           backgroundColor="myJobCustomColors.darkIndigo"
           shadow={'6'}
           variant="solid"

@@ -1,20 +1,18 @@
 import React from 'react';
-import {Box, Center, Image, Text, View, VStack} from 'native-base';
-import {useForm} from 'react-hook-form';
+import {Center, Image, Text, View, VStack} from 'native-base';
 
-import TextInputCustom from '../../components/TextInputCustom';
-import ButtonCustom from '../../components/ButtonCustom';
+import ForgotPasswordForm from '../components/forms/ForgotPasswordForm';
+import tokenService from '../../services/tokenService';
 
 const ForgotPasswordScreen = ({navigation}) => {
-  const {control, handleSubmit} = useForm();
-
-  const handleResetPassword = () => {
+  const handleResetPassword = async () => {
+    await tokenService.removeLocalAccessTokenAndRefreshToken('MyJob');
     console.log('>> RESET PASSWORD.');
   };
 
   return (
-    <View paddingX="7" paddingTop="12">
-      <View height="20%">
+    <View paddingX="7" paddingTop="12" flex={1}>
+      <View flex={0.5}>
         <VStack alignItems="center">
           <Text
             textAlign="center"
@@ -25,12 +23,11 @@ const ForgotPasswordScreen = ({navigation}) => {
             Quên mật khẩu
           </Text>
           <Text textAlign="center" paddingTop="1.5">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor
+            Để đặt lại mật khẩu, bạn cần có email có thể được xác thực
           </Text>
         </VStack>
       </View>
-      <View height="25%" justifyContent="center" alignItems="center">
+      <View justifyContent="center" alignItems="center" flex={1.5}>
         <Center>
           <Image
             source={require('../../assets/images/forgot-password.png')}
@@ -40,38 +37,8 @@ const ForgotPasswordScreen = ({navigation}) => {
           />
         </Center>
       </View>
-      <View height="20%" justifyContent="flex-end">
-        <VStack>
-          <Box>
-            <TextInputCustom
-              control={control}
-              name="email"
-              rules={{required: {value: true, message: 'Email là bắt buộc'}}}
-              label="Email"
-              placeholder="Nhập email"
-            />
-          </Box>
-        </VStack>
-      </View>
-      <View paddingTop="8">
-        <VStack space={4}>
-          <Box>
-            <ButtonCustom
-              text="CẬP NHẬT MẬT KHẨU"
-              textColor="myJobCustomColors.white"
-              bgColor="myJobCustomColors.darkIndigo"
-              onPress={handleResetPassword}
-            />
-          </Box>
-          <Box>
-            <ButtonCustom
-              text="QUAY LẠI ĐĂNG NHẬP"
-              textColor="myJobCustomColors.darkIndigo"
-              bgColor="myJobCustomColors.moonrakerPurplyBlue"
-              onPress={() => console.log('ON CALL BACK LOGIN')}
-            />
-          </Box>
-        </VStack>
+      <View flex={3}>
+        <ForgotPasswordForm handleResetPassword={handleResetPassword} />
       </View>
     </View>
   );

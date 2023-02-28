@@ -40,32 +40,20 @@ const tokenService = {
     accessToken,
     refreshToken,
   ) => {
-    await Keychain.setInternetCredentials(
-      serviceName,
-      accessToken,
-      refreshToken,
-    )
-      .then(() => {
-        console.log('Lưu acccess token và refresh token thành công.');
-        return true;
-      })
-      .catch(err => {
-        console.log(`Lưu access token và refresh token thất bại >> ${err}`);
-        return false;
-      });
+    try {
+      await Keychain.setInternetCredentials(
+        serviceName,
+        accessToken,
+        refreshToken,
+      );
+
+      return true;
+    } catch (error) {
+      return false;
+    }
   },
-  removeLocalAccessTokenAndRefreshToken: async serviceName => {
-    await Keychain.resetInternetCredentials(serviceName)
-      .then(() => {
-        console.log('Xóa access token và refresh token thành công.');
-        return true;
-      })
-      .catch(err => {
-        console.log(
-          `Xóa access token và refresh token không thành công >> ${err}`,
-        );
-        return false;
-      });
+  removeLocalAccessTokenAndRefreshToken: serviceName => {
+    return Keychain.resetInternetCredentials(serviceName);
   },
 };
 

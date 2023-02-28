@@ -4,8 +4,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import JobTypePopulars from '../../components/JobTypePopulars';
 import RecentJobPosts from '../../components/RecentJobPosts';
+import {useSelector} from 'react-redux';
 
 const HomeScreen = ({navigation}) => {
+  const {currentUser} = useSelector(state => state.user);
+
+  console.log('>>>> HOME SCREEN ĐÃ RENDER');
   return (
     <>
       <View padding="6" flexDirection="column">
@@ -26,14 +30,14 @@ const HomeScreen = ({navigation}) => {
               fontSize="2xl"
               lineHeight="sm"
               color="myJobCustomColors.purpleBlue">
-              Bùi Khánh Huy
+              {currentUser?.fullName}
             </Text>
           </View>
           <View>
             <Avatar
               bg="green.500"
               source={{
-                uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+                uri: currentUser?.avatarUrl,
               }}>
               KH
             </Avatar>

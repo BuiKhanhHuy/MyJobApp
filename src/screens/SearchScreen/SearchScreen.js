@@ -15,9 +15,9 @@ import JobPosts from '../../components/JobPosts';
 
 const SearchScreen = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <View style={styles.header}>
-        <View style={{height: '75%'}}>
+        <View style={{height: '65%'}}>
           <ImageBackground
             source={require('../../assets/images/backgrounds/search-bg.png')}
             resizeMode="cover"
@@ -66,7 +66,7 @@ const SearchScreen = ({navigation}) => {
         </View>
         <View
           style={{
-            height: '25%',
+            height: '35%',
             paddingHorizontal: 20,
           }}>
           <View
@@ -142,7 +142,6 @@ const SearchScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
     flex: 1,
   },
   header: {

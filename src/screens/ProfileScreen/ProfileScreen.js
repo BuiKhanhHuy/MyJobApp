@@ -12,15 +12,26 @@ import {
   View,
   VStack,
 } from 'native-base';
+import {useDispatch, useSelector} from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import AboutMeCard from '../components/profileCards/AboutMeCard';
 import WorkExperienceCard from '../components/profileCards/WorkExperienceCard';
 import EducationCard from '../components/profileCards/EducationCard';
+import {removeUserInfo} from '../../redux/userSlice';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   const {colors} = useTheme();
+  const {currentUser, isAuthenticated} = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    navigation.navigate('Login');
+  };
+  const handleLogout = () => {
+    dispatch(removeUserInfo());
+  };
 
   return (
     <View flex={1}>
@@ -63,11 +74,11 @@ const ProfileScreen = () => {
                 <VStack mt="-5">
                   <Box paddingBottom={1}>
                     <Avatar
-                      bg="green.500"
+                      bg="orange.600"
                       mr="1"
                       size="lg"
                       source={{
-                        uri: 'https://images.unsplash.com/photo-1510771463146-e89e6e86560e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80',
+                        uri: currentUser?.avatarUrl,
                       }}>
                       H
                     </Avatar>
@@ -78,7 +89,7 @@ const ProfileScreen = () => {
                       lineHeight="2xl"
                       fontSize="md"
                       color="myJobCustomColors.white">
-                      Bùi Khánh Huy
+                      {currentUser?.fullName}
                     </Text>
                   </Box>
                   <Box>
@@ -87,7 +98,7 @@ const ProfileScreen = () => {
                       lineHeight="sm"
                       fontSize="sm"
                       color="myJobCustomColors.white">
-                      Tp. Hồ Chí Minh
+                      {currentUser?.email}
                     </Text>
                   </Box>
                 </VStack>
@@ -115,7 +126,7 @@ const ProfileScreen = () => {
                     </Text>
                   </View>
                   <View flex={1}>
-                    <Button
+                    {/* <Button
                       backgroundColor="rgba(255, 255, 255, 0.1)"
                       _text={{
                         fontFamily: 'dMSansRegular',
@@ -124,7 +135,16 @@ const ProfileScreen = () => {
                       }}
                       endIcon={<Icon as={AntDesign} name="edit" size="md" />}>
                       Edit profile
-                    </Button>
+                    </Button> */}
+                    {isAuthenticated ? (
+                      <Button onPress={handleLogout} colorScheme={'error'}>
+                        Đăng xuất
+                      </Button>
+                    ) : (
+                      <Button onPress={handleLogin} colorScheme={'success'}>
+                        Đăng nhập
+                      </Button>
+                    )}
                   </View>
                 </HStack>
               </View>
