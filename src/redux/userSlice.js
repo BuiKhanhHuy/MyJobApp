@@ -29,33 +29,19 @@ const removeUserInfo = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    isLoading: true,
     isAuthenticated: false,
     currentUser: null,
   },
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(getUserInfo.pending, state => {
-      state.isLoading = true;
-    });
     builder.addCase(getUserInfo.fulfilled, (state, action) => {
-      state.isLoading = false;
       state.isAuthenticated = true;
       state.currentUser = action.payload;
     });
-    builder.addCase(getUserInfo.rejected, state => {
-      state.isLoading = false;
-    });
-    builder.addCase(removeUserInfo.pending, state => {
-      state.isLoading = true;
-    });
+
     builder.addCase(removeUserInfo.fulfilled, state => {
-      state.isLoading = false;
       state.isAuthenticated = false;
       state.currentUser = null;
-    });
-    builder.addCase(removeUserInfo.rejected, state => {
-      state.isLoading = false;
     });
   },
 });

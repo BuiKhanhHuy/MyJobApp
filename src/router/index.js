@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useSelector} from 'react-redux';
 import {Color} from '../constants/globalStyles';
 
 import Header from '../components/Header';
@@ -26,14 +27,17 @@ import MapScreen from '../screens/MapScreen';
 
 const RootStack = createNativeStackNavigator();
 
-const Router = ({isAuthenticated}) => {
+const Router = () => {
+  const {isAuthenticated} = useSelector(state => state.user);
+
   return (
     <RootStack.Navigator
-      initialRouteName="MainTab"
+      initialRouteName="CheckEmail"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
       }}>
+      <RootStack.Screen name="CheckEmail" component={CheckEmailScreen} />
       {!isAuthenticated && (
         <>
           <RootStack.Screen name="Login" component={LoginScreen} />
@@ -42,7 +46,6 @@ const Router = ({isAuthenticated}) => {
             name="ForgotPassword"
             component={ForgotPasswordScreen}
           />
-          <RootStack.Screen name="CheckEmail" component={CheckEmailScreen} />
           <RootStack.Screen
             name="Successfully"
             component={SuccessfullyScreen}

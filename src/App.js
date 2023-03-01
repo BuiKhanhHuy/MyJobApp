@@ -13,34 +13,26 @@ import LogoScreen from './screens/LogoScreen';
 
 const App = () => {
   const dispatch = useDispatch();
-  const {isLoading: isLoadingUser, isAuthenticated} = useSelector(
-    state => state.user,
-  );
-  console.log('APP RENDER: isLoadingUser: ', isLoadingUser);
+  const [loading, setLoading] = React.useState(true);
+
+  console.log('APP RENDER: loading: ', loading);
 
   React.useEffect(() => {
     // hide splash screen
     SplashScreen.hide();
 
-    // load user info
-    dispatch(getUserInfo())
-      .unwrap()
-      .then(res => {
-        console.log('handle result here: ', res);
-      })
-      .catch(error => {
-        console.log('handle error here: ', error.message);
-      });
-
-    // load configs
+    Promise.all([dispatch(getUserInfo()).unwrap()])
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+      .finally(() => setLoading(false));
   }, []);
 
-  return isLoadingUser ? (
+  return loading ? (
     <LogoScreen />
   ) : (
     <NavigationContainer>
       {/* <StatusBar /> */}
-      <Router isAuthenticated={isAuthenticated} />
+      <Router />
     </NavigationContainer>
   );
 };

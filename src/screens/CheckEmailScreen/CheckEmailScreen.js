@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Center, Image, Text, View, VStack} from 'native-base';
 import {useForm} from 'react-hook-form';
+import {openInbox} from 'react-native-email-link';
 
 import TextInputCustom from '../../components/TextInputCustom';
 import ButtonCustom from '../../components/ButtonCustom';
@@ -10,6 +11,7 @@ const CheckEmailScreen = ({navigation}) => {
 
   const handleOpenEmail = () => {
     console.log('>> OPEN EMAIL.');
+    openInbox();
   };
 
   return (
