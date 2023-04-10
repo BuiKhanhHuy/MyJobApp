@@ -55,6 +55,7 @@ const SearchScreen = ({navigation}) => {
                     color="myJobCustomColors.darkIndigo"
                     placeholder="Từ khóa tìm kiếm"
                     lineHeight="2xs"
+                    onPressIn={() => navigation.navigate('MainJobPostScreen')}
                   />
                 </View>
                 <View style={{paddingBottom: 17}}>
@@ -89,6 +90,7 @@ const SearchScreen = ({navigation}) => {
                 <Image
                   source={require('../../assets/images/icons/filter-icon.png')}
                   resizeMode="contain"
+                  alt=""
                   style={{width: '100%', height: '100%'}}
                 />
               </TouchableOpacity>

@@ -6,6 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 // redux
 import {getUserInfo} from './redux/userSlice';
+import {getAllConfig} from './redux/configSlice';
 // Router
 import Router from './router';
 // Logo Screen
@@ -21,8 +22,11 @@ const App = () => {
     // hide splash screen
     SplashScreen.hide();
 
-    Promise.all([dispatch(getUserInfo()).unwrap()])
-      .then(res => console.log(res))
+    Promise.all([
+      dispatch(getUserInfo()).unwrap(),
+      dispatch(getAllConfig()).unwrap(),
+    ])
+      .then(res => console.log('LOAD DATA SUCCESS.'))
       .catch(err => console.log(err))
       .finally(() => setLoading(false));
   }, []);

@@ -14,7 +14,7 @@ const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
         }}>
         {imageUrl && (
           <View style={{paddingBottom: 24}}>
-            <Image source={imageUrl} style={{width: 34, height: 34}} />
+            <Image source={imageUrl} style={{width: 34, height: 34}} alt=''/>
           </View>
         )}
         <Text

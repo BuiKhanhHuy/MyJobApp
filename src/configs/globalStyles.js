@@ -1,5 +1,3 @@
-export const APP_NAME = 'MyJob';
-
 export const LOGO_IMAGE = {
   lightLogoSmall: require('../assets/images/logo/light-logo-small.png'),
   lightLogoMedium: require('../assets/images/logo/light-logo-medium.png'),
@@ -7,6 +5,13 @@ export const LOGO_IMAGE = {
   darkLogoSmall: require('../assets/images/logo/dark-logo-small.png'),
   darkLogoMedium: require('../assets/images/logo/dark-logo-medium.png'),
   darkLogoLarge: require('../assets/images/logo/dark-logo-large.png'),
+  // getLogo: (size, mode) => {
+  //   return require(`../assets/logo/${mode}-logo-${size}.png`);
+  // },
+  // getTextLogo: (mode) => {
+  //   return require(`../assets/logo/${mode}-text-logo.png`);
+  // },
+  // coverImageDefault: require('../assets/images/cover-image-default.webp'),
 };
 
 export const IMAGES = {};

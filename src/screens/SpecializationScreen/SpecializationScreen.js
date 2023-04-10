@@ -57,6 +57,7 @@ const SpecializationScreen = ({navigation}) => {
                 source={require('../../assets/images/icons/filter-icon.png')}
                 resizeMode="contain"
                 style={{width: '100%', height: '100%'}}
+                alt=''
               />
             </View>
           </TouchableOpacity>

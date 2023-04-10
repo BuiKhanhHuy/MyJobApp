@@ -1,36 +1,93 @@
 import httpRequest from '../utils/httpRequest';
+import {AUTH_CONFIG} from '../configs/constants';
 
 const authService = {
   getToken: (email, password, role_name) => {
     const url = 'api/auth/token/';
 
-    var formData = new FormData();
-    formData.append('grant_type', 'password');
-    formData.append('client_id', 'FIrMIsfKbI6jw7EnAof2QnPpM7dxTkmSLvIhwckm');
-    formData.append(
-      'client_secret',
-      'mgpjePa9iCtswbzO9EYbpedlL6bY8tYfq604XW3T3WkNTwmMnGQ8RHogRAD8bRPupuCmqFV4UZJnHvn9tfyCi0kP4p8fviGVa6TLh74rq73pIERfw90PGfLgKj1Htnok',
-    );
-    formData.append('username', email);
-    formData.append('password', password);
-    formData.append('role_name', role_name);
+    const data = {
+      grant_type: AUTH_CONFIG.PASSWORD_KEY,
+      client_id: AUTH_CONFIG.CLIENT_ID,
+      client_secret: AUTH_CONFIG.CLIENT_SECRECT,
+      username: email,
+      password: password,
+      role_name: role_name,
+    };
 
-    return httpRequest.post(url, formData);
+    return httpRequest.post(url, data);
   },
-  convertToken: () => {},
-  revokToken: () => {
-    // Remove access token va refresh token tai day
+  convertToken: (clientId, clientSecrect, provider, token) => {
+    const url = 'api/auth/convert-token/';
+
+    const data = {
+      grant_type: AUTH_CONFIG.CONVERT_TOKEN_KEY,
+      client_id: clientId,
+      client_secret: clientSecrect,
+      backend: provider,
+      token: token,
+    };
+
+    return httpRequest.post(url, data);
   },
-  jobSeekerRegister: () => {
-    // Ket qua tra ve cua dang ky tai khoang nguoi tim viec
+  revokToken: (accessToken) => {
+    const url = 'api/auth/revoke-token/';
+
+    const data = {
+      client_id: AUTH_CONFIG.CLIENT_ID,
+      client_secret: AUTH_CONFIG.CLIENT_SECRECT,
+      token: accessToken,
+    };
+
+    return httpRequest.post(url, data);
   },
-  employerRegister: () => {
-    // Ket qua tra ve cua dang ky tai khoang nha tuyen dung
+  checkCreds: (email, roleName) => {
+    const url = 'api/auth/check-creds/';
+
+    const data = {
+      email: email,
+      roleName: roleName,
+    };
+
+    return httpRequest.post(url, data);
+  },
+  jobSeekerRegister: (data) => {
+    const url = 'api/auth/job-seeker/register/';
+
+    return httpRequest.post(url, data);
   },
   getUserInfo: () => {
     const url = 'api/auth/user-info/';
 
     return httpRequest.get(url);
+  },
+  updateUser: (data) => {
+    const url = 'api/auth/update-user/';
+
+    return httpRequest.patch(url, data);
+  },
+  updateAvatar: (data) => {
+    const url = 'api/auth/avatar/';
+
+    return httpRequest.put(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  changePassword: (data) => {
+    const url = 'api/auth/change-password/';
+
+    return httpRequest.put(url, data);
+  },
+  forgotPassword: (data) => {
+    const url = 'api/auth/forgot-password/';
+
+    return httpRequest.post(url, data);
+  },
+  resetPassword: (data) => {
+    const url = 'api/auth/reset-password/';
+
+    return httpRequest.post(url, data);
   },
 };
 

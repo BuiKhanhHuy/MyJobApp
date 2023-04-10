@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Keychain from 'react-native-keychain';
 import {Text, View, Image, Center, HStack, Spinner} from 'native-base';
-import {APP_NAME, LOGO_IMAGE} from '../../constants/globalStyles';
+import {APP_NAME, LOGO_IMAGE} from '../../configs/globalStyles';
 
 const LogoScreen = ({navigation}) => {
   React.useEffect(() => {

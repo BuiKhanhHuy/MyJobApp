@@ -33,6 +33,7 @@ const JobPost = () => {
           <Image
             source={{uri: 'https://img.icons8.com/fluency/1x/google-logo.png'}}
             style={styles.logo}
+            alt=''
           />
         </View>
         <View style={{justifyContent: 'flex-start'}}>

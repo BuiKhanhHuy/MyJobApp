@@ -9,7 +9,7 @@ import {Provider} from 'react-redux';
 import store from './src/redux/store';
 import {NativeBaseProvider, extendTheme} from 'native-base';
 // Theme
-import {COLOR, CONFIG, FONTS, SHADOWS} from './src/constants/globalStyles';
+import {COLOR, CONFIG, FONTS, SHADOWS} from './src/configs/globalStyles';
 // Action Sheet
 import {SheetProvider} from 'react-native-actions-sheet/dist/src/provider';
 import './src/sheets';

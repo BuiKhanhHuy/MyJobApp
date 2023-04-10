@@ -1,25 +1,24 @@
 import axios from 'axios';
 import queryString from 'query-string';
 import tokenService from '../services/tokenService';
+import {APP_NAME} from '../configs/constants';
 
 const httpRequest = axios.create({
-  baseURL: 'http://192.168.1.5:8000/',
+  baseURL: 'http://192.168.42.32:8000/',
   timeout: 5000,
   headers: {
-    Accept: 'application/json',
-    'Content-Type': 'multipart/form-data',
+    'Content-Type': 'application/json',
   },
   paramsSerializer: {
-    encode: params => {
-      return queryString.stringify(params, {arrayFormat: 'brackets'});
+    serialize: params => {
+      return queryString.stringify(params, {arrayFormat: 'bracket'});
     },
   },
 });
 
-const serviceName = 'MyJob';
 httpRequest.interceptors.request.use(
   async config => {
-    const accessToken = await tokenService.getLocalAccessToken(serviceName);
+    const accessToken = await tokenService.getLocalAccessToken(APP_NAME);
     if (accessToken && config.url !== 'api/auth/token/') {
       console.log('LAY ACCESS TOKEN DE CALL API: ', accessToken);
       config.headers['Authorization'] = `Bearer ${accessToken}`;
@@ -43,7 +42,7 @@ httpRequest.interceptors.response.use(
       // Access Token was expired
       if (error.response.status === 401) {
         const refreshTokenLocal = await tokenService.getLocalRefreshToken(
-          serviceName,
+          APP_NAME,
         );
 
         if (!refreshTokenLocal) {

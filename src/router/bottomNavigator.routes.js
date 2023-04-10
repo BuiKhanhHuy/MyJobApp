@@ -91,6 +91,7 @@ export default BottomTabNavigator = () => {
             <Image
               source={require('../assets/images/icons/chatbot-icon.png')}
               style={{width: 35, height: 35}}
+              alt=''
             />
           </TouchableOpacity>
         </Animated.View>

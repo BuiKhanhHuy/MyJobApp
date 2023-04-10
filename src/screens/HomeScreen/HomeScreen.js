@@ -1,15 +1,17 @@
 import * as React from 'react';
-import {Avatar, Fab, Icon, ScrollView, Text, View} from 'native-base';
+import {useSelector} from 'react-redux';
+import {Avatar, Fab, HStack, Icon, ScrollView, Text, View} from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {HOME_FILTER_CAREER, ROLES_NAME} from '../../configs/constants';
+
 import JobTypePopulars from '../../components/JobTypePopulars';
-import RecentJobPosts from '../../components/RecentJobPosts';
-import {useSelector} from 'react-redux';
+import FilterJobPostsCard from '../../components/FilterJobPostsCard';
+import SuggestedJobPostCard from '../../components/SuggestedJobPostCard';
 
 const HomeScreen = ({navigation}) => {
-  const {currentUser} = useSelector(state => state.user);
+  const {isAuthenticated, currentUser} = useSelector(state => state.user);
 
-  console.log('>>>> HOME SCREEN ĐÃ RENDER');
   return (
     <>
       <View padding="6" flexDirection="column">
@@ -50,7 +52,7 @@ const HomeScreen = ({navigation}) => {
               <View>
                 <Text
                   fontFamily="DMSans-Bold"
-                  fontSize="md"
+                  fontSize="lg"
                   lineHeight="sm"
                   color="myJobCustomColors.haitiBluePurple">
                   Find Your Job
@@ -60,18 +62,142 @@ const HomeScreen = ({navigation}) => {
                 <JobTypePopulars />
               </View>
             </View>
+
+            {isAuthenticated &&
+              currentUser?.roleName === ROLES_NAME.JOB_SEEKER && (
+                <View marginTop={10}>
+                  <View>
+                    <HStack space={3} justifyContent="space-between">
+                      <Text
+                        fontFamily="DMSans-Bold"
+                        fontSize="lg"
+                        lineHeight="sm"
+                        color="myJobCustomColors.haitiBluePurple">
+                        Việc làm gợi ý
+                      </Text>
+                      <Text
+                        fontFamily="DMSans-Regular"
+                        onPress={() =>
+                          navigation.navigate('SuggestedJobPostScreen', {
+                            headerTitle: 'Việc làm gợi ý',
+                            params: {pageSize: 20},
+                          })
+                        }>
+                        Xem Thêm
+                      </Text>
+                    </HStack>
+                  </View>
+                  <View paddingTop={4}>
+                    {/* Start: SuggestedJobPostCard */}
+                    <SuggestedJobPostCard params={{pageSize: 10}} />
+                    {/* End: SuggestedJobPostCard */}
+                  </View>
+                </View>
+              )}
+
             <View marginTop={10}>
               <View>
-                <Text
-                  fontFamily="DMSans-Bold"
-                  fontSize="md"
-                  lineHeight="sm"
-                  color="myJobCustomColors.haitiBluePurple">
-                  Recent Job List
-                </Text>
+                <HStack space={3} justifyContent="space-between">
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    Việc làm tuyển gấp
+                  </Text>
+                  <Text
+                    fontFamily="DMSans-Regular"
+                    onPress={() =>
+                      navigation.navigate('FilterJobPostScreen', {
+                        headerTitle: 'Việc làm tuyển gấp',
+                        params: {
+                          pageSize: 20,
+                          isUrgent: true,
+                        },
+                      })
+                    }>
+                    Xem Thêm
+                  </Text>
+                </HStack>
               </View>
               <View paddingTop={4}>
-                <RecentJobPosts />
+                {/* Start: FilterJobPostsCard */}
+                <FilterJobPostsCard params={{isUrgent: true, pageSize: 10}} />
+                {/* End: FilterJobPostsCard */}
+              </View>
+            </View>
+
+            <View marginTop={10}>
+              <View>
+                <HStack space={3} justifyContent="space-between">
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    {`Việc làm ngành ${HOME_FILTER_CAREER[0].name}`}
+                  </Text>
+                  <Text
+                    fontFamily="DMSans-Regular"
+                    onPress={() =>
+                      navigation.navigate('FilterJobPostScreen', {
+                        headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[0].name}`,
+                        params: {
+                          pageSize: 20,
+                          careerId: HOME_FILTER_CAREER[0].id,
+                        },
+                      })
+                    }>
+                    Xem Thêm
+                  </Text>
+                </HStack>
+              </View>
+              <View paddingTop={4}>
+                {/* Start: FilterJobPostsCard */}
+                <FilterJobPostsCard
+                  params={{
+                    careerId: HOME_FILTER_CAREER[0].id,
+                    pageSize: 10,
+                  }}
+                />
+                {/* End: FilterJobPostsCard */}
+              </View>
+            </View>
+
+            <View marginTop={10}>
+              <View>
+                <HStack space={3} justifyContent="space-between">
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    {`Việc làm ngành ${HOME_FILTER_CAREER[1].name}`}
+                  </Text>
+                  <Text
+                    fontFamily="DMSans-Regular"
+                    onPress={() =>
+                      navigation.navigate('FilterJobPostScreen', {
+                        headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[1].name}`,
+                        params: {
+                          pageSize: 20,
+                          careerId: HOME_FILTER_CAREER[1].id,
+                        },
+                      })
+                    }>
+                    Xem Thêm
+                  </Text>
+                </HStack>
+              </View>
+              <View paddingTop={4}>
+                {/* Start: FilterJobPostsCard */}
+                <FilterJobPostsCard
+                  params={{
+                    careerId: HOME_FILTER_CAREER[1].id,
+                    pageSize: 10,
+                  }}
+                />
+                {/* End: FilterJobPostsCard */}
               </View>
             </View>
           </View>

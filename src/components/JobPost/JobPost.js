@@ -1,8 +1,34 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import moment from 'moment-timezone';
+import 'moment/locale/vi';
 import {Text, View, Image, StyleSheet, ScrollView} from 'react-native';
+import {HStack, Skeleton} from 'native-base';
 import Feather from 'react-native-vector-icons/Feather';
 
-const JobPost = () => {
+import {salaryString} from '../../utils/customData';
+
+const JobPost = ({
+  id,
+  jobName,
+  careerId,
+  experienceId,
+  academicLevelId,
+  positionId,
+  salaryMin,
+  salaryMax,
+  typeOfWorkplaceId,
+  jobTypeId,
+  deadline,
+  isHot,
+  isUrgent,
+  cityId,
+  companyName,
+  companyImageUrl,
+  updateAt,
+}) => {
+  const {allConfig} = useSelector(state => state.config);
+
   const keyworkDescription = name => {
     return (
       <View
@@ -30,10 +56,7 @@ const JobPost = () => {
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Image
-            source={{uri: 'https://img.icons8.com/fluency/1x/google-logo.png'}}
-            style={styles.logo}
-          />
+          <Image source={{uri: companyImageUrl}} style={styles.logo} alt="" />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
           <Feather name="bookmark" size={20} color={'#524b6b'} />
@@ -48,7 +71,7 @@ const JobPost = () => {
             height: 18,
             lineHeight: 18,
           }}>
-          UI/UX Designer
+          {jobName}
         </Text>
       </View>
       <View style={{paddingTop: 4}}>
@@ -60,15 +83,26 @@ const JobPost = () => {
             color: '#524b6b',
             fontFamily: 'DMSans-Medium',
           }}>
-          Google inc - California, USA
+          {companyName}
         </Text>
       </View>
       <View style={{paddingVertical: 20}}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-          {keyworkDescription('Design')}
-          {keyworkDescription('Ho Chi Minh City')}
-          {keyworkDescription('Work from home')}
-          {keyworkDescription('Manager')}
+          {careerId && keyworkDescription(allConfig?.careerDict[careerId])}
+          {cityId && keyworkDescription(allConfig?.cityDict[cityId])}
+          {experienceId &&
+            keyworkDescription(allConfig?.experienceDict[experienceId])}
+          {academicLevelId &&
+            keyworkDescription(allConfig?.academicLevelDict[academicLevelId])}
+          {positionId &&
+            keyworkDescription(allConfig?.positionDict[positionId])}
+          {typeOfWorkplaceId &&
+            keyworkDescription(
+              allConfig?.typeOfWorkplaceDict[typeOfWorkplaceId],
+            )}
+          {jobTypeId && keyworkDescription(allConfig?.jobTypeDict[jobTypeId])}
+          {deadline &&
+            keyworkDescription(moment(deadline).format('DD/MM/YYYY'))}
         </ScrollView>
       </View>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -80,7 +114,7 @@ const JobPost = () => {
               fontFamily: 'DMSans-Regular',
               color: '#aaa6b9',
             }}>
-            25 minutes ago
+            {moment(updateAt).fromNow()}
           </Text>
         </View>
         <View>
@@ -92,7 +126,7 @@ const JobPost = () => {
                 fontFamily: 'DMSans-Bold',
                 color: '#000',
               }}>
-              $14k
+              {salaryString(salaryMin, salaryMax)}
             </Text>
             <Text
               style={{
@@ -101,12 +135,44 @@ const JobPost = () => {
                 fontFamily: 'DMSans-Medium',
                 color: '#aaa6b9',
               }}>
-              /mon
+              /tháng
             </Text>
           </Text>
         </View>
       </View>
     </View>
+  );
+};
+
+const Loading = () => {
+  return (
+    <>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View>
+            <Skeleton size="40" rounded="full" style={styles.logo} />
+          </View>
+          <View style={{justifyContent: 'flex-start'}}>
+            <Skeleton size="5" rounded="md" />
+          </View>
+        </View>
+        <View style={{paddingTop: 10}}>
+          <Skeleton rounded="md" h="7" />
+        </View>
+        <View style={{paddingTop: 10}}>
+          <Skeleton rounded="md" h="5" />
+        </View>
+        <HStack space="3" alignItems="center" style={{paddingTop: 10}}>
+          <Skeleton rounded="md" flex={1} h="8" />
+          <Skeleton rounded="md" flex={1} h="8" />
+          <Skeleton rounded="md" flex={1} h="8" />
+        </HStack>
+        <HStack space="3" alignItems="center" style={{paddingTop: 10}}>
+          <Skeleton rounded="md" flex={1} h="4" />
+          <Skeleton rounded="md" flex={1} h="4" />
+        </HStack>
+      </View>
+    </>
   );
 };
 
@@ -117,6 +183,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 20,
+    marginTop: 15,
     shadowOpacity: 0.18,
     shadowColor: '#99ABC6',
     shadowOffset: {
@@ -134,5 +201,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
+
+JobPost.Loading = Loading;
 
 export default JobPost;

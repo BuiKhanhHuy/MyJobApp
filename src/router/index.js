@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector} from 'react-redux';
-import {Color} from '../constants/globalStyles';
+import {Color} from '../configs/globalStyles';
 
 import Header from '../components/Header';
 
@@ -17,6 +17,9 @@ import BottomTabNavigator from './bottomNavigator.routes';
 // Search
 import FilterScreen from '../screens/FilterScreen';
 import SpecializationScreen from '../screens/SpecializationScreen';
+import FilterJobPostScreen from '../screens/FilterJobPostScreen';
+import SuggestedJobPostScreen from '../screens/SuggestedJobPostScreen';
+import MainJobPostScreen from '../screens/MainJobPostScreen';
 // ChatBot
 import ChatBotScreen from '../screens/ChatBotScreen';
 // Discover
@@ -32,7 +35,7 @@ const Router = () => {
 
   return (
     <RootStack.Navigator
-      initialRouteName="CheckEmail"
+      initialRouteName="MainTab"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
@@ -63,7 +66,6 @@ const Router = () => {
           headerTransparent: true,
           headerShown: true,
           headerTintColor: '#514A6B',
-          title: '',
         }}>
         {/* Start: Home */}
         <RootStack.Group></RootStack.Group>
@@ -74,6 +76,23 @@ const Router = () => {
           <RootStack.Screen
             name="SpecializationScreen"
             component={SpecializationScreen}
+          />
+          <RootStack.Screen
+            options={{headerTransparent: false}}
+            name="FilterJobPostScreen"
+            component={FilterJobPostScreen}
+          />
+          <RootStack.Screen
+            options={{headerTransparent: false}}
+            name="SuggestedJobPostScreen"
+            component={SuggestedJobPostScreen}
+          />
+          <RootStack.Screen
+            name="MainJobPostScreen"
+            component={MainJobPostScreen}
+            options={{
+              headerTransparent: false,
+            }}
           />
           <RootStack.Screen name="FilterScreen" component={FilterScreen} />
         </RootStack.Group>
