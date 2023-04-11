@@ -1,15 +1,14 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {useSelector} from 'react-redux';
 import {Center, FlatList, Spinner, Text, View} from 'native-base';
+import {StyleSheet} from 'react-native';
 
-import JobPost from '../JobPost';
+import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
 
-const SuggestedJobPostCard = ({
-  pageSize = 10,
-  isPagination = false,
-  params,
-}) => {
+const MainJobPostsCard = () => {
+  const {jobPostFilter} = useSelector(state => state.filter);
+  const {pageSize} = jobPostFilter;
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
@@ -17,19 +16,17 @@ const SuggestedJobPostCard = ({
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    const getJobPosts = async params => {
+    const getJobPosts = async jobPostFilter => {
+      setIsLoading(true);
       try {
-        const resData = await jobService.getSuggestedJobPosts({
-          ...params,
+        const resData = await jobService.getJobPosts({
+          ...jobPostFilter,
           page: page,
-          pageSize: pageSize
         });
-
         const data = resData.data;
 
         setCount(data.count);
-        setJobPosts([...jobPosts, ...data.results]);
-        console.log(jobPosts[0]);
+        setJobPosts(data.results);
       } catch (error) {
       } finally {
         setIsFirstLoading(false);
@@ -37,9 +34,9 @@ const SuggestedJobPostCard = ({
       }
     };
 
-    getJobPosts(params);
+    getJobPosts(jobPostFilter);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [jobPostFilter, page]);
 
   const handleLoadMore = () => {
     if (Math.ceil(count / pageSize) > page) {
@@ -48,47 +45,15 @@ const SuggestedJobPostCard = ({
     }
   };
 
-  if (!isPagination) {
-    return (
-      <View style={styles.container}>
-        {isFirstLoading ? (
-          Array.from(Array(5).keys()).map(value => (
-            <JobPost.Loading key={value} />
-          ))
-        ) : jobPosts.length === 0 ? (
-          <Text>Rong</Text>
-        ) : (
-          jobPosts.map(value => (
-            <JobPost
-              key={value.id}
-              id={value?.id}
-              jobName={value?.jobName}
-              careerId={value?.career}
-              experienceId={value?.experience}
-              academicLevelId={value?.academicLevel}
-              positionId={value?.position}
-              salaryMin={value?.salaryMin}
-              salaryMax={value?.salaryMax}
-              typeOfWorkplaceId={value?.typeOfWorkplace}
-              jobTypeId={value?.jobType}
-              deadline={value?.deadline}
-              isHot={value?.isHot}
-              isUrgent={value?.isUrgent}
-              cityId={value?.locationDict?.city}
-              companyName={value?.companyDict?.companyName}
-              companyImageUrl={value?.companyDict?.companyImageUrl}
-              updateAt={value?.updateAt}
-            />
-          ))
-        )}
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
+      <View>
+        <Text>1 việc làm</Text>
+      </View>
       {isFirstLoading ? (
-        Array.from(Array(5).keys()).map(value => <JobPost.Loading key={value}/>)
+        Array.from(Array(5).keys()).map(value => (
+          <JobPost.Loading key={value} />
+        ))
       ) : jobPosts.length === 0 ? (
         <Text>Rong</Text>
       ) : (
@@ -137,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(SuggestedJobPostCard);
+export default MainJobPostsCard;

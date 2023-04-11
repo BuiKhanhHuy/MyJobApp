@@ -80,7 +80,8 @@ const HomeScreen = ({navigation}) => {
                         onPress={() =>
                           navigation.navigate('SuggestedJobPostScreen', {
                             headerTitle: 'Việc làm gợi ý',
-                            params: {pageSize: 20},
+                            pageSize: 20,
+                            params: {},
                           })
                         }>
                         Xem Thêm
@@ -89,7 +90,7 @@ const HomeScreen = ({navigation}) => {
                   </View>
                   <View paddingTop={4}>
                     {/* Start: SuggestedJobPostCard */}
-                    <SuggestedJobPostCard params={{pageSize: 10}} />
+                    <SuggestedJobPostCard pageSize={5} />
                     {/* End: SuggestedJobPostCard */}
                   </View>
                 </View>
@@ -110,8 +111,8 @@ const HomeScreen = ({navigation}) => {
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: 'Việc làm tuyển gấp',
+                        pageSize: 20,
                         params: {
-                          pageSize: 20,
                           isUrgent: true,
                         },
                       })
@@ -122,7 +123,7 @@ const HomeScreen = ({navigation}) => {
               </View>
               <View paddingTop={4}>
                 {/* Start: FilterJobPostsCard */}
-                <FilterJobPostsCard params={{isUrgent: true, pageSize: 10}} />
+                <FilterJobPostsCard pageSize={5} params={{isUrgent: true}} />
                 {/* End: FilterJobPostsCard */}
               </View>
             </View>
@@ -142,8 +143,8 @@ const HomeScreen = ({navigation}) => {
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[0].name}`,
+                        pageSize: 20,
                         params: {
-                          pageSize: 20,
                           careerId: HOME_FILTER_CAREER[0].id,
                         },
                       })
@@ -155,9 +156,9 @@ const HomeScreen = ({navigation}) => {
               <View paddingTop={4}>
                 {/* Start: FilterJobPostsCard */}
                 <FilterJobPostsCard
+                  pageSize={5}
                   params={{
                     careerId: HOME_FILTER_CAREER[0].id,
-                    pageSize: 10,
                   }}
                 />
                 {/* End: FilterJobPostsCard */}
@@ -179,8 +180,8 @@ const HomeScreen = ({navigation}) => {
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[1].name}`,
+                        pageSize: 20,
                         params: {
-                          pageSize: 20,
                           careerId: HOME_FILTER_CAREER[1].id,
                         },
                       })
@@ -192,9 +193,9 @@ const HomeScreen = ({navigation}) => {
               <View paddingTop={4}>
                 {/* Start: FilterJobPostsCard */}
                 <FilterJobPostsCard
+                  pageSize={5}
                   params={{
                     careerId: HOME_FILTER_CAREER[1].id,
-                    pageSize: 10,
                   }}
                 />
                 {/* End: FilterJobPostsCard */}

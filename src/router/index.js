@@ -75,6 +75,9 @@ const Router = () => {
         <RootStack.Group>
           <RootStack.Screen
             name="SpecializationScreen"
+            options={{
+              headerTitle: 'Ngành nghề'
+            }}
             component={SpecializationScreen}
           />
           <RootStack.Screen

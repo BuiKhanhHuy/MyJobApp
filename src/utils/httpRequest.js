@@ -4,6 +4,8 @@ import tokenService from '../services/tokenService';
 import {APP_NAME} from '../configs/constants';
 
 const httpRequest = axios.create({
+  // baseURL: 'https://bkhuy-myjob.onrender.com/',
+  // baseURL: 'https://bkhuy.pythonanywhere.com/',
   baseURL: 'http://192.168.43.26:8000/',
   timeout: 5000,
   headers: {

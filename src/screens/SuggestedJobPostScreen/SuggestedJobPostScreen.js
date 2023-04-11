@@ -2,10 +2,13 @@ import React from 'react';
 import {InteractionManager} from 'react-native';
 import {View} from 'native-base';
 
+import {useLayout} from '../../hooks';
+import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
 import SuggestedJobPostCard from '../../components/SuggestedJobPostCard/SuggestedJobPostCard';
 
 const SuggestedJobPostScreen = ({route, navigation}) => {
-  const {headerTitle, params} = route.params;
+  const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const {headerTitle, pageSize, params} = route.params;
 
   React.useState(() => {
     const interactionPromise = InteractionManager.runAfterInteractions(() =>
@@ -15,8 +18,16 @@ const SuggestedJobPostScreen = ({route, navigation}) => {
   }, []);
 
   return (
-    <View paddingX="4">
-      <SuggestedJobPostCard isPagination={true} params={params} />
+    <View paddingX="4" onLayout={handleLayout}>
+      {isLayoutLoading ? (
+        <BackdropLoading />
+      ) : (
+        <SuggestedJobPostCard
+          pageSize={pageSize}
+          isPagination={true}
+          params={params}
+        />
+      )}
     </View>
   );
 };

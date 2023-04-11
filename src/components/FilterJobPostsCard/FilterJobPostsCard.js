@@ -5,8 +5,7 @@ import {StyleSheet} from 'react-native';
 import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
 
-const FilterJobPostCard = ({isPagination = false, params}) => {
-  const {pageSize} = params;
+const FilterJobPostCard = ({pageSize=12, isPagination = false, params}) => {
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
@@ -20,6 +19,7 @@ const FilterJobPostCard = ({isPagination = false, params}) => {
         const resData = await jobService.getJobPosts({
           ...params,
           page: page,
+          pageSize: pageSize
         });
         const data = resData.data;
 
@@ -83,9 +83,9 @@ const FilterJobPostCard = ({isPagination = false, params}) => {
   return (
     <View style={styles.container}>
       {isFirstLoading ? (
-        <Center mt="5">
-          <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
-        </Center>
+        Array.from(Array(5).keys()).map(value => (
+          <JobPost.Loading key={value} />
+        ))
       ) : jobPosts.length === 0 ? (
         <Text>Rong</Text>
       ) : (
@@ -128,7 +128,7 @@ const FilterJobPostCard = ({isPagination = false, params}) => {
   );
 };
 
-export default FilterJobPostCard;
+export default React.memo(FilterJobPostCard);
 
 const styles = StyleSheet.create({
   container: {

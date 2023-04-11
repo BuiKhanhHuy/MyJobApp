@@ -1,11 +1,14 @@
 import React from 'react';
-import {Image, TouchableOpacity} from 'react-native';
-import {Icon, Input, View} from 'native-base';
+import {Icon, Input, Text, View} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
-import JobPostSearch from '../../components/JobPostSearch/JobPostSearch';
+import {useLayout} from '../../hooks';
+import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import MainJobPostsCard from '../../components/MainJobPostsCard/MainJobPostsCard';
+import FilterJobPostForm from '../components/forms/FilterJobPostForm/FilterJobPostForm';
 
 const MainJobPostScreen = ({navigation}) => {
+  const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [openPopup, setOpenPopup] = React.useState(false);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
 
@@ -37,34 +40,24 @@ const MainJobPostScreen = ({navigation}) => {
           onPressIn={() => navigation.navigate('MainJobPostScreen')}
         />
       ),
-      headerRight: () => (
-        <View
-          style={{
-            height: 40,
-            width: 40,
-            backgroundColor: '#130160',
-            borderRadius: 10,
-            padding: 8,
-          }}>
-          <TouchableOpacity onPress={() => setOpenPopup(true)}>
-            <Image
-              source={require('../../assets/images/icons/filter-icon.png')}
-              resizeMode="contain"
-              alt=""
-              style={{width: '100%', height: '100%'}}
-            />
-          </TouchableOpacity>
-        </View>
-      ),
+      headerRight: () => <FilterJobPostForm />,
     });
   }, []);
 
   return (
-    <>
-      {openPopup && (
-        <JobPostSearch openPopup={openPopup} setOpenPopup={setOpenPopup} />
+    <View onLayout={handleLayout}>
+      {isLayoutLoading ? (
+        <BackdropLoading />
+      ) : (
+        <>
+          <View px="5">
+            {/* Start: MainJobPostsCard */}
+            <MainJobPostsCard />
+            {/* End: MainJobPostsCard */}
+          </View>
+        </>
       )}
-    </>
+    </View>
   );
 };
 

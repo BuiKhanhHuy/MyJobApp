@@ -35,6 +35,8 @@ const SelectCustom = ({
               </FormControl.Label>
             )}
             <Select
+              value={field.value}
+              onValueChange={field.onChange}
               minWidth="200"
               borderRadius="10"
               backgroundColor="myJobCustomColors.white"
