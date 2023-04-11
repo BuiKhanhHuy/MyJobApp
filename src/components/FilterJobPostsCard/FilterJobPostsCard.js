@@ -1,5 +1,5 @@
 import React from 'react';
-import {Center, FlatList, Spinner, View} from 'native-base';
+import {Center, FlatList, Spinner, Text, View} from 'native-base';
 import {StyleSheet} from 'react-native';
 
 import JobPost from '../JobPost/JobPost';

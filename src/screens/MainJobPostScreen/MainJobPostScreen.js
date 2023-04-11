@@ -1,9 +1,14 @@
 import React from 'react';
 import {Image, TouchableOpacity} from 'react-native';
-import {Icon, Input, Text, View} from 'native-base';
+import {Icon, Input, View} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
+import JobPostSearch from '../../components/JobPostSearch/JobPostSearch';
+
 const MainJobPostScreen = ({navigation}) => {
+  const [openPopup, setOpenPopup] = React.useState(false);
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
+
   React.useEffect(() => {
     navigation.setOptions({
       headerTitle: props => (
@@ -41,8 +46,7 @@ const MainJobPostScreen = ({navigation}) => {
             borderRadius: 10,
             padding: 8,
           }}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SpecializationScreen')}>
+          <TouchableOpacity onPress={() => setOpenPopup(true)}>
             <Image
               source={require('../../assets/images/icons/filter-icon.png')}
               resizeMode="contain"
@@ -55,11 +59,13 @@ const MainJobPostScreen = ({navigation}) => {
     });
   }, []);
 
-  const handleFilter = data => {
-    console.log(data);
-  };
-
-  return <Text>MainJobPostScreen</Text>;
+  return (
+    <>
+      {openPopup && (
+        <JobPostSearch openPopup={openPopup} setOpenPopup={setOpenPopup} />
+      )}
+    </>
+  );
 };
 
 export default MainJobPostScreen;

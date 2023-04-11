@@ -10,11 +10,8 @@ import {
 } from 'native-base';
 import {useForm} from 'react-hook-form';
 
-import ButtonCustom from '../../components/ButtonCustom';
 import CollapsibleCustom from '../../components/CollapsibleCustom';
-import RadioCustom from '../../components/RadioCustom';
-import ButtonSelectCustom from '../../components/ButtonSelectCustom';
-import CheckboxCustom from '../../components/CheckboxCustom';
+import ButtonCustom from '../../components/ButtonCustom/ButtonCustom';
 
 const FilterScreen = () => {
   const {
@@ -50,20 +47,7 @@ const FilterScreen = () => {
             {/*Start: Last Update */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Last update">
-                <View paddingY={4}>
-                  <RadioCustom
-                    control={control}
-                    errors={errors}
-                    name="lastUpdate"
-                    rules={{
-                      required: {
-                        value: true,
-                        message: 'Bạn hãy chọn thời gian cập nhật',
-                      },
-                    }}
-                    flexDirection="column"
-                  />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />
@@ -71,20 +55,7 @@ const FilterScreen = () => {
             {/* Start: Type Of Workplace */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Type of workplace">
-                <View paddingY={4}>
-                  <RadioCustom
-                    control={control}
-                    errors={errors}
-                    name="career"
-                    rules={{
-                      required: {
-                        value: true,
-                        message: 'Bạn hãy chọn 1 ngành nghề',
-                      },
-                    }}
-                    flexDirection="column"
-                  />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />
@@ -92,9 +63,7 @@ const FilterScreen = () => {
             {/* Start: Job Type */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Job types">
-                <View paddingY={4}>
-                  <ButtonSelectCustom control={control} name="jobType" />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />
@@ -102,9 +71,7 @@ const FilterScreen = () => {
             {/* Start: Position level */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Position level">
-                <View paddingY={4}>
-                  <ButtonSelectCustom control={control} name="positionLevel" />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />
@@ -112,13 +79,7 @@ const FilterScreen = () => {
             {/* Start: City */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Position level">
-                <View paddingY={4}>
-                  <CheckboxCustom
-                    control={control}
-                    errors={errors}
-                    name="city"
-                  />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />
@@ -126,20 +87,7 @@ const FilterScreen = () => {
             {/*Start: Experience */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Experience">
-                <View paddingY={4}>
-                  <RadioCustom
-                    control={control}
-                    errors={errors}
-                    name="experience"
-                    rules={{
-                      required: {
-                        value: true,
-                        message: 'Bạn hãy chọn kinh nghiệm làm việc',
-                      },
-                    }}
-                    flexDirection="column"
-                  />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />
@@ -147,13 +95,7 @@ const FilterScreen = () => {
             {/* Start: Specialization */}
             <Box paddingY={2}>
               <CollapsibleCustom title="Specialization">
-                <View paddingY={4}>
-                  <CheckboxCustom
-                    control={control}
-                    errors={errors}
-                    name="specialization"
-                  />
-                </View>
+                <View paddingY={4}></View>
               </CollapsibleCustom>
             </Box>
             <Divider bg="myJobCustomColors.lavenderPinocchioTealishBlue" />

@@ -8,6 +8,7 @@ const ButtonCustom = ({
   onPress,
   leftIcon = null,
   shadow = 'none',
+  size = 'large',
 }) => {
   return (
     <Button
@@ -24,7 +25,7 @@ const ButtonCustom = ({
           leftIcon
         )
       }
-      padding={leftIcon ? '3' : '4'}
+      padding={size === 'large' ? (leftIcon ? '3' : '4') : null}
       borderRadius="sm"
       backgroundColor={bgColor}
       onPress={onPress}>
