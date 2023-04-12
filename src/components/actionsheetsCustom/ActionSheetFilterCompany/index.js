@@ -1,18 +1,30 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {useForm} from 'react-hook-form';
 import {Text, useTheme, View, VStack} from 'native-base';
 import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
 import ButtonCustom from '../../ButtonCustom';
+import SelectCustom from '../../formControls/SelectCustom/SelectCustom';
 
-function ActionSheetConfirm({sheetId, payload}) {
+function ActionSheetFilterCompany({sheetId}) {
   const {sizes} = useTheme();
+  const {allConfig} = useSelector(state => state.config);
+  const {companyFilter} = useSelector(state => state.filter);
 
-  const {
-    title = 'Title',
-    description = 'description',
-    yesText = 'YES',
-    noText = 'NO',
-  } = payload;
+  const {control, handleSubmit, reset} = useForm();
+
+  React.useEffect(() => {
+    reset(formValues => ({
+      ...formValues,
+      ...companyFilter,
+    }));
+  }, [companyFilter, reset]);
+
+  const handleFilter = data => {
+    console.log(data);
+    SheetManager.hide(sheetId);
+  };
 
   return (
     <ActionSheet
@@ -21,54 +33,49 @@ function ActionSheetConfirm({sheetId, payload}) {
       drawUnderStatusBar={false}
       gestureEnabled={true}
       containerStyle={{
-        paddingHorizontal: sizes[8],
-        paddingTop: sizes[6],
-        paddingBottom: sizes[6],
+        paddingHorizontal: sizes[5],
+        paddingTop: sizes[4],
+        paddingBottom: sizes[4],
         borderTopLeftRadius: sizes[8],
         borderTopRightRadius: sizes[8],
       }}
       springOffset={50}
       defaultOverlayOpacity={0.5}>
-      <View paddingTop={6} paddingBottom={10} alignItems="center">
+      <View alignItems="flex-start">
         <Text
-          paddingBottom={2}
           fontFamily="dMSansBold"
           lineHeight="xl"
           fontSize="md"
           paddingBot
           color="myJobCustomColors.haitiBluePurple">
-          {title}
+          Nâng cao
         </Text>
-        <Text
-          fontFamily="dMSansRegular"
-          lineHeight="xs"
-          fontSize="xs"
-          color="myJobCustomColors.mulledWine">
-          {description}
-        </Text>
+      </View>
+      <View py="6">
+        <SelectCustom
+          name="cityId"
+          control={control}
+          options={allConfig?.cityOptions || []}
+          title="Tỉnh thành"
+          placeholder="Chọn tỉnh thành"
+        />
       </View>
       <View>
         <VStack space={3}>
           <ButtonCustom
-            text={yesText}
+            text="Lưu thay đổi"
             textColor="myJobCustomColors.white"
             bgColor="myJobCustomColors.darkIndigo"
             shadow={1}
-            onPress={() => {
-              SheetManager.hide(sheetId, {
-                payload: true,
-              });
-            }}
+            onPress={handleSubmit(handleFilter)}
           />
           <ButtonCustom
-            text={noText}
+            text="Lọc lại"
             textColor="myJobCustomColors.darkIndigo"
             bgColor="myJobCustomColors.moonrakerPurplyBlue"
             shadow={1}
             onPress={() => {
-              SheetManager.hide(sheetId, {
-                payload: false,
-              });
+              SheetManager.hide(sheetId);
             }}
           />
         </VStack>
@@ -77,4 +84,4 @@ function ActionSheetConfirm({sheetId, payload}) {
   );
 }
 
-export default ActionSheetConfirm;
+export default ActionSheetFilterCompany;

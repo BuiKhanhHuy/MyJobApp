@@ -21,9 +21,12 @@ import FilterJobPostScreen from '../screens/FilterJobPostScreen';
 import SuggestedJobPostScreen from '../screens/SuggestedJobPostScreen';
 import MainJobPostScreen from '../screens/MainJobPostScreen';
 import JobPostDetailScreen from '../screens/JobPostDetailScreen/JobPostDetailScreen';
+
+import MainCompanyScreen from '../screens/MainCompanyScreen/MainCompanyScreen';
 // ChatBot
 import ChatBotScreen from '../screens/ChatBotScreen';
-// Discover
+// Notification
+
 // Profile
 import AboutMeScreen from '../screens/AboutMeScreen';
 // Map
@@ -36,7 +39,7 @@ const Router = () => {
 
   return (
     <RootStack.Navigator
-      initialRouteName="JobPostDetailScreen"
+      initialRouteName="MainTab"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
@@ -64,7 +67,6 @@ const Router = () => {
 
       <RootStack.Group
         screenOptions={{
-          headerTransparent: true,
           headerShown: true,
           headerTintColor: '#514A6B',
         }}>
@@ -77,35 +79,31 @@ const Router = () => {
           <RootStack.Screen
             name="SpecializationScreen"
             options={{
-              headerTitle: 'Ngành nghề'
+              headerTitle: 'Ngành nghề',
             }}
             component={SpecializationScreen}
           />
           <RootStack.Screen
-            options={{headerTransparent: false}}
             name="FilterJobPostScreen"
             component={FilterJobPostScreen}
           />
           <RootStack.Screen
-            options={{headerTransparent: false}}
             name="SuggestedJobPostScreen"
             component={SuggestedJobPostScreen}
           />
           <RootStack.Screen
             name="MainJobPostScreen"
             component={MainJobPostScreen}
-            options={{
-              headerTransparent: false,
-            }}
           />
-           <RootStack.Screen
+          <RootStack.Screen
             name="JobPostDetailScreen"
-            options={{
-              headerShown: false
-            }}
             component={JobPostDetailScreen}
           />
-          <RootStack.Screen name="FilterScreen" component={FilterScreen} />
+
+          <RootStack.Screen
+            name="MainCompanyScreen"
+            component={MainCompanyScreen}
+          />
         </RootStack.Group>
         {/* End: Search */}
 
@@ -115,9 +113,9 @@ const Router = () => {
         </RootStack.Group>
         {/* End: ChatBot */}
 
-        {/* Start: Discover */}
+        {/* Start: Notification */}
         <RootStack.Group></RootStack.Group>
-        {/* End: Discover */}
+        {/* End: Notification */}
 
         {/* Start: Profile */}
         <RootStack.Group>

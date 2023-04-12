@@ -1,5 +1,6 @@
 import React from 'react';
 import {Controller} from 'react-hook-form';
+import {StyleSheet} from 'react-native';
 import {
   FormControl,
   Select,
@@ -8,6 +9,7 @@ import {
   Text,
   Icon,
 } from 'native-base';
+import {Dropdown} from 'react-native-element-dropdown';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SelectCustom = ({
@@ -34,47 +36,18 @@ const SelectCustom = ({
                 </Text>
               </FormControl.Label>
             )}
-            <Select
+            <Dropdown
+              itemTextStyle={{color: '#524B6B', fontSize: 13}}
+              selectedTextStyle={{color: '#524B6B', fontSize: 13}}
+              fontFamily="DMSans-Regular"
+              style={[styles.dropdown]}
+              data={options}
+              dropdownPosition="auto"
+              labelField="name"
+              valueField="id"
               value={field.value}
-              onValueChange={field.onChange}
-              minWidth="200"
-              borderRadius="10"
-              backgroundColor="myJobCustomColors.white"
-              accessibilityLabel={placeholder}
-              placeholder={placeholder}
-              shadow="myJobCustomShadows.0"
-              fontFamily="dMSansRegular"
-              fontSize="xs"
-              lineHeight="xs"
-              color="myJobCustomColors.mulledWine"
-              _selectedItem={{
-                bg: 'teal.600',
-                endIcon: <CheckIcon size={3} />,
-              }}
-              dropdownIcon={
-                <Icon
-                  as={<MaterialIcons name={'expand-more'} />}
-                  size={5}
-                  mr={1.5}
-                  color="myJobCustomColors.blueGrey"
-                />
-              }
-              dropdownOpenIcon={
-                <Icon
-                  as={<MaterialIcons name={'expand-less'} />}
-                  size={5}
-                  mr={1.5}
-                  color="myJobCustomColors.blueGrey"
-                />
-              }>
-              {options.map(value => (
-                <Select.Item
-                  label={value.name}
-                  value={value.id}
-                  key={value.id}
-                />
-              ))}
-            </Select>
+              onChange={item => field.onChange(item.id)}
+            />
             {fieldState.invalid && (
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}>
@@ -87,5 +60,19 @@ const SelectCustom = ({
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 16,
+  },
+  dropdown: {
+    height: 45,
+    borderColor: '#AAA6B9',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+});
 
 export default SelectCustom;

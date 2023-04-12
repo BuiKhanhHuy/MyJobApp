@@ -1,7 +1,14 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {StyleSheet} from 'react-native';
-import {Center, Divider, Spinner, Text, VStack, View} from 'native-base';
+import {
+  Center,
+  Divider,
+  Spinner,
+  Text,
+  VStack,
+  View,
+} from 'native-base';
 import HTMLView from 'react-native-htmlview';
 
 import {salaryString} from '../../utils/customData';

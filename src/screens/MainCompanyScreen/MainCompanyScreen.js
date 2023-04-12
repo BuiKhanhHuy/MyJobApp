@@ -1,17 +1,15 @@
 import React from 'react';
 import {Icon, Input, View} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
-
-import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
-import MainJobPostsCard from '../../components/MainJobPostsCard/MainJobPostsCard';
-import FilterButton from '../../components/formControls/FilterButton';
 import {SheetManager} from 'react-native-actions-sheet';
 
-const MainJobPostScreen = ({navigation}) => {
+import {useLayout} from '../../hooks';
+import FilterButton from '../../components/formControls/FilterButton';
+import MainCompanyCard from '../../components/MainCompanyCard/MainCompanyCard';
+import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+
+const MainCompanyScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
-  const [openPopup, setOpenPopup] = React.useState(false);
-  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -36,9 +34,8 @@ const MainJobPostScreen = ({navigation}) => {
           fontFamily="dMSansRegular"
           fontSize="xs"
           color="myJobCustomColors.darkIndigo"
-          placeholder="Từ khóa tìm kiếm"
+          placeholder="Tên công ty, lĩnh vực tìm kiếm"
           lineHeight="2xs"
-          onPressIn={() => navigation.navigate('MainJobPostScreen')}
         />
       ),
       headerRight: () => <FilterButton onPress={handleFilter} />,
@@ -46,24 +43,14 @@ const MainJobPostScreen = ({navigation}) => {
   }, []);
 
   const handleFilter = () => {
-    SheetManager.show('filter-job-post-sheet');
+    SheetManager.show('filter-company-sheet');
   };
 
   return (
-    <View onLayout={handleLayout}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <View px="5">
-            {/* Start: MainJobPostsCard */}
-            <MainJobPostsCard />
-            {/* End: MainJobPostsCard */}
-          </View>
-        </>
-      )}
+    <View style={{padding: 16}} onLayout={handleLayout}>
+      {isLayoutLoading ? <BackdropLoading /> : <MainCompanyCard />}
     </View>
   );
 };
 
-export default MainJobPostScreen;
+export default MainCompanyScreen;

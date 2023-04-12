@@ -21,6 +21,7 @@ export const ICONS = {
   LINKEDIN: require('../assets/images/icons/linkedin-icon.png'),
   YOUTUBE: require('../assets/images/icons/youtube-icon.png'),
   LOCATION: require('../assets/images/icons/location-icon.png'),
+  FILTER: require('../assets/images/icons/filter-icon.png')
 };
 
 export const COLOR = {

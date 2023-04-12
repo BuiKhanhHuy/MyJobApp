@@ -10,7 +10,7 @@ import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeRouter from './home.routes';
-import DiscoverRouter from './discover.routes';
+import NotificationRouter from './notification.routes';
 import ProfileRouter from './profile.routes';
 import SearchRouter from './search.routes';
 
@@ -27,9 +27,9 @@ export default BottomTabNavigator = () => {
         icon = 'ios-search-outline';
         label = 'Việc làm';
         break;
-      case 'DiscoverTab':
-        icon = 'paw-outline';
-        label = 'Khám phá';
+      case 'NotificationTab':
+        icon = 'notifications-outline';
+        label = 'Thông báo';
         break;
       case 'ProfileTab':
         icon = 'person-outline';
@@ -110,8 +110,8 @@ export default BottomTabNavigator = () => {
       />
       <CurvedBottomBar.Screen
         position="RIGHT"
-        name="DiscoverTab"
-        component={DiscoverRouter}
+        name="NotificationTab"
+        component={NotificationRouter}
       />
       <CurvedBottomBar.Screen
         position="RIGHT"

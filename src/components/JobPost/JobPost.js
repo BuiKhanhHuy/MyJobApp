@@ -2,7 +2,15 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
-import {Text, View, Image, StyleSheet, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {HStack, Skeleton} from 'native-base';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -27,6 +35,8 @@ const JobPost = ({
   companyImageUrl,
   updateAt,
 }) => {
+  const navigation = useNavigation();
+
   const {allConfig} = useSelector(state => state.config);
 
   const keyworkDescription = name => {
@@ -59,11 +69,18 @@ const JobPost = ({
           <Image source={{uri: companyImageUrl}} style={styles.logo} alt="" />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
-          <Feather name="bookmark" size={20} color={'#524b6b'} />
+          <TouchableOpacity onPress={() => console.log('Click button')}>
+            <Feather name="bookmark" size={20} color={'#524b6b'} />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{paddingTop: 10}}>
         <Text
+          onPress={() =>
+            navigation.navigate('JobPostDetailScreen', {
+              id: id,
+            })
+          }
           style={{
             fontFamily: 'DMSans-Bold',
             color: '#150a33',

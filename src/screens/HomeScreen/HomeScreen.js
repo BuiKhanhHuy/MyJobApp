@@ -6,6 +6,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {HOME_FILTER_CAREER, ROLES_NAME} from '../../configs/constants';
 
 import JobTypePopulars from '../../components/JobTypePopulars';
+import FilterCompanyCard from '../../components/FilterCompanyCard/FilterCompanyCard';
 import FilterJobPostsCard from '../../components/FilterJobPostsCard';
 import SuggestedJobPostCard from '../../components/SuggestedJobPostCard';
 
@@ -63,6 +64,31 @@ const HomeScreen = ({navigation}) => {
               </View>
             </View>
 
+            <View marginTop={10}>
+              <View>
+                <HStack space={3} justifyContent="space-between">
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    Công ty nổi bậc
+                  </Text>
+                  <Text
+                    fontFamily="DMSans-Regular"
+                    color="myJobCustomColors.neonCarrot"
+                    onPress={() => navigation.navigate('MainCompanyScreen')}>
+                    Xem Thêm
+                  </Text>
+                </HStack>
+              </View>
+              <View paddingTop={4}>
+                {/* Start: FilterCompanyCard */}
+                <FilterCompanyCard />
+                {/* End: FilterCompanyCard */}
+              </View>
+            </View>
+
             {isAuthenticated &&
               currentUser?.roleName === ROLES_NAME.JOB_SEEKER && (
                 <View marginTop={10}>
@@ -77,7 +103,7 @@ const HomeScreen = ({navigation}) => {
                       </Text>
                       <Text
                         fontFamily="DMSans-Regular"
-                        color="myJobCustomColors.haitiBluePurple"
+                        color="myJobCustomColors.neonCarrot"
                         onPress={() =>
                           navigation.navigate('SuggestedJobPostScreen', {
                             headerTitle: 'Việc làm gợi ý',
@@ -109,7 +135,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                   <Text
                     fontFamily="DMSans-Regular"
-                    color="myJobCustomColors.haitiBluePurple"
+                    color="myJobCustomColors.neonCarrot"
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: 'Việc làm tuyển gấp',
@@ -142,7 +168,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                   <Text
                     fontFamily="DMSans-Regular"
-                    color="myJobCustomColors.haitiBluePurple"
+                    color="myJobCustomColors.neonCarrot"
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[0].name}`,
@@ -180,7 +206,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                   <Text
                     fontFamily="DMSans-Regular"
-                    color="myJobCustomColors.haitiBluePurple"
+                    color="myJobCustomColors.neonCarrot"
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[1].name}`,

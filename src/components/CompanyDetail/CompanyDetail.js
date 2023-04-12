@@ -130,7 +130,7 @@ const CompanyDetail = ({
                   href={websiteUrl}
                   isExternal
                   _text={{
-                    color: 'blue.400',
+                    color: 'myJobCustomColors.blueLotus',
                   }}
                   mt={-0.5}
                   _web={{
