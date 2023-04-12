@@ -38,7 +38,7 @@
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
     <meta-data android:name="com.facebook.sdk.ClientToken"
       android:value="@string/facebook_client_token" />
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDZojuqfYNGp6h0faAIuL2xAYa2my4AVMw" />
+    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB0CNE--ZeHLrrSd8kadI997OmBUaXx94E" />
 
     <activity android:name="com.facebook.FacebookActivity"
       android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"

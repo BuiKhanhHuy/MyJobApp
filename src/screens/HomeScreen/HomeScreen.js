@@ -77,6 +77,7 @@ const HomeScreen = ({navigation}) => {
                       </Text>
                       <Text
                         fontFamily="DMSans-Regular"
+                        color="myJobCustomColors.haitiBluePurple"
                         onPress={() =>
                           navigation.navigate('SuggestedJobPostScreen', {
                             headerTitle: 'Việc làm gợi ý',
@@ -108,6 +109,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                   <Text
                     fontFamily="DMSans-Regular"
+                    color="myJobCustomColors.haitiBluePurple"
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: 'Việc làm tuyển gấp',
@@ -140,6 +142,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                   <Text
                     fontFamily="DMSans-Regular"
+                    color="myJobCustomColors.haitiBluePurple"
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[0].name}`,
@@ -177,6 +180,7 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                   <Text
                     fontFamily="DMSans-Regular"
+                    color="myJobCustomColors.haitiBluePurple"
                     onPress={() =>
                       navigation.navigate('FilterJobPostScreen', {
                         headerTitle: `Việc làm ngành ${HOME_FILTER_CAREER[1].name}`,

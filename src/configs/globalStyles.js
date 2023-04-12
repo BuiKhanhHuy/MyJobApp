@@ -16,6 +16,13 @@ export const LOGO_IMAGE = {
 
 export const IMAGES = {};
 
+export const ICONS = {
+  FACEBOOK: require('../assets/images/icons/facebook-icon.png'),
+  LINKEDIN: require('../assets/images/icons/linkedin-icon.png'),
+  YOUTUBE: require('../assets/images/icons/youtube-icon.png'),
+  LOCATION: require('../assets/images/icons/location-icon.png'),
+};
+
 export const COLOR = {
   myJobCustomColors: {
     white: '#FFFFFF',

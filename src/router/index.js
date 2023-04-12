@@ -20,6 +20,7 @@ import SpecializationScreen from '../screens/SpecializationScreen';
 import FilterJobPostScreen from '../screens/FilterJobPostScreen';
 import SuggestedJobPostScreen from '../screens/SuggestedJobPostScreen';
 import MainJobPostScreen from '../screens/MainJobPostScreen';
+import JobPostDetailScreen from '../screens/JobPostDetailScreen/JobPostDetailScreen';
 // ChatBot
 import ChatBotScreen from '../screens/ChatBotScreen';
 // Discover
@@ -35,7 +36,7 @@ const Router = () => {
 
   return (
     <RootStack.Navigator
-      initialRouteName="MainTab"
+      initialRouteName="JobPostDetailScreen"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
@@ -96,6 +97,13 @@ const Router = () => {
             options={{
               headerTransparent: false,
             }}
+          />
+           <RootStack.Screen
+            name="JobPostDetailScreen"
+            options={{
+              headerShown: false
+            }}
+            component={JobPostDetailScreen}
           />
           <RootStack.Screen name="FilterScreen" component={FilterScreen} />
         </RootStack.Group>
