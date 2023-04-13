@@ -7,7 +7,7 @@ import ProfileCard from '../ProfileCard';
 
 const EducationCard = () => {
   return (
-    <ProfileCard titleIcon="graduation" title="Education" isShowDivider={true}>
+    <ProfileCard titleIcon="graduation" title="Học vấn" isShowDivider={true}>
       <View>
         <VStack space={5}>
           {[1, 2, 3, 4].map(val => (
@@ -26,9 +26,16 @@ const EducationCard = () => {
                     </Box>
                   </HStack>
                 </View>
-                <View>
+                <HStack space={2}>
                   <Icon
-                    size="lg"
+                    size="md"
+                    marginRight={1}
+                    as={AntDesign}
+                    name="delete"
+                    color="myJobCustomColors.roseMadder"
+                  />
+                  <Icon
+                    size="md"
                     marginRight={1.5}
                     as={AntDesign}
                     name="edit"
@@ -37,7 +44,7 @@ const EducationCard = () => {
                       color: 'myJobCustomColors.deepSaffron',
                     }}
                   />
-                </View>
+                </HStack>
               </HStack>
               <Box paddingBottom={1}>
                 <Text

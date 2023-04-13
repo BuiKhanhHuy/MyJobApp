@@ -1,14 +1,16 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useForm} from 'react-hook-form';
 import {Text, useTheme, View, VStack} from 'native-base';
 import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
 import ButtonCustom from '../../ButtonCustom';
 import SelectCustom from '../../formControls/SelectCustom/SelectCustom';
+import { searchJobPost } from '../../../redux/filterSlice';
 
 function ActionSheetFilterJobPost({sheetId}) {
   const {sizes} = useTheme();
+  const dispatch = useDispatch()
   const {allConfig} = useSelector(state => state.config);
   const {jobPostFilter} = useSelector(state => state.filter);
 
@@ -22,7 +24,7 @@ function ActionSheetFilterJobPost({sheetId}) {
   }, [jobPostFilter, reset]);
 
   const handleFilter = data => {
-    console.log(data);
+    dispatch(searchJobPost(data))
     SheetManager.hide(sheetId);
   };
 

@@ -24,7 +24,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     searchJobPost: (state, action) => {
-      state.jobPostFilter = action.payload;
+      state.jobPostFilter = {...state.jobPostFilter, ...action.payload};
     },
     resetSearchJobPostFilter: state => {
       state.jobPostFilter = {
@@ -41,7 +41,7 @@ export const userSlice = createSlice({
       };
     },
     searchCompany: (state, action) => {
-      state.companyFilter = action.payload;
+      state.companyFilter = {...state.companyFilter, ...action.payload};
     },
     resetSearchCompany: state => {
       state.companyFilter = {

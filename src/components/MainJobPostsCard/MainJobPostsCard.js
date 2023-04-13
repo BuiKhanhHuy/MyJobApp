@@ -9,15 +9,18 @@ import jobService from '../../services/jobService';
 const MainJobPostsCard = () => {
   const {jobPostFilter} = useSelector(state => state.filter);
   const {pageSize} = jobPostFilter;
-  const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
+    setIsLoading(true);
+  }, [jobPostFilter]);
+
+  React.useEffect(() => {
     const getJobPosts = async jobPostFilter => {
-      setIsLoading(true);
       try {
         const resData = await jobService.getJobPosts({
           ...jobPostFilter,
@@ -29,8 +32,8 @@ const MainJobPostsCard = () => {
         setJobPosts(data.results);
       } catch (error) {
       } finally {
-        setIsFirstLoading(false);
         setIsLoading(false);
+        setIsLoadMoreLoading(false);
       }
     };
 
@@ -41,7 +44,7 @@ const MainJobPostsCard = () => {
   const handleLoadMore = () => {
     if (Math.ceil(count / pageSize) > page) {
       setPage(page + 1);
-      setIsLoading(true);
+      setIsLoadMoreLoading(true);
     }
   };
 
@@ -50,8 +53,8 @@ const MainJobPostsCard = () => {
       <View>
         <Text>1 việc làm</Text>
       </View>
-      {isFirstLoading ? (
-        Array.from(Array(5).keys()).map(value => (
+      {isLoading ? (
+        Array.from(Array(3).keys()).map(value => (
           <JobPost.Loading key={value} />
         ))
       ) : jobPosts.length === 0 ? (
@@ -82,7 +85,7 @@ const MainJobPostsCard = () => {
           )}
           keyExtractor={item => item.id}
           ListFooterComponent={
-            isLoading ? (
+            isLoadMoreLoading ? (
               <Center my="3">
                 <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
               </Center>

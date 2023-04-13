@@ -1,14 +1,16 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useForm} from 'react-hook-form';
 import {Text, useTheme, View, VStack} from 'native-base';
 import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
 import ButtonCustom from '../../ButtonCustom';
 import SelectCustom from '../../formControls/SelectCustom/SelectCustom';
+import { searchCompany } from '../../../redux/filterSlice';
 
 function ActionSheetFilterCompany({sheetId}) {
   const {sizes} = useTheme();
+  const dispatch = useDispatch()
   const {allConfig} = useSelector(state => state.config);
   const {companyFilter} = useSelector(state => state.filter);
 
@@ -22,7 +24,7 @@ function ActionSheetFilterCompany({sheetId}) {
   }, [companyFilter, reset]);
 
   const handleFilter = data => {
-    console.log(data);
+    dispatch(searchCompany(data))
     SheetManager.hide(sheetId);
   };
 

@@ -52,6 +52,11 @@ const HOME_FILTER_CAREER = [
   },
 ];
 
+const SEARCH_TYPE_WITH_KEYWORD = {
+  JOB_POST_SEARCH: 'JOB_POST_SEARCH',
+  COMPANY_SEARCH: 'COMPANY_SEARCH',
+};
+
 const REGEX_VATIDATE = {
   phoneRegExp:
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
@@ -68,7 +73,7 @@ const DATE_OPTIONS = {
   yesterday: dayjs().add(-1, 'day'),
   today: dayjs(),
   tomorrow: dayjs().add(1, 'day'),
-  dayCustom: (num) => dayjs().add(num, 'day'),
+  dayCustom: num => dayjs().add(num, 'day'),
 };
 
 export {
@@ -77,6 +82,7 @@ export {
   AUTH_CONFIG,
   ROLES_NAME,
   HOME_FILTER_CAREER,
+  SEARCH_TYPE_WITH_KEYWORD,
   REGEX_VATIDATE,
   CV_TYPES,
   DATE_OPTIONS,

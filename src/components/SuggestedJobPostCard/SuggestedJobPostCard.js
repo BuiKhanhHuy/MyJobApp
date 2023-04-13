@@ -88,7 +88,7 @@ const SuggestedJobPostCard = ({
   return (
     <View style={styles.container}>
       {isFirstLoading ? (
-        Array.from(Array(5).keys()).map(value => <JobPost.Loading key={value}/>)
+        Array.from(Array(3).keys()).map(value => <JobPost.Loading key={value}/>)
       ) : jobPosts.length === 0 ? (
         <Text>Rong</Text>
       ) : (

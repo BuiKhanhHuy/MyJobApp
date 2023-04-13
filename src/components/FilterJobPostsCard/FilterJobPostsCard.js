@@ -5,7 +5,7 @@ import {StyleSheet} from 'react-native';
 import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
 
-const FilterJobPostCard = ({pageSize=12, isPagination = false, params}) => {
+const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
@@ -19,7 +19,7 @@ const FilterJobPostCard = ({pageSize=12, isPagination = false, params}) => {
         const resData = await jobService.getJobPosts({
           ...params,
           page: page,
-          pageSize: pageSize
+          pageSize: pageSize,
         });
         const data = resData.data;
 
@@ -47,7 +47,7 @@ const FilterJobPostCard = ({pageSize=12, isPagination = false, params}) => {
     return (
       <View style={styles.container}>
         {isFirstLoading ? (
-          Array.from(Array(5).keys()).map(value => (
+          Array.from(Array(3).keys()).map(value => (
             <JobPost.Loading key={value} />
           ))
         ) : jobPosts.length === 0 ? (
@@ -83,7 +83,7 @@ const FilterJobPostCard = ({pageSize=12, isPagination = false, params}) => {
   return (
     <View style={styles.container}>
       {isFirstLoading ? (
-        Array.from(Array(5).keys()).map(value => (
+        Array.from(Array(3).keys()).map(value => (
           <JobPost.Loading key={value} />
         ))
       ) : jobPosts.length === 0 ? (

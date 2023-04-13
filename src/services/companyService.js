@@ -15,12 +15,12 @@ const companyService = {
     return httpRequest.get(url);
   },
   followCompany: id => {
-    const url = `/api/info/web/companies/${id}/followed/`;
+    const url = `/api/info/app/companies/${id}/followed/`;
 
     return httpRequest.post(url);
   },
   getTopCompanies: () => {
-    const url = `/api/info/web/companies/top/`;
+    const url = `/api/info/app/companies/top/`;
 
     return httpRequest.get(url);
   },

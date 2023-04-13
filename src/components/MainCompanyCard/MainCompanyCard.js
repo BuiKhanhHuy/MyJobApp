@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Center, FlatList, Spinner, Text, View} from 'native-base';
 
+import toastMessages from '../../utils/toastMessages';
 import Company from '../Company/Company';
 
 import companyService from '../../services/companyService';
@@ -9,15 +10,18 @@ import companyService from '../../services/companyService';
 const MainCompanyCard = () => {
   const {companyFilter} = useSelector(state => state.filter);
   const {pageSize} = companyFilter;
-  const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [companies, setCompanies] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
+    setIsLoading(true);
+  }, [companyFilter]);
+
+  React.useEffect(() => {
     const getCompanies = async companyFilter => {
-      setIsLoading(true);
       try {
         const resData = await companyService.getCompanies({
           ...companyFilter,
@@ -28,9 +32,10 @@ const MainCompanyCard = () => {
         setCount(data.count);
         setCompanies(data.results);
       } catch (error) {
+        toastMessages.error();
       } finally {
-        setIsFirstLoading(false);
         setIsLoading(false);
+        setIsLoadMoreLoading(false);
       }
     };
 
@@ -47,7 +52,7 @@ const MainCompanyCard = () => {
 
   return (
     <View>
-      {isFirstLoading ? (
+      {isLoading ? (
         <FlatList
           numColumns={2}
           data={Array.from(Array(6).keys())}
@@ -77,12 +82,13 @@ const MainCompanyCard = () => {
           )}
           keyExtractor={item => item.id}
           ListFooterComponent={
-            isLoading ? (
+            isLoadMoreLoading ? (
               <Center my="3">
                 <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
               </Center>
             ) : null
           }
+          onEndReached={handleLoadMore}
           onEndReachedThreshold={0.2}
         />
       )}
@@ -90,4 +96,4 @@ const MainCompanyCard = () => {
   );
 };
 
-export default MainCompanyCard;
+export default React.memo(MainCompanyCard);

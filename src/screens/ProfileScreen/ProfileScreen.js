@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   HStack,
-  Icon,
   ScrollView,
   Text,
   useTheme,
@@ -19,11 +18,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
 
-import AboutMeCard from '../components/profileCards/AboutMeCard';
-import WorkExperienceCard from '../components/profileCards/WorkExperienceCard';
-import EducationCard from '../components/profileCards/EducationCard';
-
 import {removeUserInfo} from '../../redux/userSlice';
+import BoxProfileCard from '../components/profileCards/BoxProfileCard/BoxProfileCard';
+import ProfileUploadCard from '../components/profileCards/ProfileUploadCard/ProfileUploadCard';
+import MyCareerCenterCard from '../components/profileCards/MyCareerCenterCard/MyCareerCenterCard';
 
 const ProfileScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
@@ -40,7 +38,7 @@ const ProfileScreen = ({navigation}) => {
 
   return (
     <View flex={1} onLayout={handleLayout}>
-      {isLayoutLoading ? (
+      {false ? (
         <BackdropLoading />
       ) : (
         <>
@@ -164,9 +162,48 @@ const ProfileScreen = ({navigation}) => {
           <View flex={5} padding={6}>
             <ScrollView height="100%" showsVerticalScrollIndicator={false}>
               <VStack space={4}>
-                <AboutMeCard />
-                <WorkExperienceCard />
-                <EducationCard />
+                <View>
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    MyJob profile
+                  </Text>
+                  <View paddingTop={4}>
+                    {/* Start: BoxProfileCard */}
+                    <BoxProfileCard />
+                    {/* End: BoxProfileCard */}
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    CV đã tải lên MyJob
+                  </Text>
+                  <View paddingTop={4}>
+                    {/* Start: ProfileUploadCard */}
+                    <ProfileUploadCard />
+                    {/* End: ProfileUploadCard */}
+                  </View>
+                </View>
+                <View>
+                  <Text
+                    fontFamily="DMSans-Bold"
+                    fontSize="lg"
+                    lineHeight="sm"
+                    color="myJobCustomColors.haitiBluePurple">
+                    Trung tâm nghề nghiệp của tôi
+                  </Text>
+                  <View paddingTop={4}>
+                    {/* Start: MyCareerCenterCard */}
+                    <MyCareerCenterCard />
+                    {/* End: MyCareerCenterCard */}
+                  </View>
+                </View>
               </VStack>
             </ScrollView>
           </View>

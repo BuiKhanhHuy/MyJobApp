@@ -20,14 +20,19 @@ import SpecializationScreen from '../screens/SpecializationScreen';
 import FilterJobPostScreen from '../screens/FilterJobPostScreen';
 import SuggestedJobPostScreen from '../screens/SuggestedJobPostScreen';
 import MainJobPostScreen from '../screens/MainJobPostScreen';
-import JobPostDetailScreen from '../screens/JobPostDetailScreen/JobPostDetailScreen';
+import JobPostDetailScreen from '../screens/JobPostDetailScreen';
+import CompanyDetailScreen from '../screens/CompanyDetailScreen';
 
-import MainCompanyScreen from '../screens/MainCompanyScreen/MainCompanyScreen';
+import MainCompanyScreen from '../screens/MainCompanyScreen';
 // ChatBot
 import ChatBotScreen from '../screens/ChatBotScreen';
 // Notification
 
 // Profile
+import OnlineProfileScreen from '../screens/OnlineProfileScreen';
+import AttachedProfileScreen from '../screens/AttachedProfileScreen';
+import MyJobScreen from '../screens/MyJobScreen';
+import MyCompanyScreen from '../screens/MyCompanyScreen';
 import AboutMeScreen from '../screens/AboutMeScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
@@ -99,6 +104,10 @@ const Router = () => {
             name="JobPostDetailScreen"
             component={JobPostDetailScreen}
           />
+          <RootStack.Screen
+            name="CompanyDetailScreen"
+            component={CompanyDetailScreen}
+          />
 
           <RootStack.Screen
             name="MainCompanyScreen"
@@ -119,6 +128,29 @@ const Router = () => {
 
         {/* Start: Profile */}
         <RootStack.Group>
+          <RootStack.Screen
+            name="OnlineProfileScreen"
+            component={OnlineProfileScreen}
+          />
+          <RootStack.Screen
+            name="AttachedProfileScreen"
+            component={AttachedProfileScreen}
+          />
+          <RootStack.Screen
+            name="MyJobScreen"
+            component={MyJobScreen}
+            options={{
+              title: 'Việc làm của tôi',
+            }}
+          />
+          <RootStack.Screen
+            name="MyCompanyScreen"
+            component={MyCompanyScreen}
+            options={{
+              title: 'Công ty của tôi',
+            }}
+          />
+
           <RootStack.Screen name="AboutMeScreen" component={AboutMeScreen} />
         </RootStack.Group>
         {/* End: Profile */}

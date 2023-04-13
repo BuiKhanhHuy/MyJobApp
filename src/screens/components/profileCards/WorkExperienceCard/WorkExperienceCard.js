@@ -8,7 +8,7 @@ const WorkExperienceCard = () => {
   return (
     <ProfileCard
       titleIcon="briefcase"
-      title="Work experience"
+      title="Kinh nghiệm"
       isShowDivider={true}>
       <View>
         <VStack space={5}>
@@ -28,9 +28,16 @@ const WorkExperienceCard = () => {
                     </Box>
                   </HStack>
                 </View>
-                <View>
+                <HStack space={2}>
                   <Icon
-                    size="lg"
+                    size="md"
+                    marginRight={1}
+                    as={AntDesign}
+                    name="delete"
+                    color="myJobCustomColors.roseMadder"
+                  />
+                  <Icon
+                    size="md"
                     marginRight={1.5}
                     as={AntDesign}
                     name="edit"
@@ -39,7 +46,7 @@ const WorkExperienceCard = () => {
                       color: 'myJobCustomColors.deepSaffron',
                     }}
                   />
-                </View>
+                </HStack>
               </HStack>
               <Box paddingBottom={1}>
                 <Text

@@ -14,14 +14,16 @@ export const LOGO_IMAGE = {
   // coverImageDefault: require('../assets/images/cover-image-default.webp'),
 };
 
-export const IMAGES = {};
+export const IMAGES = {
+  DATA_NOT_FOUND: require('../assets/images/data-not-found.png'),
+};
 
 export const ICONS = {
   FACEBOOK: require('../assets/images/icons/facebook-icon.png'),
   LINKEDIN: require('../assets/images/icons/linkedin-icon.png'),
   YOUTUBE: require('../assets/images/icons/youtube-icon.png'),
   LOCATION: require('../assets/images/icons/location-icon.png'),
-  FILTER: require('../assets/images/icons/filter-icon.png')
+  FILTER: require('../assets/images/icons/filter-icon.png'),
 };
 
 export const COLOR = {

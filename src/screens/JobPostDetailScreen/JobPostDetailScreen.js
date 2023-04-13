@@ -46,6 +46,7 @@ const MenuButtonComponent = ({tab, setTab}) => {
               : 'myJobCustomColors.moonrakerPurplyBlue'
           }>
           <Text
+            fontFamily="DMSans-Bold"
             color={
               tab === 0
                 ? 'myJobCustomColors.white'
@@ -66,6 +67,7 @@ const MenuButtonComponent = ({tab, setTab}) => {
               : 'myJobCustomColors.moonrakerPurplyBlue'
           }>
           <Text
+            fontFamily="DMSans-Bold"
             color={
               tab === 1
                 ? 'myJobCustomColors.white'
@@ -299,7 +301,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                       Việc làm gợi ý
                     </Text>
                     <Text
-                      fontFamily="DMSans-Regular"
+                      fontFamily="DMSans-Bold"
                       color="myJobCustomColors.neonCarrot"
                       onPress={() =>
                         navigation.navigate('SuggestedJobPostScreen', {
