@@ -1,6 +1,8 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment-timezone';
+import 'moment/locale/vi';
 import {
   Box,
   AspectRatio,
@@ -10,11 +12,12 @@ import {
   Stack,
   Icon,
   Button,
+  Skeleton,
 } from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const CvUploadCard = () => {
+const CvUploadCard = ({id, title, updateAt, imageUrl, fileUrl, isActive}) => {
   const navigation = useNavigation();
 
   return (
@@ -23,10 +26,10 @@ const CvUploadCard = () => {
       borderRadius="2xl"
       backgroundColor="myJobCustomColors.white">
       <Box>
-        <AspectRatio w="100%" ratio={16 / 9}>
+        <AspectRatio w="300" ratio={16 / 9}>
           <Image
             source={{
-              uri: 'https://www.holidify.com/images/cmsuploads/compressed/Bangalore_citycover_20190613234056.jpg',
+              uri: imageUrl,
             }}
             alt="image"
           />
@@ -55,14 +58,14 @@ const CvUploadCard = () => {
             fontSize="lg"
             lineHeight="sm"
             color="myJobCustomColors.haitiBluePurple">
-            Lập trình viên Python
+            {title}
           </Text>
           <Text
             fontFamily="dMSansRegular"
             fontSize="xs"
             lineHeight="sm"
             color="myJobCustomColors.mulledWine">
-            Cập nhật lần cuối: 27/02/2001
+            Cập nhật lần cuối: {moment(updateAt).format('DD/MM/YYYY')}
           </Text>
         </Stack>
         <HStack alignItems="center" space={4} justifyContent="flex-end">
@@ -81,9 +84,11 @@ const CvUploadCard = () => {
             color="myJobCustomColors.deepSaffron"
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate('AttachedProfileScreen', {
-              headerTitle: "HIHI"
-            })}>
+            onPress={() =>
+              navigation.navigate('AttachedProfileScreen', {
+                headerTitle: 'HIHI',
+              })
+            }>
             <Icon
               size="lg"
               marginRight={1}
@@ -97,5 +102,33 @@ const CvUploadCard = () => {
     </Box>
   );
 };
+
+const Loading = () => (
+  <>
+    <Box
+      overflow="hidden"
+      borderRadius="2xl"
+      backgroundColor="myJobCustomColors.white">
+      <Box>
+        <AspectRatio w="100%" ratio={16 / 9}>
+          <Skeleton height="100%" />
+        </AspectRatio>
+      </Box>
+      <Stack padding={6} space={3}>
+        <Stack space={2}>
+          <Skeleton h={6} rounded="md" />
+          <Skeleton h={3} rounded="md" />
+        </Stack>
+        <HStack alignItems="center" space={4} justifyContent="flex-end">
+          <Skeleton h="8" w="10" rounded="md" />
+          <Skeleton h="8" w="10" rounded="md" />
+          <Skeleton h="8" w="10" rounded="md" />
+        </HStack>
+      </Stack>
+    </Box>
+  </>
+);
+
+CvUploadCard.Loading = Loading;
 
 export default CvUploadCard;

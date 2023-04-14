@@ -1,5 +1,5 @@
 import React from 'react';
-import {Center, HStack, ScrollView, View} from 'native-base';
+import {Center, HStack, ScrollView, View, Text} from 'native-base';
 
 import Company from '../Company/Company';
 import companyService from '../../services/companyService';

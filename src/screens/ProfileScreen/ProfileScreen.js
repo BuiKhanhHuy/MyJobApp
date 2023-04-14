@@ -38,7 +38,7 @@ const ProfileScreen = ({navigation}) => {
 
   return (
     <View flex={1} onLayout={handleLayout}>
-      {false ? (
+      {isLayoutLoading ? (
         <BackdropLoading />
       ) : (
         <>

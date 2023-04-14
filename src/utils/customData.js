@@ -9,7 +9,7 @@ const convertMoney = n => {
 };
 
 const salaryString = (salaryFrom, salaryTo) => {
-  if (!salaryFrom && !salaryTo) return "? - ?";
+  if (!salaryFrom && !salaryTo) return "---";
   else
     return `${!salaryFrom ? '?' : convertMoney(salaryFrom)} - ${
       !salaryTo ? '?' : convertMoney(salaryTo)
