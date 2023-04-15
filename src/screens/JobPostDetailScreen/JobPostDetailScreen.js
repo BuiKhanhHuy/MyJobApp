@@ -103,7 +103,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
   const [tab, setTab] = React.useState(0);
   const [jobPostDetail, setJobPostDetail] = React.useState(null);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
       headerRight: () => (

@@ -9,7 +9,7 @@ const FilterJobPostScreen = ({route, navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {headerTitle, pageSize, params} = route.params;
 
-  React.useState(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({title: headerTitle});
   }, []);
 

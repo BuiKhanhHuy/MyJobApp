@@ -125,7 +125,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
   const [tab, setTab] = React.useState(0);
   const [companyDetail, setCompanyDetail] = React.useState(null);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
       headerRight: () => (

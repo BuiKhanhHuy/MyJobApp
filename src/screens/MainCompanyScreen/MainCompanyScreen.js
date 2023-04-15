@@ -13,7 +13,7 @@ import KeywordSearch from '../../components/KeywordSearch/KeywordSearch';
 const MainCompanyScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: props => (
         <KeywordSearch

@@ -10,7 +10,7 @@ const SuggestedJobPostScreen = ({route, navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {headerTitle, pageSize, params} = route.params;
 
-  React.useState(() => {
+  React.useLayoutEffect(() => {
     const interactionPromise = InteractionManager.runAfterInteractions(() =>
       navigation.setOptions({title: headerTitle}),
     );

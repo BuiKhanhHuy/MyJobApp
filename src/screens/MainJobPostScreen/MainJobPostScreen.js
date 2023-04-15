@@ -12,7 +12,7 @@ import KeywordSearch from '../../components/KeywordSearch/KeywordSearch';
 const MainJobPostScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: props => (
         <KeywordSearch searchType={SEARCH_TYPE_WITH_KEYWORD.JOB_POST_SEARCH} />
