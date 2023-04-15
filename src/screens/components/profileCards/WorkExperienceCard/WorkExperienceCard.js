@@ -9,6 +9,7 @@ import {
   View,
   VStack,
 } from 'native-base';
+import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
@@ -16,8 +17,11 @@ import 'moment/locale/vi';
 import toastMessages from '../../../../utils/toastMessages';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
+import {useSelector} from 'react-redux';
 
 const WorkExperienceCard = ({resumeId}) => {
+  const navigation = useNavigation();
+  const {isReloadExperience} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [experiencesDetail, setExperiencesDetail] = React.useState([]);
 
@@ -37,10 +41,19 @@ const WorkExperienceCard = ({resumeId}) => {
     };
 
     loadExperiencesDetail(resumeId);
-  }, [resumeId]);
+  }, [resumeId, isReloadExperience]);
 
   return (
-    <ProfileCard titleIcon="briefcase" title="Kinh nghiệm" isShowDivider={true}>
+    <ProfileCard
+      titleIcon="briefcase"
+      title="Kinh nghiệm"
+      isShowDivider={true}
+      onPressRightButton={() =>
+        navigation.navigate('AddOrEditExperienceScreen', {
+          id: null,
+          resumeId: resumeId
+        })
+      }>
       <View>
         <VStack space={5}>
           {isLoading ? (
@@ -83,6 +96,11 @@ const WorkExperienceCard = ({resumeId}) => {
                       _light={{
                         color: 'myJobCustomColors.deepSaffron',
                       }}
+                      onPress={() =>
+                        navigation.navigate('AddOrEditExperienceScreen', {
+                          id: value.id,
+                        })
+                      }
                     />
                   </HStack>
                 </HStack>

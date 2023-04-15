@@ -26,13 +26,18 @@ const SelectCustom = ({
       control={control}
       render={({field, fieldState}) => (
         <>
-          <FormControl
-            isRequired={showRequired}
-            isInvalid={fieldState.isInvalid}>
+          <FormControl isInvalid={fieldState.isInvalid}>
             {title && (
               <FormControl.Label>
-                <Text fontFamily="DMSans-Bold" fontSize="12">
-                  {title}
+                <Text
+                  fontFamily="dMSansMedium"
+                  fontSize="xs"
+                  color="myJobCustomColors.purpleBlue"
+                  paddingBottom="1">
+                  {title}{' '}
+                  {showRequired && (
+                    <Text color="myJobCustomColors.lavaRed">*</Text>
+                  )}
                 </Text>
               </FormControl.Label>
             )}
@@ -68,8 +73,8 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 45,
-    borderColor: '#AAA6B9',
-    borderWidth: 0.5,
+    backgroundColor: 'white',
+    borderWidth: 0 ,
     borderRadius: 8,
     paddingHorizontal: 8,
   },

@@ -2108,6 +2108,13 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native-community/datetimepicker@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-7.0.1.tgz"
+  integrity sha512-EllGpk6kbEUCvBDDTnHNLJhfkPOI2Yy+KWj3ImOeM9lAA6CkmFlj/mXGCEbfD/Ddu1U7egO/AwqOmG/Bx3IcEQ==
+  dependencies:
+    invariant "^2.2.4"
+
 "@react-native-community/eslint-config@^3.0.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@react-native-community/eslint-config/-/eslint-config-3.2.0.tgz"
@@ -3896,7 +3903,7 @@ d3-shape@*:
   dependencies:
     d3-path "^3.1.0"
 
-dayjs@^1.8.15:
+dayjs@^1.11.7, dayjs@^1.8.15:
   version "1.11.7"
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.7.tgz"
   integrity sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==

@@ -1,4 +1,6 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {
   Box,
   Center,
@@ -10,13 +12,15 @@ import {
   VStack,
 } from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Rating} from 'react-native-ratings';
+import {AirbnbRating} from 'react-native-ratings';
 
 import toastMessages from '../../../../utils/toastMessages';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 
 const AdvancedSkillCard = ({resumeId}) => {
+  const navigation = useNavigation();
+  const {isReloadAdvancedSkill} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [advancedSkills, setAdvancedSkills] = React.useState([]);
 
@@ -36,13 +40,19 @@ const AdvancedSkillCard = ({resumeId}) => {
     };
 
     loadAdvancedSkills(resumeId);
-  }, [resumeId]);
+  }, [resumeId, isReloadAdvancedSkill]);
 
   return (
     <ProfileCard
       titleIcon="trophy"
       title="Kỹ năng chuyên môn"
-      isShowDivider={true}>
+      isShowDivider={true}
+      onPressRightButton={() =>
+        navigation.navigate('AddOrEditAdvancedSkillScreen', {
+          id: null,
+          resumeId: resumeId,
+        })
+      }>
       <View>
         <VStack space={5}>
           {isLoading ? (
@@ -63,7 +73,7 @@ const AdvancedSkillCard = ({resumeId}) => {
                           lineHeight="sm"
                           fontSize="sm"
                           color="myJobCustomColors.haitiBluePurple">
-                          Information Technology
+                          {value?.name}
                         </Text>
                       </Box>
                     </HStack>
@@ -85,11 +95,24 @@ const AdvancedSkillCard = ({resumeId}) => {
                       _light={{
                         color: 'myJobCustomColors.deepSaffron',
                       }}
+                      onPress={() =>
+                        navigation.navigate('AddOrEditAdvancedSkillScreen', {
+                          id: value.id,
+                        })
+                      }
                     />
                   </HStack>
                 </HStack>
                 <HStack justifyContent="flex-start">
-                  <Rating defaultRating={10} imageSize={22} readonly />
+                  <AirbnbRating
+                    defaultRating={value.level}
+                    jumpValue={1}
+                    count={5}
+                    size={22}
+                    isDisabled={true}
+                    showRating={false}
+                    ratingContainerStyle={{marginRight: 'auto'}}
+                  />
                 </HStack>
               </View>
             ))

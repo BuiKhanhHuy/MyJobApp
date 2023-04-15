@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, VStack, View} from 'native-base';
+import {useHeaderHeight} from '@react-navigation/elements';
 
 import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
@@ -12,6 +13,7 @@ import LanguageSkillCard from '../components/profileCards/LanguageSkillCard';
 import AdvancedSkillCard from '../components/profileCards/AdvancedSkillCard';
 
 const OnlineProfileScreen = ({route, navigation}) => {
+  const headerHeight = useHeaderHeight();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {headerTitle, resumeId} = route.params;
 
@@ -20,7 +22,7 @@ const OnlineProfileScreen = ({route, navigation}) => {
   }, []);
 
   return (
-    <View padding={6} onLayout={handleLayout}>
+    <View padding={6} onLayout={handleLayout} style={{marginTop: headerHeight}}>
       {isLayoutLoading ? (
         <BackdropLoading />
       ) : (
@@ -31,7 +33,7 @@ const OnlineProfileScreen = ({route, navigation}) => {
             {/* End: PersonalProfileCard */}
 
             {/* Start: GeneralProfileCard */}
-            <GeneralProfileCard />
+            <GeneralProfileCard resumeId={resumeId} />
             {/* End: GeneralProfileCard */}
 
             {/* Start: WorkExperienceCard */}

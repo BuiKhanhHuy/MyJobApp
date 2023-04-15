@@ -16,10 +16,12 @@ const TextInputCustom = ({
   control,
   name,
   placeholder,
-  label = 'Email',
+  title = '',
   height = 'large',
+  showRequired = false,
   leftIconName = null,
   secureTextEntry = false,
+  keyboardType = 'default',
 }) => {
   const [show, setShow] = React.useState(false);
 
@@ -27,32 +29,33 @@ const TextInputCustom = ({
     <Controller
       control={control}
       name={name}
-      render={({
-        field: {value, onChange, onBlur},
-        fieldState: {error, invalid},
-      }) => (
+      render={({field, fieldState}) => (
         <Center>
-          <FormControl isInvalid={invalid}>
-            {label && (
+          <FormControl isInvalid={fieldState.invalid}>
+            {title && (
               <FormControl.Label>
                 <Text
                   fontFamily="dMSansMedium"
                   fontSize="xs"
                   color="myJobCustomColors.purpleBlue"
-                  paddingBottom="0.5">
-                  {label}
+                  paddingBottom="1">
+                  {title}{' '}
+                  {showRequired && (
+                    <Text color="myJobCustomColors.lavaRed">*</Text>
+                  )}
                 </Text>
               </FormControl.Label>
             )}
             <Input
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
+              keyboardType={keyboardType }
+              value={field.value}
+              onChangeText={field.onChange}
+              onBlur={field.onBlur}
               placeholder={placeholder}
               style={{height: height === 'large' ? 50 : 40}}
-              borderWidth={invalid ? '1' : '0'}
+              borderWidth={fieldState.invalid ? '1' : '0'}
               borderRadius="10"
-              isInvalid={invalid}
+              isInvalid={fieldState.invalid}
               invalidOutlineColor="myJobCustomColors.lightRed"
               backgroundColor="myJobCustomColors.white"
               shadow="myJobCustomShadows.0"
@@ -88,7 +91,7 @@ const TextInputCustom = ({
             />
             <FormControl.ErrorMessage
               leftIcon={<WarningOutlineIcon size="xs" />}>
-              {error && error.message}
+              {fieldState.error && fieldState?.error?.message}
             </FormControl.ErrorMessage>
           </FormControl>
         </Center>

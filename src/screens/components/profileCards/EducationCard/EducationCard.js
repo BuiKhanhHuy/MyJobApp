@@ -1,4 +1,6 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {
   Box,
   Center,
@@ -18,6 +20,8 @@ import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 
 const EducationCard = ({resumeId}) => {
+  const navigation = useNavigation();
+  const {isReloadEducation} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [educationsDetail, setEducationsDetail] = React.useState([]);
 
@@ -37,10 +41,19 @@ const EducationCard = ({resumeId}) => {
     };
 
     loadEducationsDetail(resumeId);
-  }, [resumeId]);
+  }, [resumeId, isReloadEducation]);
 
   return (
-    <ProfileCard titleIcon="graduation" title="Học vấn" isShowDivider={true}>
+    <ProfileCard
+      titleIcon="graduation"
+      title="Học vấn"
+      isShowDivider={true}
+      onPressRightButton={() =>
+        navigation.navigate('AddOrEditEducationScreen', {
+          id: null,
+          resumeId: resumeId,
+        })
+      }>
       <View>
         <VStack space={5}>
           {isLoading ? (
@@ -83,6 +96,11 @@ const EducationCard = ({resumeId}) => {
                       _light={{
                         color: 'myJobCustomColors.deepSaffron',
                       }}
+                      onPress={() =>
+                        navigation.navigate('AddOrEditEducationScreen', {
+                          id: value.id,
+                        })
+                      }
                     />
                   </HStack>
                 </HStack>

@@ -7,6 +7,8 @@ const ProfileCard = ({
   titleIcon = 'question',
   title = 'Title',
   isShowDivider = false,
+  iconName = 'plus',
+  onPressRightButton,
   children,
 }) => {
   return (
@@ -39,11 +41,12 @@ const ProfileCard = ({
         </View>
         <View flex={1}>
           <Button
+            onPress={onPressRightButton}
             borderRadius="full"
             backgroundColor="myJobCustomColors.deepSaffron:alpha.20">
             <Icon
               as={Entypo}
-              name="plus"
+              name={iconName}
               color="myJobCustomColors.deepSaffron"
               _light={{
                 color: 'myJobCustomColors.deepSaffron',

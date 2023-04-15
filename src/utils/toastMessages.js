@@ -44,7 +44,7 @@ const toastMessages = {
         return <ToastAlert id={id} message={message} status="success" />;
       },
       placement: 'top',
-      duration: 2000,
+      duration: 2500,
     }),
   error: (message = 'Có lỗi xảy ra! Thử lại') =>
     Toast.show({

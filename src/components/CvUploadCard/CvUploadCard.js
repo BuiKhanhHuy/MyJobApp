@@ -87,6 +87,7 @@ const CvUploadCard = ({id, title, updateAt, imageUrl, fileUrl, isActive}) => {
             onPress={() =>
               navigation.navigate('AttachedProfileScreen', {
                 headerTitle: 'HIHI',
+                resumeId: id
               })
             }>
             <Icon

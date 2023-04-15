@@ -1,5 +1,16 @@
 import React from 'react';
-import {Box, Center, HStack, Icon, Spinner, Text, View, VStack} from 'native-base';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {
+  Box,
+  Center,
+  HStack,
+  Icon,
+  Spinner,
+  Text,
+  View,
+  VStack,
+} from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
@@ -9,6 +20,8 @@ import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 
 const CertificateCard = ({resumeId}) => {
+  const navigation = useNavigation();
+  const {isReloadCertificate} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [certificates, setCertificates] = React.useState([]);
 
@@ -28,10 +41,19 @@ const CertificateCard = ({resumeId}) => {
     };
 
     loadCertificates(resumeId);
-  }, [resumeId]);
+  }, [resumeId, isReloadCertificate]);
 
   return (
-    <ProfileCard titleIcon="badge" title="Chứng chỉ" isShowDivider={true}>
+    <ProfileCard
+      titleIcon="badge"
+      title="Chứng chỉ"
+      isShowDivider={true}
+      onPressRightButton={() =>
+        navigation.navigate('AddOrEditCertificateScreen', {
+          id: null,
+          resumeId: resumeId,
+        })
+      }>
       <View>
         <VStack space={5}>
           {isLoading ? (
@@ -74,6 +96,11 @@ const CertificateCard = ({resumeId}) => {
                       _light={{
                         color: 'myJobCustomColors.deepSaffron',
                       }}
+                      onPress={() =>
+                        navigation.navigate('AddOrEditCertificateScreen', {
+                          id: value.id,
+                        })
+                      }
                     />
                   </HStack>
                 </HStack>

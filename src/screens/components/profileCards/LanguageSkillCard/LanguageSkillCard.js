@@ -1,4 +1,6 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {
   Box,
   Center,
@@ -10,13 +12,16 @@ import {
   VStack,
 } from 'native-base';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Rating} from 'react-native-ratings';
+import {AirbnbRating} from 'react-native-ratings';
 
 import toastMessages from '../../../../utils/toastMessages';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 
 const LanguageSkillCard = ({resumeId}) => {
+  const navigation = useNavigation();
+  const {allConfig} = useSelector(state => state.config);
+  const {isReloadLanguageSkill} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [languageSkills, setLanguageSkills] = React.useState([]);
 
@@ -36,13 +41,19 @@ const LanguageSkillCard = ({resumeId}) => {
     };
 
     loadLanguageSkills(resumeId);
-  }, [resumeId]);
+  }, [resumeId, isReloadLanguageSkill]);
 
   return (
     <ProfileCard
       titleIcon="book-open"
       title="Kỹ năng ngôn ngữ"
-      isShowDivider={true}>
+      isShowDivider={true}
+      onPressRightButton={() =>
+        navigation.navigate('AddOrEditLanguageSkillScreen', {
+          id: null,
+          resumeId: resumeId,
+        })
+      }>
       <View>
         <VStack space={5}>
           {isLoading ? (
@@ -63,7 +74,7 @@ const LanguageSkillCard = ({resumeId}) => {
                           lineHeight="sm"
                           fontSize="sm"
                           color="myJobCustomColors.haitiBluePurple">
-                          Information Technology
+                          {allConfig?.languageDict[value?.language]}
                         </Text>
                       </Box>
                     </HStack>
@@ -85,11 +96,24 @@ const LanguageSkillCard = ({resumeId}) => {
                       _light={{
                         color: 'myJobCustomColors.deepSaffron',
                       }}
+                      onPress={() =>
+                        navigation.navigate('AddOrEditLanguageSkillScreen', {
+                          id: value.id,
+                        })
+                      }
                     />
                   </HStack>
                 </HStack>
                 <HStack justifyContent="flex-start">
-                  <Rating defaultRating={10} imageSize={22} readonly />
+                  <AirbnbRating
+                    defaultRating={value.level}
+                    jumpValue={1}
+                    count={5}
+                    size={22}
+                    isDisabled={true}
+                    showRating={false}
+                    ratingContainerStyle={{marginRight: 'auto'}}
+                  />
                 </HStack>
               </View>
             ))

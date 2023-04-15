@@ -30,8 +30,8 @@ const resumeService = {
       },
     });
   },
-  updateResume: (resumeSlug, data) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/`;
+  updateResume: (id, data) => {
+    const url = `api/info/app/private-resumes/${id}/`;
 
     return httpRequest.put(url, data);
   },

@@ -15,7 +15,6 @@ import SuccessfullyScreen from '../screens/SuccessfullyScreen';
 import BottomTabNavigator from './bottomNavigator.routes';
 // Home
 // Search
-import FilterScreen from '../screens/FilterScreen';
 import SpecializationScreen from '../screens/SpecializationScreen';
 import FilterJobPostScreen from '../screens/FilterJobPostScreen';
 import SuggestedJobPostScreen from '../screens/SuggestedJobPostScreen';
@@ -33,7 +32,14 @@ import OnlineProfileScreen from '../screens/OnlineProfileScreen';
 import AttachedProfileScreen from '../screens/AttachedProfileScreen';
 import MyJobScreen from '../screens/MyJobScreen';
 import MyCompanyScreen from '../screens/MyCompanyScreen';
-import AboutMeScreen from '../screens/AboutMeScreen';
+
+import EditPersonalProfileScreen from '../screens/EditPersonalProfileScreen';
+import EditGeneralProfileScreen from '../screens/EditGeneralProfileScreen';
+import AddOrEditExperienceScreen from '../screens/AddOrEditExperienceScreen';
+import AddOrEditEducationScreen from '../screens/AddOrEditEducationScreen';
+import AddOrEditCertificateScreen from '../screens/AddOrEditCertificateScreen';
+import AddOrEditLanguageSkillScreen from '../screens/AddOrEditLanguageSkillScreen';
+import AddOrEditAdvancedSkillScreen from '../screens/AddOrEditAdvancedSkillScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
 
@@ -127,7 +133,11 @@ const Router = () => {
         {/* End: Notification */}
 
         {/* Start: Profile */}
-        <RootStack.Group>
+        <RootStack.Group
+          screenOptions={{
+            title: '',
+            headerTransparent: true
+          }}>
           <RootStack.Screen
             name="OnlineProfileScreen"
             component={OnlineProfileScreen}
@@ -151,7 +161,34 @@ const Router = () => {
             }}
           />
 
-          <RootStack.Screen name="AboutMeScreen" component={AboutMeScreen} />
+          <RootStack.Screen
+            name="EditPersonalProfileScreen"
+            component={EditPersonalProfileScreen}
+          />
+          <RootStack.Screen
+            name="EditGeneralProfileScreen"
+            component={EditGeneralProfileScreen}
+          />
+          <RootStack.Screen
+            name="AddOrEditExperienceScreen"
+            component={AddOrEditExperienceScreen}
+          />
+          <RootStack.Screen
+            name="AddOrEditEducationScreen"
+            component={AddOrEditEducationScreen}
+          />
+          <RootStack.Screen
+            name="AddOrEditCertificateScreen"
+            component={AddOrEditCertificateScreen}
+          />
+          <RootStack.Screen
+            name="AddOrEditLanguageSkillScreen"
+            component={AddOrEditLanguageSkillScreen}
+          />
+          <RootStack.Screen
+            name="AddOrEditAdvancedSkillScreen"
+            component={AddOrEditAdvancedSkillScreen}
+          />
         </RootStack.Group>
         {/* End: Profile */}
 
