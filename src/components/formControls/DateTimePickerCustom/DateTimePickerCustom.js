@@ -3,6 +3,7 @@ import {TouchableNativeFeedback} from 'react-native';
 import {Controller} from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Box, Center, FormControl, Text, WarningOutlineIcon} from 'native-base';
+import dayjs from 'dayjs';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 
@@ -69,10 +70,11 @@ const DateTimePickerCustom = ({
               </FormControl.ErrorMessage>
             </FormControl>
           </Center>
+          <Text>{field.value}</Text>
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={field.value || new Date()}
+              value={new Date()}
               mode={'date'}
               is24Hour={true}
               onChange={(event, selectedDate) => {

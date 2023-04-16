@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {View, Text} from 'native-base';
+import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
@@ -17,6 +17,10 @@ const EditPersonalProfileScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [editData, setEditData] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({title: 'Cập nhật thông tin cá nhân'});
+  }, []);
 
   React.useEffect(() => {
     const getProfile = async () => {
@@ -65,15 +69,6 @@ const EditPersonalProfileScreen = ({navigation}) => {
         <BackdropLoading />
       ) : (
         <>
-          <View flex={1}>
-            <Text
-              fontFamily="dMSansBold"
-              lineHeight="xl"
-              fontSize="lg"
-              color="myJobCustomColors.haitiBluePurple">
-              About me
-            </Text>
-          </View>
           {isLoading ? (
             <EditPersonalProfileForm.Loading />
           ) : (

@@ -141,10 +141,16 @@ const Router = () => {
           <RootStack.Screen
             name="OnlineProfileScreen"
             component={OnlineProfileScreen}
+            options={{
+              title: "Hồ sơ Online"
+            }}
           />
           <RootStack.Screen
             name="AttachedProfileScreen"
             component={AttachedProfileScreen}
+            options={{
+              title: "Hồ sơ đính kèm"
+            }}
           />
           <RootStack.Screen
             name="MyJobScreen"

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {View, Text} from 'native-base';
+import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import {SheetManager} from 'react-native-actions-sheet';
@@ -19,6 +19,14 @@ const AddOrEditExperienceScreen = ({route, navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [editData, setEditData] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    if (id) {
+      navigation.setOptions({title: 'Cập nhật kinh nghiệm'});
+    } else {
+      navigation.setOptions({title: 'Thêm kinh nghiệm'});
+    }
+  }, []);
 
   React.useEffect(() => {
     if (id) {
@@ -109,15 +117,6 @@ const AddOrEditExperienceScreen = ({route, navigation}) => {
         <BackdropLoading />
       ) : (
         <>
-          <View flex={1}>
-            <Text
-              fontFamily="dMSansBold"
-              lineHeight="xl"
-              fontSize="lg"
-              color="myJobCustomColors.haitiBluePurple">
-              About me
-            </Text>
-          </View>
           {isLoading ? (
             <AddOrEditExperienceForm.Loading />
           ) : (

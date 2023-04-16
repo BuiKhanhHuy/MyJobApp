@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {View, Text} from 'native-base';
+import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
@@ -18,6 +18,15 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [editData, setEditData] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    if (id) {
+      navigation.setOptions({title: 'Cập nhật chứng chỉ'});
+    } else {
+      navigation.setOptions({title: 'Thêm chứng chỉ'});
+    }
+  }, []);
+
 
   React.useEffect(() => {
     if (id) {
@@ -91,15 +100,6 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
         <BackdropLoading />
       ) : (
         <>
-          <View flex={1}>
-            <Text
-              fontFamily="dMSansBold"
-              lineHeight="xl"
-              fontSize="lg"
-              color="myJobCustomColors.haitiBluePurple">
-              certificate
-            </Text>
-          </View>
           {isLoading ? (
             <AddOrEditCertificateForm.Loading />
           ) : (

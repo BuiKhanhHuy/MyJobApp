@@ -17,10 +17,6 @@ const OnlineProfileScreen = ({route, navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {headerTitle, resumeId} = route.params;
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({title: headerTitle});
-  }, []);
-
   return (
     <View padding={6} onLayout={handleLayout} style={{marginTop: headerHeight}}>
       {isLayoutLoading ? (
