@@ -1,30 +1,42 @@
 import React from 'react';
-import {useHeaderHeight} from '@react-navigation/elements';
 import {useDispatch} from 'react-redux';
+import {useHeaderHeight} from '@react-navigation/elements';
 import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
-import UploadProfileForm from '../components/forms/UploadProfileForm/UploadProfileForm';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 import resumeService from '../../services/resumeService';
+import EditCvForm from '../components/forms/EditCvForm/EditCvForm';
 import {reloadAttachedProfile} from '../../redux/reloadSlice';
 
-const UploadProfileScreen = ({navigation}) => {
-  const headerHeight = useHeaderHeight();
+const EditCvScreen = ({route, navigation}) => {
+  const {resumeId} = route.params;
   const dispatch = useDispatch();
+  const headerHeight = useHeaderHeight();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
 
-  const handleAdd = data => {
-    const addResumeUpload = async formData => {
+  React.useLayoutEffect(() => {
+    navigation.setOptions({title: 'Cập nhật tập tin'});
+  }, []);
+
+  const handleUpdate = data => {
+    const updateCV = async (id, data) => {
       setIsFullScreenLoading(true);
+
+      var formData = new FormData();
+      formData.append('file', {
+        uri: data.file.uri,
+        type: data.file.type,
+        name: data.file.name,
+      });
       try {
-        await resumeService.addResume(formData);
+        await resumeService.updateCV(id, formData);
 
         dispatch(reloadAttachedProfile());
         navigation.goBack();
-        toastMessages.success('Thêm thành công.');
+        toastMessages.success('Upload File thành công.');
       } catch (error) {
         toastMessages.error();
       } finally {
@@ -32,20 +44,9 @@ const UploadProfileScreen = ({navigation}) => {
       }
     };
 
-    var formData = new FormData();
-    for (var key in data) {
-      if (key === 'file') {
-        formData.append('file', {
-          uri: data[key].uri,
-          type: data[key].type,
-          name: data[key].name,
-        });
-      } else {
-        formData.append(key, data[key]);
-      }
-    }
-    addResumeUpload(formData);
+    updateCV(resumeId, data);
   };
+
   return (
     <View
       flex={1}
@@ -56,7 +57,7 @@ const UploadProfileScreen = ({navigation}) => {
         <BackdropLoading />
       ) : (
         <>
-          <UploadProfileForm handleAdd={handleAdd} />
+          <EditCvForm handleUpdate={handleUpdate} />
         </>
       )}
       {isFullScreenLoading && <BackdropLoading />}
@@ -64,4 +65,4 @@ const UploadProfileScreen = ({navigation}) => {
   );
 };
 
-export default UploadProfileScreen;
+export default EditCvScreen;

@@ -6,6 +6,7 @@ import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
 import PersonalProfileCard from '../components/profileCards/PersonalProfileCard';
 import GeneralProfileCard from '../components/profileCards/GeneralProfileCard';
+import CVCard from '../components/profileCards/CVCard/CVCard';
 
 const AttachedProfileScreen = ({route, navigation}) => {
   const headerHeight = useHeaderHeight();
@@ -26,6 +27,10 @@ const AttachedProfileScreen = ({route, navigation}) => {
             {/* Start: GeneralProfileCard */}
             <GeneralProfileCard resumeId={resumeId} />
             {/* End: GeneralProfileCard */}
+
+            {/* Start: CVCard */}
+            <CVCard resumeId={resumeId} />
+            {/* End: CVCard */}
           </VStack>
         </ScrollView>
       )}

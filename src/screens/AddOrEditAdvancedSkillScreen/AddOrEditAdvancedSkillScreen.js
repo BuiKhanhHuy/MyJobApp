@@ -55,9 +55,9 @@ const AddOrEditAdvancedSkillScreen = ({route, navigation}) => {
       try {
         await advancedSkillService.addAdvancedSkills(data);
 
-        toastMessages.success('Thêm thành công.');
         dispatch(reloadAdvancedSkill());
         navigation.goBack();
+        toastMessages.success('Thêm thành công.');
       } catch (error) {
         toastMessages.error();
       } finally {

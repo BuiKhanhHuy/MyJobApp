@@ -20,6 +20,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {CV_TYPES} from '../../../../configs/constants';
+import NoData from '../../../../components/NoData/NoData';
 import {salaryString} from '../../../../utils/customData';
 import toastMessages from '../../../../utils/toastMessages';
 import jobSeekerProfileService from '../../../../services/jobSeekerProfileService';
@@ -65,6 +66,7 @@ const BoxProfileCard = () => {
   const navigation = useNavigation();
   const {currentUser} = useSelector(state => state.user);
   const {allConfig} = useSelector(state => state.config);
+  const {isReloadGeneralProfile} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [resume, setResume] = React.useState(null);
 
@@ -88,12 +90,12 @@ const BoxProfileCard = () => {
     getOnlineProfile(currentUser?.jobSeekerProfileId, {
       resumeType: CV_TYPES.cvWebsite,
     });
-  }, [currentUser]);
+  }, [currentUser, isReloadGeneralProfile]);
 
   return isLoading ? (
     <Loading />
   ) : resume === null ? (
-    <Text>Rong</Text>
+    <NoData title="Không có dữ liệu" />
   ) : (
     <View
       padding={6}
@@ -121,7 +123,7 @@ const BoxProfileCard = () => {
             onPress={() =>
               navigation.navigate('OnlineProfileScreen', {
                 headerTitle: 'Hồ sơ Online',
-                resumeId: resume.id
+                resumeId: resume.id,
               })
             }>
             <Icon

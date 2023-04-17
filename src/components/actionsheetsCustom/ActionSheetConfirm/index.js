@@ -4,7 +4,6 @@ import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
 import ButtonCustom from '../../ButtonCustom';
 
-
 function ActionSheetConfirm({sheetId, payload}) {
   const {sizes} = useTheme();
 
@@ -14,7 +13,7 @@ function ActionSheetConfirm({sheetId, payload}) {
     yesText = 'YES',
     noText = 'NO',
   } = payload;
-  
+
   return (
     <ActionSheet
       id={sheetId}
@@ -41,6 +40,7 @@ function ActionSheetConfirm({sheetId, payload}) {
           {title}
         </Text>
         <Text
+          textAlign="center"
           fontFamily="dMSansRegular"
           lineHeight="xs"
           fontSize="xs"

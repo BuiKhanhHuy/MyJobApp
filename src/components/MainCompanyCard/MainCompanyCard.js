@@ -1,10 +1,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Center, FlatList, Spinner, Text, View} from 'native-base';
+import {Center, FlatList, Spinner, View} from 'native-base';
 
 import toastMessages from '../../utils/toastMessages';
+import NoData from '../NoData/NoData';
 import Company from '../Company/Company';
-
 import companyService from '../../services/companyService';
 
 const MainCompanyCard = () => {
@@ -63,7 +63,12 @@ const MainCompanyCard = () => {
           )}
         />
       ) : companies.length === 0 ? (
-        <Text>Rong</Text>
+        <Center marginTop={50}>
+          <NoData
+            title="Chúng tôi không tìm thấy công ty bạn đang tìm kiếm hiện tại"
+            imgSize="3xs"
+          />
+        </Center>
       ) : (
         <FlatList
           numColumns={2}

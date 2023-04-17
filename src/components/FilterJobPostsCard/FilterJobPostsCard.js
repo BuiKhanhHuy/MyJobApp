@@ -2,6 +2,7 @@ import React from 'react';
 import {Center, FlatList, Spinner, Text, View} from 'native-base';
 import {StyleSheet} from 'react-native';
 
+import NoData from '../NoData/NoData';
 import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
 
@@ -51,7 +52,9 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
             <JobPost.Loading key={value} />
           ))
         ) : jobPosts.length === 0 ? (
-          <Text>Rong</Text>
+          <View mt={5}>
+            <NoData title="Không có dữ liệu" imgSize="xl" />
+          </View>
         ) : (
           jobPosts.map(value => (
             <JobPost
@@ -87,7 +90,9 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
           <JobPost.Loading key={value} />
         ))
       ) : jobPosts.length === 0 ? (
-        <Text>Rong</Text>
+        <Center marginTop={50}>
+          <NoData title="Không có dữ liệu" imgSize="xl" />
+        </Center>
       ) : (
         <FlatList
           data={jobPosts}

@@ -13,11 +13,17 @@ const NoData = ({
   return (
     <VStack space={3} py={2}>
       <Center>
-        <Image source={img || IMAGES.img1} alt="ICON" size={imgSize} />
+        <Image
+          source={img || IMAGES.img1}
+          alt="ICON"
+          size={imgSize}
+          resizeMode="contain"
+        />
       </Center>
       {title && (
         <Center>
           <Text
+            textAlign="center"
             fontFamily="dMSansRegular"
             fontSize={titleSize}
             lineHeight="sm"

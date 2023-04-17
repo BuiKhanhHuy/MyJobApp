@@ -17,7 +17,15 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const CvUploadCard = ({id, title, updateAt, imageUrl, fileUrl, isActive}) => {
+const CvUploadCard = ({
+  id,
+  title,
+  updateAt,
+  imageUrl,
+  fileUrl,
+  isActive,
+  handleDelete,
+}) => {
   const navigation = useNavigation();
 
   return (
@@ -34,22 +42,6 @@ const CvUploadCard = ({id, title, updateAt, imageUrl, fileUrl, isActive}) => {
             alt="image"
           />
         </AspectRatio>
-        <Button
-          variant="outline"
-          position="absolute"
-          bottom="1"
-          left="1"
-          px="3"
-          py="1.5">
-          <Text
-            fontFamily="dMSansRegular"
-            fontSize="xs"
-            lineHeight="sm"
-            color="myJobCustomColors.white">
-            <Icon as={FontAwesome} name="star-o" size={4} color="white" /> Đặt
-            làm CV chính
-          </Text>
-        </Button>
       </Box>
       <Stack padding={6} space={3}>
         <Stack space={1}>
@@ -69,13 +61,30 @@ const CvUploadCard = ({id, title, updateAt, imageUrl, fileUrl, isActive}) => {
           </Text>
         </Stack>
         <HStack alignItems="center" space={4} justifyContent="flex-end">
-          <Icon
-            size="lg"
-            marginRight={1}
-            as={AntDesign}
-            name="delete"
-            color="myJobCustomColors.roseMadder"
-          />
+          <Button variant="outline" px="3" py="1.5">
+            <Text
+              fontFamily="dMSansRegular"
+              fontSize="xs"
+              lineHeight="sm"
+              color="myJobCustomColors.mulledWine">
+              <Icon
+                as={FontAwesome}
+                name="star-o"
+                size={4}
+                color="myJobCustomColors.mulledWine"
+              />{' '}
+              Đặt làm CV chính
+            </Text>
+          </Button>
+          <TouchableOpacity onPress={() => handleDelete(id)}>
+            <Icon
+              size="lg"
+              marginRight={1}
+              as={AntDesign}
+              name="delete"
+              color="myJobCustomColors.roseMadder"
+            />
+          </TouchableOpacity>
           <Icon
             size="lg"
             marginRight={1}
@@ -86,8 +95,7 @@ const CvUploadCard = ({id, title, updateAt, imageUrl, fileUrl, isActive}) => {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('AttachedProfileScreen', {
-                headerTitle: 'HIHI',
-                resumeId: id
+                resumeId: id,
               })
             }>
             <Icon

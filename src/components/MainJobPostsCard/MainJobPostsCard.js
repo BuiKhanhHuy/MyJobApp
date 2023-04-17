@@ -1,8 +1,9 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Center, FlatList, Spinner, Text, View} from 'native-base';
 import {StyleSheet} from 'react-native';
+import {Center, FlatList, Spinner, Text, View} from 'native-base';
 
+import NoData from '../NoData/NoData';
 import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
 
@@ -58,7 +59,12 @@ const MainJobPostsCard = () => {
           <JobPost.Loading key={value} />
         ))
       ) : jobPosts.length === 0 ? (
-        <Text>Rong</Text>
+        <Center marginTop={50}>
+          <NoData
+            title="Chúng tôi không tìm thấy công việc bạn đang tìm kiếm hiện tại"
+            imgSize="3xs"
+          />
+        </Center>
       ) : (
         <FlatList
           data={jobPosts}

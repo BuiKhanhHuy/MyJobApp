@@ -53,6 +53,7 @@ const TextAreaCustom = ({
               backgroundColor="myJobCustomColors.white"
               borderWidth={fieldState.invalid ? '1' : '0'}
               invalidOutlineColor="myJobCustomColors.lightRed"
+              color="myJobCustomColors.mulledWine"
             />
             <FormControl.ErrorMessage
               leftIcon={<WarningOutlineIcon size="xs" />}>

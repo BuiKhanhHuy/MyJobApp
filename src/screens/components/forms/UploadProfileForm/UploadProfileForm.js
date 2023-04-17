@@ -11,9 +11,17 @@ import TextAreaCustom from '../../../../components/TextAreaCustom/TextAreaCustom
 import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
 import UploadCv from '../../../../components/UploadCV/UploadCv';
 
-const UploadProfileForm = ({handleUpdate, editData}) => {
+const UploadProfileForm = ({handleAdd}) => {
   const {allConfig} = useSelector(state => state.config);
   const schema = yup.object().shape({
+    file: yup
+      .mixed()
+      .nonNullable('Tập tin là bắt buộc.')
+      .test(
+        'files empty',
+        'Tập tin là bắt buộc.',
+        value => !(value === undefined || value === null || value === ''),
+      ),
     title: yup
       .string()
       .required('Vị trí mong muốn là bắt buộc.')
@@ -86,7 +94,12 @@ const UploadProfileForm = ({handleUpdate, editData}) => {
         <ScrollView>
           <VStack space={4}>
             <View>
-              <UploadCv />
+              <UploadCv
+                title="Tập tin"
+                showRequired={true}
+                control={control}
+                name="file"
+              />
             </View>
             <TextInputCustom
               name="title"
@@ -184,7 +197,7 @@ const UploadProfileForm = ({handleUpdate, editData}) => {
               text="LƯU"
               textColor="myJobCustomColors.white"
               bgColor="myJobCustomColors.darkIndigo"
-              onPress={handleSubmit(handleUpdate)}
+              onPress={handleSubmit(handleAdd)}
               shadow={8}
             />
           </VStack>
@@ -199,6 +212,8 @@ const Loading = () => (
     <View flex={10}>
       <ScrollView>
         <VStack space={4}>
+        <Skeleton rounded="md" h={6} />
+          <Skeleton rounded="md" height={16} />
           <Skeleton rounded="md" h={6} />
           <Skeleton rounded="md" height={12} />
           <Skeleton rounded="md" h={6} />

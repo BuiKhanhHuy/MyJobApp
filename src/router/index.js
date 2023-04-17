@@ -41,6 +41,7 @@ import AddOrEditCertificateScreen from '../screens/AddOrEditCertificateScreen';
 import AddOrEditLanguageSkillScreen from '../screens/AddOrEditLanguageSkillScreen';
 import AddOrEditAdvancedSkillScreen from '../screens/AddOrEditAdvancedSkillScreen';
 import UploadProfileScreen from '../screens/UploadProfileScreen';
+import EditCvScreen from '../screens/EditCvScreen/EditCvScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
 
@@ -203,6 +204,10 @@ const Router = () => {
             options={{
               title: "Tải CV lên"
             }}
+          />
+           <RootStack.Screen
+            name="EditCvScreen"
+            component={EditCvScreen}
           />
         </RootStack.Group>
         {/* End: Profile */}

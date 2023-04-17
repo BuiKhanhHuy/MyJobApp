@@ -11,33 +11,33 @@ const ButtonCustom = ({
   size = 'large',
 }) => {
   return (
-    <Button
-      shadow={shadow}
-      leftIcon={
-        leftIcon ? (
-          <Icon
-            as={FontAwesome}
-            name={leftIcon.iconName}
-            size="lg"
-            color={leftIcon.iconColor}
-          />
-        ) : (
-          leftIcon
-        )
-      }
-      padding={size === 'large' ? (leftIcon ? '3' : '4') : null}
-      borderRadius="sm"
-      backgroundColor={bgColor}
-      onPress={onPress}>
-      <Text
-        textTransform="uppercase"
-        fontFamily="dMSansBold"
-        fontSize="sm"
-        lineHeight="sm"
-        color={textColor}>
-        {text}
-      </Text>
-    </Button>
+      <Button
+       onPress={onPress}
+        shadow={shadow}
+        leftIcon={
+          leftIcon ? (
+            <Icon
+              as={FontAwesome}
+              name={leftIcon.iconName}
+              size="lg"
+              color={leftIcon.iconColor}
+            />
+          ) : (
+            leftIcon
+          )
+        }
+        padding={size === 'large' ? (leftIcon ? '3' : '4') : null}
+        borderRadius="sm"
+        backgroundColor={bgColor}>
+        <Text
+          textTransform="uppercase"
+          fontFamily="dMSansBold"
+          fontSize="sm"
+          lineHeight="sm"
+          color={textColor}>
+          {text}
+        </Text>
+      </Button>
   );
 };
 

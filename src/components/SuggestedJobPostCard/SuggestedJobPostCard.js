@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Center, FlatList, Spinner, Text, View} from 'native-base';
 
+import NoData from '../NoData/NoData';
 import JobPost from '../JobPost';
 import jobService from '../../services/jobService';
 
@@ -22,14 +23,13 @@ const SuggestedJobPostCard = ({
         const resData = await jobService.getSuggestedJobPosts({
           ...params,
           page: page,
-          pageSize: pageSize
+          pageSize: pageSize,
         });
 
         const data = resData.data;
 
         setCount(data.count);
         setJobPosts([...jobPosts, ...data.results]);
-        console.log(jobPosts[0]);
       } catch (error) {
       } finally {
         setIsFirstLoading(false);
@@ -56,7 +56,9 @@ const SuggestedJobPostCard = ({
             <JobPost.Loading key={value} />
           ))
         ) : jobPosts.length === 0 ? (
-          <Text>Rong</Text>
+          <View mt={5}>
+            <NoData title="Không có dữ liệu" imgSize="xl" />
+          </View>
         ) : (
           jobPosts.map(value => (
             <JobPost
@@ -88,9 +90,13 @@ const SuggestedJobPostCard = ({
   return (
     <View style={styles.container}>
       {isFirstLoading ? (
-        Array.from(Array(3).keys()).map(value => <JobPost.Loading key={value}/>)
+        Array.from(Array(3).keys()).map(value => (
+          <JobPost.Loading key={value} />
+        ))
       ) : jobPosts.length === 0 ? (
-        <Text>Rong</Text>
+        <Center marginTop={50}>
+          <NoData title="Không có dữ liệu" imgSize="xl" />
+        </Center>
       ) : (
         <FlatList
           data={jobPosts}

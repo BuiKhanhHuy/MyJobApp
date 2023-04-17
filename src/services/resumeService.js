@@ -1,18 +1,18 @@
 import httpRequest from '../utils/httpRequest';
 
 const resumeService = {
-  getResumeOwner: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/resume-owner/`;
+  getResumeOwner: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/resume-owner/`;
 
     return httpRequest.get(url);
   },
-  getCv: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/cv/`;
+  getCv: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/cv/`;
 
     return httpRequest.get(url);
   },
-  updateCV: (resumeSlug, formData) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/cv/`;
+  updateCV: (resumeId, formData) => {
+    const url = `api/info/app/private-resumes/${resumeId}/cv/`;
 
     return httpRequest.put(url, formData, {
       headers: {
@@ -35,38 +35,38 @@ const resumeService = {
 
     return httpRequest.put(url, data);
   },
-  deleteResume: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/`;
+  deleteResume: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/`;
 
     return httpRequest.delete(url);
   },
-  activeResume: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/resume-active/`;
+  activeResume: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/resume-active/`;
 
     return httpRequest.get(url);
   },
-  getExperiencesDetail: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/experiences-detail/`;
+  getExperiencesDetail: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/experiences-detail/`;
 
     return httpRequest.get(url);
   },
-  getEducationsDetail: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/educations-detail/`;
+  getEducationsDetail: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/educations-detail/`;
 
     return httpRequest.get(url);
   },
-  getCertificates: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/certificates-detail/`;
+  getCertificates: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/certificates-detail/`;
 
     return httpRequest.get(url);
   },
-  getLanguageSkills: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/language-skills/`;
+  getLanguageSkills: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/language-skills/`;
 
     return httpRequest.get(url);
   },
-  getAdvancedSkills: (resumeSlug) => {
-    const url = `api/info/app/private-resumes/${resumeSlug}/advanced-skills/`;
+  getAdvancedSkills: (resumeId) => {
+    const url = `api/info/app/private-resumes/${resumeId}/advanced-skills/`;
 
     return httpRequest.get(url);
   },

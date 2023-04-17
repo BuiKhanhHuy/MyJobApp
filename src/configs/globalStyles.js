@@ -29,6 +29,7 @@ export const ICONS = {
   YOUTUBE: require('../assets/images/icons/youtube-icon.png'),
   LOCATION: require('../assets/images/icons/location-icon.png'),
   FILTER: require('../assets/images/icons/filter-icon.png'),
+  PDF_ICON: require('../assets/images/icons/pdf-icon.png'),
 };
 
 export const COLOR = {

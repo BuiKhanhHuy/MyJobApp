@@ -9,7 +9,8 @@ export const reloadSlice = createSlice({
     isReloadLanguageSkill: false,
     isReloadAdvancedSkill: false,
     isReloadPersonalProfile: false,
-    isReloadGeneralProfile: false
+    isReloadGeneralProfile: false,
+    isReloadAttachedProfile: false
   },
   reducers: {
     reloadExperience: state => {
@@ -32,6 +33,9 @@ export const reloadSlice = createSlice({
     },
     reloadGeneralProfile: state => {
       state.isReloadGeneralProfile = !state.isReloadGeneralProfile;
+    },
+    reloadAttachedProfile:  state => {
+      state.isReloadAttachedProfile = !state.isReloadAttachedProfile;
     }
   },
 });
@@ -44,7 +48,8 @@ const {
   reloadLanguageSkill,
   reloadAdvancedSkill,
   reloadPersonalProfile,
-  reloadGeneralProfile
+  reloadGeneralProfile,
+  reloadAttachedProfile
 } = reloadSlice.actions;
 
 export default reducer;
@@ -55,5 +60,6 @@ export {
   reloadLanguageSkill,
   reloadAdvancedSkill,
   reloadPersonalProfile,
-  reloadGeneralProfile
+  reloadGeneralProfile,
+  reloadAttachedProfile
 };

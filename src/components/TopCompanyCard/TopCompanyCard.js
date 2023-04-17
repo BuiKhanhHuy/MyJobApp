@@ -1,6 +1,7 @@
 import React from 'react';
 import {Center, HStack, ScrollView, View, Text} from 'native-base';
 
+import NoData from '../NoData/NoData';
 import Company from '../Company/Company';
 import companyService from '../../services/companyService';
 
@@ -39,7 +40,9 @@ const TopCompanyCard = () => {
           </HStack>
         </ScrollView>
       ) : companies.length === 0 ? (
-        <Text>Rong</Text>
+        <View mt={5}>
+          <NoData title="Không có dữ liệu" imgSize="xl" />
+        </View>
       ) : (
         <ScrollView horizontal={true}>
           <HStack space={4}>
