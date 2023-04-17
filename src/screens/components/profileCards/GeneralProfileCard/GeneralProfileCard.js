@@ -1,9 +1,10 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Center, Spinner, Text, VStack, View} from 'native-base';
 
 import toastMessages from '../../../../utils/toastMessages';
+import NoData from '../../../../components/NoData/NoData';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 import {salaryString} from '../../../../utils/customData';
@@ -65,7 +66,7 @@ const GeneralProfileCard = ({resumeId}) => {
             <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
           </Center>
         ) : resumeDetail === null ? (
-          <Text>Rong</Text>
+          <NoData title="Không có dữ liệu" />
         ) : (
           <>
             <Item title="Vị trí mong muốn" content={resumeDetail?.title} />

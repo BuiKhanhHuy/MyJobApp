@@ -16,7 +16,7 @@ const TextAreaCustom = ({
   placeholder,
   showRequired = false,
   height = 300,
-  label = null,
+  title = null,
 }) => {
   return (
     <View>
@@ -26,14 +26,14 @@ const TextAreaCustom = ({
         placeholder={placeholder}
         render={({field: {onChange, onBlur, value}, fieldState}) => (
           <FormControl isInvalid={fieldState.invalid}>
-            {label && (
+            {title && (
               <FormControl.Label>
                 <Text
                   fontFamily="dMSansMedium"
                   fontSize="xs"
                   color="myJobCustomColors.purpleBlue"
                   paddingBottom="1">
-                  {label}{' '}
+                  {title}{' '}
                   {showRequired && (
                     <Text color="myJobCustomColors.lavaRed">*</Text>
                   )}

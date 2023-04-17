@@ -15,7 +15,12 @@ export const LOGO_IMAGE = {
 };
 
 export const IMAGES = {
-  DATA_NOT_FOUND: require('../assets/images/data-not-found.png'),
+  img0: require('../assets/images/no-data/img0.png'),
+  img1: require('../assets/images/no-data/img1.png'),
+  img2: require('../assets/images/no-data/img2.png'),
+  img3: require('../assets/images/no-data/img3.png'),
+  img4: require('../assets/images/no-data/img4.png'),
+  img5: require('../assets/images/no-data/img5.png'),
 };
 
 export const ICONS = {

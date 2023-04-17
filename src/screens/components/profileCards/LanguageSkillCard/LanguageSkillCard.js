@@ -15,6 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {AirbnbRating} from 'react-native-ratings';
 
 import toastMessages from '../../../../utils/toastMessages';
+import NoData from '../../../../components/NoData/NoData';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 
@@ -61,7 +62,7 @@ const LanguageSkillCard = ({resumeId}) => {
               <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
             </Center>
           ) : languageSkills.length === 0 ? (
-            <Text>Rong</Text>
+            <NoData title="Bạn chưa thêm kỹ năng ngôn ngữ" />
           ) : (
             languageSkills.map(value => (
               <View key={value.id}>

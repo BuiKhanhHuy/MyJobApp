@@ -37,6 +37,7 @@
     "react-native-awesome-gallery": "^0.3.5",
     "react-native-collapsible": "^1.6.0",
     "react-native-curved-bottom-bar": "^2.1.4",
+    "react-native-document-picker": "^8.2.0",
     "react-native-element-dropdown": "^2.9.0",
     "react-native-email-link": "^1.14.4",
     "react-native-fbsdk": "^3.0.0",

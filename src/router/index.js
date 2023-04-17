@@ -40,6 +40,7 @@ import AddOrEditEducationScreen from '../screens/AddOrEditEducationScreen';
 import AddOrEditCertificateScreen from '../screens/AddOrEditCertificateScreen';
 import AddOrEditLanguageSkillScreen from '../screens/AddOrEditLanguageSkillScreen';
 import AddOrEditAdvancedSkillScreen from '../screens/AddOrEditAdvancedSkillScreen';
+import UploadProfileScreen from '../screens/UploadProfileScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
 
@@ -136,20 +137,20 @@ const Router = () => {
         <RootStack.Group
           screenOptions={{
             title: '',
-            headerTransparent: true
+            headerTransparent: true,
           }}>
           <RootStack.Screen
             name="OnlineProfileScreen"
             component={OnlineProfileScreen}
             options={{
-              title: "Hồ sơ Online"
+              title: 'Hồ sơ Online',
             }}
           />
           <RootStack.Screen
             name="AttachedProfileScreen"
             component={AttachedProfileScreen}
             options={{
-              title: "Hồ sơ đính kèm"
+              title: 'Hồ sơ đính kèm',
             }}
           />
           <RootStack.Screen
@@ -194,6 +195,14 @@ const Router = () => {
           <RootStack.Screen
             name="AddOrEditAdvancedSkillScreen"
             component={AddOrEditAdvancedSkillScreen}
+          />
+
+          <RootStack.Screen
+            name="UploadProfileScreen"
+            component={UploadProfileScreen}
+            options={{
+              title: "Tải CV lên"
+            }}
           />
         </RootStack.Group>
         {/* End: Profile */}

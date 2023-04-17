@@ -16,6 +16,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/vi';
 
 import toastMessages from '../../../../utils/toastMessages';
+import NoData from '../../../../components/NoData/NoData';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 
@@ -61,7 +62,7 @@ const CertificateCard = ({resumeId}) => {
               <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
             </Center>
           ) : certificates.length === 0 ? (
-            <Text>Rong</Text>
+            <NoData title="Bạn chưa thêm chứng chỉ" />
           ) : (
             certificates.map(value => (
               <View key={value.id}>

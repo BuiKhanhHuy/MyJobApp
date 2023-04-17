@@ -6,6 +6,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/vi';
 
 import toastMessages from '../../../../utils/toastMessages';
+import NoData from '../../../../components/NoData/NoData';
 import ProfileCard from '../ProfileCard';
 import jobSeekerProfileService from '../../../../services/jobSeekerProfileService';
 
@@ -66,7 +67,7 @@ const PersonalProfileCard = () => {
             <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
           </Center>
         ) : profile === null ? (
-          <Text>Rong</Text>
+          <NoData title="Không có dữ liệu" />
         ) : (
           <>
             <Item title="Họ và tên" content={profile?.user?.fullName} />
@@ -95,10 +96,7 @@ const PersonalProfileCard = () => {
               title="Quận/Huyện"
               content={profile?.location?.districtDict?.name}
             />
-            <Item
-              title="Địa chỉ"
-              content={profile?.location?.address}
-            />
+            <Item title="Địa chỉ" content={profile?.location?.address} />
           </>
         )}
       </VStack>

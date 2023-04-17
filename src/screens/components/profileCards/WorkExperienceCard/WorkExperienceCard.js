@@ -16,6 +16,7 @@ import 'moment/locale/vi';
 
 import toastMessages from '../../../../utils/toastMessages';
 import ProfileCard from '../ProfileCard';
+import NoData from '../../../../components/NoData/NoData';
 import resumeService from '../../../../services/resumeService';
 import {useSelector} from 'react-redux';
 
@@ -51,7 +52,7 @@ const WorkExperienceCard = ({resumeId}) => {
       onPressRightButton={() =>
         navigation.navigate('AddOrEditExperienceScreen', {
           id: null,
-          resumeId: resumeId
+          resumeId: resumeId,
         })
       }>
       <View>
@@ -61,7 +62,7 @@ const WorkExperienceCard = ({resumeId}) => {
               <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
             </Center>
           ) : experiencesDetail.length === 0 ? (
-            <Text>Rong</Text>
+          <NoData title="Bạn chưa thêm kinh nghiệm" />
           ) : (
             experiencesDetail.map(value => (
               <View key={value.id}>
