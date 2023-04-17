@@ -20,6 +20,11 @@ const commonService = {
 
     return httpRequest.get(url);
   },
+  getTotalJobByJobType: () => {
+    const url = '/api/common/count-jobs-by-job-type/';
+
+    return httpRequest.get(url);
+  },
 };
 
 export default commonService;

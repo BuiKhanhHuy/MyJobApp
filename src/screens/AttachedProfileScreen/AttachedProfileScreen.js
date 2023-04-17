@@ -14,7 +14,11 @@ const AttachedProfileScreen = ({route, navigation}) => {
   const {headerTitle, resumeId} = route.params;
 
   return (
-    <View padding={6} onLayout={handleLayout} style={{marginTop: headerHeight}}>
+    <View
+      paddingX={6}
+      paddingBottom={6}
+      onLayout={handleLayout}
+      style={{marginTop: headerHeight}}>
       {isLayoutLoading ? (
         <BackdropLoading />
       ) : (

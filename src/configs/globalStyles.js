@@ -176,6 +176,8 @@ export const SHADOWS = {
   },
 };
 
+export const PADDING_BOTTOM = 130
+
 export const CONFIG = {
   initialColorMode: 'light',
 };

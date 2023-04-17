@@ -93,7 +93,8 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
   return (
     <View
       flex={1}
-      padding={6}
+      paddingX={6}
+      paddingBottom={6}
       onLayout={handleLayout}
       style={{marginTop: headerHeight}}>
       {isLayoutLoading ? (

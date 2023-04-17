@@ -8,7 +8,7 @@ const jobService = {
       params: params,
     });
   },
-  getJobPostDetailById: (slug) => {
+  getJobPostDetailById: slug => {
     const url = `api/job/app/job-posts/${slug}/`;
 
     return httpRequest.get(url);
@@ -23,12 +23,17 @@ const jobService = {
   getJobPostsSaved: (params = {}) => {
     const url = `api/job/app/job-posts/job-posts-saved/`;
 
-    return httpRequest.get(url, { params: params });
+    return httpRequest.get(url, {params: params});
   },
-  saveJobPost: (slug) => {
+  saveJobPost: slug => {
     const url = `api/job/app/job-posts/${slug}/job-saved/`;
 
     return httpRequest.post(url);
+  },
+  getTotalJobPostByJobType: () => {
+    const url = `api/job/app/job-posts/count-job-posts-by-job-type/`;
+
+    return httpRequest.get(url);
   },
 };
 

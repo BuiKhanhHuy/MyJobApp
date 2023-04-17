@@ -1,10 +1,20 @@
 import * as React from 'react';
 import {useSelector} from 'react-redux';
-import {Avatar, Fab, HStack, Icon, ScrollView, Text, View} from 'native-base';
+import {
+  Avatar,
+  Fab,
+  HStack,
+  Icon,
+  Image,
+  ScrollView,
+  Text,
+  View,
+} from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {HOME_FILTER_CAREER, ROLES_NAME} from '../../configs/constants';
 
+import {PADDING_BOTTOM} from '../../configs/globalStyles';
 import JobTypePopulars from '../../components/JobTypePopulars';
 import TopCompanyCard from '../../components/TopCompanyCard';
 import FilterJobPostsCard from '../../components/FilterJobPostsCard';
@@ -47,8 +57,18 @@ const HomeScreen = ({navigation}) => {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <View height="48" marginTop={4} backgroundColor={'blue.100'}></View>
+          <View paddingBottom={PADDING_BOTTOM}>
+            <View height="48" marginTop={4}>
+              <Image
+                source={{
+                  uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/v1676043960/tam_anh_myjob/a2we0s9as6hzkybn1tn5.png',
+                }}
+                alt="Alternate Text"
+                width="100%"
+                height="100%"
+                resizeMode="cover"
+              />
+            </View>
             <View height="56" marginTop={6}>
               <View>
                 <Text
@@ -60,7 +80,9 @@ const HomeScreen = ({navigation}) => {
                 </Text>
               </View>
               <View height="100%" paddingTop={4}>
+                {/* Start: JobTypePopulars */}
                 <JobTypePopulars />
+                {/* End: JobTypePopulars */}
               </View>
             </View>
 

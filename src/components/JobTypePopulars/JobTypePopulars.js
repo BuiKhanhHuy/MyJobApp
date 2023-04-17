@@ -1,21 +1,56 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {useTheme} from 'native-base';
 import {View, StyleSheet} from 'react-native';
 
-import JobTypePopular from "../JobTypePopular";
+import JobTypePopular from '../JobTypePopular';
+import jobService from '../../services/jobService';
 
 const JobTypePopulars = () => {
-  const {colors, } = useTheme();
+  const {colors} = useTheme();
+  const {allConfig} = useSelector(state => state.config);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    const getTotalJob = async () => {
+      setIsLoading(true);
+
+      try {
+        const resData = await jobService.getTotalJobPostByJobType();
+        const data = resData.data;
+
+        const customData = [];
+        for (let id in allConfig?.typeOfWorkplaceDict) {
+          customData.push({
+            name: allConfig?.typeOfWorkplaceDict[id],
+            total: data.filter(value => value.typeOfWorkplace == id).length,
+          });
+        }
+        setData(customData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    getTotalJob();
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={{flex: 1, marginRight: 10}}>
-        <JobTypePopular
-          imageUrl={require('../../assets/images/job-type-popular-icon.png')}
-          title="44.5K"
-          subTitle="Remote Job"
-          bgColor={colors.myJobCustomColors.frenchPass}
-        />
+        {isLoading || data.length <= 0 ? (
+          <JobTypePopular.Loading />
+        ) : (
+          <JobTypePopular
+            imageUrl={require('../../assets/images/job-type-popular-icon.png')}
+            title={data[0].total}
+            subTitle={data[0].name}
+            bgColor={colors.myJobCustomColors.frenchPass}
+          />
+        )}
       </View>
       <View style={{flex: 1, marginLeft: 10, flexDirection: 'column'}}>
         <View
@@ -23,22 +58,30 @@ const JobTypePopulars = () => {
             flex: 1,
             marginBottom: 10,
           }}>
-          <JobTypePopular
-            title="66.8K"
-            subTitle="Full time"
-            bgColor={colors.myJobCustomColors.paleViolet}
-          />
+          {isLoading || data.length <= 1 ? (
+            <JobTypePopular.Loading />
+          ) : (
+            <JobTypePopular
+              title={data[1].total}
+              subTitle={data[1].name}
+              bgColor={colors.myJobCustomColors.paleViolet}
+            />
+          )}
         </View>
         <View
           style={{
             flex: 1,
             marginTop: 10,
           }}>
-          <JobTypePopular
-            title="11.5K"
-            subTitle="Part time"
-            bgColor={colors.myJobCustomColors.lightApricot}
-          />
+          {isLoading || data.length <= 2 ? (
+            <JobTypePopular.Loading />
+          ) : (
+            <JobTypePopular
+              title={data[2].total}
+              subTitle={data[2].name}
+              bgColor={colors.myJobCustomColors.lightApricot}
+            />
+          )}
         </View>
       </View>
     </View>

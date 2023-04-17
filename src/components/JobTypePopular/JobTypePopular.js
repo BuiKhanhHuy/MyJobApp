@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
+import {Skeleton} from 'native-base';
 
 const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
   return (
@@ -14,7 +15,7 @@ const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
         }}>
         {imageUrl && (
           <View style={{paddingBottom: 24}}>
-            <Image source={imageUrl} style={{width: 34, height: 34}} alt=''/>
+            <Image source={imageUrl} style={{width: 34, height: 34}} alt="" />
           </View>
         )}
         <Text
@@ -33,6 +34,16 @@ const JobTypePopular = ({imageUrl = null, title, subTitle, bgColor}) => {
     </View>
   );
 };
+
+const Loading = () => {
+  return (
+    <View style={styles.container}>
+      <Skeleton rounded="md" height={'100%'} />
+    </View>
+  );
+};
+
+JobTypePopular.Loading = Loading;
 
 const styles = StyleSheet.create({
   container: {

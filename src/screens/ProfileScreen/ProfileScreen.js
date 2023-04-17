@@ -160,7 +160,7 @@ const ProfileScreen = ({navigation}) => {
             </ImageBackground>
           </View>
           <View flex={5} padding={6}>
-            <ScrollView height="100%" showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <VStack space={12}>
                 <View>
                   <Text
