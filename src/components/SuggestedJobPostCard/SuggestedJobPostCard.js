@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {StyleSheet} from 'react-native';
 import {Center, FlatList, Spinner, Text, View} from 'native-base';
 
@@ -11,6 +12,7 @@ const SuggestedJobPostCard = ({
   isPagination = false,
   params,
 }) => {
+  const {jobPostSaved} = useSelector(state => state.reload);
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
@@ -40,6 +42,24 @@ const SuggestedJobPostCard = ({
     getJobPosts(params);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  React.useEffect(() => {
+    let jobPostsNew = [];
+    const jobPostChange = jobPosts.find(value => value.id === jobPostSaved.id);
+
+    for (let i = 0; i < jobPosts.length && jobPostChange; i++) {
+      if (jobPosts[i].id === jobPostSaved.id) {
+        jobPostsNew.push({
+          ...jobPostChange,
+          isSaved: jobPostSaved.status,
+        });
+      } else {
+        jobPostsNew.push(jobPosts[i]);
+      }
+    }
+
+    setJobPosts(jobPostsNew);
+  }, [jobPostSaved]);
 
   const handleLoadMore = () => {
     if (Math.ceil(count / pageSize) > page) {
@@ -76,6 +96,7 @@ const SuggestedJobPostCard = ({
               deadline={value?.deadline}
               isHot={value?.isHot}
               isUrgent={value?.isUrgent}
+              isSaved={value?.isSaved}
               cityId={value?.locationDict?.city}
               companyName={value?.companyDict?.companyName}
               companyImageUrl={value?.companyDict?.companyImageUrl}
@@ -115,6 +136,7 @@ const SuggestedJobPostCard = ({
               deadline={item?.deadline}
               isHot={item?.isHot}
               isUrgent={item?.isUrgent}
+              isSaved={item?.isSaved}
               cityId={item?.locationDict?.city}
               companyName={item?.companyDict?.companyName}
               companyImageUrl={item?.companyDict?.companyImageUrl}

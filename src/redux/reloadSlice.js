@@ -10,7 +10,15 @@ export const reloadSlice = createSlice({
     isReloadAdvancedSkill: false,
     isReloadPersonalProfile: false,
     isReloadGeneralProfile: false,
-    isReloadAttachedProfile: false
+    isReloadAttachedProfile: false,
+    jobPostSaved: {
+      id: null,
+      status: false,
+    },
+    companyFollowed: {
+      id: null,
+      status: false,
+    }
   },
   reducers: {
     reloadExperience: state => {
@@ -34,9 +42,17 @@ export const reloadSlice = createSlice({
     reloadGeneralProfile: state => {
       state.isReloadGeneralProfile = !state.isReloadGeneralProfile;
     },
-    reloadAttachedProfile:  state => {
+    reloadAttachedProfile: state => {
       state.isReloadAttachedProfile = !state.isReloadAttachedProfile;
-    }
+    },
+    reloadSaveJobPost: (state, action) => {
+      state.jobPostSaved.id = action.payload.id;
+      state.jobPostSaved.status = action.payload.status;
+    },
+    reloadFollowCompany: (state, action) => {
+      state.companyFollowed.id = action.payload.id;
+      state.companyFollowed.status = action.payload.status;
+    },
   },
 });
 
@@ -49,7 +65,9 @@ const {
   reloadAdvancedSkill,
   reloadPersonalProfile,
   reloadGeneralProfile,
-  reloadAttachedProfile
+  reloadAttachedProfile,
+  reloadSaveJobPost,
+  reloadFollowCompany
 } = reloadSlice.actions;
 
 export default reducer;
@@ -61,5 +79,7 @@ export {
   reloadAdvancedSkill,
   reloadPersonalProfile,
   reloadGeneralProfile,
-  reloadAttachedProfile
+  reloadAttachedProfile,
+  reloadSaveJobPost,
+  reloadFollowCompany
 };

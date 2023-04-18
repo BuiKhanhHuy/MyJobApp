@@ -80,7 +80,7 @@ const SpecializationScreen = ({navigation}) => {
 
   return (
     <View onLayout={handleLayout} style={[styles.container]}>
-      {false ? (
+      {isLayoutLoading ? (
         <BackdropLoading />
       ) : (
         <>
@@ -144,7 +144,7 @@ const SpecializationScreen = ({navigation}) => {
                 {isLoading ? (
                   <FlatList
                     numColumns={2}
-                    data={Array.from(Array(5).keys())}
+                    data={Array.from(Array(8).keys())}
                     renderItem={({item}) => Loading(item)}
                   />
                 ) : (

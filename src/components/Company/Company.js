@@ -1,7 +1,87 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableWithoutFeedback} from 'react-native';
-import {Text, VStack, View, Avatar, Button, Skeleton} from 'native-base';
+import {TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {
+  Text,
+  VStack,
+  View,
+  Avatar,
+  Button,
+  Skeleton,
+  Spinner,
+  Center,
+} from 'native-base';
+
+import toastMessages from '../../utils/toastMessages';
+import companyService from '../../services/companyService';
+import {reloadFollowCompany} from '../../redux/reloadSlice';
+
+const FollowedComponent = ({id, isFollowed}) => {
+  const dispath = useDispatch();
+  const [isFollowLoading, setIsFollowLoading] = React.useState(false);
+
+  const handleFollow = id => {
+    const followCompany = async companyId => {
+      setIsFollowLoading(true);
+
+      try {
+        const resData = await companyService.followCompany(companyId);
+        const followStatus = resData?.data?.isFollowed;
+
+        dispath(
+          reloadFollowCompany({
+            id: companyId,
+            status: followStatus,
+          }),
+        );
+        toastMessages.success(
+          followStatus ? 'Đã theo dõi.' : 'Đã hủy theo dõi.',
+        );
+      } catch (error) {
+        toastMessages.error();
+      } finally {
+        setIsFollowLoading(false);
+      }
+    };
+
+    followCompany(id);
+  };
+
+  return (
+    <>
+      {isFollowLoading ? (
+        <Spinner color="myJobCustomColors.deepSaffron" />
+      ) : (
+        <Button
+          width={130}
+          borderRadius="3xl"
+          borderWidth="0.5"
+          variant="outline"
+          backgroundColor={isFollowed ? 'myJobCustomColors.dullLavender' : null}
+          borderColor="myJobCustomColors.blueLotus"
+          onPress={() => handleFollow(id)}
+          size="sm">
+          {isFollowed ? (
+            <Text
+              fontFamily="DMSans-Regular"
+              fontSize={12}
+              color="myJobCustomColors.white">
+              Đang theo dõi
+            </Text>
+          ) : (
+            <Text
+              fontFamily="DMSans-Regular"
+              fontSize={12}
+              color="myJobCustomColors.purpleBlue">
+              Theo dõi
+            </Text>
+          )}
+        </Button>
+      )}
+    </>
+  );
+};
 
 const Company = ({
   id,
@@ -38,7 +118,7 @@ const Company = ({
                 source={{
                   uri: companyImageUrl,
                 }}>
-                LOGC
+                LOGO
               </Avatar>
             </View>
             <Text
@@ -55,20 +135,11 @@ const Company = ({
               {jobPostNumber} việc làm
             </Text>
           </VStack>
-          <Button
-            borderRadius="3xl"
-            borderWidth="0.5"
-            variant="outline"
-            borderColor="myJobCustomColors.blueLotus"
-            size="sm"
-            onPress={() => alert('SAVE COMPANY!!!')}>
-            <Text
-              fontFamily="DMSans-Regular"
-              fontSize={12}
-              color="myJobCustomColors.purpleBlue">
-              Theo dõi
-            </Text>
-          </Button>
+          <Center>
+            {/* Start: FollowedComponent */}
+            <FollowedComponent id={id} isFollowed={isFollowed} />
+            {/* End: FollowedComponent */}
+          </Center>
         </VStack>
       </View>
     </TouchableWithoutFeedback>

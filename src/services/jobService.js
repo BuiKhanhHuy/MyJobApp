@@ -8,8 +8,8 @@ const jobService = {
       params: params,
     });
   },
-  getJobPostDetailById: slug => {
-    const url = `api/job/app/job-posts/${slug}/`;
+  getJobPostDetailById: id => {
+    const url = `api/job/app/job-posts/${id}/`;
 
     return httpRequest.get(url);
   },
@@ -25,8 +25,8 @@ const jobService = {
 
     return httpRequest.get(url, {params: params});
   },
-  saveJobPost: slug => {
-    const url = `api/job/app/job-posts/${slug}/job-saved/`;
+  saveJobPost: id => {
+    const url = `api/job/app/job-posts/${id}/job-saved/`;
 
     return httpRequest.post(url);
   },

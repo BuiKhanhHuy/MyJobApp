@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import {
@@ -11,10 +11,61 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {HStack, Skeleton} from 'native-base';
-import Feather from 'react-native-vector-icons/Feather';
+import {HStack, Skeleton, Spinner} from 'native-base';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import toastMessages from '../../utils/toastMessages';
 import {salaryString} from '../../utils/customData';
+import jobService from '../../services/jobService';
+import {reloadSaveJobPost} from '../../redux/reloadSlice';
+
+const SaveComponent = ({id, isSaved}) => {
+  const dispath = useDispatch();
+  const [isSaveLoading, setIsSaveLoading] = React.useState(false);
+
+  const handleSave = id => {
+    const saveJob = async jobPostId => {
+      setIsSaveLoading(true);
+
+      try {
+        const resData = await jobService.saveJobPost(jobPostId);
+        const saveStatus = resData?.data?.isSaved;
+
+        dispath(
+          reloadSaveJobPost({
+            id: jobPostId,
+            status: saveStatus,
+          }),
+        );
+        toastMessages.success(
+          saveStatus ? 'Lưu thành công.' : 'Hủy lưu thành công.',
+        );
+      } catch (error) {
+        toastMessages.error();
+      } finally {
+        setIsSaveLoading(false);
+      }
+    };
+
+    saveJob(id);
+  };
+
+  return (
+    <>
+      {isSaveLoading ? (
+        <Spinner color="myJobCustomColors.deepSaffron" />
+      ) : (
+        <TouchableOpacity onPress={() => handleSave(id)}>
+          {isSaved ? (
+            <FontAwesome name="bookmark" size={22} color={'#FF9228'} />
+          ) : (
+            <FontAwesome name="bookmark-o" size={22} color={'#524b6b'} />
+          )}
+        </TouchableOpacity>
+      )}
+    </>
+  );
+};
 
 const JobPost = ({
   id,
@@ -30,13 +81,13 @@ const JobPost = ({
   deadline,
   isHot,
   isUrgent,
+  isSaved,
   cityId,
   companyName,
   companyImageUrl,
   updateAt,
 }) => {
   const navigation = useNavigation();
-
   const {allConfig} = useSelector(state => state.config);
 
   const keyworkDescription = name => {
@@ -69,9 +120,9 @@ const JobPost = ({
           <Image source={{uri: companyImageUrl}} style={styles.logo} alt="" />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
-          <TouchableOpacity onPress={() => console.log('Click button')}>
-            <Feather name="bookmark" size={20} color={'#524b6b'} />
-          </TouchableOpacity>
+          {/* Start: SaveComponent */}
+          <SaveComponent id={id} isSaved={isSaved} />
+          {/* End: SaveComponent */}
         </View>
       </View>
       <View style={{paddingTop: 10}}>
@@ -193,6 +244,10 @@ const Loading = () => {
   );
 };
 
+JobPost.Loading = Loading;
+
+export default JobPost;
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -218,7 +273,3 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
-
-JobPost.Loading = Loading;
-
-export default JobPost;

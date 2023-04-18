@@ -2,15 +2,15 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Center, FlatList, Spinner, View} from 'native-base';
 
-import toastMessages from '../../utils/toastMessages';
-import NoData from '../NoData/NoData';
-import Company from '../Company/Company';
-import companyService from '../../services/companyService';
+import toastMessages from '../../../utils/toastMessages';
+import NoData from '../../../components/NoData/NoData';
+import Company from '../../../components/Company/Company';
+import companyFollowedService from '../../../services/companyFollowedService';
 
-const MainCompanyCard = () => {
-  const {companyFollowed} = useSelector(state => state.reload)
-  const {companyFilter} = useSelector(state => state.filter);
-  const {pageSize} = companyFilter;
+const pageSize = 10;
+
+const CompanyFollowedCard = () => {
+  const {companyFollowed} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [companies, setCompanies] = React.useState([]);
@@ -18,16 +18,12 @@ const MainCompanyCard = () => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    setIsLoading(true);
-  }, [companyFilter]);
-
-  React.useEffect(() => {
-    const getCompanies = async companyFilter => {
+    const getCompaniesFollowed = async params => {
+      setIsLoading(true);
       try {
-        const resData = await companyService.getCompanies({
-          ...companyFilter,
-          page: page,
-        });
+        const resData = await companyFollowedService.getCompaniesFollowed(
+          params,
+        );
         const data = resData.data;
 
         setCount(data.count);
@@ -40,13 +36,18 @@ const MainCompanyCard = () => {
       }
     };
 
-    getCompanies(companyFilter);
+    getCompaniesFollowed({
+      pageSize: pageSize,
+      page: page,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [companyFilter, page]);
+  }, [page]);
 
   React.useEffect(() => {
     let companyNew = [];
-    const companyChange = companies.find(value => value.id === companyFollowed.id);
+    const companyChange = companies.find(
+      value => value.id === companyFollowed.id,
+    );
 
     for (let i = 0; i < companies.length && companyChange; i++) {
       if (companies[i].id === companyFollowed.id) {
@@ -84,7 +85,7 @@ const MainCompanyCard = () => {
       ) : companies.length === 0 ? (
         <Center marginTop={50}>
           <NoData
-            title="Chúng tôi không tìm thấy công ty bạn đang tìm kiếm hiện tại"
+            title="Bạn chưa theo dõi bất kỳ nhà tuyển dụng nào"
             imgSize="3xs"
           />
         </Center>
@@ -120,4 +121,4 @@ const MainCompanyCard = () => {
   );
 };
 
-export default React.memo(MainCompanyCard);
+export default CompanyFollowedCard;

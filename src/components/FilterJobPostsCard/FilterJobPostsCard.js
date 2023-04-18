@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {Center, FlatList, Spinner, Text, View} from 'native-base';
 import {StyleSheet} from 'react-native';
 
@@ -7,6 +8,7 @@ import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
 
 const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
+  const {jobPostSaved} = useSelector(state => state.reload);
   const [isFirstLoading, setIsFirstLoading] = React.useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
@@ -36,6 +38,24 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
     getJobPosts(params);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params, page]);
+
+  React.useEffect(() => {
+    let jobPostsNew = [];
+    const jobPostChange = jobPosts.find(value => value.id === jobPostSaved.id);
+
+    for (let i = 0; i < jobPosts.length && jobPostChange; i++) {
+      if (jobPosts[i].id === jobPostSaved.id) {
+        jobPostsNew.push({
+          ...jobPostChange,
+          isSaved: jobPostSaved.status,
+        });
+      } else {
+        jobPostsNew.push(jobPosts[i]);
+      }
+    }
+
+    setJobPosts(jobPostsNew);
+  }, [jobPostSaved]);
 
   const handleLoadMore = () => {
     if (Math.ceil(count / pageSize) > page) {
@@ -72,6 +92,7 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
               deadline={value?.deadline}
               isHot={value?.isHot}
               isUrgent={value?.isUrgent}
+              isSaved={value?.isSaved}
               cityId={value?.locationDict?.city}
               companyName={value?.companyDict?.companyName}
               companyImageUrl={value?.companyDict?.companyImageUrl}
@@ -111,6 +132,7 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
               deadline={item?.deadline}
               isHot={item?.isHot}
               isUrgent={item?.isUrgent}
+              isSaved={item?.isSaved}
               cityId={item?.locationDict?.city}
               companyName={item?.companyDict?.companyName}
               companyImageUrl={item?.companyDict?.companyImageUrl}

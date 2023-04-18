@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {Center, HStack, ScrollView, View, Text} from 'native-base';
 
 import NoData from '../NoData/NoData';
@@ -6,6 +7,7 @@ import Company from '../Company/Company';
 import companyService from '../../services/companyService';
 
 const TopCompanyCard = () => {
+  const {companyFollowed} = useSelector(state => state.reload)
   const [isLoading, setIsLoading] = React.useState(true);
   const [companies, setCompanies] = React.useState([]);
 
@@ -26,6 +28,24 @@ const TopCompanyCard = () => {
     getTopCompanies();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    let companyNew = [];
+    const companyChange = companies.find(value => value.id === companyFollowed.id);
+
+    for (let i = 0; i < companies.length && companyChange; i++) {
+      if (companies[i].id === companyFollowed.id) {
+        companyNew.push({
+          ...companyChange,
+          isFollowed: companyFollowed.status,
+        });
+      } else {
+        companyNew.push(companies[i]);
+      }
+    }
+
+    setCompanies(companyNew);
+  }, [companyFollowed]);
 
   return (
     <View>

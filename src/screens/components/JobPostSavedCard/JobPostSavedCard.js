@@ -1,16 +1,20 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
-import {Center, FlatList, Spinner, Text, View} from 'native-base';
+import {Button, Center, FlatList, Spinner, View} from 'native-base';
 
-import NoData from '../NoData/NoData';
-import JobPost from '../JobPost/JobPost';
-import jobService from '../../services/jobService';
+import {IMAGES} from '../../../configs/globalStyles';
+import jobService from '../../../services/jobService';
+import toastMessages from '../../../utils/toastMessages';
+import NoData from '../../../components/NoData/NoData';
+import JobPost from '../../../components/JobPost/JobPost';
 
-const MainJobPostsCard = () => {
+const pageSize = 10;
+
+const JobPostSavedCard = ( ) => {
+  const navigation = useNavigation()
   const {jobPostSaved} = useSelector(state => state.reload);
-  const {jobPostFilter} = useSelector(state => state.filter);
-  const {pageSize} = jobPostFilter;
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
@@ -18,48 +22,28 @@ const MainJobPostsCard = () => {
   const [count, setCount] = React.useState(0);
 
   React.useEffect(() => {
-    setIsLoading(true);
-  }, [jobPostFilter]);
-
-  React.useEffect(() => {
-    const getJobPosts = async jobPostFilter => {
+    const getJobPosts = async params => {
+      setIsLoading(true);
       try {
-        const resData = await jobService.getJobPosts({
-          ...jobPostFilter,
-          page: page,
-        });
+        const resData = await jobService.getJobPostsSaved(params);
         const data = resData.data;
 
         setCount(data.count);
         setJobPosts(data.results);
       } catch (error) {
+        toastMessages.error();
       } finally {
         setIsLoading(false);
         setIsLoadMoreLoading(false);
       }
     };
 
-    getJobPosts(jobPostFilter);
+    getJobPosts({
+      pageSize: pageSize,
+      page: page,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jobPostFilter, page]);
-
-  React.useEffect(() => {
-    let jobPostsNew = [];
-    const jobPostChange = jobPosts.find(value => value.id === jobPostSaved.id);
-
-    for (let i = 0; i < jobPosts.length && jobPostChange; i++) {
-      if (jobPosts[i].id === jobPostSaved.id) {
-        jobPostsNew.push({
-          ...jobPostChange,
-          isSaved: jobPostSaved.status,
-        });
-      } else {
-        jobPostsNew.push(jobPosts[i]);
-      }
-    }
-
-    setJobPosts(jobPostsNew);
-  }, [jobPostSaved]);
+  }, [page]);
 
   const handleLoadMore = () => {
     if (Math.ceil(count / pageSize) > page) {
@@ -70,9 +54,6 @@ const MainJobPostsCard = () => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>1 việc làm</Text>
-      </View>
       {isLoading ? (
         Array.from(Array(3).keys()).map(value => (
           <JobPost.Loading key={value} />
@@ -80,9 +61,21 @@ const MainJobPostsCard = () => {
       ) : jobPosts.length === 0 ? (
         <Center marginTop={50}>
           <NoData
-            title="Chúng tôi không tìm thấy công việc bạn đang tìm kiếm hiện tại"
+            title="Bạn chưa lưu công việc nào"
             imgSize="3xs"
-          />
+            img={IMAGES.img3}>
+            <Button
+              onPress={() => navigation.navigate('MainJobPostScreen')}
+              mt={10}
+              size="md"
+              rounded="lg"
+              bgColor="myJobCustomColors.darkIndigo"
+              fontFamily="DMSans-Bold"
+              fontSize={14}
+              lineHeight={18}>
+              TÌM VIỆC LÀM
+            </Button>
+          </NoData>
         </Center>
       ) : (
         <FlatList
@@ -125,10 +118,10 @@ const MainJobPostsCard = () => {
   );
 };
 
+export default JobPostSavedCard;
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
   },
 });
-
-export default MainJobPostsCard;

@@ -22,9 +22,13 @@ const JobTypePopulars = () => {
 
         const customData = [];
         for (let id in allConfig?.typeOfWorkplaceDict) {
+          console.log(id);
           customData.push({
             name: allConfig?.typeOfWorkplaceDict[id],
-            total: data.filter(value => value.typeOfWorkplace == id).length,
+            total:
+              data.filter(value => value.typeOfWorkplace == id).length > 0
+                ? data[0].total
+                : 0,
           });
         }
         setData(customData);
