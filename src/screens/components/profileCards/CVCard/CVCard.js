@@ -19,6 +19,8 @@ import {ICONS} from '../../../../configs/globalStyles';
 import NoData from '../../../../components/NoData/NoData';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
+import {TouchableOpacity} from 'react-native';
+import downloadFile from '../../../../utils/downloadFile';
 
 const CVCard = ({resumeId}) => {
   const navigation = useNavigation();
@@ -41,6 +43,10 @@ const CVCard = ({resumeId}) => {
 
     getResumeDetail(resumeId);
   }, [resumeId]);
+
+  const handleDownload = fileUrl => {
+    downloadFile(fileUrl);
+  };
 
   return (
     <ProfileCard
@@ -101,20 +107,31 @@ const CVCard = ({resumeId}) => {
                     alignItems="center"
                     space={3}
                     justifyContent="flex-end">
-                    <Icon
-                      size="xl"
-                      marginRight={1}
-                      as={Ionicons}
-                      name="eye-outline"
-                      color="myJobCustomColors.deepSaffron"
-                    />
-                    <Icon
-                      size="lg"
-                      marginRight={1}
-                      as={AntDesign}
-                      name="download"
-                      color="myJobCustomColors.deepSaffron"
-                    />
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate('ViewPdfScreen', {
+                          title: cv?.title,
+                          fileUrl: cv?.fileUrl,
+                        })
+                      }>
+                      <Icon
+                        size="xl"
+                        marginRight={1}
+                        as={Ionicons}
+                        name="eye-outline"
+                        color="myJobCustomColors.deepSaffron"
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleDownload(cv?.fileUrl)}>
+                      <Icon
+                        size="lg"
+                        marginRight={1}
+                        as={AntDesign}
+                        name="download"
+                        color="myJobCustomColors.deepSaffron"
+                      />
+                    </TouchableOpacity>
                   </HStack>
                 </View>
               </VStack>

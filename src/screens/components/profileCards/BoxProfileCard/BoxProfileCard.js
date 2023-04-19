@@ -21,13 +21,16 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {CV_TYPES} from '../../../../configs/constants';
 import NoData from '../../../../components/NoData/NoData';
-import BackdropLoading from '../../../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../../../components/loadings/BackdropLoading';
 import {salaryString} from '../../../../utils/customData';
 import toastMessages from '../../../../utils/toastMessages';
 import errorHandling from '../../../../utils/errorHandling';
 import jobSeekerProfileService from '../../../../services/jobSeekerProfileService';
 import resumeService from '../../../../services/resumeService';
 import {reloadResume} from '../../../../redux/profileSlice';
+
+import CvDoc from '../../../../components/CvDoc';
+import {createPDF} from '../../../../utils/downloadFile';
 
 const Loading = () => (
   <>
@@ -119,6 +122,11 @@ const BoxProfileCard = () => {
     activeResume(id);
   };
 
+  const downloadPDF = async () => {
+    const file = await createPDF();
+    console.log(file);
+  };
+
   return (
     <>
       {isFullScreenLoading && <BackdropLoading />}
@@ -170,13 +178,15 @@ const BoxProfileCard = () => {
             )}
 
             <HStack space={4}>
-              <Icon
-                size="lg"
-                marginRight={1}
-                as={AntDesign}
-                name="download"
-                color="myJobCustomColors.deepSaffron"
-              />
+              <TouchableOpacity onPress={downloadPDF}>
+                <Icon
+                  size="lg"
+                  marginRight={1}
+                  as={AntDesign}
+                  name="download"
+                  color="myJobCustomColors.deepSaffron"
+                />
+              </TouchableOpacity>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('OnlineProfileScreen', {

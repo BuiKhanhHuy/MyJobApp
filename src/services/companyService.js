@@ -24,6 +24,7 @@ const companyService = {
 
     return httpRequest.get(url);
   },
+ 
 };
 
 export default companyService;

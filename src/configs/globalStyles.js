@@ -26,6 +26,7 @@ export const ICONS = {
   LOCATION: require('../assets/images/icons/location-icon.png'),
   FILTER: require('../assets/images/icons/filter-icon.png'),
   PDF_ICON: require('../assets/images/icons/pdf-icon.png'),
+  JOB_LOCATION_ICON: require('../assets/images/icons/job-location-icon.png'),
 };
 
 export const COLOR = {

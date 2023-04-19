@@ -15,6 +15,7 @@ import resumeService from '../../../../services/resumeService';
 import {reloadAttachedProfile} from '../../../../redux/reloadSlice';
 import errorHandling from '../../../../utils/errorHandling';
 import { reloadResume } from '../../../../redux/profileSlice';
+import downloadFile from '../../../../utils/downloadFile';
 
 const ProfileUploadCard = () => {
   const navigation = useNavigation();
@@ -97,6 +98,11 @@ const ProfileUploadCard = () => {
     activeResume(id);
   };
 
+  const handleDownload = fileUrl => {
+    downloadFile(fileUrl);
+  };
+
+
   return (
     <>
      {isFullScreenLoading && <BackdropLoading />}
@@ -124,6 +130,7 @@ const ProfileUploadCard = () => {
                 isActive={value?.isActive}
                 handleDelete={handleDelete}
                 handleActive={handleActive}
+                handleDownload={handleDownload}
               />
             ))}
           </HStack>

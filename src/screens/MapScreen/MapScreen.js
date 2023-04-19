@@ -1,114 +1,101 @@
 import React from 'react';
-import {Box, Button, HStack, Slider, Text, View} from 'native-base';
-import MapView, {PROVIDER_GOOGLE, Marker, Circle} from 'react-native-maps';
+import {View} from 'native-base';
+import {Platform, PermissionsAndroid} from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+
+import JobsAroundMap from '../../components/JobsAroundMap';
+import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import jobService from '../../services/jobService';
+import toastMessages from '../../utils/toastMessages';
 
 const MapScreen = () => {
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
+  const [currentLocation, setCurrentLocation] = React.useState({
+    latitude: null,
+    longitude: null,
+  });
+  const [radius, setRadius] = React.useState(3000);
+  const [jobPosts, setJobPosts] = React.useState([]);
+
+  React.useEffect(() => {
+    const requestPermissions = async () => {
+      if (Platform.OS === 'ios') {
+        const auth = await Geolocation.requestAuthorization('whenInUse');
+        if (auth === 'granted') {
+          // do something if granted...
+        }
+      } else if (Platform.OS === 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Cool Photo App Camera Permission',
+            message:
+              'Cool Photo App needs access to your camera ' +
+              'so you can take awesome pictures.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          Geolocation.getCurrentPosition(
+            position => {
+              console.log(position);
+              setCurrentLocation({
+                ...currentLocation,
+                latitude: position?.coords?.latitude,
+                longitude: position?.coords?.longitude,
+              });
+            },
+            error => {
+              console.log(error.code, error.message);
+            },
+            {
+              timeout: 50000,
+            },
+          );
+        }
+      }
+    };
+
+    requestPermissions();
+  }, []);
+
+  React.useEffect(() => {
+    const getJobPostsAround = async data => {
+      setIsFullScreenLoading(true);
+
+      try {
+        const resData = await jobService.getJobPostsAround(data);
+
+        console.log("Job Posts: ", resData.data)
+      } catch (error) {
+        toastMessages.error();
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    const dataFilter = {
+      currentLatitude: currentLocation?.latitude,
+      currentLongitude: currentLocation?.longitude,
+      radius: radius,
+    };
+
+    if (currentLocation?.latitude && currentLocation?.longitude) {
+      getJobPostsAround(dataFilter);
+    }
+  }, [radius]);
+
   return (
-    <View flex={1}>
-      <View flex={1} paddingX={6} justifyContent="center">
-        <HStack space={6} alignItems="center">
-          <Box>
-            <Text>Phạm vi: 1 km</Text>
-          </Box>
-          <Box flex={4}>
-            <Slider defaultValue={70} colorScheme="orange" w="100%">
-              <Slider.Track>
-                <Slider.FilledTrack />
-              </Slider.Track>
-              <Slider.Thumb />
-            </Slider>
-          </Box>
-          <Box flex={1}>
-            <Button
-              borderRadius="full"
-              size="xs"
-              backgroundColor="myJobCustomColors.neonCarrot">
-              Tìm
-            </Button>
-          </Box>
-        </HStack>
-      </View>
-      <View flex={10} backgroundColor="blue.100">
-        <MapView
-          style={{
-            height: '100%',
-            width: '100%',
-          }}
-          initialRegion={{
-            latitude: 10.817042511146953,
-            longitude: 106.67710216636878,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          provider={PROVIDER_GOOGLE}>
-          <Circle
-            center={{
-              latitude: 10.817042511146953,
-              longitude: 106.67710216636878,
-            }}
-            radius={1000}
-            fillColor={'rgba(255, 99, 71, 0.15)'}
-            strokeColor={'rgba(255, 99, 71, 0.15)'}
-          />
-          <Marker
-            coordinate={{
-              latitude: 10.817042511146953,
-              longitude: 106.67710216636878,
-            }}
-            title={'Đại học Mở TP. HCM'}
-            description={
-              'Trường Đại học Mở TP. HCM (Ho Chi Minh City Open University)'
-            }
-            image={{
-              uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/c_fill,h_120,r_1000,w_120/a_360/v1662831072/yc2czkt53rri42oqelyc.png',
-              width: 1,
-              height: 1,
-            }}
-          />
-          <Marker
-            coordinate={{
-              latitude: 10.81474263664938,
-              longitude: 106.67863208929212,
-            }}
-            title={'Đại học Mở TP. HCM'}
-            description={
-              'Trường Đại học Mở TP. HCM (Ho Chi Minh City Open University)'
-            }
-            image={{
-              uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/v1676966861/cz53ppmlfioienduqayy.png',
-            }}
-          />
-          <Marker
-            coordinate={{
-              latitude: 10.815834944350186,
-              longitude: 106.67887192254884,
-            }}
-            title={'Đại học Mở TP. HCM'}
-            description={
-              'Trường Đại học Mở TP. HCM (Ho Chi Minh City Open University)'
-            }
-            image={{
-              uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/v1676966861/cz53ppmlfioienduqayy.png',
-            }}
-          />
-          <Marker
-            coordinate={{
-              latitude: 10.810808160286118,
-              longitude: 106.67063217624533,
-            }}
-            title={'Đại học Mở TP. HCM'}
-            description={
-              'Trường Đại học Mở TP. HCM (Ho Chi Minh City Open University)'
-            }
-            image={{
-              uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/v1676966861/cz53ppmlfioienduqayy.png',
-            }}
-          />
-        </MapView>
-      </View>
-      <View flex={4} paddingX={6}>
-        <Text>Danh sách việc làm tại đây</Text>
-      </View>
+    <View>
+      {isFullScreenLoading && <BackdropLoading />}
+      <JobsAroundMap
+        currentLocation={currentLocation}
+        jobPosts={jobPosts}
+        radius={radius}
+        setRadius={setRadius}
+      />
     </View>
   );
 };

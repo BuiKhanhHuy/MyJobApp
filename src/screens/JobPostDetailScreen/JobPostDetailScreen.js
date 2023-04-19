@@ -111,7 +111,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: '',
+      title: 'Chi tiết việc làm',
       headerRight: () => (
         <IconButton
           icon={<Icon as={MaterialIcons} name="more-vert" />}
@@ -187,7 +187,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                       source={{
                         uri: jobPostDetail?.mobileCompanyDict?.companyImageUrl,
                       }}>
-                      LOGO
+                      ---
                     </Avatar>
                   </Center>
                 </View>
@@ -267,7 +267,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                   <MenuButtonComponent tab={tab} setTab={setTab} />
                   {/* End: MenuButtonComponent */}
 
-                  <View mt={10} mb={5}>
+                  <View mt={10} mb={5}  >
                     {tab === 0 ? (
                       <JobPostDetail
                         jobName={jobPostDetail?.jobName}
@@ -367,7 +367,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                       )}
                     </HStack>
                   </View>
-                  <View>
+                  <View paddingBottom={5}>
                     {/* Start: SuggestedJobPostCard */}
                     {isAuthenticated ? (
                       <SuggestedJobPostCard pageSize={10} />

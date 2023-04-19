@@ -90,7 +90,7 @@ const FeedbackCard = () => {
               <>
                 <AlertDialog.CloseButton />
                 <AlertDialog.Header>
-                  <Text fontFamily="dMSansRegular">Gửi phản hồi về MyJob</Text>
+                  <Text fontFamily="dMSansBold">Gửi phản hồi về MyJob</Text>
                 </AlertDialog.Header>
                 <AlertDialog.Body backgroundColor="myJobCustomColors.mercury">
                   <View mb={2}>

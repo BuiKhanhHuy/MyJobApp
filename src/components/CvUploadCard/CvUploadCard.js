@@ -26,6 +26,7 @@ const CvUploadCard = ({
   isActive,
   handleDelete,
   handleActive,
+  handleDownload,
 }) => {
   const navigation = useNavigation();
 
@@ -113,13 +114,15 @@ const CvUploadCard = ({
               color="myJobCustomColors.roseMadder"
             />
           </TouchableOpacity>
-          <Icon
-            size="lg"
-            marginRight={1}
-            as={AntDesign}
-            name="download"
-            color="myJobCustomColors.deepSaffron"
-          />
+          <TouchableOpacity onPress={() => handleDownload(fileUrl)}>
+            <Icon
+              size="lg"
+              marginRight={1}
+              as={AntDesign}
+              name="download"
+              color="myJobCustomColors.deepSaffron"
+            />
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('AttachedProfileScreen', {

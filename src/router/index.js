@@ -51,6 +51,10 @@ import ContactUsScreen from '../screens/ContactUsScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
 
+// Tool
+import ViewPdfScreen from '../screens/ViewPdfScreen';
+
+
 const RootStack = createNativeStackNavigator();
 
 const Router = () => {
@@ -58,7 +62,7 @@ const Router = () => {
 
   return (
     <RootStack.Navigator
-      initialRouteName="MainTab"
+      initialRouteName="MapScreen"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
@@ -256,6 +260,18 @@ const Router = () => {
           <RootStack.Screen name="MapScreen" component={MapScreen} />
         </RootStack.Group>
         {/* End: Map */}
+
+        {/* Start: Tool */}
+        <RootStack.Group>
+          <RootStack.Screen
+            name="ViewPdfScreen"
+            component={ViewPdfScreen}
+            options={{
+              title: 'Xem tệp',
+            }}
+          />
+        </RootStack.Group>
+        {/* End: Tool */}
       </RootStack.Group>
     </RootStack.Navigator>
   );

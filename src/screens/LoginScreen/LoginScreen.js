@@ -3,6 +3,7 @@ import {Box, Text, View, VStack} from 'native-base';
 import {getUserInfo} from '../../redux/userSlice';
 import {useDispatch} from 'react-redux';
 import {AccessToken, LoginManager} from 'react-native-fbsdk';
+import {GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 
 import {
   APP_NAME,
@@ -139,12 +140,30 @@ const LoginScreen = ({navigation}) => {
     );
   };
 
-  const handleGoogleLogin = () => {};
+  const handleGoogleLogin = async () => {
+    try {
+      
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+
+      console.log(userInfo);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log("user cancelled the login flow: ", error)
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log(" operation (e.g. sign in) is in progress already: ", error)
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log("play services not available or outdated: ", error)
+      } else {
+        console.log("some other error happened: ", error)
+      }
+    }
+  };
 
   return (
     <>
       <View paddingX="7" paddingTop="12" flex={1} onLayout={handleLayout}>
-        {isLayoutLoading ? (
+        {false ? (
           <BackdropLoading />
         ) : (
           <>
