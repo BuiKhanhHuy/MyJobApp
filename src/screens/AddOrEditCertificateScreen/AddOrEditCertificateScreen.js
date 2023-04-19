@@ -5,6 +5,7 @@ import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
+import errorHandling from '../../utils/errorHandling';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import AddOrEditCertificateForm from '../components/forms/AddOrEditCertificateForm/AddOrEditCertificateForm';
 import certificateService from '../../services/certificateService';
@@ -18,6 +19,7 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [editData, setEditData] = React.useState(null);
+  const [serverErrors, setServerErrors] = React.useState(null);
 
   React.useLayoutEffect(() => {
     if (id) {
@@ -60,7 +62,7 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
         dispatch(reloadCertificate());
         navigation.goBack();
       } catch (error) {
-        toastMessages.error();
+        errorHandling(error, setServerErrors);
       } finally {
         setIsFullScreenLoading(false);
       }
@@ -74,7 +76,7 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
         navigation.goBack();
         toastMessages.success('Cập nhật thành công.');
       } catch (error) {
-        toastMessages.error();
+        errorHandling(error, setServerErrors);
       } finally {
         setIsFullScreenLoading(false);
       }
@@ -107,6 +109,7 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
             <AddOrEditCertificateForm
               handleAddOrUpdate={handleAddOrUpdate}
               editData={editData}
+              serverErrors={serverErrors}
             />
           )}
         </>

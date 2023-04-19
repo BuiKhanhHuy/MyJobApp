@@ -5,6 +5,7 @@ import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
+import errorHandling from '../../utils/errorHandling';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import AddOrEditAdvancedSkillForm from '../components/forms/AddOrEditAdvancedSkillForm';
 import advancedSkillService from '../../services/advancedSkillService';
@@ -18,6 +19,7 @@ const AddOrEditAdvancedSkillScreen = ({route, navigation}) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [editData, setEditData] = React.useState(null);
+  const [serverErrors, setServerErrors] = React.useState(null);
 
   React.useLayoutEffect(() => {
     if (id) {
@@ -59,7 +61,7 @@ const AddOrEditAdvancedSkillScreen = ({route, navigation}) => {
         navigation.goBack();
         toastMessages.success('Thêm thành công.');
       } catch (error) {
-        toastMessages.error();
+        errorHandling(error, setServerErrors);
       } finally {
         setIsFullScreenLoading(false);
       }
@@ -73,7 +75,7 @@ const AddOrEditAdvancedSkillScreen = ({route, navigation}) => {
         navigation.goBack();
         toastMessages.success('Cập nhật thành công.');
       } catch (error) {
-        toastMessages.error();
+        errorHandling(error, setServerErrors);
       } finally {
         setIsFullScreenLoading(false);
       }
@@ -106,6 +108,7 @@ const AddOrEditAdvancedSkillScreen = ({route, navigation}) => {
             <AddOrEditAdvancedSkillForm
               handleAddOrUpdate={handleAddOrUpdate}
               editData={editData}
+              serverErrors={serverErrors}
             />
           )}
         </>

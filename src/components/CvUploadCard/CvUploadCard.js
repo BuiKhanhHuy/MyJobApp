@@ -25,6 +25,7 @@ const CvUploadCard = ({
   fileUrl,
   isActive,
   handleDelete,
+  handleActive,
 }) => {
   const navigation = useNavigation();
 
@@ -62,21 +63,47 @@ const CvUploadCard = ({
           </Text>
         </Stack>
         <HStack alignItems="center" space={4} justifyContent="flex-end">
-          <Button variant="outline" px="3" py="1.5">
-            <Text
-              fontFamily="dMSansRegular"
-              fontSize="xs"
-              lineHeight="sm"
-              color="myJobCustomColors.mulledWine">
-              <Icon
-                as={FontAwesome}
-                name="star-o"
-                size={4}
-                color="myJobCustomColors.mulledWine"
-              />{' '}
-              Đặt làm CV chính
-            </Text>
-          </Button>
+          {isActive ? (
+            <Button
+              variant="outline"
+              px="3"
+              py="1.5"
+              onPress={() => handleActive(id)}>
+              <Text
+                fontFamily="dMSansRegular"
+                fontSize="xs"
+                lineHeight="sm"
+                color="myJobCustomColors.mulledWine">
+                <Icon
+                  as={FontAwesome}
+                  size={4}
+                  color="myJobCustomColors.rubberDuckyYellow"
+                  name="star"
+                />{' '}
+                Cho phép tìm kiếm
+              </Text>
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              px="3"
+              py="1.5"
+              onPress={() => handleActive(id)}>
+              <Text
+                fontFamily="dMSansRegular"
+                fontSize="xs"
+                lineHeight="sm"
+                color="myJobCustomColors.mulledWine">
+                <Icon
+                  as={FontAwesome}
+                  name="star-o"
+                  size={4}
+                  color="myJobCustomColors.mulledWine"
+                />{' '}
+                Cho phép tìm kiếm
+              </Text>
+            </Button>
+          )}
           <TouchableOpacity onPress={() => handleDelete(id)}>
             <Icon
               size="lg"

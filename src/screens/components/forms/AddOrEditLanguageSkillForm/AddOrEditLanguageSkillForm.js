@@ -9,7 +9,11 @@ import SelectCustom from '../../../../components/formControls/SelectCustom/Selec
 import RatingCustom from '../../../../components/formControls/RatingCustom/RatingCustom';
 import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
 
-const AddOrEditLanguageSkillForm = ({handleAddOrUpdate, editData}) => {
+const AddOrEditLanguageSkillForm = ({
+  handleAddOrUpdate,
+  editData,
+  serverErrors = {},
+}) => {
   const {allConfig} = useSelector(state => state.config);
   const schema = yup.object().shape({
     language: yup
@@ -19,7 +23,7 @@ const AddOrEditLanguageSkillForm = ({handleAddOrUpdate, editData}) => {
     level: yup.number().required('Trình độ là bắt buộc.'),
   });
 
-  const {control, reset, handleSubmit} = useForm({
+  const {control,setError, reset, handleSubmit} = useForm({
     defaultValues: {
       language: '',
       level: 3,
@@ -37,6 +41,20 @@ const AddOrEditLanguageSkillForm = ({handleAddOrUpdate, editData}) => {
       reset();
     }
   }, [editData, reset]);
+
+  // show server errors
+  React.useEffect(() => {
+    if (serverErrors !== null)
+      for (let err in serverErrors) {
+        setError(err, {
+          type: 400,
+          message: serverErrors[err]?.join(' '),
+        });
+      }
+    else {
+      setError();
+    }
+  }, [serverErrors, setError]);
 
   return (
     <>

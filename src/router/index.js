@@ -42,6 +42,7 @@ import AddOrEditLanguageSkillScreen from '../screens/AddOrEditLanguageSkillScree
 import AddOrEditAdvancedSkillScreen from '../screens/AddOrEditAdvancedSkillScreen';
 import UploadProfileScreen from '../screens/UploadProfileScreen';
 import EditCvScreen from '../screens/EditCvScreen/EditCvScreen';
+import EditAccountScreen from '../screens/EditAccountScreen';
 
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import TermsOfUseScreen from '../screens/TermsOfUseScreen';
@@ -211,6 +212,13 @@ const Router = () => {
             }}
           />
           <RootStack.Screen name="EditCvScreen" component={EditCvScreen} />
+          <RootStack.Screen
+            name="EditAccountScreen"
+            component={EditAccountScreen}
+            options={{
+              title: 'Tài khoản',
+            }}
+          />
 
           <RootStack.Screen
             name="ChangePasswordScreen"

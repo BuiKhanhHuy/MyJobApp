@@ -7,6 +7,7 @@ import {View} from 'native-base';
 import {useLayout} from '../../hooks';
 import {APP_NAME} from '../../configs/constants';
 import toastMessages from '../../utils/toastMessages';
+import errorHandling from '../../utils/errorHandling';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import ChangePasswordForm from '../components/forms/ChangePasswordForm';
 import tokenService from '../../services/tokenService';
@@ -19,6 +20,7 @@ const ChangePasswordScreen = () => {
   const dispatch = useDispatch();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
+  const [serverErrors, setServerErrors] = React.useState(null);
 
   const handleUpdate = data => {
     const update = async data => {
@@ -38,9 +40,9 @@ const ChangePasswordScreen = () => {
             setIsFullScreenLoading(false);
           });
       } catch (error) {
-        toastMessages.error();
+        errorHandling(error, setServerErrors);
         setIsFullScreenLoading(false);
-      } 
+      }
     };
 
     update(data);
@@ -57,7 +59,10 @@ const ChangePasswordScreen = () => {
         <BackdropLoading />
       ) : (
         <>
-          <ChangePasswordForm handleUpdate={handleUpdate} />
+          <ChangePasswordForm
+            handleUpdate={handleUpdate}
+            serverErrors={serverErrors}
+          />
         </>
       )}
       {isFullScreenLoading && <BackdropLoading />}

@@ -17,6 +17,19 @@ const getUserInfo = createAsyncThunk(
   },
 );
 
+const updateUserInfo = createAsyncThunk(
+  'user/updateUser',
+  async (data, thunkAPI) => {
+    try {
+      const resData = await authService.updateUser(data);
+
+      return resData.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 const removeUserInfo = createAsyncThunk(
   'user/removeUserInfo',
   async (accessToken, thunkAPI) => {
@@ -48,6 +61,11 @@ export const userSlice = createSlice({
       state.currentUser = action.payload;
     });
 
+    builder.addCase(updateUserInfo.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+      state.currentUser = action.payload;
+    });
+
     builder.addCase(removeUserInfo.fulfilled, state => {
       state.isAuthenticated = false;
       state.currentUser = null;
@@ -58,4 +76,4 @@ export const userSlice = createSlice({
 const {actions, reducer} = userSlice;
 
 export default reducer;
-export {getUserInfo, removeUserInfo};
+export {getUserInfo, updateUserInfo, removeUserInfo};

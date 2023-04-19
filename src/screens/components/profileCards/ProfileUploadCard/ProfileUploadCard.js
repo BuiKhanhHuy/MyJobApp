@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import {Box, Button, HStack, Icon, ScrollView} from 'native-base';
@@ -13,9 +13,15 @@ import CvUploadCard from '../../../../components/CvUploadCard/CvUploadCard';
 import jobSeekerProfileService from '../../../../services/jobSeekerProfileService';
 import resumeService from '../../../../services/resumeService';
 import {reloadAttachedProfile} from '../../../../redux/reloadSlice';
+import errorHandling from '../../../../utils/errorHandling';
+import { reloadResume } from '../../../../redux/profileSlice';
 
 const ProfileUploadCard = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {
+    resume: { isReloadResume },
+  } = useSelector((state) => state.profile);
   const {currentUser} = useSelector(state => state.user);
   const {isReloadAttachedProfile} = useSelector(state => state.reload);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
@@ -42,7 +48,7 @@ const ProfileUploadCard = () => {
     getOnlineProfile(currentUser?.jobSeekerProfileId, {
       resumeType: CV_TYPES.cvUpload,
     });
-  }, [currentUser, isReloadAttachedProfile]);
+  }, [currentUser, isReloadAttachedProfile, isReloadResume]);
 
   const handleDelete = async id => {
     const del = async id => {
@@ -73,6 +79,24 @@ const ProfileUploadCard = () => {
     }
   };
 
+  const handleActive = (id) => {
+    const activeResume = async (resumeId) => {
+      setIsFullScreenLoading(true);
+      try {
+        await resumeService.activeResume(resumeId);
+
+        dispatch(reloadResume());
+        toastMessages.success('Cập nhật thành công.');
+      } catch (error) {
+        errorHandling(error);
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    activeResume(id);
+  };
+
   return (
     <>
      {isFullScreenLoading && <BackdropLoading />}
@@ -99,6 +123,7 @@ const ProfileUploadCard = () => {
                 fileUrl={value?.fileUrl}
                 isActive={value?.isActive}
                 handleDelete={handleDelete}
+                handleActive={handleActive}
               />
             ))}
           </HStack>

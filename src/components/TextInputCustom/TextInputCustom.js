@@ -22,6 +22,7 @@ const TextInputCustom = ({
   leftIconName = null,
   secureTextEntry = false,
   keyboardType = 'default',
+  disabled = false,
 }) => {
   const [show, setShow] = React.useState(false);
 
@@ -47,7 +48,9 @@ const TextInputCustom = ({
               </FormControl.Label>
             )}
             <Input
-              keyboardType={keyboardType }
+              isReadOnly={disabled}
+              isDisabled={disabled}
+              keyboardType={keyboardType}
               value={field.value}
               onChangeText={field.onChange}
               onBlur={field.onBlur}

@@ -2,12 +2,12 @@ import React from 'react';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {Box, ScrollView, Skeleton, VStack, View} from 'native-base';
+import {Box, ScrollView, VStack, View} from 'native-base';
 
 import TextInputCustom from '../../../../components/TextInputCustom/TextInputCustom';
 import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
 
-const ChangePasswordForm = ({handleUpdate}) => {
+const ChangePasswordForm = ({handleUpdate, serverErrors = {}}) => {
   const schema = yup.object().shape({
     oldPassword: yup
       .string()
@@ -23,9 +23,20 @@ const ChangePasswordForm = ({handleUpdate}) => {
       .oneOf([yup.ref('newPassword')], 'Mật khẩu xác nhận không chính xác.'),
   });
 
-  const {control, handleSubmit} = useForm({
+  const {control, setError, handleSubmit} = useForm({
+    defaultValues: {
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
     resolver: yupResolver(schema),
   });
+
+  React.useEffect(() => {
+    for (let err in serverErrors) {
+      setError(err, {type: 400, message: serverErrors[err]?.join(' ')});
+    }
+  }, [serverErrors, setError]);
 
   return (
     <>

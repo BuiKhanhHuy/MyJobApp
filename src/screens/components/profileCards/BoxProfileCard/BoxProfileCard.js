@@ -1,5 +1,5 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment-timezone';
@@ -21,9 +21,13 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {CV_TYPES} from '../../../../configs/constants';
 import NoData from '../../../../components/NoData/NoData';
+import BackdropLoading from '../../../../components/loadings/BackdropLoading/BackdropLoading';
 import {salaryString} from '../../../../utils/customData';
 import toastMessages from '../../../../utils/toastMessages';
+import errorHandling from '../../../../utils/errorHandling';
 import jobSeekerProfileService from '../../../../services/jobSeekerProfileService';
+import resumeService from '../../../../services/resumeService';
+import {reloadResume} from '../../../../redux/profileSlice';
 
 const Loading = () => (
   <>
@@ -64,10 +68,15 @@ const Loading = () => (
 
 const BoxProfileCard = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {
+    resume: {isReloadResume},
+  } = useSelector(state => state.profile);
   const {currentUser} = useSelector(state => state.user);
   const {allConfig} = useSelector(state => state.config);
   const {isReloadGeneralProfile} = useSelector(state => state.reload);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [resume, setResume] = React.useState(null);
 
   React.useEffect(() => {
@@ -90,117 +99,167 @@ const BoxProfileCard = () => {
     getOnlineProfile(currentUser?.jobSeekerProfileId, {
       resumeType: CV_TYPES.cvWebsite,
     });
-  }, [currentUser, isReloadGeneralProfile]);
+  }, [currentUser, isReloadGeneralProfile, isReloadResume]);
 
-  return isLoading ? (
-    <Loading />
-  ) : resume === null ? (
-    <NoData title="Không có dữ liệu" />
-  ) : (
-    <View
-      padding={6}
-      shadow={'myJobCustomShadows.0'}
-      backgroundColor="myJobCustomColors.white"
-      borderRadius="2xl">
-      <HStack justifyContent="space-between">
-        <Button variant="outline" px="3" py="1.5">
+  const handleActive = id => {
+    const activeResume = async resumeId => {
+      setIsFullScreenLoading(true);
+      try {
+        await resumeService.activeResume(resumeId);
+
+        dispatch(reloadResume());
+        toastMessages.success('Cập nhật thành công.');
+      } catch (error) {
+        errorHandling(error);
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    activeResume(id);
+  };
+
+  return (
+    <>
+      {isFullScreenLoading && <BackdropLoading />}
+      {isLoading ? (
+        <Loading />
+      ) : resume === null ? (
+        <NoData title="Không có dữ liệu" />
+      ) : (
+        <View
+          padding={6}
+          shadow={'myJobCustomShadows.0'}
+          backgroundColor="myJobCustomColors.white"
+          borderRadius="2xl">
+          <HStack justifyContent="space-between">
+            {resume?.isActive ? (
+              <Button
+                variant="outline"
+                px="3"
+                py="1.5"
+                onPress={() => handleActive(resume.id)}>
+                <Text
+                  fontFamily="dMSansRegular"
+                  fontSize="xs"
+                  color="myJobCustomColors.mulledWine">
+                  <Icon
+                    as={FontAwesome}
+                    color="myJobCustomColors.rubberDuckyYellow"
+                    name="star"
+                    size={4}
+                  />{' '}
+                  Cho phép tìm kiếm
+                </Text>
+              </Button>
+            ) : (
+              <Button
+                variant="outline"
+                px="3"
+                py="1.5"
+                onPress={() => handleActive(resume.id)}>
+                <Text
+                  fontFamily="dMSansRegular"
+                  fontSize="xs"
+                  lineHeight="sm"
+                  color="myJobCustomColors.mulledWine">
+                  <Icon as={FontAwesome} name="star-o" size={4} /> Cho phép tìm
+                  kiếm
+                </Text>
+              </Button>
+            )}
+
+            <HStack space={4}>
+              <Icon
+                size="lg"
+                marginRight={1}
+                as={AntDesign}
+                name="download"
+                color="myJobCustomColors.deepSaffron"
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('OnlineProfileScreen', {
+                    headerTitle: 'Hồ sơ Online',
+                    resumeId: resume.id,
+                  })
+                }>
+                <Icon
+                  size="lg"
+                  marginRight={1}
+                  as={AntDesign}
+                  name="edit"
+                  color="myJobCustomColors.deepSaffron"
+                />
+              </TouchableOpacity>
+            </HStack>
+          </HStack>
+          <Divider
+            marginY={4}
+            bg="myJobCustomColors.lavenderPinocchioTealishBlue"
+          />
+          <VStack space={2}>
+            <HStack space={2}>
+              <Box>
+                <Avatar
+                  bg="green.500"
+                  size="md"
+                  source={{
+                    uri: resume?.user?.avatarUrl,
+                  }}>
+                  AJ
+                </Avatar>
+              </Box>
+              <Box>
+                <Text
+                  fontFamily="dMSansBold"
+                  color="myJobCustomColors.mulledWine"
+                  fontSize="md">
+                  {resume?.user?.fullName}
+                </Text>
+                <Text
+                  fontSize="sm"
+                  fontFamily="dMSansBold"
+                  color="myJobCustomColors.mulledWine">
+                  {resume?.title || '---'}
+                </Text>
+              </Box>
+            </HStack>
+            <View>
+              <VStack space={1}>
+                <Text
+                  fontFamily="dMSansRegular"
+                  color="myJobCustomColors.mulledWine">
+                  <Text fontWeight="bold">Kinh nghiệm:</Text>{' '}
+                  {allConfig.experienceDict[resume?.experience] || '---'}
+                </Text>
+                <Text
+                  fontFamily="dMSansRegular"
+                  color="myJobCustomColors.mulledWine">
+                  <Text fontWeight="bold">Cấp bậc:</Text>{' '}
+                  {allConfig.positionDict[resume?.position] || '---'}
+                </Text>
+                <Text
+                  fontFamily="dMSansRegular"
+                  color="myJobCustomColors.mulledWine">
+                  <Text fontWeight="bold">Mức lương mong muốn:</Text>{' '}
+                  {salaryString(resume?.salaryMin, resume?.salaryMax) || '---'}
+                </Text>
+              </VStack>
+            </View>
+          </VStack>
           <Text
+            mt={5}
             fontFamily="dMSansRegular"
             fontSize="xs"
             lineHeight="sm"
-            color="myJobCustomColors.mulledWine">
-            <Icon as={FontAwesome} name="star-o" size={4} /> Đặt làm CV chính
+            color="myJobCustomColors.mulledWine"
+            textAlign="right">
+            Ngày cập nhật: {moment(resume?.updateAt).format('DD/MM/YYYY')}
           </Text>
-        </Button>
-        <HStack space={4}>
-          <Icon
-            size="lg"
-            marginRight={1}
-            as={AntDesign}
-            name="download"
-            color="myJobCustomColors.deepSaffron"
-          />
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('OnlineProfileScreen', {
-                headerTitle: 'Hồ sơ Online',
-                resumeId: resume.id,
-              })
-            }>
-            <Icon
-              size="lg"
-              marginRight={1}
-              as={AntDesign}
-              name="edit"
-              color="myJobCustomColors.deepSaffron"
-            />
-          </TouchableOpacity>
-        </HStack>
-      </HStack>
-      <Divider
-        marginY={4}
-        bg="myJobCustomColors.lavenderPinocchioTealishBlue"
-      />
-      <VStack space={2}>
-        <HStack space={2}>
-          <Box>
-            <Avatar
-              bg="green.500"
-              size="md"
-              source={{
-                uri: resume?.user?.avatarUrl,
-              }}>
-              AJ
-            </Avatar>
-          </Box>
-          <Box>
-            <Text
-              fontFamily="dMSansBold"
-              color="myJobCustomColors.mulledWine"
-              fontSize="md">
-              {resume?.user?.fullName}
-            </Text>
-            <Text
-              fontSize="sm"
-              fontFamily="dMSansBold"
-              color="myJobCustomColors.mulledWine">
-              {resume?.title || '---'}
-            </Text>
-          </Box>
-        </HStack>
-        <View>
-          <VStack space={1}>
-            <Text
-              fontFamily="dMSansRegular"
-              color="myJobCustomColors.mulledWine">
-              <Text fontWeight="bold">Kinh nghiệm:</Text>{' '}
-              {allConfig.experienceDict[resume?.experience] || '---'}
-            </Text>
-            <Text
-              fontFamily="dMSansRegular"
-              color="myJobCustomColors.mulledWine">
-              <Text fontWeight="bold">Cấp bậc:</Text>{' '}
-              {allConfig.positionDict[resume?.position] || '---'}
-            </Text>
-            <Text
-              fontFamily="dMSansRegular"
-              color="myJobCustomColors.mulledWine">
-              <Text fontWeight="bold">Mức lương mong muốn:</Text>{' '}
-              {salaryString(resume?.salaryMin, resume?.salaryMax) || '---'}
-            </Text>
-          </VStack>
         </View>
-      </VStack>
-      <Text
-        mt={5}
-        fontFamily="dMSansRegular"
-        fontSize="xs"
-        lineHeight="sm"
-        color="myJobCustomColors.mulledWine"
-        textAlign="right">
-        Ngày cập nhật: {moment(resume?.updateAt).format('DD/MM/YYYY')}
-      </Text>
-    </View>
+      )}
+    </>
   );
 };
 

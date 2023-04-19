@@ -56,6 +56,7 @@ httpRequest.interceptors.response.use(
 
         try {
           console.log('---> Còn REFRESH TOKEN ---> LẤY TOKEN MỚI --> Refresh token là: ', refreshTokenLocal);
+          // await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
           const resData = await httpRequest.post('api/auth/token/', {
             grant_type: AUTH_CONFIG.REFRESH_TOKEN_KEY,
             client_id: AUTH_CONFIG.CLIENT_ID,

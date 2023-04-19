@@ -152,6 +152,9 @@ const ProfileScreen = ({navigation}) => {
                               }}
                               endIcon={
                                 <Icon as={AntDesign} name="edit" size="md" />
+                              }
+                              onPress={() =>
+                                navigation.navigate('EditAccountScreen')
                               }>
                               Tài khoản
                             </Button>

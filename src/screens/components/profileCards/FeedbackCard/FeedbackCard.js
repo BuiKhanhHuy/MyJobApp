@@ -34,7 +34,7 @@ const FeedbackCard = () => {
       .max(500, 'Nội dung đánh giá vượt quá độ dài cho phép.'),
   });
 
-  const {control, handleSubmit} = useForm({
+  const {control, reset, handleSubmit} = useForm({
     defaultValues: {
       rating: 5,
       content: '',
@@ -49,7 +49,10 @@ const FeedbackCard = () => {
 
       try {
         await myjobService.createFeedback(data);
+
         onClose();
+        reset();
+
         toastMessages.success('Gửi phản hồi thành công.');
       } catch (error) {
         toastMessages.error();
@@ -64,7 +67,7 @@ const FeedbackCard = () => {
   return (
     <>
       {isFullScreenLoading && <BackdropLoading />}
-      <View onLayout={handleLayout}>
+      <View>
         <View>
           <SettingOptionCard
             leftIconName="thumbs-up-outline"
@@ -78,7 +81,7 @@ const FeedbackCard = () => {
           leastDestructiveRef={cancelRef}
           isOpen={isOpen}
           onClose={onClose}>
-          <AlertDialog.Content>
+          <AlertDialog.Content onLayout={handleLayout}>
             {isLayoutLoading ? (
               <Center mt="5">
                 <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
@@ -86,7 +89,9 @@ const FeedbackCard = () => {
             ) : (
               <>
                 <AlertDialog.CloseButton />
-                <AlertDialog.Header>Gửi phản hồi về MyJob</AlertDialog.Header>
+                <AlertDialog.Header>
+                  <Text fontFamily="dMSansRegular">Gửi phản hồi về MyJob</Text>
+                </AlertDialog.Header>
                 <AlertDialog.Body backgroundColor="myJobCustomColors.mercury">
                   <View mb={2}>
                     <Text
@@ -97,10 +102,7 @@ const FeedbackCard = () => {
                     </Text>
                   </View>
                   <VStack space={4} justifyContent="center">
-                    <RatingCustom
-                      name="rating"
-                      control={control}
-                    />
+                    <RatingCustom name="rating" control={control} />
                     <TextAreaCustom
                       name="content"
                       placeholder="Nhập nội dung đánh giá tại đây"
@@ -111,7 +113,7 @@ const FeedbackCard = () => {
                 <AlertDialog.Footer>
                   <Button.Group space={2}>
                     <Button
-                      onPress={() => handleSubmit(handleSendFeedback)}
+                      onPress={handleSubmit(handleSendFeedback)}
                       rounded="lg"
                       bgColor="myJobCustomColors.darkIndigo"
                       fontFamily="DMSans-Bold">

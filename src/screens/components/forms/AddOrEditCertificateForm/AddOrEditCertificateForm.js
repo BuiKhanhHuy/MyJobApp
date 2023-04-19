@@ -10,7 +10,11 @@ import DateTimePickerCustom from '../../../../components/formControls/DateTimePi
 import TextAreaCustom from '../../../../components/TextAreaCustom/TextAreaCustom';
 import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
 
-const AddOrEditCertificateForm = ({handleAddOrUpdate, editData}) => {
+const AddOrEditCertificateForm = ({
+  handleAddOrUpdate,
+  editData,
+  serverErrors = {},
+}) => {
   const schema = yup.object().shape({
     name: yup
       .string()
@@ -27,7 +31,7 @@ const AddOrEditCertificateForm = ({handleAddOrUpdate, editData}) => {
     expirationDate: yup.date().nullable(),
   });
 
-  const {control, reset, handleSubmit} = useForm({
+  const {control, setError, reset, handleSubmit} = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -41,6 +45,20 @@ const AddOrEditCertificateForm = ({handleAddOrUpdate, editData}) => {
       reset();
     }
   }, [editData, reset]);
+
+  // show server errors
+  React.useEffect(() => {
+    if (serverErrors !== null)
+      for (let err in serverErrors) {
+        setError(err, {
+          type: 400,
+          message: serverErrors[err]?.join(' '),
+        });
+      }
+    else {
+      setError();
+    }
+  }, [serverErrors, setError]);
 
   return (
     <>
