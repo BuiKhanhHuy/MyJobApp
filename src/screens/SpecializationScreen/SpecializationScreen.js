@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {Icon, Input, Skeleton, FlatList} from 'native-base';
+import {Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Icon, Input, Skeleton, FlatList} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
@@ -33,7 +33,7 @@ const Loading = key => (
 
 const categoryItem = value => {
   return (
-    <View key={value.id} style={styles.box}>
+    <View shadow={'myJobCustomShadows.0'} key={value.id} style={styles.box}>
       <View>
         <View style={styles.icon}>
           <FontAwesome5

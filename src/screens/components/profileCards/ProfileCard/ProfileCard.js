@@ -15,6 +15,7 @@ const ProfileCard = ({
     <View
       padding={6}
       backgroundColor="myJobCustomColors.white"
+      shadow={'myJobCustomShadows.0'}
       borderRadius="2xl">
       <HStack>
         <View flex={8} justifyContent="center">

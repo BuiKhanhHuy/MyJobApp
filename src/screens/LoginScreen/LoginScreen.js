@@ -10,6 +10,7 @@ import {
   AUTH_PROVIDER,
   ROLES_NAME,
 } from '../../configs/constants';
+import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
 import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
 import LoginForm from '../components/forms/LoginForm';
@@ -18,6 +19,7 @@ import tokenService from '../../services/tokenService';
 
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(null);
 
@@ -29,6 +31,9 @@ const LoginScreen = ({navigation}) => {
         const resData = await authService.getToken(email, password, role_name);
         const {access_token: accessToken, refresh_token: refreshToken} =
           resData.data;
+
+        console.log('token: ', accessToken);
+        console.log('refresh token: ', refreshToken);
 
         // save store
         const isSaveToken =
@@ -138,40 +143,46 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <>
-      <View paddingX="7" paddingTop="12" flex={1}>
-        <View flex={1}>
-          <VStack alignItems="center">
-            <Text
-              textAlign="center"
-              fontFamily="dMSansBold"
-              fontSize="3xl"
-              lineHeight="md"
-              color="myJobCustomColors.purpleBlue">
-              Chào mừng trở lại
-            </Text>
-            <Text textAlign="center" paddingTop="1.5">
-              Khi bạn đăng nhập bằng Facebook, Google, mặc định bạn đồng ý với
-              Điều khoản và Chính sách bảo mật của MyJob
-            </Text>
-          </VStack>
-        </View>
-        <View flex={5} justifyContent="flex-end">
-          {/* Start: Login form here */}
-          <LoginForm
-            handleLogin={handleLogin}
-            handleFacebookLogin={handleFacebookLogin}
-            handleGoogleLogin={handleGoogleLogin}
-          />
-          {/* End: Login form here */}
-        </View>
-        <View flex={2}>
-          <Box alignItems="center" paddingTop="6">
-            <Text fontFamily="dMSansRegular" fontSize="xs" lineHeight="xs">
-              <Text>Bạn chưa có tài khoản?</Text>{' '}
-              <Text color="myJobCustomColors.neonCarrot">Đăng ký</Text>
-            </Text>
-          </Box>
-        </View>
+      <View paddingX="7" paddingTop="12" flex={1} onLayout={handleLayout}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <View flex={1}>
+              <VStack alignItems="center">
+                <Text
+                  textAlign="center"
+                  fontFamily="dMSansBold"
+                  fontSize="3xl"
+                  lineHeight="md"
+                  color="myJobCustomColors.purpleBlue">
+                  Chào mừng trở lại
+                </Text>
+                <Text textAlign="center" paddingTop="1.5">
+                  Khi bạn đăng nhập bằng Facebook, Google, mặc định bạn đồng ý
+                  với Điều khoản và Chính sách bảo mật của MyJob
+                </Text>
+              </VStack>
+            </View>
+            <View flex={5} justifyContent="flex-end">
+              {/* Start: Login form here */}
+              <LoginForm
+                handleLogin={handleLogin}
+                handleFacebookLogin={handleFacebookLogin}
+                handleGoogleLogin={handleGoogleLogin}
+              />
+              {/* End: Login form here */}
+            </View>
+            <View flex={2}>
+              <Box alignItems="center" paddingTop="6">
+                <Text fontFamily="dMSansRegular" fontSize="xs" lineHeight="xs">
+                  <Text>Bạn chưa có tài khoản?</Text>{' '}
+                  <Text color="myJobCustomColors.neonCarrot">Đăng ký</Text>
+                </Text>
+              </Box>
+            </View>
+          </>
+        )}
       </View>
 
       {/* Start: Full Screen Loading */}

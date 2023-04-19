@@ -1,8 +1,9 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import {StyleSheet} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {
   ScrollView,
   Avatar,
@@ -18,7 +19,7 @@ import {
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
@@ -28,7 +29,8 @@ import SuggestedJobPostCard from '../../components/SuggestedJobPostCard/Suggeste
 import CompanyDetail from '../../components/CompanyDetail/CompanyDetail';
 
 import jobService from '../../services/jobService';
-import ButtonCustom from '../../components/ButtonCustom/ButtonCustom';
+import {reloadSaveJobPost} from '../../redux/reloadSlice';
+import NoData from '../../components/NoData/NoData';
 
 const MenuButtonComponent = ({tab, setTab}) => {
   return (
@@ -97,8 +99,12 @@ const textItem = value => (
 
 const JobPostDetailScreen = ({route, navigation}) => {
   const {id} = route.params;
+  const dispatch = useDispatch();
+  const {isAuthenticated} = useSelector(state => state.user);
   const {allConfig} = useSelector(state => state.config);
+  const {jobPostSaved} = useSelector(state => state.reload);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [tab, setTab] = React.useState(0);
   const [jobPostDetail, setJobPostDetail] = React.useState(null);
@@ -134,218 +140,293 @@ const JobPostDetailScreen = ({route, navigation}) => {
     };
 
     getJobPostDetail(id);
-  }, [id]);
+  }, [id, jobPostSaved]);
+
+  const handleSave = id => {
+    const saveJob = async jobPostId => {
+      setIsFullScreenLoading(true);
+
+      try {
+        const resData = await jobService.saveJobPost(jobPostId);
+        const saveStatus = resData?.data?.isSaved;
+
+        dispatch(
+          reloadSaveJobPost({
+            id: jobPostId,
+            status: saveStatus,
+          }),
+        );
+        setJobPostDetail({...jobPostDetail, isSaved: saveStatus});
+        toastMessages.success(
+          saveStatus ? 'Lưu thành công.' : 'Hủy lưu thành công.',
+        );
+      } catch (error) {
+        toastMessages.error();
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    saveJob(id);
+  };
 
   return (
-    <View onLayout={handleLayout} flex={1}>
-      <View flex={9}>
-        <ScrollView>
-          {isLayoutLoading ? (
-            <BackdropLoading />
-          ) : (
-            <View flex={1}>
-              <View flex={1} bgColor="#F9F9F9" zIndex={1}>
-                <Center bottom={-20}>
-                  <Avatar
-                    size={84}
-                    bg="myJobCustomColors.neonCarrot"
-                    source={{
-                      uri: jobPostDetail?.mobileCompanyDict?.companyImageUrl,
-                    }}>
-                    LOGO
-                  </Avatar>
-                </Center>
-              </View>
-              <View flex={1} paddingX={6} bgColor="myJobCustomColors.porcelain">
-                <VStack pt={8} pb={4} space={3}>
-                  <Center>
-                    <Text
-                      fontFamily="DMSans-Bold"
-                      fontSize={20}
-                      lineHeight={21}
-                      textAlign="center"
-                      color="myJobCustomColors.haitiBluePurple">
-                      {jobPostDetail?.jobName}
-                    </Text>
+    <>
+      <View onLayout={handleLayout} flex={1}>
+        <View flex={9}>
+          <ScrollView>
+            {isLayoutLoading ? (
+              <BackdropLoading />
+            ) : (
+              <View flex={1}>
+                <View flex={1} bgColor="#F9F9F9" zIndex={1}>
+                  <Center bottom={-20}>
+                    <Avatar
+                      size={84}
+                      bg="myJobCustomColors.neonCarrot"
+                      source={{
+                        uri: jobPostDetail?.mobileCompanyDict?.companyImageUrl,
+                      }}>
+                      LOGO
+                    </Avatar>
                   </Center>
-                  <View>
+                </View>
+                <View
+                  flex={1}
+                  paddingX={6}
+                  bgColor="myJobCustomColors.porcelain">
+                  <VStack pt={8} pb={4} space={3}>
                     <Center>
                       <Text
-                        textAlign="center"
-                        fontSize={16}
                         fontFamily="DMSans-Bold"
-                        color="myJobCustomColors.mulledWine">
-                        {jobPostDetail?.mobileCompanyDict?.companyName}
+                        fontSize={20}
+                        lineHeight={21}
+                        textAlign="center"
+                        color="myJobCustomColors.haitiBluePurple">
+                        {jobPostDetail?.jobName}
                       </Text>
                     </Center>
-                    <HStack justifyContent="space-between" mt={1.5}>
+                    <View>
                       <Center>
-                        <Octicons name="dot-fill" color="black" />
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate('CompanyDetailScreen', {
+                              id: jobPostDetail?.mobileCompanyDict?.id,
+                            })
+                          }>
+                          <Text
+                            textAlign="center"
+                            fontSize={16}
+                            fontFamily="DMSans-Bold"
+                            color="myJobCustomColors.mulledWine">
+                            {jobPostDetail?.mobileCompanyDict?.companyName}
+                          </Text>
+                        </TouchableOpacity>
                       </Center>
-                      <Center>
-                        {textItem(
-                          allConfig?.cityDict[
-                            jobPostDetail?.locationDict?.city
-                          ],
-                        )}
-                      </Center>
-                      <Center>
-                        <Octicons name="dot-fill" color="black" />
-                      </Center>
-                      <Center>
-                        <Text
-                          style={styles.text}
-                          color="myJobCustomColors.mulledWine">
+                      <HStack justifyContent="space-between" mt={1.5}>
+                        <Center>
+                          <Octicons name="dot-fill" color="black" />
+                        </Center>
+                        <Center>
                           {textItem(
-                            moment(jobPostDetail?.deadline).format(
-                              'DD/MM/YYYY',
-                            ),
+                            allConfig?.cityDict[jobPostDetail?.location?.city],
                           )}
-                        </Text>
-                      </Center>
-                      <Center>
-                        <Octicons name="dot-fill" color="black" />
-                      </Center>
-                      <Center>
+                        </Center>
+                        <Center>
+                          <Octicons name="dot-fill" color="black" />
+                        </Center>
+                        <Center>
+                          <Text
+                            style={styles.text}
+                            color="myJobCustomColors.mulledWine">
+                            {textItem(
+                              moment(jobPostDetail?.deadline).format(
+                                'DD/MM/YYYY',
+                              ),
+                            )}
+                          </Text>
+                        </Center>
+                        <Center>
+                          <Octicons name="dot-fill" color="black" />
+                        </Center>
+                        <Center>
+                          <Text
+                            style={styles.text}
+                            color="myJobCustomColors.mulledWine">
+                            {textItem(
+                              moment(jobPostDetail?.createAt).fromNow(),
+                            )}
+                          </Text>
+                        </Center>
+                      </HStack>
+                    </View>
+                  </VStack>
+                </View>
+                <View flex={6} paddingX={6} paddingY={2} bgColor="#F9F9F9">
+                  {/* Start: MenuButtonComponent */}
+                  <MenuButtonComponent tab={tab} setTab={setTab} />
+                  {/* End: MenuButtonComponent */}
+
+                  <View mt={10} mb={5}>
+                    {tab === 0 ? (
+                      <JobPostDetail
+                        jobName={jobPostDetail?.jobName}
+                        jobDescription={jobPostDetail?.jobDescription}
+                        jobRequirement={jobPostDetail?.jobRequirement}
+                        benefitsEnjoyed={jobPostDetail?.benefitsEnjoyed}
+                        careerId={jobPostDetail?.location?.city}
+                        experienceId={jobPostDetail?.experience}
+                        academicLevelId={jobPostDetail?.academicLevel}
+                        positionId={jobPostDetail?.position}
+                        salaryMin={jobPostDetail?.salaryMin}
+                        salaryMax={jobPostDetail?.salaryMax}
+                        jobTypeId={jobPostDetail?.jobType}
+                        typeOfWorkplaceId={jobPostDetail?.typeOfWorkplace}
+                        quantity={jobPostDetail?.quantity}
+                        genderRequiredId={jobPostDetail?.genderRequired}
+                        contactPersonName={jobPostDetail?.contactPersonName}
+                        contactPersonEmail={jobPostDetail?.contactPersonEmail}
+                        contactPersonPhone={jobPostDetail?.contactPersonPhone}
+                        address={jobPostDetail?.location?.address}
+                        lat={jobPostDetail?.location?.lat}
+                        lng={jobPostDetail?.location?.lng}
+                      />
+                    ) : (
+                      <CompanyDetail
+                        companyName={
+                          jobPostDetail?.mobileCompanyDict?.companyName
+                        }
+                        employeeSizeId={
+                          jobPostDetail?.mobileCompanyDict?.employeeSize
+                        }
+                        fieldOperation={
+                          jobPostDetail?.mobileCompanyDict?.fieldOperation
+                        }
+                        taxCode={jobPostDetail?.mobileCompanyDict?.taxCode}
+                        since={jobPostDetail?.mobileCompanyDict?.since}
+                        companyEmail={
+                          jobPostDetail?.mobileCompanyDict?.companyEmail
+                        }
+                        companyPhone={
+                          jobPostDetail?.mobileCompanyDict?.companyPhone
+                        }
+                        websiteUrl={
+                          jobPostDetail?.mobileCompanyDict?.websiteUrl
+                        }
+                        facebookUrl={
+                          jobPostDetail?.mobileCompanyDict?.facebookUrl
+                        }
+                        youtubeUrl={
+                          jobPostDetail?.mobileCompanyDict?.youtubeUrl
+                        }
+                        linkedinUrl={
+                          jobPostDetail?.mobileCompanyDict?.linkedinUrl
+                        }
+                        description={
+                          jobPostDetail?.mobileCompanyDict?.description
+                        }
+                        cityId={
+                          jobPostDetail?.mobileCompanyDict?.location?.city
+                        }
+                        address={
+                          jobPostDetail?.mobileCompanyDict?.location?.address
+                        }
+                        lat={jobPostDetail?.mobileCompanyDict?.location?.lat}
+                        lng={jobPostDetail?.mobileCompanyDict?.location?.lng}
+                        companyImages={
+                          jobPostDetail?.mobileCompanyDict?.companyImages
+                        }
+                      />
+                    )}
+                  </View>
+                </View>
+
+                <View marginTop={5} paddingX={6}>
+                  <View>
+                    <HStack space={3} justifyContent="space-between">
+                      <Text
+                        fontFamily="DMSans-Bold"
+                        fontSize="lg"
+                        lineHeight="sm"
+                        color="myJobCustomColors.haitiBluePurple">
+                        Việc làm gợi ý
+                      </Text>
+                      {isAuthenticated && (
                         <Text
-                          style={styles.text}
-                          color="myJobCustomColors.mulledWine">
-                          {textItem(moment(jobPostDetail?.updateAt).fromNow())}
+                          fontFamily="DMSans-Bold"
+                          color="myJobCustomColors.neonCarrot"
+                          onPress={() =>
+                            navigation.navigate('SuggestedJobPostScreen', {
+                              headerTitle: 'Việc làm gợi ý',
+                              pageSize: 20,
+                              params: {},
+                            })
+                          }>
+                          Xem Thêm
                         </Text>
-                      </Center>
+                      )}
                     </HStack>
                   </View>
-                </VStack>
-              </View>
-              <View flex={6} paddingX={6} paddingY={2} bgColor="#F9F9F9">
-                {/* Start: MenuButtonComponent */}
-                <MenuButtonComponent tab={tab} setTab={setTab} />
-                {/* End: MenuButtonComponent */}
-
-                <View mt={10} mb={5}>
-                  {tab === 0 ? (
-                    <JobPostDetail
-                      jobName={jobPostDetail?.jobName}
-                      jobDescription={jobPostDetail?.jobDescription}
-                      jobRequirement={jobPostDetail?.jobRequirement}
-                      benefitsEnjoyed={jobPostDetail?.benefitsEnjoyed}
-                      careerId={jobPostDetail?.location?.city}
-                      experienceId={jobPostDetail?.experience}
-                      academicLevelId={jobPostDetail?.academicLevel}
-                      positionId={jobPostDetail?.position}
-                      salaryMin={jobPostDetail?.salaryMin}
-                      salaryMax={jobPostDetail?.salaryMax}
-                      jobTypeId={jobPostDetail?.jobType}
-                      typeOfWorkplaceId={jobPostDetail?.typeOfWorkplace}
-                      quantity={jobPostDetail?.quantity}
-                      genderRequiredId={jobPostDetail?.genderRequired}
-                      contactPersonName={jobPostDetail?.contactPersonName}
-                      contactPersonEmail={jobPostDetail?.contactPersonEmail}
-                      contactPersonPhone={jobPostDetail?.contactPersonPhone}
-                      address={jobPostDetail?.location?.address}
-                      lat={jobPostDetail?.location?.lat}
-                      lng={jobPostDetail?.location?.lng}
-                    />
-                  ) : (
-                    <CompanyDetail
-                      companyName={
-                        jobPostDetail?.mobileCompanyDict?.companyName
-                      }
-                      employeeSizeId={
-                        jobPostDetail?.mobileCompanyDict?.employeeSize
-                      }
-                      fieldOperation={
-                        jobPostDetail?.mobileCompanyDict?.fieldOperation
-                      }
-                      taxCode={jobPostDetail?.mobileCompanyDict?.taxCode}
-                      since={jobPostDetail?.mobileCompanyDict?.since}
-                      companyEmail={
-                        jobPostDetail?.mobileCompanyDict?.companyEmail
-                      }
-                      companyPhone={
-                        jobPostDetail?.mobileCompanyDict?.companyPhone
-                      }
-                      websiteUrl={jobPostDetail?.mobileCompanyDict?.websiteUrl}
-                      facebookUrl={
-                        jobPostDetail?.mobileCompanyDict?.facebookUrl
-                      }
-                      youtubeUrl={jobPostDetail?.mobileCompanyDict?.youtubeUrl}
-                      linkedinUrl={
-                        jobPostDetail?.mobileCompanyDict?.linkedinUrl
-                      }
-                      description={
-                        jobPostDetail?.mobileCompanyDict?.description
-                      }
-                      cityId={jobPostDetail?.mobileCompanyDict?.location?.city}
-                      address={
-                        jobPostDetail?.mobileCompanyDict?.location?.address
-                      }
-                      lat={jobPostDetail?.mobileCompanyDict?.location?.lat}
-                      lng={jobPostDetail?.mobileCompanyDict?.location?.lng}
-                      companyImages={
-                        jobPostDetail?.mobileCompanyDict?.companyImages
-                      }
-                    />
-                  )}
+                  <View>
+                    {/* Start: SuggestedJobPostCard */}
+                    {isAuthenticated ? (
+                      <SuggestedJobPostCard pageSize={10} />
+                    ) : (
+                      <NoData title="Bạn cần đăng nhập để được gợi ý việc làm.">
+                        <Button
+                          onPress={() => navigation.navigate('Login')}
+                          rounded="md"
+                          bgColor="myJobCustomColors.neonCarrot"
+                          fontFamily="DMSans-Bold">
+                          Đăng nhập
+                        </Button>
+                      </NoData>
+                    )}
+                    {/* End: SuggestedJobPostCard */}
+                  </View>
                 </View>
               </View>
-
-              <View marginTop={5} paddingX={6}>
-                <View>
-                  <HStack space={3} justifyContent="space-between">
-                    <Text
-                      fontFamily="DMSans-Bold"
-                      fontSize="lg"
-                      lineHeight="sm"
-                      color="myJobCustomColors.haitiBluePurple">
-                      Việc làm gợi ý
-                    </Text>
-                    <Text
-                      fontFamily="DMSans-Bold"
-                      color="myJobCustomColors.neonCarrot"
-                      onPress={() =>
-                        navigation.navigate('SuggestedJobPostScreen', {
-                          headerTitle: 'Việc làm gợi ý',
-                          pageSize: 20,
-                          params: {},
-                        })
-                      }>
-                      Xem Thêm
-                    </Text>
-                  </HStack>
-                </View>
-                <View>
-                  {/* Start: SuggestedJobPostCard */}
-                  <SuggestedJobPostCard pageSize={10} />
-                  {/* End: SuggestedJobPostCard */}
-                </View>
-              </View>
-            </View>
-          )}
-        </ScrollView>
+            )}
+          </ScrollView>
+        </View>
+        <View flex={1} justifyContent="center" bgColor="white" px={8}>
+          <HStack space={3}>
+            <Button
+              onPress={() =>
+                isAuthenticated
+                  ? handleSave(jobPostDetail.id)
+                  : navigation.navigate('Login')
+              }
+              size="lg"
+              rounded="lg"
+              bgColor="myJobCustomColors.white"
+              shadow={1}>
+              {jobPostDetail?.isSaved ? (
+                <FontAwesome name="bookmark" size={22} color={'#FF9228'} />
+              ) : (
+                <FontAwesome name="bookmark-o" size={22} color={'#524b6b'} />
+              )}
+            </Button>
+            <Button
+              onPress={() =>
+                isAuthenticated
+                  ? alert('Ứng tuyển.')
+                  : navigation.navigate('Login')
+              }
+              size="lg"
+              flex={1}
+              rounded="lg"
+              bgColor="myJobCustomColors.darkIndigo"
+              fontFamily="DMSans-Bold"
+              fontSize={14}
+              lineHeight={18}>
+              ỨNG TUYỂN NGAY
+            </Button>
+          </HStack>
+        </View>
       </View>
-      <View flex={1} justifyContent="center" bgColor="white" px={8}>
-        <HStack space={3}>
-          <Button
-            size="lg"
-            rounded="lg"
-            bgColor="myJobCustomColors.white"
-            shadow={1}>
-            <Icon as={Feather} name="bookmark" size={5} color="#FCA34D" />
-          </Button>
-          <Button
-            size="lg"
-            flex={1}
-            rounded="lg"
-            bgColor="myJobCustomColors.darkIndigo"
-            fontFamily="DMSans-Bold"
-            fontSize={14}
-            lineHeight={18}>
-            ỨNG TUYỂN NGAY
-          </Button>
-        </HStack>
-      </View>
-    </View>
+      {isFullScreenLoading && <BackdropLoading />}
+    </>
   );
 };
 

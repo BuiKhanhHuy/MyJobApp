@@ -2,6 +2,7 @@ import * as React from 'react';
 import {useSelector} from 'react-redux';
 import {
   Avatar,
+  Button,
   Fab,
   HStack,
   Icon,
@@ -36,24 +37,34 @@ const HomeScreen = ({navigation}) => {
               fontSize="2xl"
               lineHeight="sm"
               color="myJobCustomColors.purpleBlue">
-              Hello,
+              Xin chào,
             </Text>
             <Text
               fontFamily="dMSansBold"
               fontSize="2xl"
               lineHeight="sm"
               color="myJobCustomColors.purpleBlue">
-              {currentUser?.fullName}
+              {isAuthenticated ? currentUser?.fullName : 'Bạn'}
             </Text>
           </View>
           <View>
-            <Avatar
-              bg="green.500"
-              source={{
-                uri: currentUser?.avatarUrl,
-              }}>
-              KH
-            </Avatar>
+            {isAuthenticated ? (
+              <Avatar
+                bg="myJobCustomColors.neonCarrot"
+                source={{
+                  uri: currentUser?.avatarUrl,
+                }}>
+                {currentUser?.fullName}
+              </Avatar>
+            ) : (
+              <Button
+                onPress={() => navigation.navigate('Login')}
+                rounded="md"
+                bgColor="myJobCustomColors.darkIndigo"
+                fontFamily="DMSans-Bold">
+                Đăng nhập
+              </Button>
+            )}
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>

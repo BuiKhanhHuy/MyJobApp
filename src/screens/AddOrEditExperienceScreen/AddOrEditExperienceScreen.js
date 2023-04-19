@@ -134,19 +134,4 @@ const AddOrEditExperienceScreen = ({route, navigation}) => {
 };
 
 export default AddOrEditExperienceScreen;
-{
-  /* <ButtonCustom
-              text="DEMO SHOW ACTION"
-              textColor="myJobCustomColors.darkIndigo"
-              bgColor="myJobCustomColors.moonrakerPurplyBlue"
-              onPress={() =>
-                handleUndo(
-                  'Hoàn tác thay đổi?',
-                  'Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập?',
-                  'Tiếp tục chỉnh sửa',
-                  'Hoàn tác thay đổi',
-                )
-              }
-              shadow={8}
-            /> */
-}
+ 

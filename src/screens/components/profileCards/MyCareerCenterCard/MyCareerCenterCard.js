@@ -8,10 +8,11 @@ const MyCareerCenterCard = () => {
   const navigation = useNavigation();
 
   return (
-    <HStack space={2} justifyContent="space-between" mb={100}>
+    <HStack space={2} justifyContent="space-between">
       <TouchableWithoutFeedback
         onPress={() => navigation.navigate('MyJobScreen')}>
         <VStack
+          shadow={'myJobCustomShadows.0'}
           space={3}
           padding={6}
           borderRadius="2xl"
@@ -41,6 +42,7 @@ const MyCareerCenterCard = () => {
       <TouchableWithoutFeedback
         onPress={() => navigation.navigate('MyCompanyScreen')}>
         <VStack
+          shadow={'myJobCustomShadows.0'}
           space={3}
           padding={6}
           borderRadius="2xl"

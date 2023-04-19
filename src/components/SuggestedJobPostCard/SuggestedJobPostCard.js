@@ -33,6 +33,7 @@ const SuggestedJobPostCard = ({
         setCount(data.count);
         setJobPosts([...jobPosts, ...data.results]);
       } catch (error) {
+        console.error(error);
       } finally {
         setIsFirstLoading(false);
         setIsLoading(false);

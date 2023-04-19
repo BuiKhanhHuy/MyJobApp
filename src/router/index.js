@@ -42,6 +42,11 @@ import AddOrEditLanguageSkillScreen from '../screens/AddOrEditLanguageSkillScree
 import AddOrEditAdvancedSkillScreen from '../screens/AddOrEditAdvancedSkillScreen';
 import UploadProfileScreen from '../screens/UploadProfileScreen';
 import EditCvScreen from '../screens/EditCvScreen/EditCvScreen';
+
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import TermsOfUseScreen from '../screens/TermsOfUseScreen';
+import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
+import ContactUsScreen from '../screens/ContactUsScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
 
@@ -202,12 +207,38 @@ const Router = () => {
             name="UploadProfileScreen"
             component={UploadProfileScreen}
             options={{
-              title: "Tải CV lên"
+              title: 'Tải CV lên',
             }}
           />
-           <RootStack.Screen
-            name="EditCvScreen"
-            component={EditCvScreen}
+          <RootStack.Screen name="EditCvScreen" component={EditCvScreen} />
+
+          <RootStack.Screen
+            name="ChangePasswordScreen"
+            component={ChangePasswordScreen}
+            options={{
+              title: 'Đổi mật khẩu',
+            }}
+          />
+          <RootStack.Screen
+            name="TermsOfUseScreen"
+            component={TermsOfUseScreen}
+            options={{
+              title: 'Điều khoản và dịch vụ',
+            }}
+          />
+          <RootStack.Screen
+            name="PrivacyPolicyScreen"
+            component={PrivacyPolicyScreen}
+            options={{
+              title: 'Chính sách bảo mật',
+            }}
+          />
+          <RootStack.Screen
+            name="ContactUsScreen"
+            component={ContactUsScreen}
+            options={{
+              title: 'Về MyJob',
+            }}
           />
         </RootStack.Group>
         {/* End: Profile */}

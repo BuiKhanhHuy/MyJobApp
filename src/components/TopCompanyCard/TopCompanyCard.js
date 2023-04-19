@@ -19,7 +19,7 @@ const TopCompanyCard = () => {
 
         setCompanies(data);
       } catch (error) {
-        toastMessages.error();
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -67,7 +67,7 @@ const TopCompanyCard = () => {
         <ScrollView horizontal={true}>
           <HStack space={4}>
             {companies.map(value => (
-              <Center key={value} width="200">
+              <Center key={value.id} width="200">
                 <Company
                   id={value.id}
                   companyName={value?.companyName}

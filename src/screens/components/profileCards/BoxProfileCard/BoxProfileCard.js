@@ -99,6 +99,7 @@ const BoxProfileCard = () => {
   ) : (
     <View
       padding={6}
+      shadow={'myJobCustomShadows.0'}
       backgroundColor="myJobCustomColors.white"
       borderRadius="2xl">
       <HStack justifyContent="space-between">

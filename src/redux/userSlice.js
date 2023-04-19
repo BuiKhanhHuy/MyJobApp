@@ -1,4 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+
+import {APP_NAME} from '../configs/constants';
 import authService from '../services/authService';
 import tokenService from '../services/tokenService';
 
@@ -17,9 +19,16 @@ const getUserInfo = createAsyncThunk(
 
 const removeUserInfo = createAsyncThunk(
   'user/removeUserInfo',
-  async (_, thunkAPI) => {
+  async (accessToken, thunkAPI) => {
     try {
-      await tokenService.removeLocalAccessTokenAndRefreshToken('MyJob');
+      // await authService.revokToken(accessToken);
+
+      const removeResult =
+        await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
+
+      if (!removeResult) {
+        return Promise.reject("Can't remove token in Cookie");
+      }
     } catch (error) {
       throw error;
     }

@@ -1,5 +1,7 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {Linking} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import 'moment/locale/vi';
 import {StyleSheet} from 'react-native';
 import {
@@ -24,9 +26,27 @@ import toastMessages from '../../utils/toastMessages';
 import CompanyDetail from '../../components/CompanyDetail/CompanyDetail';
 
 import companyService from '../../services/companyService';
-import FilterJobPostsCard from '../../components/FilterJobPostsCard/FilterJobPostsCard';
+import JobPostOfCompany from '../../components/JobPostOfCompany/JobPostOfCompany';
+import {reloadFollowCompany} from '../../redux/reloadSlice';
 
-const ActionButtonComponent = ({companyId}) => {
+const ActionButtonComponent = ({
+  companyId,
+  isFollowed,
+  websiteUrl,
+  handleFollow,
+}) => {
+  const navigation = useNavigation();
+  const {isAuthenticated} = useSelector(state => state.user);
+
+  const handleOpenUrl = async websiteUrl => {
+    const supported = await Linking.canOpenURL(websiteUrl);
+    if (supported) {
+      await Linking.openURL(websiteUrl);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${websiteUrl}`);
+    }
+  };
+
   return (
     <HStack space={3}>
       <Button
@@ -34,18 +54,34 @@ const ActionButtonComponent = ({companyId}) => {
         size="lg"
         rounded="lg"
         bgColor="myJobCustomColors.sundownRed"
-        onPress={() => alert(companyId + ' theo dõi')}>
+        onPress={() =>
+          isAuthenticated
+            ? handleFollow(companyId)
+            : navigation.navigate('Login')
+        }>
         <Text fontFamily="DMSans-Regular" color="myJobCustomColors.lightRed">
-          <Ionicons name="add-outline" size={16} /> Theo dõi
+          <Ionicons name="add-outline" size={16} />
+          {isFollowed ? 'Đang theo dõi' : 'Theo dõi'}
         </Text>
       </Button>
       <Button
+        disabled={!websiteUrl}
         flex={1}
         size="lg"
         rounded="lg"
-        bgColor="myJobCustomColors.sundownRed"
-        onPress={() => alert(companyId + ' open website')}>
-        <Text fontFamily="DMSans-Regular" color="myJobCustomColors.lightRed">
+        bgColor={
+          !websiteUrl
+            ? 'myJobCustomColors.platinum'
+            : 'myJobCustomColors.sundownRed'
+        }
+        onPress={() => handleOpenUrl(websiteUrl)}>
+        <Text
+          fontFamily="DMSans-Regular"
+          color={
+            !websiteUrl
+              ? 'myJobCustomColors.greyChateauBluePurple'
+              : 'myJobCustomColors.lightRed'
+          }>
           <Ionicons name="open-outline" size={16} /> Truy cập website
         </Text>
       </Button>
@@ -119,8 +155,10 @@ const textItem = value => (
 
 const CompanyDetailScreen = ({route, navigation}) => {
   const {id} = route.params;
+  const dispath = useDispatch();
   const {allConfig} = useSelector(state => state.config);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [tab, setTab] = React.useState(0);
   const [companyDetail, setCompanyDetail] = React.useState(null);
@@ -158,150 +196,177 @@ const CompanyDetailScreen = ({route, navigation}) => {
     getCompanyDetail(id);
   }, [id]);
 
+  const handleFollow = id => {
+    const followCompany = async companyId => {
+      setIsFullScreenLoading(true);
+
+      try {
+        const resData = await companyService.followCompany(companyId);
+        const followStatus = resData?.data?.isFollowed;
+
+        dispath(
+          reloadFollowCompany({
+            id: companyId,
+            status: followStatus,
+          }),
+        );
+        setCompanyDetail({...companyDetail, isFollowed: followStatus});
+        toastMessages.success(
+          followStatus ? 'Đã theo dõi.' : 'Đã hủy theo dõi.',
+        );
+      } catch (error) {
+        toastMessages.error();
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    followCompany(id);
+  };
+
   return (
-    <View onLayout={handleLayout} flex={1}>
-      <View flex={9}>
-        <ScrollView>
-          {isLayoutLoading ? (
-            <BackdropLoading />
-          ) : (
-            <View flex={1}>
-              <View flex={1} bgColor="#F9F9F9" zIndex={1}>
-                <Center bottom={-20}>
-                  <Avatar
-                    size={84}
-                    bg="myJobCustomColors.neonCarrot"
-                    source={{
-                      uri: companyDetail?.companyImageUrl,
-                    }}>
-                    LOGO
-                  </Avatar>
-                </Center>
-              </View>
-              <View flex={1} paddingX={6} bgColor="myJobCustomColors.porcelain">
-                <VStack pt={8} pb={4} space={3}>
-                  <Center>
-                    <Text
-                      fontFamily="DMSans-Bold"
-                      fontSize={20}
-                      lineHeight={21}
-                      textAlign="center"
-                      color="myJobCustomColors.haitiBluePurple">
-                      {companyDetail?.companyName}
-                    </Text>
+    <>
+      <View onLayout={handleLayout} flex={1}>
+        <View flex={9}>
+          <ScrollView>
+            {isLayoutLoading ? (
+              <BackdropLoading />
+            ) : (
+              <View flex={1}>
+                <View flex={1} bgColor="#F9F9F9" zIndex={1}>
+                  <Center bottom={-20}>
+                    <Avatar
+                      size={84}
+                      bg="myJobCustomColors.neonCarrot"
+                      source={{
+                        uri: companyDetail?.companyImageUrl,
+                      }}>
+                      LOGO
+                    </Avatar>
                   </Center>
-                  <View>
+                </View>
+                <View
+                  flex={1}
+                  paddingX={6}
+                  bgColor="myJobCustomColors.porcelain">
+                  <VStack pt={8} pb={4} space={3}>
                     <Center>
                       <Text
-                        textAlign="center"
-                        fontSize={16}
                         fontFamily="DMSans-Bold"
-                        color="myJobCustomColors.mulledWine">
-                        {companyDetail?.fieldOperation}
+                        fontSize={20}
+                        lineHeight={21}
+                        textAlign="center"
+                        color="myJobCustomColors.haitiBluePurple">
+                        {companyDetail?.companyName}
                       </Text>
                     </Center>
-                    <HStack justifyContent="space-between" mt={1.5}>
-                      <Center>
-                        <Octicons name="dot-fill" color="black" />
-                      </Center>
-                      <Center>
-                        {textItem(
-                          allConfig?.employeeSizeDict[
-                            companyDetail?.employeeSize
-                          ],
-                        )}
-                      </Center>
-                      <Center>
-                        <Octicons name="dot-fill" color="black" />
-                      </Center>
-                      <Center>
-                        <Text
-                          style={styles.text}
-                          color="myJobCustomColors.mulledWine">
-                          {textItem(
-                            allConfig?.cityDict[companyDetail?.location?.city],
-                          )}
-                        </Text>
-                      </Center>
-                      <Center>
-                        <Octicons name="dot-fill" color="black" />
-                      </Center>
-                      <Center>
-                        <Text
-                          style={styles.text}
-                          color="myJobCustomColors.mulledWine">
-                          {textItem(
-                            `${companyDetail?.followNumber} lượt theo dõi`,
-                          )}
-                        </Text>
-                      </Center>
-                    </HStack>
-                  </View>
-                </VStack>
-              </View>
-              <View flex={6} paddingX={6} paddingY={2} bgColor="#F9F9F9">
-                {/* Start: ActionButtonComponent */}
-                <ActionButtonComponent companyId={companyDetail?.id} />
-                {/* End: ActionButtonComponent */}
-
-                <View mt="8">
-                  {/* Start: MenuButtonComponent */}
-                  <MenuButtonComponent tab={tab} setTab={setTab} />
-                  {/* End: MenuButtonComponent */}
-                </View>
-                <View mt={10} mb={5}>
-                  {tab === 0 ? (
-                    <CompanyDetail
-                      companyName={companyDetail?.companyName}
-                      employeeSizeId={companyDetail?.employeeSize}
-                      fieldOperation={companyDetail?.fieldOperation}
-                      taxCode={companyDetail?.taxCode}
-                      since={companyDetail?.since}
-                      companyEmail={companyDetail?.companyEmail}
-                      companyPhone={companyDetail?.companyPhone}
-                      websiteUrl={companyDetail?.websiteUrl}
-                      facebookUrl={companyDetail?.facebookUrl}
-                      youtubeUrl={companyDetail?.youtubeUrl}
-                      linkedinUrl={companyDetail?.linkedinUrl}
-                      description={companyDetail?.description}
-                      cityId={companyDetail?.location?.city}
-                      address={companyDetail?.location?.address}
-                      lat={companyDetail?.location?.lat}
-                      lng={companyDetail?.location?.lng}
-                      companyImages={companyDetail?.companyImages}
-                    />
-                  ) : (
                     <View>
-                      {/* Start: FilterJobPostsCard */}
-                      <FilterJobPostsCard
-                        params={{companyId: companyDetail?.id}}
-                      />
-                      {/* End: FilterJobPostsCard */}
-                      <Text
-                        mt="3"
-                        textAlign="center"
-                        fontFamily="DMSans-Bold"
-                        color="myJobCustomColors.neonCarrot"
-                        onPress={() =>
-                          navigation.navigate('FilterJobPostScreen', {
-                            headerTitle: `Việc làm đang tuyển tại ${companyDetail?.companyName}`,
-                            pageSize: 20,
-                            params: {
-                              companyId: companyDetail?.id,
-                            },
-                          })
-                        }>
-                        Xem Thêm
-                      </Text>
+                      <Center>
+                        <Text
+                          textAlign="center"
+                          fontSize={16}
+                          fontFamily="DMSans-Bold"
+                          color="myJobCustomColors.mulledWine">
+                          {companyDetail?.fieldOperation}
+                        </Text>
+                      </Center>
+                      <HStack justifyContent="space-between" mt={1.5}>
+                        <Center>
+                          <Octicons name="dot-fill" color="black" />
+                        </Center>
+                        <Center>
+                          {textItem(
+                            allConfig?.employeeSizeDict[
+                              companyDetail?.employeeSize
+                            ],
+                          )}
+                        </Center>
+                        <Center>
+                          <Octicons name="dot-fill" color="black" />
+                        </Center>
+                        <Center>
+                          <Text
+                            style={styles.text}
+                            color="myJobCustomColors.mulledWine">
+                            {textItem(
+                              allConfig?.cityDict[
+                                companyDetail?.location?.city
+                              ],
+                            )}
+                          </Text>
+                        </Center>
+                        <Center>
+                          <Octicons name="dot-fill" color="black" />
+                        </Center>
+                        <Center>
+                          <Text
+                            style={styles.text}
+                            color="myJobCustomColors.mulledWine">
+                            {textItem(
+                              `${companyDetail?.followNumber} lượt theo dõi`,
+                            )}
+                          </Text>
+                        </Center>
+                      </HStack>
                     </View>
-                  )}
+                  </VStack>
+                </View>
+                <View flex={6} paddingX={6} paddingY={2} bgColor="#F9F9F9">
+                  {/* Start: ActionButtonComponent */}
+                  <ActionButtonComponent
+                    companyId={companyDetail?.id}
+                    isFollowed={companyDetail?.isFollowed}
+                    websiteUrl={companyDetail?.websiteUrl}
+                    handleFollow={handleFollow}
+                  />
+                  {/* End: ActionButtonComponent */}
+
+                  <View mt="8">
+                    {/* Start: MenuButtonComponent */}
+                    <MenuButtonComponent tab={tab} setTab={setTab} />
+                    {/* End: MenuButtonComponent */}
+                  </View>
+                  <View mt={10} mb={5}>
+                    {tab === 0 ? (
+                      <CompanyDetail
+                        companyName={companyDetail?.companyName}
+                        employeeSizeId={companyDetail?.employeeSize}
+                        fieldOperation={companyDetail?.fieldOperation}
+                        taxCode={companyDetail?.taxCode}
+                        since={companyDetail?.since}
+                        companyEmail={companyDetail?.companyEmail}
+                        companyPhone={companyDetail?.companyPhone}
+                        websiteUrl={companyDetail?.websiteUrl}
+                        facebookUrl={companyDetail?.facebookUrl}
+                        youtubeUrl={companyDetail?.youtubeUrl}
+                        linkedinUrl={companyDetail?.linkedinUrl}
+                        description={companyDetail?.description}
+                        cityId={companyDetail?.location?.city}
+                        address={companyDetail?.location?.address}
+                        lat={companyDetail?.location?.lat}
+                        lng={companyDetail?.location?.lng}
+                        companyImages={companyDetail?.companyImages}
+                      />
+                    ) : (
+                      <View onLayout={handleLayout}>
+                        {/* Start: JobPostOfCompany */}
+                        <JobPostOfCompany
+                          params={{companyId: companyDetail?.id}}
+                          companyId={companyDetail?.id}
+                          companyName={companyDetail?.companyName}
+                        />
+                        {/* End: JobPostOfCompany */}
+                      </View>
+                    )}
+                  </View>
                 </View>
               </View>
-            </View>
-          )}
-        </ScrollView>
+            )}
+          </ScrollView>
+        </View>
       </View>
-    </View>
+      {isFullScreenLoading && <BackdropLoading />}
+    </>
   );
 };
 

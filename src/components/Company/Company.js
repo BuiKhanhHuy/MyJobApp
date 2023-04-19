@@ -1,7 +1,7 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
+import {TouchableWithoutFeedback} from 'react-native';
 import {
   Text,
   VStack,
@@ -19,6 +19,8 @@ import {reloadFollowCompany} from '../../redux/reloadSlice';
 
 const FollowedComponent = ({id, isFollowed}) => {
   const dispath = useDispatch();
+  const navigation = useNavigation();
+  const {isAuthenticated} = useSelector(state => state.user);
   const [isFollowLoading, setIsFollowLoading] = React.useState(false);
 
   const handleFollow = id => {
@@ -60,7 +62,9 @@ const FollowedComponent = ({id, isFollowed}) => {
           variant="outline"
           backgroundColor={isFollowed ? 'myJobCustomColors.dullLavender' : null}
           borderColor="myJobCustomColors.blueLotus"
-          onPress={() => handleFollow(id)}
+          onPress={() =>
+            isAuthenticated ? handleFollow(id) : navigation.navigate('Login')
+          }
           size="sm">
           {isFollowed ? (
             <Text
@@ -105,6 +109,7 @@ const Company = ({
         alignItems="center"
         flexDirection="column"
         bg="myJobCustomColors.white"
+        shadow={'myJobCustomShadows.0'}
         height="250"
         width="100%"
         py="5"

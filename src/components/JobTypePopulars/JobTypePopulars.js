@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useTheme} from 'native-base';
-import {View, StyleSheet} from 'react-native';
+import {View, useTheme} from 'native-base';
+import {StyleSheet} from 'react-native';
 
 import JobTypePopular from '../JobTypePopular';
 import jobService from '../../services/jobService';
@@ -22,7 +22,6 @@ const JobTypePopulars = () => {
 
         const customData = [];
         for (let id in allConfig?.typeOfWorkplaceDict) {
-          console.log(id);
           customData.push({
             name: allConfig?.typeOfWorkplaceDict[id],
             total:
@@ -43,7 +42,7 @@ const JobTypePopulars = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} shadow={'myJobCustomShadows.0'}>
       <View style={{flex: 1, marginRight: 10}}>
         {isLoading || data.length <= 0 ? (
           <JobTypePopular.Loading />

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Center, FlatList, Spinner, Text, View} from 'native-base';
+import {Center, FlatList, Spinner,  View} from 'native-base';
 import {StyleSheet} from 'react-native';
 
 import NoData from '../NoData/NoData';
@@ -29,6 +29,7 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
         setCount(data.count);
         setJobPosts(data.results);
       } catch (error) {
+        console.error(error);
       } finally {
         setIsFirstLoading(false);
         setIsLoading(false);

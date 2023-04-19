@@ -1,17 +1,6 @@
 export const LOGO_IMAGE = {
-  lightLogoSmall: require('../assets/images/logo/light-logo-small.png'),
-  lightLogoMedium: require('../assets/images/logo/light-logo-medium.png'),
-  lightLogoLarge: require('../assets/images/logo/light-logo-large.png'),
-  darkLogoSmall: require('../assets/images/logo/dark-logo-small.png'),
-  darkLogoMedium: require('../assets/images/logo/dark-logo-medium.png'),
-  darkLogoLarge: require('../assets/images/logo/dark-logo-large.png'),
-  // getLogo: (size, mode) => {
-  //   return require(`../assets/logo/${mode}-logo-${size}.png`);
-  // },
-  // getTextLogo: (mode) => {
-  //   return require(`../assets/logo/${mode}-text-logo.png`);
-  // },
-  // coverImageDefault: require('../assets/images/cover-image-default.webp'),
+  lightTextLogo: require(`../assets/images/logo/light-text-logo.png`),
+  darkTextLogo: require(`../assets/images/logo/dark-text-logo.png`)
 };
 
 export const IMAGES = {
@@ -156,10 +145,10 @@ export const FONTS = {
 export const SHADOWS = {
   myJobCustomShadows: {
     0: {
-      shadowColor: 'rgba(153, 171, 198, 0.6)',
+      shadowColor: 'rgba(153, 171, 198, 0.8)',
       shadowOffset: {
         width: 4,
-        height: 62,
+        height: 20,
       },
       shadowOpacity: 0.18,
       elevation: 15,
@@ -176,7 +165,7 @@ export const SHADOWS = {
   },
 };
 
-export const PADDING_BOTTOM = 130
+export const PADDING_BOTTOM = 130;
 
 export const CONFIG = {
   initialColorMode: 'light',

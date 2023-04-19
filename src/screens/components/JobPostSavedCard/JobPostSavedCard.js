@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {StyleSheet} from 'react-native';
 import {Button, Center, FlatList, Spinner, View} from 'native-base';
 
@@ -10,16 +10,25 @@ import toastMessages from '../../../utils/toastMessages';
 import NoData from '../../../components/NoData/NoData';
 import JobPost from '../../../components/JobPost/JobPost';
 
+import { useLayout } from '../../../hooks';
+
 const pageSize = 10;
 
-const JobPostSavedCard = ( ) => {
-  const navigation = useNavigation()
+const JobPostSavedCard = () => {
+  const navigation = useNavigation();
+  const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {jobPostSaved} = useSelector(state => state.reload);
+  const [isReload, setIsReload] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    setIsReload(!isReload)
+    setPage(1);
+  }, [jobPostSaved]);
 
   React.useEffect(() => {
     const getJobPosts = async params => {
@@ -43,7 +52,7 @@ const JobPostSavedCard = ( ) => {
       page: page,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, isReload]);
 
   const handleLoadMore = () => {
     if (Math.ceil(count / pageSize) > page) {
@@ -53,66 +62,74 @@ const JobPostSavedCard = ( ) => {
   };
 
   return (
-    <View style={styles.container}>
-      {isLoading ? (
-        Array.from(Array(3).keys()).map(value => (
-          <JobPost.Loading key={value} />
-        ))
-      ) : jobPosts.length === 0 ? (
-        <Center marginTop={50}>
-          <NoData
-            title="Bạn chưa lưu công việc nào"
-            imgSize="3xs"
-            img={IMAGES.img3}>
-            <Button
-              onPress={() => navigation.navigate('MainJobPostScreen')}
-              mt={10}
-              size="md"
-              rounded="lg"
-              bgColor="myJobCustomColors.darkIndigo"
-              fontFamily="DMSans-Bold"
-              fontSize={14}
-              lineHeight={18}>
-              TÌM VIỆC LÀM
-            </Button>
-          </NoData>
+    <View onLayout={handleLayout}>
+      {isLayoutLoading ? (
+        <Center mt="5">
+          <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
         </Center>
       ) : (
-        <FlatList
-          data={jobPosts}
-          renderItem={({item}) => (
-            <JobPost
-              id={item?.id}
-              jobName={item?.jobName}
-              careerId={item?.career}
-              experienceId={item?.experience}
-              academicLevelId={item?.academicLevel}
-              positionId={item?.position}
-              salaryMin={item?.salaryMin}
-              salaryMax={item?.salaryMax}
-              typeOfWorkplaceId={item?.typeOfWorkplace}
-              jobTypeId={item?.jobType}
-              deadline={item?.deadline}
-              isHot={item?.isHot}
-              isUrgent={item?.isUrgent}
-              isSaved={item?.isSaved}
-              cityId={item?.locationDict?.city}
-              companyName={item?.companyDict?.companyName}
-              companyImageUrl={item?.companyDict?.companyImageUrl}
-              updateAt={item?.updateAt}
+        <View style={styles.container}>
+          {isLoading ? (
+            Array.from(Array(3).keys()).map(value => (
+              <JobPost.Loading key={value} />
+            ))
+          ) : jobPosts.length === 0 ? (
+            <Center marginTop={50}>
+              <NoData
+                title="Bạn chưa lưu công việc nào"
+                imgSize="3xs"
+                img={IMAGES.img3}>
+                <Button
+                  onPress={() => navigation.navigate('MainJobPostScreen')}
+                  mt={10}
+                  size="md"
+                  rounded="lg"
+                  bgColor="myJobCustomColors.darkIndigo"
+                  fontFamily="DMSans-Bold"
+                  fontSize={14}
+                  lineHeight={18}>
+                  TÌM VIỆC LÀM
+                </Button>
+              </NoData>
+            </Center>
+          ) : (
+            <FlatList
+              data={jobPosts}
+              renderItem={({item}) => (
+                <JobPost
+                  id={item?.id}
+                  jobName={item?.jobName}
+                  careerId={item?.career}
+                  experienceId={item?.experience}
+                  academicLevelId={item?.academicLevel}
+                  positionId={item?.position}
+                  salaryMin={item?.salaryMin}
+                  salaryMax={item?.salaryMax}
+                  typeOfWorkplaceId={item?.typeOfWorkplace}
+                  jobTypeId={item?.jobType}
+                  deadline={item?.deadline}
+                  isHot={item?.isHot}
+                  isUrgent={item?.isUrgent}
+                  isSaved={item?.isSaved}
+                  cityId={item?.locationDict?.city}
+                  companyName={item?.companyDict?.companyName}
+                  companyImageUrl={item?.companyDict?.companyImageUrl}
+                  updateAt={item?.updateAt}
+                />
+              )}
+              keyExtractor={item => item.id}
+              ListFooterComponent={
+                isLoadMoreLoading ? (
+                  <Center my="3">
+                    <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+                  </Center>
+                ) : null
+              }
+              onEndReached={handleLoadMore}
+              onEndReachedThreshold={0.2}
             />
           )}
-          keyExtractor={item => item.id}
-          ListFooterComponent={
-            isLoadMoreLoading ? (
-              <Center my="3">
-                <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
-              </Center>
-            ) : null
-          }
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.2}
-        />
+        </View>
       )}
     </View>
   );
