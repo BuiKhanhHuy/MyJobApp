@@ -1,6 +1,13 @@
 export const LOGO_IMAGE = {
   lightTextLogo: require(`../assets/images/logo/light-text-logo.png`),
-  darkTextLogo: require(`../assets/images/logo/dark-text-logo.png`)
+  darkTextLogo: require(`../assets/images/logo/dark-text-logo.png`),
+
+  darkSmallLogo: require(`../assets/images/logo/dark-logo-small.png`),
+  darkMediumLogo: require(`../assets/images/logo/dark-logo-medium.png`),
+  darkLargeLogo: require(`../assets/images/logo/dark-logo-large.png`),
+  lightSmallLogo: require(`../assets/images/logo/light-logo-small.png`),
+  lightMediumLogo: require(`../assets/images/logo/light-logo-medium.png`),
+  lightLargeLogo: require(`../assets/images/logo/light-logo-large.png`),
 };
 
 export const IMAGES = {

@@ -100,7 +100,6 @@ const FeedbackCard = () => {
                     <RatingCustom
                       name="rating"
                       control={control}
-                      showRequired={true}
                     />
                     <TextAreaCustom
                       name="content"
