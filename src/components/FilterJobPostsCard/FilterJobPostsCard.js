@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Center, FlatList, Spinner,  View} from 'native-base';
+import {Center, FlatList, Spinner, View} from 'native-base';
 import {StyleSheet} from 'react-native';
 
 import NoData from '../NoData/NoData';

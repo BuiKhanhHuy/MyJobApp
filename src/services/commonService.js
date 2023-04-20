@@ -15,10 +15,12 @@ const commonService = {
 
     return httpRequest.get(url);
   },
-  getAllCareers: () => {
+  getAllCareers: (params={}) => {
     const url = '/api/common/all-careers/';
 
-    return httpRequest.get(url);
+    return httpRequest.get(url, {
+      params: params
+    });
   },
   getTotalJobByJobType: () => {
     const url = '/api/common/count-jobs-by-job-type/';

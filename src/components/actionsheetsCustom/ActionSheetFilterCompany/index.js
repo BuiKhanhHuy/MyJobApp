@@ -6,11 +6,11 @@ import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
 import ButtonCustom from '../../ButtonCustom';
 import SelectCustom from '../../formControls/SelectCustom/SelectCustom';
-import { searchCompany } from '../../../redux/filterSlice';
+import {resetSearchCompany, searchCompany} from '../../../redux/filterSlice';
 
 function ActionSheetFilterCompany({sheetId}) {
   const {sizes} = useTheme();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {allConfig} = useSelector(state => state.config);
   const {companyFilter} = useSelector(state => state.filter);
 
@@ -24,7 +24,12 @@ function ActionSheetFilterCompany({sheetId}) {
   }, [companyFilter, reset]);
 
   const handleFilter = data => {
-    dispatch(searchCompany(data))
+    dispatch(searchCompany(data));
+    SheetManager.hide(sheetId);
+  };
+
+  const handleResetFilter = () => {
+    dispatch(resetSearchCompany());
     SheetManager.hide(sheetId);
   };
 
@@ -76,9 +81,7 @@ function ActionSheetFilterCompany({sheetId}) {
             textColor="myJobCustomColors.darkIndigo"
             bgColor="myJobCustomColors.moonrakerPurplyBlue"
             shadow={1}
-            onPress={() => {
-              SheetManager.hide(sheetId);
-            }}
+            onPress={handleResetFilter}
           />
         </VStack>
       </View>

@@ -1,11 +1,12 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Icon, Input} from 'native-base';
+import {Icon, Input, Pressable} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {SEARCH_TYPE_WITH_KEYWORD} from '../../configs/constants';
 
-import {searchJobPost} from '../../redux/filterSlice';
+import {searchJobPost, searchJobPostAround} from '../../redux/filterSlice';
 import {searchCompany} from '../../redux/filterSlice';
 
 const KeywordSearch = props => {
@@ -14,12 +15,15 @@ const KeywordSearch = props => {
   const {
     companyFilter: {kw: companyKw},
     jobPostFilter: {kw: jobPostKw},
+    jobPostAroundFilter: {kw: jobPostAroundKw},
   } = useSelector(state => state.filter);
   const [value, setValue] = React.useState(
     searchType === SEARCH_TYPE_WITH_KEYWORD.COMPANY_SEARCH
       ? companyKw
       : searchType === SEARCH_TYPE_WITH_KEYWORD.JOB_POST_SEARCH
       ? jobPostKw
+      : searchType === SEARCH_TYPE_WITH_KEYWORD.JOB_POST_SEARCH
+      ? jobPostAroundKw
       : '',
   );
 
@@ -27,6 +31,9 @@ const KeywordSearch = props => {
     switch (searchType) {
       case SEARCH_TYPE_WITH_KEYWORD.JOB_POST_SEARCH:
         dispatch(searchJobPost({kw: value}));
+        break;
+      case SEARCH_TYPE_WITH_KEYWORD.JOB_POST_AROUND_SEARCH:
+        dispatch(searchJobPostAround({kw: value}));
         break;
       case SEARCH_TYPE_WITH_KEYWORD.COMPANY_SEARCH:
         dispatch(searchCompany({kw: value}));
@@ -54,6 +61,18 @@ const KeywordSearch = props => {
           ml="2"
           color="muted.400"
         />
+      }
+      InputRightElement={
+        <Pressable
+          disabled={value === '' ? true : false}
+          onPress={() => setValue('')}>
+          <Icon
+            as={<MaterialIcons name="clear" />}
+            size={5}
+            mr="2"
+            color={value === '' ? 'muted.400' : 'muted.800'}
+          />
+        </Pressable>
       }
       fontFamily="dMSansRegular"
       fontSize="xs"

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'native-base';
+import { useSelector } from 'react-redux';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {SEARCH_TYPE_WITH_KEYWORD} from '../../configs/constants';
@@ -12,6 +13,7 @@ import KeywordSearch from '../../components/KeywordSearch/KeywordSearch';
 
 const MainCompanyScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const {companyFilter} = useSelector(state => state.filter);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -21,9 +23,22 @@ const MainCompanyScreen = ({navigation}) => {
           placeholder="Tên công ty hoặc lĩnh vực tìm kiếm"
         />
       ),
-      headerRight: () => <FilterButton onPress={handleFilter} />,
     });
   }, []);
+
+  React.useEffect(() => {
+    let count = 0;
+    for (let key in companyFilter) {
+      if (!['kw', 'page', 'pageSize'].includes(key)) {
+        if (companyFilter[key] !== '') {
+          count += 1;
+        }
+      }
+    }
+    navigation.setOptions({
+      headerRight: () => <FilterButton onPress={handleFilter} number={count} />,
+    });
+  }, [companyFilter]);
 
   const handleFilter = () => {
     SheetManager.show('filter-company-sheet');

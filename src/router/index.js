@@ -50,10 +50,11 @@ import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
 import ContactUsScreen from '../screens/ContactUsScreen';
 // Map
 import MapScreen from '../screens/MapScreen';
+import JobPostAroundScreen from '../screens/JobPostAroundScreen';
+import SearchJobPostAroundScreen from '../screens/SearchJobPostAroundScreen';
 
 // Tool
 import ViewPdfScreen from '../screens/ViewPdfScreen';
-
 
 const RootStack = createNativeStackNavigator();
 
@@ -62,7 +63,7 @@ const Router = () => {
 
   return (
     <RootStack.Navigator
-      initialRouteName="MapScreen"
+      initialRouteName="MainTab"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
@@ -258,6 +259,18 @@ const Router = () => {
         {/* Start: Map */}
         <RootStack.Group>
           <RootStack.Screen name="MapScreen" component={MapScreen} />
+          <RootStack.Screen
+            name="JobPostAroundScreen"
+            component={JobPostAroundScreen}
+          />
+          <RootStack.Screen
+            name="SearchJobPostAroundScreen"
+            component={SearchJobPostAroundScreen}
+            options={{
+              headerTransparent: true,
+              title: 'Tìm kiếm nâng cao',
+            }}
+          />
         </RootStack.Group>
         {/* End: Map */}
 

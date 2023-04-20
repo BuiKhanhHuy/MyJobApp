@@ -54,6 +54,7 @@ const HOME_FILTER_CAREER = [
 
 const SEARCH_TYPE_WITH_KEYWORD = {
   JOB_POST_SEARCH: 'JOB_POST_SEARCH',
+  JOB_POST_AROUND_SEARCH: "JOB_POST_AROUND_SEARCH",
   COMPANY_SEARCH: 'COMPANY_SEARCH',
 };
 
@@ -76,6 +77,25 @@ const DATE_OPTIONS = {
   dayCustom: num => dayjs().add(num, 'day'),
 };
 
+const JOB_MAP_OPTIONS = {
+  o1: {
+    value: 3000,
+    latitudeDelta: 0.09,
+    longitudeDelta: 0.065,
+  },
+  o2: {
+    value: 5000,
+    latitudeDelta: 0.14,
+    longitudeDelta: 0.11,
+  },
+  o3: {
+    value: 10000,
+    latitudeDelta: 0.22,
+    longitudeDelta: 0.22,
+  },
+  
+};
+
 export {
   APP_NAME,
   AUTH_PROVIDER,
@@ -86,4 +106,5 @@ export {
   REGEX_VATIDATE,
   CV_TYPES,
   DATE_OPTIONS,
+  JOB_MAP_OPTIONS,
 };

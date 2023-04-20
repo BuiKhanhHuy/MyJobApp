@@ -35,10 +35,12 @@ const jobService = {
 
     return httpRequest.get(url);
   },
-  getJobPostsAround: (data = {}) => {
+  getJobPostsAround: (data = {}, params = {}) => {
     const url = `/api/job/app/job-posts/job-posts-around/`;
 
-    return httpRequest.post(url, data);
+    return httpRequest.post(url, data, {
+      params: params,
+    });
   },
 };
 

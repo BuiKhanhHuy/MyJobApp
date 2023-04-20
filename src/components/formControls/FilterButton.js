@@ -1,10 +1,10 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {Image, View} from 'native-base';
+import {Center, Image, Text, View} from 'native-base';
 
 import {ICONS} from '../../configs/globalStyles';
 
-const FilterButton = ({onPress}) => {
+const FilterButton = ({onPress, number = 0}) => {
   return (
     <View
       style={{
@@ -14,6 +14,20 @@ const FilterButton = ({onPress}) => {
         borderRadius: 10,
         padding: 8,
       }}>
+      {number > 0 && (
+        <Center
+          position="absolute"
+          right={-2.5}
+          top={-2.5}
+          width={3.5}
+          height={3.5}
+          rounded="full"
+          backgroundColor="myJobCustomColors.burningOrange">
+          <Text color="white" fontSize={9}>
+            {number}
+          </Text>
+        </Center>
+      )}
       <TouchableOpacity onPress={onPress}>
         <Image
           source={ICONS.FILTER}

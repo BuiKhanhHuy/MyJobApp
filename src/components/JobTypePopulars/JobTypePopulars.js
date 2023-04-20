@@ -1,14 +1,19 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {View, useTheme} from 'native-base';
 import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import JobTypePopular from '../JobTypePopular';
 import jobService from '../../services/jobService';
+import {searchJobPost} from '../../redux/filterSlice';
 
 const JobTypePopulars = () => {
   const {colors} = useTheme();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const {allConfig} = useSelector(state => state.config);
+  const {jobPostFilter} = useSelector(state => state.filter);
   const [isLoading, setIsLoading] = React.useState(true);
   const [data, setData] = React.useState([]);
 
@@ -23,6 +28,7 @@ const JobTypePopulars = () => {
         const customData = [];
         for (let id in allConfig?.typeOfWorkplaceDict) {
           customData.push({
+            id: id,
             name: allConfig?.typeOfWorkplaceDict[id],
             total:
               data.filter(value => value.typeOfWorkplace == id).length > 0
@@ -41,6 +47,17 @@ const JobTypePopulars = () => {
     getTotalJob();
   }, []);
 
+  const handleClick = typeOfWorkplaceId => {
+    dispatch(
+      searchJobPost({
+        ...jobPostFilter,
+        typeOfWorkplaceId: typeOfWorkplaceId,
+      }),
+    );
+    
+    navigation.navigate('MainJobPostScreen');
+  };
+
   return (
     <View style={styles.container} shadow={'myJobCustomShadows.0'}>
       <View style={{flex: 1, marginRight: 10}}>
@@ -49,9 +66,11 @@ const JobTypePopulars = () => {
         ) : (
           <JobTypePopular
             imageUrl={require('../../assets/images/job-type-popular-icon.png')}
+            id={data[0].id}
             title={data[0].total}
             subTitle={data[0].name}
             bgColor={colors.myJobCustomColors.frenchPass}
+            handleClick={handleClick}
           />
         )}
       </View>
@@ -65,9 +84,11 @@ const JobTypePopulars = () => {
             <JobTypePopular.Loading />
           ) : (
             <JobTypePopular
+              id={data[1].id}
               title={data[1].total}
               subTitle={data[1].name}
               bgColor={colors.myJobCustomColors.paleViolet}
+              handleClick={handleClick}
             />
           )}
         </View>
@@ -80,9 +101,11 @@ const JobTypePopulars = () => {
             <JobTypePopular.Loading />
           ) : (
             <JobTypePopular
+              id={data[2].id}
               title={data[2].total}
               subTitle={data[2].name}
               bgColor={colors.myJobCustomColors.lightApricot}
+              handleClick={handleClick}
             />
           )}
         </View>

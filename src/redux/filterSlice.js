@@ -15,6 +15,19 @@ export const userSlice = createSlice({
       page: 1,
       pageSize: 20,
     },
+    jobPostAroundFilter: {
+      kw: '',
+      careerId: '',
+      cityId: '',
+      positionId: '',
+      experienceId: '',
+      typeOfWorkplaceId: '',
+      jobTypeId: '',
+      genderId: '',
+      isPagination: 'NOTOK',
+      page: 1,
+      pageSize: 20,
+    },
     companyFilter: {
       kw: '',
       cityId: '',
@@ -40,6 +53,27 @@ export const userSlice = createSlice({
         pageSize: 20,
       };
     },
+    searchJobPostAround: (state, action) => {
+      state.jobPostAroundFilter = {
+        ...state.jobPostAroundFilter,
+        ...action.payload,
+      };
+    },
+    resetSearchJobPostAround: state => {
+      state.jobPostAroundFilter = {
+        kw: '',
+        careerId: '',
+        cityId: '',
+        positionId: '',
+        experienceId: '',
+        typeOfWorkplaceId: '',
+        jobTypeId: '',
+        genderId: '',
+        isPagination: 'NOTOK',
+        page: 1,
+        pageSize: 20,
+      };
+    },
     searchCompany: (state, action) => {
       state.companyFilter = {...state.companyFilter, ...action.payload};
     },
@@ -58,6 +92,8 @@ const {reducer} = userSlice;
 const {
   searchJobPost,
   resetSearchJobPostFilter,
+  searchJobPostAround,
+  resetSearchJobPostAround,
   searchCompany,
   resetSearchCompany,
 } = userSlice.actions;
@@ -66,6 +102,8 @@ export default reducer;
 export {
   searchJobPost,
   resetSearchJobPostFilter,
+  searchJobPostAround,
+  resetSearchJobPostAround,
   searchCompany,
   resetSearchCompany,
 };

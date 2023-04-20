@@ -69,59 +69,67 @@ const MainJobPostsCard = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>1 việc làm</Text>
+    <>
+      <View mt={3} mb={1}>
+        <Text
+          fontSize={18}
+          fontFamily="DMSans-Bold"
+          color="myJobCustomColors.haitiBluePurple">
+          <Text color="myJobCustomColors.burningOrange">{jobPosts.length}</Text>{' '}
+          việc làm
+        </Text>
       </View>
-      {isLoading ? (
-        Array.from(Array(3).keys()).map(value => (
-          <JobPost.Loading key={value} />
-        ))
-      ) : jobPosts.length === 0 ? (
-        <Center marginTop={50}>
-          <NoData
-            title="Chúng tôi không tìm thấy công việc bạn đang tìm kiếm hiện tại"
-            imgSize="3xs"
-          />
-        </Center>
-      ) : (
-        <FlatList
-          data={jobPosts}
-          renderItem={({item}) => (
-            <JobPost
-              id={item?.id}
-              jobName={item?.jobName}
-              careerId={item?.career}
-              experienceId={item?.experience}
-              academicLevelId={item?.academicLevel}
-              positionId={item?.position}
-              salaryMin={item?.salaryMin}
-              salaryMax={item?.salaryMax}
-              typeOfWorkplaceId={item?.typeOfWorkplace}
-              jobTypeId={item?.jobType}
-              deadline={item?.deadline}
-              isHot={item?.isHot}
-              isUrgent={item?.isUrgent}
-              isSaved={item?.isSaved}
-              cityId={item?.locationDict?.city}
-              companyName={item?.companyDict?.companyName}
-              companyImageUrl={item?.companyDict?.companyImageUrl}
-              updateAt={item?.updateAt}
+      <View style={styles.container}>
+        {isLoading ? (
+          Array.from(Array(3).keys()).map(value => (
+            <JobPost.Loading key={value} />
+          ))
+        ) : jobPosts.length === 0 ? (
+          <Center marginTop={50}>
+            <NoData
+              title="Chúng tôi không tìm thấy công việc bạn đang tìm kiếm hiện tại"
+              imgSize="3xs"
             />
-          )}
-          keyExtractor={item => item.id}
-          ListFooterComponent={
-            isLoadMoreLoading ? (
-              <Center my="3">
-                <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
-              </Center>
-            ) : null
-          }
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.2}
-        />
-      )}
-    </View>
+          </Center>
+        ) : (
+          <FlatList
+            data={jobPosts}
+            renderItem={({item}) => (
+              <JobPost
+                id={item?.id}
+                jobName={item?.jobName}
+                careerId={item?.career}
+                experienceId={item?.experience}
+                academicLevelId={item?.academicLevel}
+                positionId={item?.position}
+                salaryMin={item?.salaryMin}
+                salaryMax={item?.salaryMax}
+                typeOfWorkplaceId={item?.typeOfWorkplace}
+                jobTypeId={item?.jobType}
+                deadline={item?.deadline}
+                isHot={item?.isHot}
+                isUrgent={item?.isUrgent}
+                isSaved={item?.isSaved}
+                cityId={item?.locationDict?.city}
+                companyName={item?.companyDict?.companyName}
+                companyImageUrl={item?.companyDict?.companyImageUrl}
+                updateAt={item?.updateAt}
+              />
+            )}
+            keyExtractor={item => item.id}
+            ListFooterComponent={
+              isLoadMoreLoading ? (
+                <Center my="3">
+                  <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+                </Center>
+              ) : null
+            }
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.2}
+          />
+        )}
+      </View>
+    </>
   );
 };
 

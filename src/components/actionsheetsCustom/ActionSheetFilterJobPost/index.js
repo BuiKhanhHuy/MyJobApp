@@ -6,11 +6,14 @@ import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
 
 import ButtonCustom from '../../ButtonCustom';
 import SelectCustom from '../../formControls/SelectCustom/SelectCustom';
-import { searchJobPost } from '../../../redux/filterSlice';
+import {
+  resetSearchJobPostFilter,
+  searchJobPost,
+} from '../../../redux/filterSlice';
 
 function ActionSheetFilterJobPost({sheetId}) {
   const {sizes} = useTheme();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const {allConfig} = useSelector(state => state.config);
   const {jobPostFilter} = useSelector(state => state.filter);
 
@@ -24,7 +27,11 @@ function ActionSheetFilterJobPost({sheetId}) {
   }, [jobPostFilter, reset]);
 
   const handleFilter = data => {
-    dispatch(searchJobPost(data))
+    dispatch(searchJobPost(data));
+    SheetManager.hide(sheetId);
+  };
+  const handleResetFilter = () => {
+    dispatch(resetSearchJobPostFilter());
     SheetManager.hide(sheetId);
   };
 
@@ -120,9 +127,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             textColor="myJobCustomColors.darkIndigo"
             bgColor="myJobCustomColors.moonrakerPurplyBlue"
             shadow={1}
-            onPress={() => {
-              SheetManager.hide(sheetId);
-            }}
+            onPress={handleResetFilter}
           />
         </VStack>
       </View>
