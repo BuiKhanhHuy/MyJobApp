@@ -5,10 +5,12 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  NativeModules,
 } from 'react-native';
 import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+import {AUTH_CONFIG} from '../configs/constants';
 import HomeRouter from './home.routes';
 import NotificationRouter from './notification.routes';
 import ProfileRouter from './profile.routes';
@@ -72,6 +74,22 @@ export default BottomTabNavigator = () => {
     );
   };
 
+  const openChatBot = () => {
+    var RNKommunicateChat = NativeModules.RNKommunicateChat;
+    let conversationObject = {
+      appId: AUTH_CONFIG.CHAT_APP_ID,
+    };
+
+    RNKommunicateChat.buildConversation(
+      conversationObject,
+      (response, responseMessage) => {
+        if (response == 'Success') {
+          console.log('Conversation Successfully with id:' + responseMessage);
+        }
+      },
+    );
+  };
+
   return (
     <CurvedBottomBar.Navigator
       strokeWidth={1}
@@ -87,11 +105,11 @@ export default BottomTabNavigator = () => {
               flex: 1,
               justifyContent: 'center',
             }}
-            onPress={() => navigate('ChatBotScreen')}>
+            onPress={openChatBot}>
             <Image
               source={require('../assets/images/icons/chatbot-icon.png')}
               style={{width: 35, height: 35}}
-              alt=''
+              alt=""
             />
           </TouchableOpacity>
         </Animated.View>

@@ -23,8 +23,6 @@ import JobPostDetailScreen from '../screens/JobPostDetailScreen';
 import CompanyDetailScreen from '../screens/CompanyDetailScreen';
 
 import MainCompanyScreen from '../screens/MainCompanyScreen';
-// ChatBot
-import ChatBotScreen from '../screens/ChatBotScreen';
 // Notification
 
 // Profile
@@ -134,12 +132,6 @@ const Router = () => {
           />
         </RootStack.Group>
         {/* End: Search */}
-
-        {/* Start: ChatBot */}
-        <RootStack.Group>
-          <RootStack.Screen name="ChatBotScreen" component={ChatBotScreen} />
-        </RootStack.Group>
-        {/* End: ChatBot */}
 
         {/* Start: Notification */}
         <RootStack.Group></RootStack.Group>

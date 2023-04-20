@@ -1,7 +1,9 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.myjob">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools" package="com.myjob">
 
 
   <application
+    tools:replace="android:allowBackup"
     android:name=".MainApplication"
     android:label="@string/app_name"
     android:icon="@mipmap/ic_launcher"
@@ -38,7 +40,8 @@
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
     <meta-data android:name="com.facebook.sdk.ClientToken"
       android:value="@string/facebook_client_token" />
-    <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyB0CNE--ZeHLrrSd8kadI997OmBUaXx94E" />
+    <meta-data android:name="com.google.android.geo.API_KEY"
+      android:value="AIzaSyB0CNE--ZeHLrrSd8kadI997OmBUaXx94E" />
 
     <activity android:name="com.facebook.FacebookActivity"
       android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -56,7 +59,7 @@
   </application>
 
   <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.ACCEPT_HANDOVER" />
   <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

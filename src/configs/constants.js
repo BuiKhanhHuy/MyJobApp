@@ -33,6 +33,9 @@ const AUTH_CONFIG = {
   // BING MAP
   BING_MAPS_KEY:
     'Av0DmLVNRE8m7HZGSTySLkyPaLX3Gg3b3cdt7I0ArXWxSmtKwqCpsUW6OE21t2z2',
+
+  // RNKommunicateChat
+  CHAT_APP_ID: "35d278df447ef1a978999f93358dd91e9"
 };
 
 const ROLES_NAME = {
@@ -54,7 +57,7 @@ const HOME_FILTER_CAREER = [
 
 const SEARCH_TYPE_WITH_KEYWORD = {
   JOB_POST_SEARCH: 'JOB_POST_SEARCH',
-  JOB_POST_AROUND_SEARCH: "JOB_POST_AROUND_SEARCH",
+  JOB_POST_AROUND_SEARCH: 'JOB_POST_AROUND_SEARCH',
   COMPANY_SEARCH: 'COMPANY_SEARCH',
 };
 
@@ -93,7 +96,6 @@ const JOB_MAP_OPTIONS = {
     latitudeDelta: 0.22,
     longitudeDelta: 0.22,
   },
-  
 };
 
 export {
@@ -108,3 +110,4 @@ export {
   DATE_OPTIONS,
   JOB_MAP_OPTIONS,
 };
+ 

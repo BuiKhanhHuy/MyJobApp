@@ -1,5 +1,6 @@
 package com.myjobapp;
 
+import io.kommunicate.app.RNKommunicateChatPackage;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
