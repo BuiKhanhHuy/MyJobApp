@@ -31,7 +31,7 @@ const MainJobPostsCard = () => {
         const data = resData.data;
 
         setCount(data.count);
-        setJobPosts(data.results);
+        setJobPosts([...jobPosts, ...data.results]);
       } catch (error) {
       } finally {
         setIsLoading(false);
@@ -75,7 +75,7 @@ const MainJobPostsCard = () => {
           fontSize={18}
           fontFamily="DMSans-Bold"
           color="myJobCustomColors.haitiBluePurple">
-          <Text color="myJobCustomColors.burningOrange">{jobPosts.length}</Text>{' '}
+          <Text color="myJobCustomColors.burningOrange">{count}</Text>{' '}
           việc làm
         </Text>
       </View>

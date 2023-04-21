@@ -12,13 +12,12 @@ import {
 } from '../../redux/filterSlice';
 import SearchJobPostAroundForm from '../components/forms/SearchJobPostAroundForm/SearchJobPostAroundForm';
 
-const SearchJobPostAroundScreen = ({ navigation}) => {
+const SearchJobPostAroundScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const headerHeight = useHeaderHeight();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
 
   const handleFilter = data => {
-    console.log(data);
     dispatch(searchJobPostAround(data));
     navigation.goBack();
   };

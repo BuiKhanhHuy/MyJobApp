@@ -155,7 +155,6 @@ const MapScreen = () => {
         const resData = await jobService.getJobPostsAround(data, params);
 
         setJobPosts(resData.data);
-        console.log('\nGET DATA: ', resData.data);
       } catch (error) {
         toastMessages.error();
       } finally {

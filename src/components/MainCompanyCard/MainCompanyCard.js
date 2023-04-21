@@ -31,7 +31,7 @@ const MainCompanyCard = () => {
         const data = resData.data;
 
         setCount(data.count);
-        setCompanies(data.results);
+        setCompanies([...companies, ...data.results]);
       } catch (error) {
         toastMessages.error();
       } finally {

@@ -27,7 +27,7 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
         const data = resData.data;
 
         setCount(data.count);
-        setJobPosts(data.results);
+        setJobPosts([...jobPosts, ...data.results]);
       } catch (error) {
         console.error(error);
       } finally {
