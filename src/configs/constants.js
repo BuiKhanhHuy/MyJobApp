@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 
 const APP_NAME = 'MyJob';
 
+const PLATFORM = "APP"
+
 const AUTH_PROVIDER = {
   FACEBOOK: 'facebook',
   GOOGLE: 'google-oauth2',
@@ -100,6 +102,7 @@ const JOB_MAP_OPTIONS = {
 
 export {
   APP_NAME,
+  PLATFORM,
   AUTH_PROVIDER,
   AUTH_CONFIG,
   ROLES_NAME,

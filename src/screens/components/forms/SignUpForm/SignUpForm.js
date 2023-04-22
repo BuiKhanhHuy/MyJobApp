@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, View, VStack, Text} from 'native-base';
+import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -8,23 +9,44 @@ import TextInputCustom from '../../../../components/TextInputCustom';
 import ButtonCustom from '../../../../components/ButtonCustom';
 
 const SignUpForm = ({
-  handleSignUp,
-  handleFacebookSignUp,
-  handleGoogleSignUp,
+  handleRegister,
+  handleFacebookRegister,
+  handleGoogleRegister,
+  serverErrors = {},
 }) => {
-  const schema = yup
-    .object({
-      fullName: yup.string().required('Họ và tên là bắt buộc!'),
-      email: yup.string().required('Email là bắt buộc!'),
-      password: yup.string().required('Mật khẩu là bắt buộc!'),
-      confirmPassword: yup.string().required('Mật khẩu xác nhận là bắt buộc!'),
-    })
-    .required();
+  const navigation = useNavigation();
+  const schema = yup.object().shape({
+    fullName: yup.string().required('Họ và tên là bắt buộc.'),
+    email: yup
+      .string()
+      .required('Email là bắt buộc!')
+      .email('Email không đúng định dạng')
+      .max(100, 'Email vượt quá độ dài cho phép.'),
+    password: yup
+      .string()
+      .required('Mật khẩu là bắt buộc!')
+      .max(128, 'Mật khẩu vượt quá độ dài cho phép.'),
+    confirmPassword: yup
+      .string()
+      .required('Mật khẩu xác nhận là bắt buộc.')
+      .oneOf([yup.ref('password')], 'Mật khẩu xác nhận không chính xác.'),
+  });
 
-  const {control, handleSubmit} = useForm({
-    defaultValues: {fullName: '', email: '', password: '', confirmPassword: ''},
+  const {control, setError, handleSubmit} = useForm({
+    defaultValues: {
+      fullName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
     resolver: yupResolver(schema),
   });
+
+  React.useEffect(() => {
+    for (let err in serverErrors) {
+      setError(err, {type: 400, message: serverErrors[err]?.join(' ')});
+    }
+  }, [serverErrors, setError]);
 
   return (
     <View>
@@ -64,7 +86,11 @@ const SignUpForm = ({
           />
         </Box>
         <Box>
-          <Text textAlign="right">Quên mật khẩu?</Text>
+          <Text
+            textAlign="right"
+            onPress={() => navigation.navigate('ForgotPassword')}>
+            Quên mật khẩu?
+          </Text>
         </Box>
         <VStack space={4} paddingX="2" paddingTop="6">
           <Box>
@@ -72,7 +98,7 @@ const SignUpForm = ({
               text="ĐĂNG KÝ"
               textColor="myJobCustomColors.white"
               bgColor="myJobCustomColors.darkIndigo"
-              onPress={handleSubmit(handleSignUp)}
+              onPress={handleSubmit(handleRegister)}
             />
           </Box>
           <Box>
@@ -84,7 +110,7 @@ const SignUpForm = ({
                 iconName: 'facebook',
                 iconColor: 'myJobCustomColors.darkIndigo',
               }}
-              onPress={handleFacebookSignUp}
+              onPress={handleFacebookRegister}
             />
           </Box>
           <Box>
@@ -96,7 +122,7 @@ const SignUpForm = ({
                 iconName: 'google',
                 iconColor: 'myJobCustomColors.darkIndigo',
               }}
-              onPress={handleGoogleSignUp}
+              onPress={handleGoogleRegister}
             />
           </Box>
         </VStack>

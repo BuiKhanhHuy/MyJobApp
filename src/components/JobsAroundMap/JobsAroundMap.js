@@ -10,7 +10,6 @@ import {
   VStack,
   View,
   Radio,
-  Stack,
   HStack,
   Spinner,
 } from 'native-base';
@@ -167,56 +166,57 @@ const SettingPopup = ({setRadius}) => {
 const JobsAroundMap = ({currentLocation, jobPosts, radius, setRadius}) => {
   console.log('>>> JobsAroundMap Render');
 
-  return currentLocation?.latitude && currentLocation?.longitude ? (
-    <View>
-      <Box position="absolute" top={16} right={3} zIndex={1}>
-        <VStack space={2}>
-          <SettingPopup setRadius={setRadius} />
-        </VStack>
-      </Box>
-      <MapView
-        style={{
-          height: '100%',
-          width: '100%',
-        }}
-        region={{
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude,
-          latitudeDelta: currentLocation.latitudeDelta,
-          longitudeDelta: currentLocation.longitudeDelta,
-        }}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        provider={PROVIDER_GOOGLE}
-        loadingIndicatorColor="#FF9228"
-        loadingEnabled={true}
-        clusterColor="#FF9228">
-        <Circle
-          center={{ 
+  return (
+    currentLocation?.latitude &&
+    currentLocation?.longitude && (
+      <View>
+        <Box position="absolute" top={16} right={3} zIndex={1}>
+          <VStack space={2}>
+            <SettingPopup setRadius={setRadius} />
+          </VStack>
+        </Box>
+        <MapView
+          style={{
+            height: '100%',
+            width: '100%',
+          }}
+          region={{
             latitude: currentLocation.latitude,
             longitude: currentLocation.longitude,
+            latitudeDelta: currentLocation.latitudeDelta,
+            longitudeDelta: currentLocation.longitudeDelta,
           }}
-          radius={radius}
-          fillColor={'rgba(255, 99, 71, 0.15)'}
-          strokeColor={'rgba(255, 99, 71, 0.2)'}
-        />
+          showsUserLocation={true}
+          showsMyLocationButton={true}
+          provider={PROVIDER_GOOGLE}
+          loadingIndicatorColor="#FF9228"
+          loadingEnabled={true}
+          clusterColor="#FF9228">
+          <Circle
+            center={{
+              latitude: currentLocation.latitude,
+              longitude: currentLocation.longitude,
+            }}
+            radius={radius}
+            fillColor={'rgba(255, 99, 71, 0.15)'}
+            strokeColor={'rgba(255, 99, 71, 0.2)'}
+          />
 
-        {jobPosts.map(value => (
-          <Marker
-            key={value.id}
-            coordinate={{ 
-              latitude: value.latitude,
-              longitude: value.longitude,
-            }}>
-            <Center>
-              <Image source={ICONS.JOB_LOCATION_ICON} size="xs" alt="L" />
-            </Center>
-          </Marker>
-        ))}
-      </MapView>
-    </View>
-  ) : (
-    <Text>Dang loading....</Text>
+          {jobPosts.map(value => (
+            <Marker
+              key={value.id}
+              coordinate={{
+                latitude: value.latitude,
+                longitude: value.longitude,
+              }}>
+              <Center>
+                <Image source={ICONS.JOB_LOCATION_ICON} size="xs" alt="L" />
+              </Center>
+            </Marker>
+          ))}
+        </MapView>
+      </View>
+    )
   );
 };
 

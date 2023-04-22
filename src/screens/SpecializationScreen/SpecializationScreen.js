@@ -251,7 +251,12 @@ const SpecializationScreen = () => {
                       ) : null
                     }
                     onEndReached={handleLoadMore}
-                    onEndReachedThreshold={0.7}
+                    onEndReachedThreshold={0}
+                    getItemLayout={(data, index) => {
+                      const itemHeight = 210; // Chiều cao của mỗi mục trong danh sách
+                      const offset = itemHeight * index; // Vị trí của mục trong danh sách
+                      return {length: itemHeight, offset, index};
+                    }}
                   />
                 )}
               </View>

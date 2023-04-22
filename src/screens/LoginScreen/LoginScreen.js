@@ -1,9 +1,12 @@
 import React from 'react';
-import {Box, Text, View, VStack} from 'native-base';
+import {Alert, Box, ScrollView, Text, View, VStack} from 'native-base';
 import {getUserInfo} from '../../redux/userSlice';
 import {useDispatch} from 'react-redux';
 import {AccessToken, LoginManager} from 'react-native-fbsdk';
-import {GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 import {
   APP_NAME,
@@ -17,6 +20,7 @@ import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropL
 import LoginForm from '../components/forms/LoginForm';
 import authService from '../../services/authService';
 import tokenService from '../../services/tokenService';
+import { updateVerifyEmail } from '../../redux/authSlice';
 
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -56,13 +60,56 @@ const LoginScreen = ({navigation}) => {
           toastMessages.error();
         }
       } catch (error) {
-        toastMessages.error();
+        // 400 bad request
+        const res = error.response;
+        if (res.status === 400) {
+          const errors = res.data?.errors;
+          if ('errorMessage' in errors) {
+            setErrorMessage(errors.errorMessage.join(' '));
+          } else {
+            toastMessages.error('Đã xảy ra lỗi, vui lòng thử lại!');
+          }
+        }
       } finally {
-        setIsFullScreenLoading(true);
+        setIsFullScreenLoading(false);
       }
     };
 
-    getAccesToken(data.email, data.password, ROLES_NAME.JOB_SEEKER);
+    const checkCreds = async (email, password, roleName) => {
+      setIsFullScreenLoading(true);
+
+      try {
+        const resData = await authService.checkCreds(email, roleName);
+
+        const {exists, email: resEmail, email_verified} = resData.data;
+        if (exists === true && email_verified === false) {
+          dispatch(
+            updateVerifyEmail({
+              isAllowVerifyEmail: true,
+              email: email,
+              roleName: roleName,
+            }),
+          );
+
+          navigation.navigate('CheckEmail');
+          return;
+        } else if (exists === false) {
+          setErrorMessage(
+            'Không tồn tại tài khoản ứng viên nào với email này!',
+          );
+          return;
+        }
+
+        getAccesToken(resEmail, password, roleName);
+      } catch (error) {
+        console.log(error)
+        toastMessages.error('Đã xảy ra lỗi, vui lòng đăng nhập lại!');
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    checkCreds(data.email, data.password, ROLES_NAME.JOB_SEEKER);
   };
 
   const handleSocialLogin = async (
@@ -72,7 +119,6 @@ const LoginScreen = ({navigation}) => {
     token,
   ) => {
     setIsFullScreenLoading(true);
-
     try {
       const resData = await authService.convertToken(
         clientId,
@@ -114,7 +160,7 @@ const LoginScreen = ({navigation}) => {
         }
       }
     } finally {
-      setIsFullScreenLoading(true);
+      setIsFullScreenLoading(false);
     }
   };
 
@@ -142,71 +188,92 @@ const LoginScreen = ({navigation}) => {
 
   const handleGoogleLogin = async () => {
     try {
-      
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
       console.log(userInfo);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log("user cancelled the login flow: ", error)
+        console.log('user cancelled the login flow: ', error);
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(" operation (e.g. sign in) is in progress already: ", error)
+        console.log(
+          ' operation (e.g. sign in) is in progress already: ',
+          error,
+        );
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log("play services not available or outdated: ", error)
+        console.log('play services not available or outdated: ', error);
       } else {
-        console.log("some other error happened: ", error)
+        console.log('some other error happened: ', error);
       }
     }
   };
 
   return (
     <>
-      <View paddingX="7" paddingTop="12" flex={1} onLayout={handleLayout}>
-        {false ? (
+      <View flex={1} onLayout={handleLayout}>
+        {isFullScreenLoading && <BackdropLoading />}
+
+        {isLayoutLoading ? (
           <BackdropLoading />
         ) : (
           <>
-            <View flex={1}>
-              <VStack alignItems="center">
-                <Text
-                  textAlign="center"
-                  fontFamily="dMSansBold"
-                  fontSize="3xl"
-                  lineHeight="md"
-                  color="myJobCustomColors.purpleBlue">
-                  Chào mừng trở lại
-                </Text>
-                <Text textAlign="center" paddingTop="1.5">
-                  Khi bạn đăng nhập bằng Facebook, Google, mặc định bạn đồng ý
-                  với Điều khoản và Chính sách bảo mật của MyJob
-                </Text>
-              </VStack>
-            </View>
-            <View flex={5} justifyContent="flex-end">
-              {/* Start: Login form here */}
-              <LoginForm
-                handleLogin={handleLogin}
-                handleFacebookLogin={handleFacebookLogin}
-                handleGoogleLogin={handleGoogleLogin}
-              />
-              {/* End: Login form here */}
-            </View>
-            <View flex={2}>
-              <Box alignItems="center" paddingTop="6">
-                <Text fontFamily="dMSansRegular" fontSize="xs" lineHeight="xs">
-                  <Text>Bạn chưa có tài khoản?</Text>{' '}
-                  <Text color="myJobCustomColors.neonCarrot">Đăng ký</Text>
-                </Text>
-              </Box>
-            </View>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View paddingX="7" paddingY="12" flex={1}>
+                <View flex={1}>
+                  <VStack alignItems="center">
+                    <Text
+                      textAlign="center"
+                      fontFamily="dMSansBold"
+                      fontSize="3xl"
+                      lineHeight="md"
+                      color="myJobCustomColors.purpleBlue">
+                      Chào mừng trở lại
+                    </Text>
+                    <Text textAlign="center" paddingTop="1.5">
+                      Khi bạn đăng nhập bằng Facebook, Google, mặc định bạn đồng
+                      ý với Điều khoản và Chính sách bảo mật của MyJob
+                    </Text>
+                    {errorMessage && (
+                      <Alert
+                        mt={5}
+                        mb={2}
+                        w="100%"
+                        variant="left-accent"
+                        status="error">
+                        <Text fontFamily="dMSansRegular">{errorMessage}</Text>
+                      </Alert>
+                    )}
+                  </VStack>
+                </View>
+                <View flex={10} justifyContent="flex-end">
+                  {/* Start: Sign up form here */}
+                  <LoginForm
+                    handleLogin={handleLogin}
+                    handleFacebookLogin={handleFacebookLogin}
+                    handleGoogleLogin={handleGoogleLogin}
+                  />
+                  {/* End: Sign up form here */}
+                </View>
+                <View flex={1}>
+                  <Box alignItems="center" paddingTop="6">
+                    <Text
+                      fontFamily="dMSansRegular"
+                      fontSize="xs"
+                      lineHeight="xs">
+                      <Text>Bạn chưa có tài khoản?</Text>{' '}
+                      <Text
+                        color="myJobCustomColors.neonCarrot"
+                        onPress={() => navigation.navigate('SignUp')}>
+                        Đăng ký
+                      </Text>
+                    </Text>
+                  </Box>
+                </View>
+              </View>
+            </ScrollView>
           </>
         )}
       </View>
-
-      {/* Start: Full Screen Loading */}
-      {isFullScreenLoading && <BackdropLoading />}
-      {/* End: Full Screen Loading */}
     </>
   );
 };

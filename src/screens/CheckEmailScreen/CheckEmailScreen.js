@@ -27,8 +27,8 @@ const CheckEmailScreen = ({navigation}) => {
             Xác thực email
           </Text>
           <Text textAlign="center" paddingTop="1.5">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor
+            Liên kết xác nhận email đã được chuyển đến email của bạn, vui
+            lòng kiểm tra hòm thư.
           </Text>
         </VStack>
       </View>
@@ -57,7 +57,7 @@ const CheckEmailScreen = ({navigation}) => {
               text="QUAY LẠI ĐĂNG NHẬP"
               textColor="myJobCustomColors.darkIndigo"
               bgColor="myJobCustomColors.moonrakerPurplyBlue"
-              onPress={() => console.log('ON CALL BACK LOGIN')}
+              onPress={() => navigation.goBack()}
             />
           </Box>
         </VStack>

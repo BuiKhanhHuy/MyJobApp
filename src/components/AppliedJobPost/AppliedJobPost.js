@@ -2,7 +2,8 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
-import {View, Image, StyleSheet, ScrollView} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {HStack, Skeleton, Text} from 'native-base';
 
@@ -24,7 +25,7 @@ const AppliedJobPost = ({
   companyName,
   companyImageUrl,
   updateAt,
-  appliedAt
+  appliedAt,
 }) => {
   const navigation = useNavigation();
   const {allConfig} = useSelector(state => state.config);
@@ -56,7 +57,14 @@ const AppliedJobPost = ({
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
-          <Image source={{uri: companyImageUrl}} style={styles.logo} alt="" />
+          <FastImage
+            style={styles.logo}
+            source={{
+              uri: companyImageUrl,
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
           <Text fontFamily="DMSans-Regular" color="#aaa6b9">
@@ -64,7 +72,7 @@ const AppliedJobPost = ({
             <Text
               color="myJobCustomColors.burningOrange"
               fontFamily="DMSans-Bold">
-              {moment(appliedAt).format("DD/MM/YYYY")}
+              {moment(appliedAt).format('DD/MM/YYYY')}
             </Text>
           </Text>
         </View>

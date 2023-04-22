@@ -3,7 +3,8 @@ import {useNavigation} from '@react-navigation/native';
 import {TouchableWithoutFeedback} from 'react-native';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
-import {Text, VStack, View, Avatar, Skeleton, HStack} from 'native-base';
+import FastImage from 'react-native-fast-image';
+import {Text, VStack, View, Skeleton, HStack} from 'native-base';
 import Feather from 'react-native-vector-icons/Feather';
 
 const ViewedCompany = ({
@@ -24,17 +25,25 @@ const ViewedCompany = ({
           id: companyId,
         })
       }>
-      <View bg="myJobCustomColors.white" shadow={'myJobCustomShadows.0'} width="100%" borderRadius="2xl" p={4}>
+      <View
+        bg="myJobCustomColors.white"
+        shadow={'myJobCustomShadows.0'}
+        width="100%"
+        borderRadius="2xl"
+        p={4}>
         <VStack space={2}>
           <HStack space={2} justifyContent="flex-start">
-            <Avatar
-              bg="green.500"
-              size="lg"
+            <FastImage
+              style={{
+                width: 70,
+                height: 70,
+              }}
               source={{
                 uri: companyImageUrl,
-              }}>
-              LOGO
-            </Avatar>
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
             <VStack justifyContent="center" space={1}>
               <View>
                 <Text

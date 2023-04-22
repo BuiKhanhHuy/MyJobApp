@@ -9,6 +9,7 @@ import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import CheckEmailScreen from '../screens/CheckEmailScreen';
 import SuccessfullyScreen from '../screens/SuccessfullyScreen';
 // MainTab
@@ -61,12 +62,11 @@ const Router = () => {
 
   return (
     <RootStack.Navigator
-      initialRouteName="MainTab"
+      initialRouteName="Login"
       screenOptions={{
         headerShown: false,
         animation: 'fade_from_bottom',
       }}>
-      <RootStack.Screen name="CheckEmail" component={CheckEmailScreen} />
       {!isAuthenticated && (
         <>
           <RootStack.Screen name="Login" component={LoginScreen} />
@@ -75,6 +75,11 @@ const Router = () => {
             name="ForgotPassword"
             component={ForgotPasswordScreen}
           />
+          <RootStack.Screen
+            name="ResetPasswordScreen"
+            component={ResetPasswordScreen}
+          />
+          <RootStack.Screen name="CheckEmail" component={CheckEmailScreen} />
           <RootStack.Screen
             name="Successfully"
             component={SuccessfullyScreen}

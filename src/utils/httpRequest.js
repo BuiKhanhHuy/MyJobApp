@@ -6,8 +6,8 @@ import {AUTH_CONFIG} from '../configs/constants';
 
 const httpRequest = axios.create({
   // baseURL: 'https://bkhuy-myjob.onrender.com/',
-  baseURL: 'https://bkhuy.pythonanywhere.com/',
-  // baseURL: 'http://192.168.1.7:8000/',
+  // baseURL: 'https://bkhuy.pythonanywhere.com/',
+  baseURL: 'http://192.168.1.7:8000/',
   // timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -21,12 +21,12 @@ const httpRequest = axios.create({
 
 httpRequest.interceptors.request.use(
   async config => {
-    const accessToken = await tokenService.getLocalAccessToken(APP_NAME);
-    if (accessToken && config.url !== 'api/auth/token/') {
-      console.log('LAY ACCESS TOKEN DE CALL API: ', accessToken);
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
-    }
-
+    // const accessToken = await tokenService.getLocalAccessToken(APP_NAME);
+    // if (accessToken && config.url !== 'api/auth/token/') {
+    //   console.log('LAY ACCESS TOKEN DE CALL API: ', accessToken);
+    //   config.headers['Authorization'] = `Bearer ${accessToken}`;
+    // }
+    config.headers['Authorization'] = `Bearer ${"hJQXFa1I1QaOi6c3jkLo5HsSKKqfLF"}`;
     return config;
   },
   error => {

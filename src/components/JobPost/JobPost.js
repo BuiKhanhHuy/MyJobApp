@@ -2,15 +2,15 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
+import FastImage from 'react-native-fast-image';
 import {
   Text,
-  Image,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {HStack, Skeleton, Spinner, View} from 'native-base';
+import { HStack, Skeleton, Spinner, View} from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import toastMessages from '../../utils/toastMessages';
@@ -122,7 +122,14 @@ const JobPost = ({
     <View style={styles.container} shadow={'myJobCustomShadows.0'}>
       <View style={styles.header}>
         <View>
-          <Image source={{uri: companyImageUrl}} style={styles.logo} alt="" />
+          <FastImage
+            style={styles.logo}
+            source={{
+              uri: companyImageUrl,
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
           {/* Start: SaveComponent */}
@@ -251,7 +258,7 @@ const Loading = () => {
 
 JobPost.Loading = Loading;
 
-export default JobPost;
+export default React.memo(JobPost);
 
 const styles = StyleSheet.create({
   container: {

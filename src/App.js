@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
 // redux
 import {getUserInfo} from './redux/userSlice';
@@ -14,17 +14,32 @@ import Router from './router';
 // Logo Screen
 import LogoScreen from './screens/LogoScreen';
 
-import { AUTH_CONFIG } from './configs/constants';
+const config = {
+  screens: {
+    MainTab: {
+      path: '',
+    },
+    Login: 'dang-nhap-ung-vien',
+    Successfully: 'successfully',
+  },
+};
 
 const App = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(true);
-  console.log('APP RENDER: loading: ', loading);
+
+  const linking = {
+    prefixes: [
+      'MyJob://app',
+    ],
+    config,
+  };
 
   React.useEffect(() => {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId: "AIzaSyDTw4mOSXfJ2CXMKzEryn3qM-gbWtzPFtY",
+      webClientId:
+        '717983009047-bivsoh68v9ve21mptak9cjnb9d7q2h9u.apps.googleusercontent.com',
       offlineAccess: true,
       hostedDomain: '',
       forceCodeForRefreshToken: true,
@@ -52,7 +67,7 @@ const App = () => {
   return loading ? (
     <LogoScreen />
   ) : (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       {/* <StatusBar /> */}
       <Router />
     </NavigationContainer>

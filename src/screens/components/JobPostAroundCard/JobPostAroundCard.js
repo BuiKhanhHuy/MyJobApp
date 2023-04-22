@@ -29,7 +29,7 @@ const JobPostAroundCard = ({bodyData}) => {
 
         setCount(data.count);
         setJobPosts(data.results);
-        console.log("AAA: ", data.results)
+        console.log('AAA: ', data.results);
       } catch (error) {
         errorHandling(error);
       } finally {
@@ -70,7 +70,6 @@ const JobPostAroundCard = ({bodyData}) => {
           data={jobPosts}
           renderItem={({item}) => (
             <Center mt={3}>
-              {console.log(item)}
               <AroundJobPost
                 id={item?.id}
                 jobName={item?.jobName}
@@ -92,7 +91,12 @@ const JobPostAroundCard = ({bodyData}) => {
             ) : null
           }
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.2}
+          onEndReachedThreshold={0}
+          getItemLayout={(data, index) => {
+            const itemHeight = 125; // Chiều cao của mỗi mục trong danh sách
+            const offset = itemHeight * index; // Vị trí của mục trong danh sách
+            return {length: itemHeight, offset, index};
+          }}
         />
       )}
     </View>

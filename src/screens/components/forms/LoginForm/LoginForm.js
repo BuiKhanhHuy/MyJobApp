@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, View, VStack, Text, HStack} from 'native-base';
+import {useNavigation} from '@react-navigation/native';
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -8,12 +9,14 @@ import TextInputCustom from '../../../../components/TextInputCustom';
 import ButtonCustom from '../../../../components/ButtonCustom';
 
 const LoginForm = ({handleLogin, handleFacebookLogin, handleGoogleLogin}) => {
-  const schema = yup
-    .object({
-      email: yup.string().required('Email là bắt buộc!'),
-      password: yup.string().required('Mật khẩu là bắt buộc!'),
-    })
-    .required();
+  const navigation = useNavigation();
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .required('Email là bắt buộc!')
+      .email('Email không đúng định dạng'),
+    password: yup.string().required('Mật khẩu là bắt buộc!'),
+  });
 
   const {control, handleSubmit} = useForm({
     defaultValues: {email: '', password: ''},
@@ -41,7 +44,11 @@ const LoginForm = ({handleLogin, handleFacebookLogin, handleGoogleLogin}) => {
           />
         </Box>
         <Box>
-          <Text textAlign="right">Quên mật khẩu?</Text>
+          <Text
+            textAlign="right"
+            onPress={() => navigation.navigate('ForgotPassword')}>
+            Quên mật khẩu?
+          </Text>
         </Box>
         <VStack space={4} paddingX="2" paddingTop="6">
           <Box>

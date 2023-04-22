@@ -1,16 +1,8 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {
-  Center,
-  HStack,
-  Image,
-  Skeleton,
-  Stack,
-  Text,
-  VStack,
-  View,
-} from 'native-base';
+import FastImage from 'react-native-fast-image';
+import {Center, HStack, Skeleton, Stack, Text, VStack, View} from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -47,13 +39,17 @@ const AroundJobPost = ({
         backgroundColor="myJobCustomColors.white">
         <VStack space={2}>
           <HStack space={3}>
-            <Image
-              rounded="full"
+            <FastImage
+              style={{
+                width: 55,
+                height: 55,
+                borderRadius: 50,
+              }}
               source={{
                 uri: companyImageUrl,
+                priority: FastImage.priority.normal,
               }}
-              alt="---"
-              size="sm"
+              resizeMode={FastImage.resizeMode.contain}
             />
             <View>
               <View style={{overflow: 'hidden'}}>
@@ -120,7 +116,7 @@ const Loading = () => {
         <View>
           <HStack space={2}>
             <View>
-              <Skeleton rounded={'full'} w={20} h={20} />
+              <Skeleton rounded={'full'} style={{height: 55, width: 55}} />
             </View>
             <View>
               <Stack space={1} justifyContent="center">

@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableWithoutFeedback} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {
   Text,
   VStack,
@@ -118,13 +119,17 @@ const Company = ({
         <VStack justifyContent="space-between">
           <VStack alignItems="center" space={1} flex={1}>
             <View>
-              <Avatar
-                bg="green.500"
+              <FastImage
+                style={{
+                  width: 60,
+                  height: 60,
+                }}
                 source={{
                   uri: companyImageUrl,
-                }}>
-                LOGO
-              </Avatar>
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.contain}
+              />
             </View>
             <Text
               textAlign="center"
@@ -164,7 +169,13 @@ const Loading = () => (
     <VStack justifyContent="space-between">
       <VStack alignItems="center" space={3} flex={1}>
         <View>
-          <Skeleton rounded="full" w={20} h={20} />
+          <Skeleton
+            rounded="full"
+            style={{
+              width: 60,
+              height: 60,
+            }}
+          />
         </View>
 
         <Skeleton rounded="md" h="10" width="100%" />
