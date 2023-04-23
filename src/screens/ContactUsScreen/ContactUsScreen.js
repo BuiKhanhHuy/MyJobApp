@@ -5,7 +5,7 @@ import {Center, Image, ScrollView, Text, VStack, View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import {LOGO_IMAGE} from '../../configs/globalStyles';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 import Map from '../../components/Map/Map';
 
 const ContactUsScreen = () => {

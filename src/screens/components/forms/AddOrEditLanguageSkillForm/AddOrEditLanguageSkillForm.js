@@ -5,8 +5,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {Box, ScrollView, Skeleton, VStack, View} from 'native-base';
 
-import SelectCustom from '../../../../components/formControls/SelectCustom/SelectCustom';
-import RatingCustom from '../../../../components/formControls/RatingCustom/RatingCustom';
+import SelectCustom from '../../../../components/formControls/SelectCustom';
+import RatingCustom from '../../../../components/formControls/RatingCustom';
 import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
 
 const AddOrEditLanguageSkillForm = ({

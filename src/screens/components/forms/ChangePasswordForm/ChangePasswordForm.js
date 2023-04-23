@@ -4,8 +4,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {Box, ScrollView, VStack, View} from 'native-base';
 
-import TextInputCustom from '../../../../components/TextInputCustom/TextInputCustom';
-import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
+import TextInputCustom from '../../../../components/TextInputCustom';
+import ButtonCustom from '../../../../components/ButtonCustom';
 
 const ChangePasswordForm = ({handleUpdate, serverErrors = {}}) => {
   const schema = yup.object().shape({

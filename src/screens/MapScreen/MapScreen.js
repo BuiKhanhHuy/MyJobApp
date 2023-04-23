@@ -155,6 +155,7 @@ const MapScreen = () => {
         const resData = await jobService.getJobPostsAround(data, params);
 
         setJobPosts(resData.data);
+        console.log("CALL API VA RENDER - MapScreen: ")
       } catch (error) {
         toastMessages.error();
       } finally {
@@ -165,13 +166,13 @@ const MapScreen = () => {
     const dataFilter = {
       currentLatitude: currentLocation?.latitude,
       currentLongitude: currentLocation?.longitude,
-      radius: radius,
+      radius: radius / 1000,
     };
 
     if (currentLocation?.latitude && currentLocation?.longitude) {
       getJobPostsAround(dataFilter, jobPostAroundFilter);
     }
-  }, [radius, jobPostAroundFilter]);
+  }, [radius, jobPostAroundFilter, currentLocation]);
 
   return (
     <>

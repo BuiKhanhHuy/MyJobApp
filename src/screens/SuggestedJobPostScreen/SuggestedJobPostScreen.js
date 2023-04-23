@@ -3,8 +3,8 @@ import {InteractionManager} from 'react-native';
 import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
-import SuggestedJobPostCard from '../../components/SuggestedJobPostCard/SuggestedJobPostCard';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
+import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard/SuggestedJobPostsCard';
 
 const SuggestedJobPostScreen = ({route, navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
@@ -22,9 +22,10 @@ const SuggestedJobPostScreen = ({route, navigation}) => {
       {isLayoutLoading ? (
         <BackdropLoading />
       ) : (
-        <SuggestedJobPostCard
+        <SuggestedJobPostsCard
           pageSize={pageSize}
           isPagination={true}
+           
           params={params}
         />
       )}

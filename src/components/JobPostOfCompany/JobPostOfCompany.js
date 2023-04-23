@@ -3,7 +3,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Center, Spinner, Text, View} from 'native-base';
 
 import {useLayout} from '../../hooks';
-import FilterJobPostsCard from '../FilterJobPostsCard/FilterJobPostsCard';
+import FilterJobPostsCard from '../FilterJobPostsCard';
 
 const JobPostOfCompany = ({params, companyId, companyName}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();

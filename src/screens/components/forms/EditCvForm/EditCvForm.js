@@ -4,8 +4,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {Box, ScrollView, Skeleton, VStack, View} from 'native-base';
 
-import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
-import UploadCv from '../../../../components/UploadCV/UploadCv';
+import ButtonCustom from '../../../../components/ButtonCustom';
+import UploadCv from '../../../../components/UploadCV';
 
 const EditCvForm = ({handleUpdate}) => {
   const schema = yup.object().shape({

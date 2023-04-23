@@ -4,7 +4,7 @@ import {useForm} from 'react-hook-form';
 import {Box, HStack, ScrollView, VStack, View} from 'native-base';
 
 import SelectCustom from '../../../../components/formControls/SelectCustom';
-import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
+import ButtonCustom from '../../../../components/ButtonCustom';
 
 const SearchJobPostAroundForm = ({handleFilter, handleResetFilter}) => {
   const {allConfig} = useSelector(state => state.config);

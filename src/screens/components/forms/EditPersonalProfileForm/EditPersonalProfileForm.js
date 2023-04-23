@@ -6,10 +6,10 @@ import * as yup from 'yup';
 import {Box, ScrollView, Skeleton, VStack, View} from 'native-base';
 
 import {DATE_OPTIONS, REGEX_VATIDATE} from '../../../../configs/constants';
-import TextInputCustom from '../../../../components/TextInputCustom/TextInputCustom';
+import TextInputCustom from '../../../../components/TextInputCustom';
 import SelectCustom from '../../../../components/formControls/SelectCustom';
 import DateTimePickerCustom from '../../../../components/formControls/DateTimePickerCustom';
-import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
+import ButtonCustom from '../../../../components/ButtonCustom';
 import commonService from '../../../../services/commonService';
 
 const EditPersonalProfileForm = ({handleUpdate, editData}) => {

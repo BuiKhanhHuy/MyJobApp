@@ -7,7 +7,7 @@ import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import resumeService from '../../services/resumeService';
-import EditCvForm from '../components/forms/EditCvForm/EditCvForm';
+import EditCvForm from '../components/forms/EditCvForm';
 import {reloadAttachedProfile} from '../../redux/reloadSlice';
 
 const EditCvScreen = ({route, navigation}) => {

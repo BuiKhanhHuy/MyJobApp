@@ -22,15 +22,15 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 import toastMessages from '../../utils/toastMessages';
-import JobPostDetail from '../../components/JobPostDetail/JobPostDetail';
-import SuggestedJobPostCard from '../../components/SuggestedJobPostCard/SuggestedJobPostCard';
-import CompanyDetail from '../../components/CompanyDetail/CompanyDetail';
+import JobPostDetail from '../../components/JobPostDetail';
+import CompanyDetail from '../../components/CompanyDetail';
 
 import jobService from '../../services/jobService';
 import {reloadSaveJobPost} from '../../redux/reloadSlice';
 import NoData from '../../components/NoData/NoData';
+import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard/SuggestedJobPostsCard';
 
 const MenuButtonComponent = ({tab, setTab}) => {
   return (
@@ -368,9 +368,9 @@ const JobPostDetailScreen = ({route, navigation}) => {
                     </HStack>
                   </View>
                   <View paddingBottom={5}>
-                    {/* Start: SuggestedJobPostCard */}
+                    {/* Start: SuggestedJobPostsCard */}
                     {isAuthenticated ? (
-                      <SuggestedJobPostCard pageSize={10} />
+                      <SuggestedJobPostsCard pageSize={10} />
                     ) : (
                       <NoData title="Bạn cần đăng nhập để được gợi ý việc làm.">
                         <Button
@@ -382,7 +382,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                         </Button>
                       </NoData>
                     )}
-                    {/* End: SuggestedJobPostCard */}
+                    {/* End: SuggestedJobPostsCard */}
                   </View>
                 </View>
               </View>

@@ -3,14 +3,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import FastImage from 'react-native-fast-image';
-import {
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import {Text, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import { HStack, Skeleton, Spinner, View} from 'native-base';
+import {HStack, Skeleton, Spinner, View} from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import toastMessages from '../../utils/toastMessages';
@@ -224,41 +219,37 @@ const JobPost = ({
   );
 };
 
-const Loading = () => {
-  return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <View>
-            <Skeleton size="40" rounded="full" style={styles.logo} />
-          </View>
-          <View style={{justifyContent: 'flex-start'}}>
-            <Skeleton size="5" rounded="md" />
-          </View>
-        </View>
-        <View style={{paddingTop: 10}}>
-          <Skeleton rounded="md" h="7" />
-        </View>
-        <View style={{paddingTop: 10}}>
-          <Skeleton rounded="md" h="5" />
-        </View>
-        <HStack space="3" alignItems="center" style={{paddingTop: 10}}>
-          <Skeleton rounded="md" flex={1} h="8" />
-          <Skeleton rounded="md" flex={1} h="8" />
-          <Skeleton rounded="md" flex={1} h="8" />
-        </HStack>
-        <HStack space="3" alignItems="center" style={{paddingTop: 10}}>
-          <Skeleton rounded="md" flex={1} h="4" />
-          <Skeleton rounded="md" flex={1} h="4" />
-        </HStack>
+const Loading = () => (
+  <View style={styles.container}>
+    <View style={styles.header}>
+      <View>
+        <Skeleton size="40" rounded="full" style={styles.logo} />
       </View>
-    </>
-  );
-};
+      <View style={{justifyContent: 'flex-start'}}>
+        <Skeleton size="5" rounded="md" />
+      </View>
+    </View>
+    <View style={{paddingTop: 10}}>
+      <Skeleton rounded="md" h="7" />
+    </View>
+    <View style={{paddingTop: 10}}>
+      <Skeleton rounded="md" h="5" />
+    </View>
+    <HStack space="3" alignItems="center" style={{paddingTop: 10}}>
+      <Skeleton rounded="md" flex={1} h="8" />
+      <Skeleton rounded="md" flex={1} h="8" />
+      <Skeleton rounded="md" flex={1} h="8" />
+    </HStack>
+    <HStack space="3" alignItems="center" style={{paddingTop: 10}}>
+      <Skeleton rounded="md" flex={1} h="4" />
+      <Skeleton rounded="md" flex={1} h="4" />
+    </HStack>
+  </View>
+);
 
 JobPost.Loading = Loading;
 
-export default React.memo(JobPost);
+export default JobPost;
 
 const styles = StyleSheet.create({
   container: {

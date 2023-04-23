@@ -18,8 +18,8 @@ import 'moment/locale/vi';
 
 import toastMessages from '../../../../utils/toastMessages';
 import ProfileCard from '../ProfileCard';
-import NoData from '../../../../components/NoData/NoData';
-import BackdropLoading from '../../../../components/loadings/BackdropLoading/BackdropLoading';
+import NoData from '../../../../components/NoData';
+import BackdropLoading from '../../../../components/loadings/BackdropLoading';
 import resumeService from '../../../../services/resumeService';
 import {useSelector} from 'react-redux';
 import expericenDetailService from '../../../../services/expericenDetailService';

@@ -7,7 +7,7 @@ import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
 import errorHandling from '../../utils/errorHandling';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
-import EditAccountForm from '../components/forms/EditAccountForm/EditAccountForm';
+import EditAccountForm from '../components/forms/EditAccountForm';
 
 import {updateUserInfo} from '../../redux/userSlice';
 

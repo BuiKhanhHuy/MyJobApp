@@ -17,7 +17,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import toastMessages from '../../../../utils/toastMessages';
-import BackdropLoading from '../../../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../../../components/loadings/BackdropLoading';
 import NoData from '../../../../components/NoData/NoData';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';

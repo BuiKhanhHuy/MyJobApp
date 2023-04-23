@@ -6,7 +6,7 @@ import {Box, ScrollView, Skeleton, VStack, View} from 'native-base';
 
 import {DATE_OPTIONS} from '../../../../configs/constants';
 import TextInputCustom from '../../../../components/TextInputCustom/TextInputCustom';
-import DateTimePickerCustom from '../../../../components/formControls/DateTimePickerCustom/DateTimePickerCustom';
+import DateTimePickerCustom from '../../../../components/formControls/DateTimePickerCustom';
 import TextAreaCustom from '../../../../components/TextAreaCustom/TextAreaCustom';
 import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
 

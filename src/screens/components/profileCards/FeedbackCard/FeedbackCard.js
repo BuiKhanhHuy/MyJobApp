@@ -14,10 +14,10 @@ import {
 
 import {useLayout} from '../../../../hooks';
 import toastMessages from '../../../../utils/toastMessages';
-import BackdropLoading from '../../../../components/loadings/BackdropLoading/BackdropLoading';
-import RatingCustom from '../../../../components/formControls/RatingCustom/RatingCustom';
-import TextAreaCustom from '../../../../components/TextAreaCustom/TextAreaCustom';
-import SettingOptionCard from '../../../../components/SettingOptionCard/SettingOptionCard';
+import BackdropLoading from '../../../../components/loadings/BackdropLoading';
+import RatingCustom from '../../../../components/formControls/RatingCustom';
+import TextAreaCustom from '../../../../components/TextAreaCustom';
+import SettingOptionCard from '../../../../components/SettingOptionCard';
 import myjobService from '../../../../services/myjobService';
 
 const FeedbackCard = () => {
@@ -83,7 +83,7 @@ const FeedbackCard = () => {
           onClose={onClose}>
           <AlertDialog.Content onLayout={handleLayout}>
             {isLayoutLoading ? (
-              <Center mt="5">
+              <Center my="1/4">
                 <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
               </Center>
             ) : (

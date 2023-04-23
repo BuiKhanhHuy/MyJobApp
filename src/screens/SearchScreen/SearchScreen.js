@@ -4,9 +4,9 @@ import {Input, Icon} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {useLayout} from '../../hooks';
-import FilterJobPostCard from '../../components/FilterJobPostsCard/FilterJobPostsCard';
-import TopCareerCard from '../components/TopCareerCard/TopCareerCard';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import FilterJobPostCard from '../../components/FilterJobPostsCard';
+import TopCareerCard from '../components/TopCareerCard';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 
 const SearchScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();

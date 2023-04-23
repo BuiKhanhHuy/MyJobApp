@@ -7,9 +7,9 @@ import {SEARCH_TYPE_WITH_KEYWORD} from '../../configs/constants';
 
 import {useLayout} from '../../hooks';
 import FilterButton from '../../components/formControls/FilterButton';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
-import MainCompanyCard from '../../components/MainCompanyCard/MainCompanyCard';
-import KeywordSearch from '../../components/KeywordSearch/KeywordSearch';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
+import MainCompanyCard from '../../components/MainCompanyCard';
+import KeywordSearch from '../../components/KeywordSearch';
 
 const MainCompanyScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();

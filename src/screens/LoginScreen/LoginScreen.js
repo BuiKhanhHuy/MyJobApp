@@ -16,7 +16,7 @@ import {
 } from '../../configs/constants';
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 import LoginForm from '../components/forms/LoginForm';
 import authService from '../../services/authService';
 import tokenService from '../../services/tokenService';

@@ -22,7 +22,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 import commonService from '../../services/commonService';
 import {searchJobPost} from '../../redux/filterSlice';
 

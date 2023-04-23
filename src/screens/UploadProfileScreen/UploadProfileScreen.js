@@ -5,8 +5,8 @@ import {View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import toastMessages from '../../utils/toastMessages';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
-import UploadProfileForm from '../components/forms/UploadProfileForm/UploadProfileForm';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
+import UploadProfileForm from '../components/forms/UploadProfileForm';
 import resumeService from '../../services/resumeService';
 import {reloadAttachedProfile} from '../../redux/reloadSlice';
 

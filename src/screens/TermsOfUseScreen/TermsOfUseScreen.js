@@ -3,7 +3,7 @@ import {useHeaderHeight} from '@react-navigation/elements';
 import {ScrollView, Text, VStack, View} from 'native-base';
 
 import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 
 const TermsOfUseScreen = () => {
   const headerHeight = useHeaderHeight();

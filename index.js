@@ -29,7 +29,7 @@ const Root = () => {
           <App />
         </SheetProvider>
       </NativeBaseProvider>
-    </Provider>
+   </Provider> 
   );
 };
 

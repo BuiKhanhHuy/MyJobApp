@@ -2,8 +2,8 @@ import React from 'react';
 import {Text, View} from 'native-base';
 
 import {useLayout} from '../../hooks';
-import FilterJobPostsCard from '../../components/FilterJobPostsCard/FilterJobPostsCard';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import FilterJobPostsCard from '../../components/FilterJobPostsCard';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 
 const FilterJobPostScreen = ({route, navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();

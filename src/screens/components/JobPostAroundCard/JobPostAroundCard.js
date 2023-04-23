@@ -40,6 +40,7 @@ const JobPostAroundCard = ({bodyData}) => {
 
     const params = {
       ...jobPostAroundFilter,
+      page: page,
       isPagination: 'OK',
     };
 

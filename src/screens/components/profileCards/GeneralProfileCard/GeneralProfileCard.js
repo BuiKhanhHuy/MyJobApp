@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import {Center, Spinner, Text, VStack, View} from 'native-base';
 
 import toastMessages from '../../../../utils/toastMessages';
-import NoData from '../../../../components/NoData/NoData';
+import NoData from '../../../../components/NoData';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 import {salaryString} from '../../../../utils/customData';

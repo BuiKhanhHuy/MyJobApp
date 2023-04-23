@@ -5,7 +5,6 @@ import {
   Button,
   Center,
   IconButton,
-  Image,
   Text,
   VStack,
   View,
@@ -15,11 +14,12 @@ import {
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MapView from 'react-native-map-clustering';
-import {PROVIDER_GOOGLE, Marker, Circle} from 'react-native-maps';
+import {PROVIDER_GOOGLE, Marker, Circle, Callout} from 'react-native-maps';
 
 import {ICONS} from '../../configs/globalStyles';
 import {JOB_MAP_OPTIONS} from '../../configs/constants';
 import {useLayout} from '../../hooks';
+import AroundJobPost from '../AroundJobPost/AroundJobPost';
 
 const RadioComponent = ({value, setValue}) => {
   return (
@@ -205,13 +205,28 @@ const JobsAroundMap = ({currentLocation, jobPosts, radius, setRadius}) => {
           {jobPosts.map(value => (
             <Marker
               key={value.id}
+              image={`${ICONS.JOB_LOCATION_ICON}`}
               coordinate={{
                 latitude: value.latitude,
                 longitude: value.longitude,
               }}>
-              <Center>
-                <Image source={ICONS.JOB_LOCATION_ICON} size="xs" alt="L" />
-              </Center>
+              <Callout key={value.id} >
+                <Center style={{maxWidth: 350, minWidth: 200}}>
+                  <AroundJobPost
+                    key={value.id}
+                    id={value?.id}
+                    jobName={value?.jobName}
+                    salaryMin={value?.salaryMin}
+                    salaryMax={value?.salaryMax}
+                    deadline={value?.deadline}
+                    latitude={value?.latitude}
+                    longitude={value?.longitude}
+                    companyName={value?.mobileCompanyDict?.companyName}
+                    companyImageUrl={value?.mobileCompanyDict?.companyImageUrl}
+                    cityId={value?.locationDict?.city}
+                  />
+                </Center>
+              </Callout>
             </Marker>
           ))}
         </MapView>

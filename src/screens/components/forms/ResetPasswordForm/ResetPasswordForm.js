@@ -5,8 +5,8 @@ import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import TextInputCustom from '../../../../components/TextInputCustom/TextInputCustom';
-import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
+import TextInputCustom from '../../../../components/TextInputCustom';
+import ButtonCustom from '../../../../components/ButtonCustom';
 
 const ResetPasswordForm = ({handleResetPassword, serverErrors = {}}) => {
   const navigation = useNavigation();

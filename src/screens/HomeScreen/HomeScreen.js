@@ -18,8 +18,8 @@ import {HOME_FILTER_CAREER, ROLES_NAME} from '../../configs/constants';
 import {PADDING_BOTTOM} from '../../configs/globalStyles';
 import JobTypePopulars from '../../components/JobTypePopulars';
 import TopCompanyCard from '../../components/TopCompanyCard';
-import FilterJobPostsCard from '../../components/FilterJobPostsCard';
-import SuggestedJobPostCard from '../../components/SuggestedJobPostCard';
+import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard/SuggestedJobPostsCard';
+import FilterJobPostsCard from '../../components/FilterJobPostsCard'
 
 const HomeScreen = ({navigation}) => {
   const {isAuthenticated, currentUser} = useSelector(state => state.user);
@@ -149,9 +149,9 @@ const HomeScreen = ({navigation}) => {
                     </HStack>
                   </View>
                   <View paddingTop={4}>
-                    {/* Start: SuggestedJobPostCard */}
-                    <SuggestedJobPostCard pageSize={5} />
-                    {/* End: SuggestedJobPostCard */}
+                    {/* Start: SuggestedJobPostsCard */}
+                    <SuggestedJobPostsCard pageSize={5} />
+                    {/* End: SuggestedJobPostsCard */}
                   </View>
                 </View>
               )}

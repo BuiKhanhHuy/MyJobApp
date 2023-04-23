@@ -5,10 +5,10 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import {Box, ScrollView, Skeleton, VStack, View} from 'native-base';
 
-import TextInputCustom from '../../../../components/TextInputCustom/TextInputCustom';
+import TextInputCustom from '../../../../components/TextInputCustom';
 import SelectCustom from '../../../../components/formControls/SelectCustom';
-import TextAreaCustom from '../../../../components/TextAreaCustom/TextAreaCustom';
-import ButtonCustom from '../../../../components/ButtonCustom/ButtonCustom';
+import TextAreaCustom from '../../../../components/TextAreaCustom';
+import ButtonCustom from '../../../../components/ButtonCustom';
 
 const EditGeneralProfileForm = ({handleUpdate, editData}) => {
   const {allConfig} = useSelector(state => state.config);

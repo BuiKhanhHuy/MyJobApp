@@ -6,10 +6,10 @@ import {SEARCH_TYPE_WITH_KEYWORD} from '../../configs/constants';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
-import MainJobPostsCard from '../../components/MainJobPostsCard/MainJobPostsCard';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
+import MainJobPostsCard from '../../components/MainJobPostsCard';
 import FilterButton from '../../components/formControls/FilterButton';
-import KeywordSearch from '../../components/KeywordSearch/KeywordSearch';
+import KeywordSearch from '../../components/KeywordSearch';
 
 const MainJobPostScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();

@@ -19,7 +19,7 @@ import 'moment/locale/vi';
 
 import toastMessages from '../../../../utils/toastMessages';
 import NoData from '../../../../components/NoData/NoData';
-import BackdropLoading from '../../../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../../../components/loadings/BackdropLoading';
 import ProfileCard from '../ProfileCard';
 import resumeService from '../../../../services/resumeService';
 import educationDetailService from '../../../../services/educationDetailService';
