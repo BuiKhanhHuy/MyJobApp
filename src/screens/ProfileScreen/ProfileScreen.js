@@ -18,14 +18,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {PADDING_BOTTOM} from '../../configs/globalStyles';
 import {useLayout} from '../../hooks';
-import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
+import BackdropLoading from '../../components/loadings/BackdropLoading';
 
 import {removeUserInfo} from '../../redux/userSlice';
-import BoxProfileCard from '../components/profileCards/BoxProfileCard/BoxProfileCard';
-import ProfileUploadCard from '../components/profileCards/ProfileUploadCard/ProfileUploadCard';
-import MyCareerCenterCard from '../components/profileCards/MyCareerCenterCard/MyCareerCenterCard';
-import SettingOptionCard from '../../components/SettingOptionCard/SettingOptionCard';
-import FeedbackCard from '../components/profileCards/FeedbackCard/FeedbackCard';
+import BoxProfileCard from '../components/profileCards/BoxProfileCard';
+import ProfileUploadCard from '../components/profileCards/ProfileUploadCard';
+import MyCareerCenterCard from '../components/profileCards/MyCareerCenterCard';
+import SettingOptionCard from '../../components/SettingOptionCard';
+import FeedbackCard from '../components/profileCards/FeedbackCard';
+import EditAvatar from '../../components/EditAvatar';
 
 const ProfileScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
@@ -85,15 +86,9 @@ const ProfileScreen = ({navigation}) => {
                   <View flex={6}>
                     <VStack mt="-5">
                       <Box paddingBottom={1}>
-                        <Avatar
-                          bg="orange.600"
-                          mr="1"
-                          size="lg"
-                          source={{
-                            uri: currentUser?.avatarUrl,
-                          }}>
-                          ---
-                        </Avatar>
+                        {/* Start: EditAvatar */}
+                        <EditAvatar />
+                        {/* End: EditAvatar */}
                       </Box>
                       <Box>
                         <Text

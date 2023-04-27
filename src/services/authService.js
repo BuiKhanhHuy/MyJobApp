@@ -29,7 +29,7 @@ const authService = {
 
     return httpRequest.post(url, data);
   },
-  revokToken: (accessToken) => {
+  revokToken: accessToken => {
     const url = 'api/auth/revoke-token/';
 
     const data = {
@@ -50,7 +50,7 @@ const authService = {
 
     return httpRequest.post(url, data);
   },
-  jobSeekerRegister: (data) => {
+  jobSeekerRegister: data => {
     const url = 'api/auth/job-seeker/register/';
 
     return httpRequest.post(url, data);
@@ -60,12 +60,12 @@ const authService = {
 
     return httpRequest.get(url);
   },
-  updateUser: (data) => {
+  updateUser: data => {
     const url = 'api/auth/update-user/';
 
     return httpRequest.patch(url, data);
   },
-  updateAvatar: (data) => {
+  updateAvatar: data => {
     const url = 'api/auth/avatar/';
 
     return httpRequest.put(url, data, {
@@ -74,17 +74,22 @@ const authService = {
       },
     });
   },
-  changePassword: (data) => {
+  deleteAvatar: () => {
+    const url = 'api/auth/avatar/';
+
+    return httpRequest.delete(url);
+  },
+  changePassword: data => {
     const url = 'api/auth/change-password/';
 
     return httpRequest.put(url, data);
   },
-  forgotPassword: (data) => {
+  forgotPassword: data => {
     const url = 'api/auth/forgot-password/';
 
     return httpRequest.post(url, data);
   },
-  resetPassword: (data) => {
+  resetPassword: data => {
     const url = 'api/auth/reset-password/';
 
     return httpRequest.post(url, data);

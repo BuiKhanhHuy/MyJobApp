@@ -184,7 +184,7 @@ const HomeScreen = ({navigation}) => {
               </View>
               <View paddingTop={4}>
                 {/* Start: FilterJobPostsCard */}
-                <FilterJobPostsCard pageSize={5} params={{isUrgent: true}} />
+                {/* <FilterJobPostsCard pageSize={5} params={{isUrgent: true}} /> */}
                 {/* End: FilterJobPostsCard */}
               </View>
             </View>
@@ -217,12 +217,12 @@ const HomeScreen = ({navigation}) => {
               </View>
               <View paddingTop={4}>
                 {/* Start: FilterJobPostsCard */}
-                <FilterJobPostsCard
+                {/* <FilterJobPostsCard
                   pageSize={5}
                   params={{
                     careerId: HOME_FILTER_CAREER[0].id,
                   }}
-                />
+                /> */}
                 {/* End: FilterJobPostsCard */}
               </View>
             </View>
@@ -255,12 +255,12 @@ const HomeScreen = ({navigation}) => {
               </View>
               <View paddingTop={4}>
                 {/* Start: FilterJobPostsCard */}
-                <FilterJobPostsCard
+                {/* <FilterJobPostsCard
                   pageSize={5}
                   params={{
                     careerId: HOME_FILTER_CAREER[1].id,
                   }}
-                />
+                /> */}
                 {/* End: FilterJobPostsCard */}
               </View>
             </View>

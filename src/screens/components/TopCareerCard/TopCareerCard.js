@@ -58,9 +58,8 @@ const TopCareerCard = () => {
       {isLoading
         ? Loading
         : careers.map(value => (
-            <TouchableNativeFeedback onPress={() => handleClick(value.id)}>
+            <TouchableNativeFeedback key={value.id} onPress={() => handleClick(value.id)}>
               <View
-                key={value.id}
                 style={{
                   height: 40,
                   backgroundColor: '#cbc9d4',
@@ -84,4 +83,4 @@ const TopCareerCard = () => {
   );
 };
 
-export default TopCareerCard;
+export default React.memo(TopCareerCard);

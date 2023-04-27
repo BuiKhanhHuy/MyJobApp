@@ -27,7 +27,7 @@ const updateUserInfo = createAsyncThunk(
     } catch (error) {
       throw error;
     }
-  }
+  },
 );
 
 const removeUserInfo = createAsyncThunk(
@@ -42,6 +42,32 @@ const removeUserInfo = createAsyncThunk(
       if (!removeResult) {
         return Promise.reject("Can't remove token in Cookie");
       }
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+const updateAvatar = createAsyncThunk(
+  'user/updateAvatar',
+  async (formData, thunkAPI) => {
+    try {
+      const resData = await authService.updateAvatar(formData);
+
+      return resData.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+);
+
+const deleteAvatar = createAsyncThunk(
+  'user/deleteAvatar',
+  async (_, thunkAPI) => {
+    try {
+      const resData = await authService.deleteAvatar();
+
+      return resData.data;
     } catch (error) {
       throw error;
     }
@@ -70,10 +96,30 @@ export const userSlice = createSlice({
       state.isAuthenticated = false;
       state.currentUser = null;
     });
+
+    builder.addCase(updateAvatar.fulfilled, (state, action) => {
+      state.currentUser = {
+        ...state.currentUser,
+        avatarUrl: action.payload?.avatarUrl || null,
+      };
+    });
+
+    builder.addCase(deleteAvatar.fulfilled, (state, action) => {
+      state.currentUser = {
+        ...state.currentUser,
+        avatarUrl: action.payload?.avatarUrl || null,
+      };
+    });
   },
 });
 
 const {actions, reducer} = userSlice;
 
 export default reducer;
-export {getUserInfo, updateUserInfo, removeUserInfo};
+export {
+  getUserInfo,
+  updateUserInfo,
+  removeUserInfo,
+  updateAvatar,
+  deleteAvatar,
+};
