@@ -18,7 +18,8 @@ export const reloadSlice = createSlice({
     companyFollowed: {
       id: null,
       status: false,
-    }
+    },
+    isReloadNotification: false,
   },
   reducers: {
     reloadExperience: state => {
@@ -53,6 +54,9 @@ export const reloadSlice = createSlice({
       state.companyFollowed.id = action.payload.id;
       state.companyFollowed.status = action.payload.status;
     },
+    reloadJobPostNotification: (state) => {
+      state.isReloadNotification = !state.isReloadNotification;
+    },
   },
 });
 
@@ -67,7 +71,8 @@ const {
   reloadGeneralProfile,
   reloadAttachedProfile,
   reloadSaveJobPost,
-  reloadFollowCompany
+  reloadFollowCompany,
+  reloadJobPostNotification
 } = reloadSlice.actions;
 
 export default reducer;
@@ -81,5 +86,6 @@ export {
   reloadGeneralProfile,
   reloadAttachedProfile,
   reloadSaveJobPost,
-  reloadFollowCompany
+  reloadFollowCompany,
+  reloadJobPostNotification
 };

@@ -1,8 +1,8 @@
 const convertMoney = n => {
   if (n >= 1000000000) {
-    return `${Math.trunc(n / 1000000000)}b`;
+    return `${Math.trunc(n / 1000000000)} tỉ`;
   } else if (n >= 1000000) {
-    return `${Math.trunc(n / 1000000)}tr`;
+    return `${Math.trunc(n / 1000000)} triệu`;
   } else {
     return `${Math.trunc(n)}`;
   }
@@ -40,4 +40,4 @@ const toSlug = str => {
 
 export default toSlug;
 
-export {salaryString, toSlug};
+export {convertMoney, salaryString, toSlug};

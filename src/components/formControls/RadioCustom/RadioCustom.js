@@ -3,22 +3,21 @@ import {Controller} from 'react-hook-form';
 import {StyleSheet} from 'react-native';
 import {
   FormControl,
-  Select,
-  CheckIcon,
   WarningOutlineIcon,
   Text,
   Icon,
+  Radio,
+  Stack,
 } from 'native-base';
 import {Dropdown} from 'react-native-element-dropdown';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const SelectCustom = ({
+const RadioCustom = ({
   name,
   control,
   options = [],
   title = null,
   showRequired = false,
-  placeholder = '',
 }) => {
   return (
     <Controller
@@ -26,7 +25,7 @@ const SelectCustom = ({
       control={control}
       render={({field, fieldState}) => (
         <>
-          <FormControl isInvalid={fieldState.invalid}>
+          <FormControl isInvalid={fieldState.isInvalid}>
             {title && (
               <FormControl.Label>
                 <Text
@@ -41,20 +40,23 @@ const SelectCustom = ({
                 </Text>
               </FormControl.Label>
             )}
-            <Dropdown
-              itemTextStyle={{color: '#524B6B', fontSize: 13}}
-              selectedTextStyle={{color: '#524B6B', fontSize: 13}}
-              fontFamily="DMSans-Regular"
-              style={[styles.dropdown, {
-                borderColor: fieldState.invalid ? '#FF464A': '#CBC8D4',
-              }]}
-              data={options}
-              dropdownPosition="auto"
-              labelField="name"
-              valueField="id"
+            <Radio.Group
               value={field.value}
-              onChange={item => field.onChange(item.id)}
-            />
+              onChange={value => field.onChange(value)}
+              accessibilityLabel="radio">
+              <Stack direction="row" space={4}>
+                {options.map(option => (
+                  <Radio
+                    key={option.id}
+                    value={option.id}
+                    colorScheme="warning"
+                    size="md"
+                    my={1}>
+                    {option.name}
+                  </Radio>
+                ))}
+              </Stack>
+            </Radio.Group>
             {fieldState.invalid && (
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}>
@@ -68,18 +70,4 @@ const SelectCustom = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    padding: 16,
-  },
-  dropdown: {
-    height: 45,
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 8,
-  },
-});
-
-export default SelectCustom;
+export default RadioCustom;

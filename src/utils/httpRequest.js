@@ -7,7 +7,7 @@ import {AUTH_CONFIG} from '../configs/constants';
 const httpRequest = axios.create({
   // baseURL: 'https://bkhuy-myjob.onrender.com/',
   // baseURL: 'https://bkhuy.pythonanywhere.com/',
-  baseURL: 'http://192.168.1.8:8000/',
+  baseURL: 'http://192.168.43.94:8000/',
   // timeout: 5000,
   headers: {
     'Content-Type': 'application/json',

@@ -24,7 +24,10 @@ import JobPostDetailScreen from '../screens/JobPostDetailScreen';
 import CompanyDetailScreen from '../screens/CompanyDetailScreen';
 
 import MainCompanyScreen from '../screens/MainCompanyScreen';
+
 // Notification
+import JobPostNotificationScreen from '../screens/JobPostNotificationScreen';
+import AddOrEditJobPostNotificationScreen from '../screens/AddOrEditJobPostNotificationScreen';
 
 // Profile
 import OnlineProfileScreen from '../screens/OnlineProfileScreen';
@@ -139,7 +142,19 @@ const Router = () => {
         {/* End: Search */}
 
         {/* Start: Notification */}
-        <RootStack.Group></RootStack.Group>
+        <RootStack.Group
+          screenOptions={{
+            headerTransparent: true,
+          }}>
+          <RootStack.Screen
+            name="JobPostNotificationScreen"
+            component={JobPostNotificationScreen}
+          />
+          <RootStack.Screen
+            name="AddOrEditJobPostNotificationScreen"
+            component={AddOrEditJobPostNotificationScreen}
+          />
+        </RootStack.Group>
         {/* End: Notification */}
 
         {/* Start: Profile */}
