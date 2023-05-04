@@ -102,7 +102,7 @@ const MyCareerCenterCard = () => {
         </TouchableWithoutFeedback>
 
         <TouchableWithoutFeedback
-          onPress={() => navigation.navigate('MyCompanyScreen')}>
+          onPress={() => navigation.navigate('MapScreen')}>
           <VStack
             shadow={'myJobCustomShadows.0'}
             space={3}
@@ -115,7 +115,7 @@ const MyCareerCenterCard = () => {
                 size="xl"
                 marginRight={1}
                 as={MaterialIcons}
-                name="home-work"
+                name="my-location"
                 color="myJobCustomColors.deepSaffron"
               />
             </Box>
@@ -125,7 +125,7 @@ const MyCareerCenterCard = () => {
                 fontSize="md"
                 lineHeight="sm"
                 color="myJobCustomColors.haitiBluePurple">
-                Công ty của tôi
+                Việc làm xung quanh
               </Text>
             </Box>
           </VStack>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {
@@ -83,69 +83,74 @@ const JobPostNotificationScreen = () => {
   };
 
   return (
-    <View onLayout={handleLayout} style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <Center mt="5">
-          <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
-        </Center>
-      ) : (
-        <View>
-          {isLoading ? (
-            <FlatList
-              data={Array.from(Array(6).keys())}
-              renderItem={({item}) => (
-                <Center paddingX="6" paddingY="2" key={item}>
-                  <JobPostNotification.Loading />
-                </Center>
-              )}
-            />
-          ) : jobPostNotifications.length === 0 ? (
-            <Center marginTop={50}>
-              <NoData
-                title="Chưa có nhà tuyển dụng nào xem hồ sơ của bạn"
-                imgSize="3xs"
-              />
-            </Center>
-          ) : (
-            <FlatList
-              data={jobPostNotifications}
-              renderItem={({item}) => (
-                <Center paddingX="6" paddingY="2" key={item.id}>
-                  {/* Start: JobPostNotification */}
-                  <JobPostNotification
-                    id={item.id}
-                    jobName={item.jobName}
-                    positionId={item.position}
-                    experienceId={item.experience}
-                    salary={item.salary}
-                    frequency={item.frequency}
-                    isActive={item.isActive}
-                    careerId={item.career}
-                    cityId={item.city}
-                  />
-                  {/* End: JobPostNotification */}
-                </Center>
-              )}
-              keyExtractor={item => item.id}
-              ListFooterComponent={
-                isLoadMoreLoading ? (
-                  <Center my="3">
-                    <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+    <>
+      <View onLayout={handleLayout} style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <Center mt="5">
+            <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+          </Center>
+        ) : (
+          <View>
+            {isLoading ? (
+              <FlatList
+                data={Array.from(Array(6).keys())}
+                renderItem={({item}) => (
+                  <Center paddingX="6" paddingY="2" key={item}>
+                    <JobPostNotification.Loading />
                   </Center>
-                ) : null
-              }
-              onEndReached={handleLoadMore}
-              onEndReachedThreshold={0}
-              getItemLayout={(data, index) => {
-                const itemHeight = 120; // Chiều cao của mỗi mục trong danh sách
-                const offset = itemHeight * index; // Vị trí của mục trong danh sách
-                return {length: itemHeight, offset, index};
-              }}
-            />
-          )}
-        </View>
-      )}
-    </View>
+                )}
+              />
+            ) : jobPostNotifications.length === 0 ? (
+              <Center marginTop={50}>
+                <NoData
+                  title="Bạn chưa tạo thông báo việc làm nào"
+                  imgSize="3xs"
+                />
+              </Center>
+            ) : (
+              <FlatList
+                data={jobPostNotifications}
+                renderItem={({item}) => (
+                  <Center paddingX="6" paddingY="2" key={item.id}>
+                    {/* Start: JobPostNotification */}
+                    <JobPostNotification
+                      id={item.id}
+                      jobName={item.jobName}
+                      positionId={item.position}
+                      experienceId={item.experience}
+                      salary={item.salary}
+                      frequency={item.frequency}
+                      isActive={item.isActive}
+                      careerId={item.career}
+                      cityId={item.city}
+                    />
+                    {/* End: JobPostNotification */}
+                  </Center>
+                )}
+                keyExtractor={item => item.id}
+                ListFooterComponent={
+                  isLoadMoreLoading ? (
+                    <Center my="3">
+                      <Spinner
+                        size="lg"
+                        color="myJobCustomColors.deepSaffron"
+                      />
+                    </Center>
+                  ) : null
+                }
+                onEndReached={handleLoadMore}
+                onEndReachedThreshold={0}
+                getItemLayout={(data, index) => {
+                  const itemHeight = 120; // Chiều cao của mỗi mục trong danh sách
+                  const offset = itemHeight * index; // Vị trí của mục trong danh sách
+                  return {length: itemHeight, offset, index};
+                }}
+              />
+            )}
+          </View>
+        )}
+      </View>
+    </>
   );
 };
 

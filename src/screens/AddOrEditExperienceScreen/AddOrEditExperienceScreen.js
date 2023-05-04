@@ -108,30 +108,31 @@ const AddOrEditExperienceScreen = ({route, navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          {isLoading ? (
-            <AddOrEditExperienceForm.Loading />
-          ) : (
-            <AddOrEditExperienceForm
-              handleAddOrUpdate={handleAddOrUpdate}
-              editData={editData}
-            />
-          )}
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            {isLoading ? (
+              <AddOrEditExperienceForm.Loading />
+            ) : (
+              <AddOrEditExperienceForm
+                handleAddOrUpdate={handleAddOrUpdate}
+                editData={editData}
+              />
+            )}
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 
 export default AddOrEditExperienceScreen;
- 

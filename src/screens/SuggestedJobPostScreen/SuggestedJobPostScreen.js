@@ -18,18 +18,19 @@ const SuggestedJobPostScreen = ({route, navigation}) => {
   }, []);
 
   return (
-    <View paddingX="4" onLayout={handleLayout}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <SuggestedJobPostsCard
-          pageSize={pageSize}
-          isPagination={true}
-           
-          params={params}
-        />
-      )}
-    </View>
+    <>
+      <View paddingX="4" onLayout={handleLayout}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <SuggestedJobPostsCard
+            pageSize={pageSize}
+            isPagination={true}
+            params={params}
+          />
+        )}
+      </View>
+    </>
   );
 };
 

@@ -27,13 +27,11 @@ const JobTypePopulars = () => {
 
         const customData = [];
         for (let id in allConfig?.typeOfWorkplaceDict) {
+          let objs = data.filter(value => value.typeOfWorkplace == id);
           customData.push({
             id: id,
             name: allConfig?.typeOfWorkplaceDict[id],
-            total:
-              data.filter(value => value.typeOfWorkplace == id).length > 0
-                ? data[0].total
-                : 0,
+            total: objs.length > 0 ? objs[0].total : 0,
           });
         }
         setData(customData);
@@ -54,7 +52,7 @@ const JobTypePopulars = () => {
         typeOfWorkplaceId: typeOfWorkplaceId,
       }),
     );
-    
+
     navigation.navigate('MainJobPostScreen');
   };
 

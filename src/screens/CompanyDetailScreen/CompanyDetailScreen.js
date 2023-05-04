@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking} from 'react-native';
+import {Linking } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import 'moment/locale/vi';

@@ -58,7 +58,7 @@ const ViewedCompany = ({
                   <Text
                     fontFamily="DMSans-Regular"
                     fontSize={13}
-                    color="#AAA6B9">
+                    style={{color:"#AAA6B9"}}>
                     Đã xem hồ sơ {resumeTitle}{' '}
                     <Text color="myJobCustomColors.deepSaffron">{views}</Text>{' '}
                     lần
@@ -73,7 +73,7 @@ const ViewedCompany = ({
                 <Text
                   fontFamily="DMSans-Regular"
                   color="myJobCustomColors.irishGreen">
-                  <Feather name="check" color="myJobCustomColors.irishGreen" />{' '}
+                  <Feather name="check" color='#04B015' />{' '}
                   Đã lưu hồ sơ của bạn
                 </Text>
               )}

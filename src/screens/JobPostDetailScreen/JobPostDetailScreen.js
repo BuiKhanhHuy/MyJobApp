@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import {StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity } from 'react-native';
 import {
   ScrollView,
   Avatar,
@@ -267,7 +267,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                   <MenuButtonComponent tab={tab} setTab={setTab} />
                   {/* End: MenuButtonComponent */}
 
-                  <View mt={10} mb={5}  >
+                  <View mt={10} mb={5}>
                     {tab === 0 ? (
                       <JobPostDetail
                         jobName={jobPostDetail?.jobName}

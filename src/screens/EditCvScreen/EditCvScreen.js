@@ -48,20 +48,22 @@ const EditCvScreen = ({route, navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      padding={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <EditCvForm handleUpdate={handleUpdate} />
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        padding={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <EditCvForm handleUpdate={handleUpdate} />
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

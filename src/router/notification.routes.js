@@ -6,8 +6,12 @@ import NotificationScreen from '../screens/NotificationScreen/NotificationScreen
 const NotificationStack = createNativeStackNavigator();
 const NotificationRouter = () => {
   return (
-    <NotificationStack.Navigator initialRouteName='NotificationScreen'>
-      <NotificationStack.Screen name="NotificationScreen" component={NotificationScreen} />
+    <NotificationStack.Navigator initialRouteName="NotificationScreen">
+      <NotificationStack.Screen
+        name="NotificationScreen"
+        component={NotificationScreen}
+        options={{title: 'Thông báo'}}
+      />
     </NotificationStack.Navigator>
   );
 };

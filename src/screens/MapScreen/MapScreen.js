@@ -9,7 +9,7 @@ import {
   VStack,
   View,
 } from 'native-base';
-import {Platform, PermissionsAndroid} from 'react-native';
+import {Platform, PermissionsAndroid } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -155,7 +155,7 @@ const MapScreen = () => {
         const resData = await jobService.getJobPostsAround(data, params);
 
         setJobPosts(resData.data);
-        console.log("CALL API VA RENDER - MapScreen: ")
+        console.log('CALL API VA RENDER - MapScreen: ');
       } catch (error) {
         toastMessages.error();
       } finally {

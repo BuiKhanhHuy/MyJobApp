@@ -29,7 +29,6 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
     }
   }, []);
 
-
   React.useEffect(() => {
     if (id) {
       const loadCertificateById = async certificateId => {
@@ -93,29 +92,31 @@ const AddOrEditCertificateScreen = ({route, navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          {isLoading ? (
-            <AddOrEditCertificateForm.Loading />
-          ) : (
-            <AddOrEditCertificateForm
-              handleAddOrUpdate={handleAddOrUpdate}
-              editData={editData}
-              serverErrors={serverErrors}
-            />
-          )}
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            {isLoading ? (
+              <AddOrEditCertificateForm.Loading />
+            ) : (
+              <AddOrEditCertificateForm
+                handleAddOrUpdate={handleAddOrUpdate}
+                editData={editData}
+                serverErrors={serverErrors}
+              />
+            )}
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

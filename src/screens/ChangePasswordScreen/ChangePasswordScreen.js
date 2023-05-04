@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {View} from 'native-base';
+import {StatusBar} from 'react-native';
 
 import {useLayout} from '../../hooks';
 import {APP_NAME} from '../../configs/constants';
@@ -49,24 +50,26 @@ const ChangePasswordScreen = () => {
   };
 
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <ChangePasswordForm
-            handleUpdate={handleUpdate}
-            serverErrors={serverErrors}
-          />
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <ChangePasswordForm
+              handleUpdate={handleUpdate}
+              serverErrors={serverErrors}
+            />
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

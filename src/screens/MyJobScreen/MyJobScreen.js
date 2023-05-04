@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {Button, HStack,  Text, View} from 'native-base';
+import {Button, HStack, Text, View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
@@ -9,52 +9,54 @@ import JobPostAppliedCard from '../components/JobPostAppliedCard';
 
 const MenuButtonComponent = ({tab, setTab}) => {
   return (
-    <View>
-      <HStack space={2}>
-        <Button
-          onPress={() => setTab(0)}
-          disabled={tab === 0 ? true : false}
-          size="lg"
-          width="48%"
-          rounded="lg"
-          bgColor={
-            tab === 0
-              ? 'myJobCustomColors.darkIndigo'
-              : 'myJobCustomColors.moonrakerPurplyBlue'
-          }>
-          <Text
-            fontFamily="DMSans-Bold"
-            color={
+    <>
+      <View>
+        <HStack space={2}>
+          <Button
+            onPress={() => setTab(0)}
+            disabled={tab === 0 ? true : false}
+            size="lg"
+            width="48%"
+            rounded="lg"
+            bgColor={
               tab === 0
-                ? 'myJobCustomColors.white'
-                : 'myJobCustomColors.darkIndigo'
+                ? 'myJobCustomColors.darkIndigo'
+                : 'myJobCustomColors.moonrakerPurplyBlue'
             }>
-            Việc làm đã lưu
-          </Text>
-        </Button>
-        <Button
-          onPress={() => setTab(1)}
-          disabled={tab === 1 ? true : false}
-          size="lg"
-          width="48%"
-          rounded="lg"
-          bgColor={
-            tab === 1
-              ? 'myJobCustomColors.darkIndigo'
-              : 'myJobCustomColors.moonrakerPurplyBlue'
-          }>
-          <Text
-            fontFamily="DMSans-Bold"
-            color={
+            <Text
+              fontFamily="DMSans-Bold"
+              color={
+                tab === 0
+                  ? 'myJobCustomColors.white'
+                  : 'myJobCustomColors.darkIndigo'
+              }>
+              Việc làm đã lưu
+            </Text>
+          </Button>
+          <Button
+            onPress={() => setTab(1)}
+            disabled={tab === 1 ? true : false}
+            size="lg"
+            width="48%"
+            rounded="lg"
+            bgColor={
               tab === 1
-                ? 'myJobCustomColors.white'
-                : 'myJobCustomColors.darkIndigo'
+                ? 'myJobCustomColors.darkIndigo'
+                : 'myJobCustomColors.moonrakerPurplyBlue'
             }>
-            Việc làm đã ứng tuyển
-          </Text>
-        </Button>
-      </HStack>
-    </View>
+            <Text
+              fontFamily="DMSans-Bold"
+              color={
+                tab === 1
+                  ? 'myJobCustomColors.white'
+                  : 'myJobCustomColors.darkIndigo'
+              }>
+              Việc làm đã ứng tuyển
+            </Text>
+          </Button>
+        </HStack>
+      </View>
+    </>
   );
 };
 

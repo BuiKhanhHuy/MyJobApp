@@ -1,6 +1,6 @@
 import React from 'react';
 import {View} from 'native-base';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {SheetManager} from 'react-native-actions-sheet';
 
 import {SEARCH_TYPE_WITH_KEYWORD} from '../../configs/constants';
@@ -45,9 +45,11 @@ const MainCompanyScreen = ({navigation}) => {
   };
 
   return (
-    <View style={{padding: 16}} onLayout={handleLayout}>
-      {isLayoutLoading ? <BackdropLoading /> : <MainCompanyCard />}
-    </View>
+    <>
+      <View style={{padding: 16}} onLayout={handleLayout}>
+        {isLayoutLoading ? <BackdropLoading /> : <MainCompanyCard />}
+      </View>
+    </>
   );
 };
 

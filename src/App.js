@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from 'react';
 import {useDispatch} from 'react-redux';
-import {StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -13,6 +12,7 @@ import {getAllConfig} from './redux/configSlice';
 import Router from './router';
 // Logo Screen
 import LogoScreen from './screens/LogoScreen';
+import { AUTH_CONFIG } from './configs/constants';
 
 const config = {
   screens: {
@@ -38,8 +38,7 @@ const App = () => {
   React.useEffect(() => {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId:
-        '717983009047-bivsoh68v9ve21mptak9cjnb9d7q2h9u.apps.googleusercontent.com',
+      webClientId: AUTH_CONFIG.GOOGLE_CLIENT_ID,
       offlineAccess: true,
       hostedDomain: '',
       forceCodeForRefreshToken: true,
@@ -68,7 +67,6 @@ const App = () => {
     <LogoScreen />
   ) : (
     <NavigationContainer linking={linking}>
-      {/* <StatusBar /> */}
       <Router />
     </NavigationContainer>
   );

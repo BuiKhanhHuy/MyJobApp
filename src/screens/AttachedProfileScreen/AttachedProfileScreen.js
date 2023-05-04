@@ -14,31 +14,33 @@ const AttachedProfileScreen = ({route, navigation}) => {
   const {headerTitle, resumeId} = route.params;
 
   return (
-    <View
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <ScrollView>
-          <VStack space={4}>
-            {/* Start: PersonalProfileCard */}
-            <PersonalProfileCard />
-            {/* End: PersonalProfileCard */}
+    <>
+      <View
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <ScrollView>
+            <VStack space={4}>
+              {/* Start: PersonalProfileCard */}
+              <PersonalProfileCard />
+              {/* End: PersonalProfileCard */}
 
-            {/* Start: GeneralProfileCard */}
-            <GeneralProfileCard resumeId={resumeId} />
-            {/* End: GeneralProfileCard */}
+              {/* Start: GeneralProfileCard */}
+              <GeneralProfileCard resumeId={resumeId} />
+              {/* End: GeneralProfileCard */}
 
-            {/* Start: CVCard */}
-            <CVCard resumeId={resumeId} />
-            {/* End: CVCard */}
-          </VStack>
-        </ScrollView>
-      )}
-    </View>
+              {/* Start: CVCard */}
+              <CVCard resumeId={resumeId} />
+              {/* End: CVCard */}
+            </VStack>
+          </ScrollView>
+        )}
+      </View>
+    </>
   );
 };
 

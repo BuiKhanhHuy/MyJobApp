@@ -14,17 +14,19 @@ const FilterJobPostScreen = ({route, navigation}) => {
   }, []);
 
   return (
-    <View paddingX="4" onLayout={handleLayout}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <FilterJobPostsCard
-          pageSize={pageSize}
-          isPagination={true}
-          params={params}
-        />
-      )}
-    </View>
+    <>
+      <View paddingX="4" onLayout={handleLayout}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <FilterJobPostsCard
+            pageSize={pageSize}
+            isPagination={true}
+            params={params}
+          />
+        )}
+      </View>
+    </>
   );
 };
 

@@ -47,21 +47,23 @@ const UploadProfileScreen = ({navigation}) => {
     addResumeUpload(formData);
   };
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <UploadProfileForm handleAdd={handleAdd} />
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <UploadProfileForm handleAdd={handleAdd} />
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, VStack, ScrollView } from 'native-base';
+import {Text, View, VStack, ScrollView} from 'native-base';
 
 import {PLATFORM} from '../../configs/constants';
 import {useLayout} from '../../hooks';
@@ -22,7 +22,7 @@ const ResetPasswordScreen = ({navigation}) => {
         await authService.resetPassword(data);
 
         navigation.navigate('Login');
-        toastMessages.success("Cập nhật mật khẩu thành công.")
+        toastMessages.success('Cập nhật mật khẩu thành công.');
       } catch (error) {
         errorHandling(error, setServerErrors);
       } finally {
@@ -37,40 +37,42 @@ const ResetPasswordScreen = ({navigation}) => {
   };
 
   return (
-    <View flex={1} onLayout={handleLayout}>
-      {isFullScreenLoading && <BackdropLoading />}
+    <>
+      <View flex={1} onLayout={handleLayout}>
+        {isFullScreenLoading && <BackdropLoading />}
 
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View paddingX="7" paddingY="12" flex={1}>
-              <View flex={1}>
-                <VStack alignItems="center">
-                  <Text
-                    textAlign="center"
-                    fontFamily="dMSansBold"
-                    fontSize="3xl"
-                    lineHeight="md"
-                    color="myJobCustomColors.purpleBlue">
-                    Quên mật khẩu
-                  </Text>
-                </VStack>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View paddingX="7" paddingY="12" flex={1}>
+                <View flex={1}>
+                  <VStack alignItems="center">
+                    <Text
+                      textAlign="center"
+                      fontFamily="dMSansBold"
+                      fontSize="3xl"
+                      lineHeight="md"
+                      color="myJobCustomColors.purpleBlue">
+                      Quên mật khẩu
+                    </Text>
+                  </VStack>
+                </View>
+                <View flex={10} justifyContent="flex-end" pt={10}>
+                  {/* Start: ResetPasswordForm here */}
+                  <ResetPasswordForm
+                    handleResetPassword={handleResetPassword}
+                    serverErrors={serverErrors}
+                  />
+                  {/* End: ResetPasswordForm here */}
+                </View>
               </View>
-              <View flex={10} justifyContent="flex-end" pt={10}>
-                {/* Start: ResetPasswordForm here */}
-                <ResetPasswordForm
-                  handleResetPassword={handleResetPassword}
-                  serverErrors={serverErrors}
-                />
-                {/* End: ResetPasswordForm here */}
-              </View>
-            </View>
-          </ScrollView>
-        </>
-      )}
-    </View>
+            </ScrollView>
+          </>
+        )}
+      </View>
+    </>
   );
 };
 

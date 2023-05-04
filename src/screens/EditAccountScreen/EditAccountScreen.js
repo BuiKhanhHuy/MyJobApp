@@ -34,23 +34,25 @@ const EditAccountScreen = ({navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      padding={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <EditAccountForm
-            serverErrors={serverErrors}
-            handleUpdate={handleUpdateAccount}
-          />
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        padding={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <EditAccountForm
+              serverErrors={serverErrors}
+              handleUpdate={handleUpdateAccount}
+            />
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

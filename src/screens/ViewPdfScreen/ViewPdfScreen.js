@@ -35,42 +35,45 @@ const ViewPdfScreen = ({route, navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Pdf
-        trustAllCerts={false}
-        source={{
-          uri: `${fileUrl}`,
-          cache: true,
-        }}
-        onLoadComplete={(numberOfPages, filePath) => {
-          console.log(`Number of pages: ${numberOfPages}`);
-        }}
-        onPageChanged={(page, numberOfPages) => {
-          setCurrentPage({
-            page: page,
-            numberOfPages: numberOfPages,
-          });
-        }}
-        onError={error => {
-          console.log(error);
-        }}
-        onPressLink={uri => {
-          console.log(`Link pressed: ${uri}`);
-        }}
-        style={styles.pdf}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 20,
-        }}>
-        <Center>
-          <Text textAlign="center">
-            {currentPage.page}/{currentPage.numberOfPages}
-          </Text>
-        </Center>
+    <>
+      <View style={styles.container}>
+        <Pdf
+          trustAllCerts={false}
+          source={{
+            uri: `${fileUrl}`,
+            cache: true,
+          }}
+          onLoadComplete={(numberOfPages, filePath) => {
+            console.log(`Number of pages: ${numberOfPages}`);
+          }}
+          onPageChanged={(page, numberOfPages) => {
+            setCurrentPage({
+              page: page,
+              numberOfPages: numberOfPages,
+            });
+          }}
+          onError={error => {
+            console.log(error);
+          }}
+          onPressLink={uri => {
+            console.log(`Link pressed: ${uri}`);
+          }}
+          style={styles.pdf}
+        />
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 20,
+            right: '50%',
+          }}>
+          <Center>
+            <Text textAlign="center">
+              {currentPage.page}/{currentPage.numberOfPages}
+            </Text>
+          </Center>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

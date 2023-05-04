@@ -154,117 +154,119 @@ const SpecializationScreen = () => {
   };
 
   return (
-    <View onLayout={handleLayout} style={[styles.container]}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <View style={styles.header}>
-            <View style={{flex: 9}}>
-              <Input
-                value={kw}
-                onChangeText={value => setKw(value)}
-                backgroundColor="myJobCustomColors.white"
-                borderRadius="md"
-                borderWidth="0"
-                padding="2"
-                InputLeftElement={
-                  <Icon
-                    as={<Fontisto name="search" />}
-                    size={5}
-                    ml="2"
-                    color="muted.400"
-                  />
-                }
-                InputRightElement={
-                  <Pressable
-                    disabled={kw === '' ? true : false}
-                    onPress={() => setKw('')}>
+    <>
+      <View onLayout={handleLayout} style={[styles.container]}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <View style={styles.header}>
+              <View style={{flex: 9}}>
+                <Input
+                  value={kw}
+                  onChangeText={value => setKw(value)}
+                  backgroundColor="myJobCustomColors.white"
+                  borderRadius="md"
+                  borderWidth="0"
+                  padding="2"
+                  InputLeftElement={
                     <Icon
-                      as={<MaterialIcons name="clear" />}
+                      as={<Fontisto name="search" />}
                       size={5}
-                      mr="2"
-                      color={kw === '' ? 'muted.400' : 'muted.800'}
+                      ml="2"
+                      color="muted.400"
                     />
-                  </Pressable>
-                }
-                fontFamily="dMSansRegular"
-                fontSize="xs"
-                color="myJobCustomColors.darkIndigo"
-                placeholder="Từ khóa tìm kiếm"
-              />
-            </View>
-            <View style={{flex: 1.5, alignItems: 'flex-end'}}>
-              <TouchableOpacity onPress={handleSubmit}>
-                <View
-                  style={{
-                    height: 40,
-                    width: 40,
-                    backgroundColor: '#ff9228',
-                    borderRadius: 10,
-                    padding: 8,
-                  }}>
-                  <Icon
-                    as={<Fontisto name="search" />}
-                    color="myJobCustomColors.white"
-                    ml={0.5}
-                    size={5}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.specialization}>
-            <View>
-              <Text
-                style={{
-                  lineHeight: 21,
-                  fontSize: 16,
-                  fontFamily: 'DMSans-Bold',
-                  color: '#150a33',
-                }}>
-                Tất cả ngành nghề
-              </Text>
-            </View>
-            <View style={{height: '100%', paddingTop: 20}}>
-              <View style={[styles.categories, {rowGap: 15, columnGap: 15}]}>
-                {isLoading ? (
-                  <FlatList
-                    numColumns={2}
-                    data={Array.from(Array(8).keys())}
-                    renderItem={({item}) => Loading(item)}
-                  />
-                ) : (
-                  <FlatList
-                    numColumns={2}
-                    data={careers}
-                    renderItem={({item}) => <CategoryItem value={item} />}
-                    keyExtractor={item => item.id}
-                    ListFooterComponent={
-                      isLoadMoreLoading ? (
-                        <Center my="3">
-                          <Spinner
-                            size="lg"
-                            color="myJobCustomColors.deepSaffron"
-                          />
-                        </Center>
-                      ) : null
-                    }
-                    onEndReached={handleLoadMore}
-                    onEndReachedThreshold={0}
-                    getItemLayout={(data, index) => {
-                      const itemHeight = 210; // Chiều cao của mỗi mục trong danh sách
-                      const offset = itemHeight * index; // Vị trí của mục trong danh sách
-                      return {length: itemHeight, offset, index};
-                    }}
-                  />
-                )}
+                  }
+                  InputRightElement={
+                    <Pressable
+                      disabled={kw === '' ? true : false}
+                      onPress={() => setKw('')}>
+                      <Icon
+                        as={<MaterialIcons name="clear" />}
+                        size={5}
+                        mr="2"
+                        color={kw === '' ? 'muted.400' : 'muted.800'}
+                      />
+                    </Pressable>
+                  }
+                  fontFamily="dMSansRegular"
+                  fontSize="xs"
+                  color="myJobCustomColors.darkIndigo"
+                  placeholder="Từ khóa tìm kiếm"
+                />
+              </View>
+              <View style={{flex: 1.5, alignItems: 'flex-end'}}>
+                <TouchableOpacity onPress={handleSubmit}>
+                  <View
+                    style={{
+                      height: 40,
+                      width: 40,
+                      backgroundColor: '#ff9228',
+                      borderRadius: 10,
+                      padding: 8,
+                    }}>
+                    <Icon
+                      as={<Fontisto name="search" />}
+                      color="myJobCustomColors.white"
+                      ml={0.5}
+                      size={5}
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
-          </View>
-        </>
-      )}
-    </View>
+            <View style={styles.specialization}>
+              <View>
+                <Text
+                  style={{
+                    lineHeight: 21,
+                    fontSize: 16,
+                    fontFamily: 'DMSans-Bold',
+                    color: '#150a33',
+                  }}>
+                  Tất cả ngành nghề
+                </Text>
+              </View>
+              <View style={{height: '100%', paddingTop: 20}}>
+                <View style={[styles.categories, {rowGap: 15, columnGap: 15}]}>
+                  {isLoading ? (
+                    <FlatList
+                      numColumns={2}
+                      data={Array.from(Array(8).keys())}
+                      renderItem={({item}) => Loading(item)}
+                    />
+                  ) : (
+                    <FlatList
+                      numColumns={2}
+                      data={careers}
+                      renderItem={({item}) => <CategoryItem value={item} />}
+                      keyExtractor={item => item.id}
+                      ListFooterComponent={
+                        isLoadMoreLoading ? (
+                          <Center my="3">
+                            <Spinner
+                              size="lg"
+                              color="myJobCustomColors.deepSaffron"
+                            />
+                          </Center>
+                        ) : null
+                      }
+                      onEndReached={handleLoadMore}
+                      onEndReachedThreshold={0}
+                      getItemLayout={(data, index) => {
+                        const itemHeight = 210; // Chiều cao của mỗi mục trong danh sách
+                        const offset = itemHeight * index; // Vị trí của mục trong danh sách
+                        return {length: itemHeight, offset, index};
+                      }}
+                    />
+                  )}
+                </View>
+              </View>
+            </View>
+          </>
+        )}
+      </View>
+    </>
   );
 };
 

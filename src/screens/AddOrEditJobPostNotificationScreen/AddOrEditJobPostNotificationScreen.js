@@ -102,7 +102,7 @@ const AddOrEditJobPostNotificationScreen = ({route, navigation}) => {
         navigation.goBack();
         toastMessages.success('Xóa thành công.');
       } catch (error) {
-        console.log(error)
+        console.log(error);
         errorHandling(error);
       } finally {
         setIsFullScreenLoading(false);
@@ -124,29 +124,31 @@ const AddOrEditJobPostNotificationScreen = ({route, navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          {isLoading ? (
-            <AddOrEditJobPostNotificationForm.Loading />
-          ) : (
-            <AddOrEditJobPostNotificationForm
-              handleAddOrUpdate={handleAddOrUpdate}
-              handleDelete={handleDeleteJobPostNotification}
-              editData={editData}
-            />
-          )}
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            {isLoading ? (
+              <AddOrEditJobPostNotificationForm.Loading />
+            ) : (
+              <AddOrEditJobPostNotificationForm
+                handleAddOrUpdate={handleAddOrUpdate}
+                handleDelete={handleDeleteJobPostNotification}
+                editData={editData}
+              />
+            )}
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

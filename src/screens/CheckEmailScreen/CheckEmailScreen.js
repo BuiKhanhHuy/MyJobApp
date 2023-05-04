@@ -15,54 +15,56 @@ const CheckEmailScreen = ({navigation}) => {
   };
 
   return (
-    <View paddingX="7" paddingTop="12">
-      <View height="20%">
-        <VStack alignItems="center">
-          <Text
-            textAlign="center"
-            fontFamily="dMSansBold"
-            fontSize="3xl"
-            lineHeight="md"
-            color="myJobCustomColors.purpleBlue">
-            Xác thực email
-          </Text>
-          <Text textAlign="center" paddingTop="1.5">
-            Liên kết xác nhận email đã được chuyển đến email của bạn, vui
-            lòng kiểm tra hòm thư.
-          </Text>
-        </VStack>
-      </View>
-      <View height="30%" justifyContent="center" alignItems="center">
-        <Center>
-          <Image
-            source={require('../../assets/images/check-your-email.png')}
-            alt="IMAGE"
-            size="xl"
-            resizeMode="contain"
-          />
-        </Center>
-      </View>
-      <View paddingTop="20">
-        <VStack space={4}>
-          <Box>
-            <ButtonCustom
-              text="MỞ EMAIL CỦA BẠN"
-              textColor="myJobCustomColors.white"
-              bgColor="myJobCustomColors.darkIndigo"
-              onPress={handleOpenEmail}
+    <>
+      <View paddingX="7" paddingTop="12">
+        <View height="20%">
+          <VStack alignItems="center">
+            <Text
+              textAlign="center"
+              fontFamily="dMSansBold"
+              fontSize="3xl"
+              lineHeight="md"
+              color="myJobCustomColors.purpleBlue">
+              Xác thực email
+            </Text>
+            <Text textAlign="center" paddingTop="1.5">
+              Liên kết xác nhận email đã được chuyển đến email của bạn, vui lòng
+              kiểm tra hòm thư.
+            </Text>
+          </VStack>
+        </View>
+        <View height="30%" justifyContent="center" alignItems="center">
+          <Center>
+            <Image
+              source={require('../../assets/images/check-your-email.png')}
+              alt="IMAGE"
+              size="xl"
+              resizeMode="contain"
             />
-          </Box>
-          <Box>
-            <ButtonCustom
-              text="QUAY LẠI ĐĂNG NHẬP"
-              textColor="myJobCustomColors.darkIndigo"
-              bgColor="myJobCustomColors.moonrakerPurplyBlue"
-              onPress={() => navigation.goBack()}
-            />
-          </Box>
-        </VStack>
+          </Center>
+        </View>
+        <View paddingTop="20">
+          <VStack space={4}>
+            <Box>
+              <ButtonCustom
+                text="MỞ EMAIL CỦA BẠN"
+                textColor="myJobCustomColors.white"
+                bgColor="myJobCustomColors.darkIndigo"
+                onPress={handleOpenEmail}
+              />
+            </Box>
+            <Box>
+              <ButtonCustom
+                text="QUAY LẠI ĐĂNG NHẬP"
+                textColor="myJobCustomColors.darkIndigo"
+                bgColor="myJobCustomColors.moonrakerPurplyBlue"
+                onPress={() => navigation.goBack()}
+              />
+            </Box>
+          </VStack>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

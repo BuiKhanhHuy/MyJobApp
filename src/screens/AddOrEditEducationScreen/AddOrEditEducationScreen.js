@@ -90,28 +90,30 @@ const AddOrEditEducationScreen = ({route, navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          {isLoading ? (
-            <AddOrEditEducationForm.Loading />
-          ) : (
-            <AddOrEditEducationForm
-              handleAddOrUpdate={handleAddOrUpdate}
-              editData={editData}
-            />
-          )}
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            {isLoading ? (
+              <AddOrEditEducationForm.Loading />
+            ) : (
+              <AddOrEditEducationForm
+                handleAddOrUpdate={handleAddOrUpdate}
+                editData={editData}
+              />
+            )}
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

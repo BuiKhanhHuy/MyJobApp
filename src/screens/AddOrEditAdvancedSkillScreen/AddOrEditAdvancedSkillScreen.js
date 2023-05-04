@@ -92,29 +92,31 @@ const AddOrEditAdvancedSkillScreen = ({route, navigation}) => {
   };
 
   return (
-    <View
-      flex={1}
-      paddingX={6}
-      paddingBottom={6}
-      onLayout={handleLayout}
-      style={{marginTop: headerHeight}}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          {isLoading ? (
-            <AddOrEditAdvancedSkillForm.Loading />
-          ) : (
-            <AddOrEditAdvancedSkillForm
-              handleAddOrUpdate={handleAddOrUpdate}
-              editData={editData}
-              serverErrors={serverErrors}
-            />
-          )}
-        </>
-      )}
-      {isFullScreenLoading && <BackdropLoading />}
-    </View>
+    <>
+      <View
+        flex={1}
+        paddingX={6}
+        paddingBottom={6}
+        onLayout={handleLayout}
+        style={{marginTop: headerHeight}}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            {isLoading ? (
+              <AddOrEditAdvancedSkillForm.Loading />
+            ) : (
+              <AddOrEditAdvancedSkillForm
+                handleAddOrUpdate={handleAddOrUpdate}
+                editData={editData}
+                serverErrors={serverErrors}
+              />
+            )}
+          </>
+        )}
+        {isFullScreenLoading && <BackdropLoading />}
+      </View>
+    </>
   );
 };
 

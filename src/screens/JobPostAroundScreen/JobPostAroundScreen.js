@@ -14,19 +14,21 @@ const JobPostAroundScreen = ({route, navigation}) => {
   }, []);
 
   return (
-    <View paddingX="4" onLayout={handleLayout}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <JobPostAroundCard
-          bodyData={{
-            currentLatitude,
-            currentLongitude,
-            radius,
-          }}
-        />
-      )}
-    </View>
+    <>
+      <View paddingX="4" onLayout={handleLayout}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <JobPostAroundCard
+            bodyData={{
+              currentLatitude,
+              currentLongitude,
+              radius,
+            }}
+          />
+        )}
+      </View>
+    </>
   );
 };
 

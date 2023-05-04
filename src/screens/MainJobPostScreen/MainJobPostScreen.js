@@ -42,19 +42,21 @@ const MainJobPostScreen = ({navigation}) => {
   };
 
   return (
-    <View onLayout={handleLayout}>
-      {isLayoutLoading ? (
-        <BackdropLoading />
-      ) : (
-        <>
-          <View p={6} pt={0} mb={12}>
-            {/* Start: MainJobPostsCard */}
-            <MainJobPostsCard />
-            {/* End: MainJobPostsCard */}
-          </View>
-        </>
-      )}
-    </View>
+    <>
+      <View onLayout={handleLayout}>
+        {isLayoutLoading ? (
+          <BackdropLoading />
+        ) : (
+          <>
+            <View p={6} pt={0} mb={12}>
+              {/* Start: MainJobPostsCard */}
+              <MainJobPostsCard />
+              {/* End: MainJobPostsCard */}
+            </View>
+          </>
+        )}
+      </View>
+    </>
   );
 };
 

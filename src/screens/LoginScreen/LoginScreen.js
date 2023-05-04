@@ -20,7 +20,7 @@ import BackdropLoading from '../../components/loadings/BackdropLoading';
 import LoginForm from '../components/forms/LoginForm';
 import authService from '../../services/authService';
 import tokenService from '../../services/tokenService';
-import { updateVerifyEmail } from '../../redux/authSlice';
+import {updateVerifyEmail} from '../../redux/authSlice';
 
 const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -102,7 +102,7 @@ const LoginScreen = ({navigation}) => {
 
         getAccesToken(resEmail, password, roleName);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         toastMessages.error('Đã xảy ra lỗi, vui lòng đăng nhập lại!');
       } finally {
         setIsFullScreenLoading(false);
