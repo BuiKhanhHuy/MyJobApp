@@ -1,7 +1,8 @@
-package com.myjobapp;
+package com.bkhuy.myjobapp;
 
 // import com.oblador.keychain.KeychainPackage;
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 import android.app.Application;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;

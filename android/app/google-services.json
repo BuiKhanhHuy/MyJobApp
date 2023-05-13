@@ -1,41 +1,71 @@
 {
   "project_info": {
-    "project_number": "703796826084",
-    "project_id": "myjob-377016",
-    "storage_bucket": "myjob-377016.appspot.com"
+    "project_number": "734184453591",
+    "firebase_url": "https://myjobpro-6283b-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "myjobpro-6283b",
+    "storage_bucket": "myjobpro-6283b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:703796826084:android:29546aba366eaf804e81f1",
+        "mobilesdk_app_id": "1:734184453591:android:fc56fbae0c1c996bb8c792",
         "android_client_info": {
-          "package_name": "com.myjob"
+          "package_name": "com.bkhuy.myjobapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "703796826084-5k4rd1urun9fnm5n8intma1mlll7qdls.apps.googleusercontent.com",
+          "client_id": "734184453591-9q6nu4hmunqvkja1eobhontfujl803m1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.myjob",
-            "certificate_hash": "c0232718798dd035893cf2ae0e4e517e7142a40f"
+            "package_name": "com.bkhuy.myjobapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "703796826084-4gkvsen361ocsa9c491ji9fgld9uhp68.apps.googleusercontent.com",
+          "client_id": "734184453591-6dald10g5o0vanlrh0f3dgv3i4me26qm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDuW-9Qwzc3mZbUs2bfiaq5nqnYxJS_fCE"
+          "current_key": "AIzaSyAjwHIqB5j3HEnjBsVa6oEAsUGHpJ5v_DU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "703796826084-4gkvsen361ocsa9c491ji9fgld9uhp68.apps.googleusercontent.com",
+              "client_id": "734184453591-6dald10g5o0vanlrh0f3dgv3i4me26qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734184453591:android:cb4be97575816c3cb8c792",
+        "android_client_info": {
+          "package_name": "com.myjob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734184453591-6dald10g5o0vanlrh0f3dgv3i4me26qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjwHIqB5j3HEnjBsVa6oEAsUGHpJ5v_DU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734184453591-6dald10g5o0vanlrh0f3dgv3i4me26qm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
