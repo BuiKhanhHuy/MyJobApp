@@ -1,0 +1,4 @@
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path name="myjob_files" path="." />
+    <external-files-path name="myjob_downloads" path="Downloads" />
+</paths>

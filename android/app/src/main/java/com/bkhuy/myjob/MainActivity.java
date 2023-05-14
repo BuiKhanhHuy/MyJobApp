@@ -1,4 +1,4 @@
-package com.bkhuy.myjobapp;
+package com.bkhuy.myjob;
 
 import io.kommunicate.app.RNKommunicateChatPackage;
 import android.os.Bundle;

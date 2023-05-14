@@ -96,9 +96,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.bkhuy.myjobapp"
+    namespace "com.bkhuy.myjob"
     defaultConfig {
-        applicationId "com.bkhuy.myjobapp"
+        applicationId "com.bkhuy.myjob"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -168,6 +168,8 @@ dependencies {
     implementation project(':react-native-keychain')
     implementation project(':react-native-splash-screen')
     implementation project(':react-native-kommunicate-chat')
+    implementation project(':react-native-fs')
+    implementation project(':react-native-share')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

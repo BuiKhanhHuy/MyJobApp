@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:734184453591:android:fc56fbae0c1c996bb8c792",
+        "mobilesdk_app_id": "1:734184453591:android:f2b06f38781cd4f3b8c792",
         "android_client_info": {
-          "package_name": "com.bkhuy.myjobapp"
+          "package_name": "com.bkhuy.myjob"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "734184453591-9q6nu4hmunqvkja1eobhontfujl803m1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bkhuy.myjobapp",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
         {
           "client_id": "734184453591-6dald10g5o0vanlrh0f3dgv3i4me26qm.apps.googleusercontent.com",
           "client_type": 3
@@ -45,12 +37,20 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:734184453591:android:cb4be97575816c3cb8c792",
+        "mobilesdk_app_id": "1:734184453591:android:f27bb0c8d01c24d3b8c792",
         "android_client_info": {
-          "package_name": "com.myjob"
+          "package_name": "com.bkhuy.myjobapp"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "734184453591-9q6nu4hmunqvkja1eobhontfujl803m1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bkhuy.myjobapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
         {
           "client_id": "734184453591-6dald10g5o0vanlrh0f3dgv3i4me26qm.apps.googleusercontent.com",
           "client_type": 3

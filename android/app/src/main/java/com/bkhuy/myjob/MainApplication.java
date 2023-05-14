@@ -1,4 +1,4 @@
-package com.bkhuy.myjobapp;
+package com.bkhuy.myjob;
 
 // import com.oblador.keychain.KeychainPackage;
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
