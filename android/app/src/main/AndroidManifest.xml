@@ -47,7 +47,7 @@
       android:grantUriPermissions="true">
       <meta-data
         android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/provider_paths" />
+        android:resource="@xml/file_viewer_provider_paths" />
     </provider>
 
     <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />

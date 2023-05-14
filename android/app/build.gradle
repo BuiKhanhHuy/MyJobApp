@@ -170,6 +170,7 @@ dependencies {
     implementation project(':react-native-kommunicate-chat')
     implementation project(':react-native-fs')
     implementation project(':react-native-share')
+    implementation project(':react-native-file-viewer')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

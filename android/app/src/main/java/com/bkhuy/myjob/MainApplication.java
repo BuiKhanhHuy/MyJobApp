@@ -2,6 +2,7 @@ package com.bkhuy.myjob;
 
 // import com.oblador.keychain.KeychainPackage;
 // import org.devio.rn.splashscreen.SplashScreenReactPackage;
+// import com.vinzscam.reactnativefileviewer.RNFileViewerPackage;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
       // packages.add(new MyReactNativePackage());
       // packages.add(new KeychainPackage());
       // packages.add(new SplashScreenReactPackage());
+      // packages.add(new RNFileViewerPackage()
       return packages;
     }
 
