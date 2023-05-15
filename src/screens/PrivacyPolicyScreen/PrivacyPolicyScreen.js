@@ -13,11 +13,11 @@ const PrivacyPolicyScreen = () => {
     <>
       <View
         flex={1}
-        paddingX={6}
+        paddingX={3}
         paddingBottom={6}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>
-        {false ? (
+        {isLayoutLoading ? (
           <BackdropLoading />
         ) : (
           <>

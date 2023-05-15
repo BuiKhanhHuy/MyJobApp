@@ -32,8 +32,8 @@ const UploadCv = ({title = null, showRequired=false, name, control}) => {
       setFileSelected({...doc, timeUpload: new Date()});
       onChange(doc);
     } catch (error) {
-      if (DocumentPicker.isCancel(err)) {
-        console.error('User cancel: ', err);
+      if (DocumentPicker.isCancel(error)) {
+        console.log('User cancel: ', error);
       } else {
         toastMessages.error();
       }

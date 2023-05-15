@@ -107,8 +107,8 @@ const Loading = () => (
           <Skeleton rounded="full" w={'16'} h={'16'} />
         </View>
         <View width={'100%'}>
-          <VStack space={2}>
-            <Skeleton rounded="md" h="5" />
+          <VStack space={2} w={"80%"}>
+            <Skeleton rounded="md" h="5"/>
             <Skeleton rounded="md" h="5" />
           </VStack>
         </View>

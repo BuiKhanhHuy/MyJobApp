@@ -1,12 +1,12 @@
 import httpRequest from '../utils/httpRequest';
 
 const resumeService = {
-  getResumeOwner: (resumeId) => {
+  getResumeOwner: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/resume-owner/`;
 
     return httpRequest.get(url);
   },
-  getCv: (resumeId) => {
+  getCv: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/cv/`;
 
     return httpRequest.get(url);
@@ -21,7 +21,13 @@ const resumeService = {
     });
   },
 
-  addResume: (data) => {
+  getCvPdf: resumeId => {
+    const url = `api/info/app/private-resumes/${resumeId}/cv-pdf/`;
+
+    return httpRequest.get(url);
+  },
+
+  addResume: data => {
     const url = 'api/info/app/private-resumes/';
 
     return httpRequest.post(url, data, {
@@ -35,37 +41,37 @@ const resumeService = {
 
     return httpRequest.put(url, data);
   },
-  deleteResume: (resumeId) => {
+  deleteResume: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/`;
 
     return httpRequest.delete(url);
   },
-  activeResume: (resumeId) => {
+  activeResume: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/resume-active/`;
 
     return httpRequest.get(url);
   },
-  getExperiencesDetail: (resumeId) => {
+  getExperiencesDetail: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/experiences-detail/`;
 
     return httpRequest.get(url);
   },
-  getEducationsDetail: (resumeId) => {
+  getEducationsDetail: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/educations-detail/`;
 
     return httpRequest.get(url);
   },
-  getCertificates: (resumeId) => {
+  getCertificates: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/certificates-detail/`;
 
     return httpRequest.get(url);
   },
-  getLanguageSkills: (resumeId) => {
+  getLanguageSkills: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/language-skills/`;
 
     return httpRequest.get(url);
   },
-  getAdvancedSkills: (resumeId) => {
+  getAdvancedSkills: resumeId => {
     const url = `api/info/app/private-resumes/${resumeId}/advanced-skills/`;
 
     return httpRequest.get(url);

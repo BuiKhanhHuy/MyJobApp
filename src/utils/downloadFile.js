@@ -1,8 +1,8 @@
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 
-const downloadFile = (fileUrl, mime = 'application/pdf') => {
-  ReactNativeBlobUtil.config({
+const downloadFile = async (fileUrl, mime = 'application/pdf') => {
+  return await ReactNativeBlobUtil.config({
     addAndroidDownloads: {
       useDownloadManager: true,
       notification: true,
@@ -10,24 +10,38 @@ const downloadFile = (fileUrl, mime = 'application/pdf') => {
       description: 'File downloaded by download manager.',
     },
     fileCache: true,
-  })
-    .fetch('GET', `${fileUrl}`, {})
-    .then(res => {
-      console.log('The file saved to ', res.path());
-    });
+  }).fetch('GET', `${fileUrl}`, {});
 };
 
-const createPDF = async () => {
+const shareLink = async fileUrl => {
+  let link = null;
+  if ((fileUrl.startsWith('http') || fileUrl.startsWith('https')) === true) {
+    const data = await ReactNativeBlobUtil.fetch('GET', fileUrl).then(res => {
+      let status = res.info().status;
+      if (status == 200) {
+        let base64Str = res.base64();
+        return `data:application/pdf;base64,${base64Str}`;
+      }
+    });
+
+    link = data;
+  } else {
+    link = 'file://' + fileUrl;
+  }
+
+  return link;
+};
+
+const createPDF = async (html, fileName) => {
   let options = {
-    html: '<h1>PDF TEST</h1>',
-    fileName: 'test',
+    html: html,
+    fileName: fileName || 'MyJob-Cv',
     directory: 'Downloads',
   };
 
   let file = await RNHTMLtoPDF.convert(options);
-  // console.log(file.filePath);
-  return file
+  return file;
 };
 
 export default downloadFile;
-export {createPDF};
+export {createPDF, shareLink};

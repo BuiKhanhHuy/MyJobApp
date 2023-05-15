@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Image, ImageBackground, TouchableOpacity} from 'react-native';
-import {Input, Icon} from 'native-base';
+import {Image, ImageBackground, TouchableOpacity} from 'react-native';
+import {Input, Icon, View} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {useLayout} from '../../hooks';
@@ -31,10 +31,10 @@ const SearchScreen = ({navigation}) => {
                     borderBottomRightRadius: 30,
                   }}>
                   <View
+                    paddingX={3}
                     style={{
                       borderBottomLeftRadius: 30,
                       borderBottomRightRadius: 30,
-                      paddingHorizontal: 20,
                       paddingVertical: 20,
                       height: '100%',
                       justifyContent: 'flex-end',
@@ -73,9 +73,9 @@ const SearchScreen = ({navigation}) => {
                 </ImageBackground>
               </View>
               <View
+                paddingX={3}
                 style={{
                   height: '35%',
-                  paddingHorizontal: 20,
                 }}>
                 <View
                   style={{
@@ -112,9 +112,9 @@ const SearchScreen = ({navigation}) => {
             </View>
 
             <View
+              padding={3}
               style={{
                 flex: 6,
-                paddingHorizontal: 20,
               }}>
               {/* Start: FilterJobPostsCard */}
               <FilterJobPostCard pageSize={10} isPagination={true} />

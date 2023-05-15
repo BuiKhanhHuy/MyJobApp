@@ -7,7 +7,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {salaryString} from '../../utils/customData';
-import {TouchableNativeFeedback} from 'react-native';
+import {TouchableNativeFeedback, Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
 
 const AroundJobPost = ({
   id,
@@ -32,47 +34,53 @@ const AroundJobPost = ({
         })
       }>
       <View
-        width="100%"
+        width={'100%'}
         rounded="xl"
         padding={4}
         shadow="myJobCustomShadows.0"
         backgroundColor="myJobCustomColors.white">
         <VStack space={2}>
           <HStack space={3}>
-            <FastImage
-              style={{
-                width: 55,
-                height: 55,
-                borderRadius: 50,
-              }}
-              source={{
-                uri: companyImageUrl,
-                priority: FastImage.priority.normal,
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
             <View>
-              <View style={{overflow: 'hidden'}}>
+              <FastImage
+                style={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: 50,
+                }}
+                source={{
+                  uri: companyImageUrl,
+                  priority: FastImage.priority.normal,
+                }}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            </View>
+            <View>
+              <View
+                style={{
+                  overflow: 'hidden',
+                  width: '90%',
+                }}>
                 <Text
                   numberOfLines={1}
-                  ellipsizeMode="clip"
+                  ellipsizeMode="tail"
                   fontFamily="dMSansBold"
                   color="#150a33"
                   fontSize={16}>
                   {jobName || '---'}
                 </Text>
               </View>
-              <View style={{overflow: 'hidden'}}>
+              <View style={{overflow: 'hidden', width: '90%'}}>
                 <Text
                   numberOfLines={1}
-                  ellipsizeMode="clip"
+                  ellipsizeMode="tail"
                   fontFamily="dMSansMedium"
                   color="#524b6b"
                   fontSize={14}>
                   {companyName || '---'}
                 </Text>
               </View>
-              <HStack space={3}>
+              <HStack space={3} mt={0.5}>
                 <Text fontFamily="dMSansRegular" color="#524b6b" fontSize={12}>
                   <FontAwesome5 name="search-dollar" size={15} />{' '}
                   {salaryString(salaryMin, salaryMax)}
@@ -118,14 +126,12 @@ const Loading = () => {
             <View>
               <Skeleton rounded={'full'} style={{height: 55, width: 55}} />
             </View>
-            <View>
-              <Stack space={1} justifyContent="center">
-                <View>
-                  <Skeleton rounded={'md'} h={5} />
-                </View>
-                <View>
-                  <Skeleton rounded={'md'} h={4} />
-                </View>
+            <View width={"82%"}>
+              <Stack space={1} justifyContent="space-evenly">
+                <Skeleton rounded={'md'} h={5} />
+
+                <Skeleton rounded={'md'} h={4} />
+
                 <HStack space={3}>
                   <Skeleton rounded={'md'} h={4} w={100} />
                   <Skeleton rounded={'md'} h={4} w={100} />

@@ -19,7 +19,7 @@ const SuggestedJobPostScreen = ({route, navigation}) => {
 
   return (
     <>
-      <View paddingX="4" onLayout={handleLayout}>
+      <View paddingX="3" onLayout={handleLayout}>
         {isLayoutLoading ? (
           <BackdropLoading />
         ) : (

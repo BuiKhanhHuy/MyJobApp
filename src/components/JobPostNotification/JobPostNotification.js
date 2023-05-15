@@ -2,18 +2,46 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {TouchableNativeFeedback} from 'react-native';
-import {HStack, Skeleton, Text, VStack, View} from 'native-base';
+import {HStack, Skeleton, Switch, Text, VStack, View} from 'native-base';
 
 import {convertMoney} from '../../utils/customData';
+import BackdropLoading from '../loadings/BackdropLoading';
+import errorHandling from '../../utils/errorHandling';
+import jobPostNotificationService from '../../services/jobPostNotificationService';
 
-const ActiveButtonComponent = () => {
+const ActiveButtonComponent = ({id, isActive}) => {
+  const [checked, setChecked] = React.useState(isActive);
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
+
+  const handleUpdateActive = () => {
+    const updateJobPostNotification = async id => {
+      setIsFullScreenLoading(true);
+      try {
+        const resData = await jobPostNotificationService.active(id);
+        const data = resData.data;
+
+        setChecked(data.isActive);
+      } catch (error) {
+        errorHandling(error);
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    updateJobPostNotification(id);
+  };
+
   return (
-    <Text
-      fontFamily="dMSansBold"
-      color="myJobCustomColors.irishGreen"
-      onPress={() => alert('Oke')}>
-      Bật
-    </Text>
+    <>
+      {isFullScreenLoading && <BackdropLoading />}
+      <Switch
+        size="md"
+        isChecked={checked}
+        onTrackColor="#56CD53"
+        onThumbColor="#04B015"
+        onChange={handleUpdateActive}
+      />
+    </>
   );
 };
 
@@ -54,7 +82,7 @@ const JobPostNotification = ({
               </View>
               <View>
                 {/* Start: ActiveButtonComponent */}
-                <ActiveButtonComponent />
+                <ActiveButtonComponent id={id} isActive={isActive} />
                 {/* End: ActiveButtonComponent */}
               </View>
             </HStack>

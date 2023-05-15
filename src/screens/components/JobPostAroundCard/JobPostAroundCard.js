@@ -7,37 +7,42 @@ import errorHandling from '../../../utils/errorHandling';
 import NoData from '../../../components/NoData/NoData';
 import AroundJobPost from '../../../components/AroundJobPost';
 import jobService from '../../../services/jobService';
+import {RefreshControl} from 'react-native';
 
 const JobPostAroundCard = ({bodyData}) => {
   const {jobPostAroundFilter} = useSelector(state => state.filter);
   const {pageSize} = jobPostAroundFilter;
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    setIsLoading(true);
-  }, [jobPostAroundFilter]);
+  const getJobPostsAround = async (bodyData, params) => {
+    if (!isLoadMoreLoading) {
+      setIsLoading(true);
+    }
 
-  React.useEffect(() => {
-    const getJobPostsAround = async (bodyData, params) => {
-      try {
-        const resData = await jobService.getJobPostsAround(bodyData, params);
-        const data = resData.data;
+    try {
+      const resData = await jobService.getJobPostsAround(bodyData, params);
+      const data = resData.data;
 
-        setCount(data.count);
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setJobPosts([...jobPosts, ...data.results]);
+      } else {
         setJobPosts(data.results);
-        console.log('AAA: ', data.results);
-      } catch (error) {
-        errorHandling(error);
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
       }
-    };
+    } catch (error) {
+      errorHandling(error);
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
 
+  React.useEffect(() => {
     const params = {
       ...jobPostAroundFilter,
       page: page,
@@ -45,10 +50,23 @@ const JobPostAroundCard = ({bodyData}) => {
     };
 
     getJobPostsAround(bodyData, params);
-  }, [jobPostAroundFilter, page]);
+  }, [page, isReload]);
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      setIsReload(!isReload);
+      setPage(1);
+    }
+  }, [jobPostAroundFilter]);
+
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
 
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
       setIsLoadMoreLoading(true);
     }
@@ -57,7 +75,7 @@ const JobPostAroundCard = ({bodyData}) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        Array.from(Array(5).keys()).map(value => (
+        Array.from(Array(6).keys()).map(value => (
           <Center mt={3} key={value}>
             <AroundJobPost.Loading />
           </Center>
@@ -68,6 +86,15 @@ const JobPostAroundCard = ({bodyData}) => {
         </Center>
       ) : (
         <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={onRefresh}
+              colors={['#FF9228']}
+            />
+          }
           data={jobPosts}
           renderItem={({item}) => (
             <Center mt={3}>
@@ -92,7 +119,7 @@ const JobPostAroundCard = ({bodyData}) => {
             ) : null
           }
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.2}
           getItemLayout={(data, index) => {
             const itemHeight = 125; // Chiều cao của mỗi mục trong danh sách
             const offset = itemHeight * index; // Vị trí của mục trong danh sách
@@ -107,6 +134,7 @@ const JobPostAroundCard = ({bodyData}) => {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    paddingBottom: 10
   },
 });
 

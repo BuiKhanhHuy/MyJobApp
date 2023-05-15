@@ -8,7 +8,7 @@ import {Box, ScrollView, VStack, View} from 'native-base';
 import TextInputCustom from '../../../../components/TextInputCustom';
 import ButtonCustom from '../../../../components/ButtonCustom';
 
-const EditAccountForm = ({handleUpdate, serverErrors={}}) => {
+const EditAccountForm = ({handleUpdate, serverErrors = {}}) => {
   const {currentUser} = useSelector(state => state.user);
 
   const schema = yup.object().shape({
@@ -47,47 +47,49 @@ const EditAccountForm = ({handleUpdate, serverErrors={}}) => {
 
   return (
     <>
-      <View flex={10}>
-        <ScrollView>
-          <VStack space={4}>
-            <TextInputCustom
-              name="fullName"
-              title="Họ và tên"
-              showRequired={true}
-              placeholder="Nhập họ và tên của bạn"
-              control={control}
-            />
-            <TextInputCustom
-              name="email"
-              title="Email"
-              showRequired={true}
-              placeholder="Nhập email"
-              control={control}
-              disabled={true}
-            />
-            <TextInputCustom
-              name="password"
-              title="Mật khẩu"
-              showRequired={true}
-              placeholder="Nhập mật khẩu"
-              control={control}
-              disabled={true}
-            />
-          </VStack>
-        </ScrollView>
-      </View>
-      <View justifyContent="center">
-        <Box px={6} pt={4}>
-          <VStack space={4}>
-            <ButtonCustom
-              text="CẬP NHẬT"
-              textColor="myJobCustomColors.white"
-              bgColor="myJobCustomColors.darkIndigo"
-              onPress={handleSubmit(handleUpdate)}
-              shadow={8}
-            />
-          </VStack>
-        </Box>
+      <View paddingBottom={6} flex={1}>
+        <View flex={10}>
+          <ScrollView>
+            <VStack space={4}>
+              <TextInputCustom
+                name="fullName"
+                title="Họ và tên"
+                showRequired={true}
+                placeholder="Nhập họ và tên của bạn"
+                control={control}
+              />
+              <TextInputCustom
+                name="email"
+                title="Email"
+                showRequired={true}
+                placeholder="Nhập email"
+                control={control}
+                disabled={true}
+              />
+              <TextInputCustom
+                name="password"
+                title="Mật khẩu"
+                showRequired={true}
+                placeholder="Nhập mật khẩu"
+                control={control}
+                disabled={true}
+              />
+            </VStack>
+          </ScrollView>
+        </View>
+        <View justifyContent="center">
+          <Box px={6} pt={4}>
+            <VStack space={4}>
+              <ButtonCustom
+                text="CẬP NHẬT"
+                textColor="myJobCustomColors.white"
+                bgColor="myJobCustomColors.darkIndigo"
+                onPress={handleSubmit(handleUpdate)}
+                shadow={8}
+              />
+            </VStack>
+          </Box>
+        </View>
       </View>
     </>
   );

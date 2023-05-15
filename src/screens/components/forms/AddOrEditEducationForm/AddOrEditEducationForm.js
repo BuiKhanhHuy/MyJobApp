@@ -28,7 +28,19 @@ const AddOrEditEducationForm = ({handleAddOrUpdate, editData}) => {
       .date()
       .required('Ngày bắt đầu là bắt buộc.')
       .typeError('Ngày bắt đầu là bắt buộc.'),
-    completedDate: yup.date().nullable(),
+    completedDate: yup
+      .date()
+      .nullable()
+      .test(
+        'end-date-comparison',
+        'Ngày kết thúc phải lớn hơn ngày bắt đầu.',
+        function (value) {
+          if (value) {
+            return !(value <= this.parent.startDate);
+          }
+          return true;
+        },
+      ),
   });
 
   const {control, reset, handleSubmit} = useForm({

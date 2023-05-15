@@ -68,6 +68,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.careerOptions || []}
             title="Ngành nghề"
             placeholder="Chọn ngành nghề"
+            showBorder={true}
           />
           <SelectCustom
             name="cityId"
@@ -75,6 +76,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.cityOptions || []}
             title="Tỉnh thành"
             placeholder="Chọn tỉnh thành"
+            showBorder={true}
           />
           <SelectCustom
             name="positionId"
@@ -82,6 +84,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.positionOptions || []}
             title="Vị trí làm việc"
             placeholder="Chọn vị trí làm việc"
+            showBorder={true}
           />
           <SelectCustom
             name="experienceId"
@@ -89,6 +92,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.experienceOptions || []}
             title="Kinh nghiệm"
             placeholder="Chọn kinh nghiệm"
+            showBorder={true}
           />
           <SelectCustom
             name="jobTypeId"
@@ -96,6 +100,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.jobTypeOptions || []}
             title="Hình thức làm việc"
             placeholder="Chọn hình thức làm việc"
+            showBorder={true}
           />
           <SelectCustom
             name="typeOfWorkplaceId"
@@ -103,6 +108,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.typeOfWorkplaceOptions || []}
             title="Nơi làm việc"
             placeholder="Chọn nơi làm việc"
+            showBorder={true}
           />
           <SelectCustom
             name="genderId"
@@ -110,6 +116,7 @@ function ActionSheetFilterJobPost({sheetId}) {
             options={allConfig?.genderOptions || []}
             title="Giới tính"
             placeholder="Chọn giới tính"
+            showBorder={true}
           />
         </VStack>
       </View>

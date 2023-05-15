@@ -36,7 +36,7 @@ const CvUploadCard = ({
       borderRadius="2xl"
       backgroundColor="myJobCustomColors.white"
       shadow={'myJobCustomShadows.0'}>
-      <Box>
+      <Box mt={2}>
         <AspectRatio w="300" ratio={16 / 9}>
           <Image
             source={{

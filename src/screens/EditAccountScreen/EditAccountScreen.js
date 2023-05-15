@@ -37,7 +37,7 @@ const EditAccountScreen = ({navigation}) => {
     <>
       <View
         flex={1}
-        padding={6}
+        paddingX={4}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>
         {isLayoutLoading ? (

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {SheetManager} from 'react-native-actions-sheet';
@@ -21,12 +22,12 @@ import ProfileCard from '../ProfileCard';
 import NoData from '../../../../components/NoData';
 import BackdropLoading from '../../../../components/loadings/BackdropLoading';
 import resumeService from '../../../../services/resumeService';
-import {useSelector} from 'react-redux';
 import expericenDetailService from '../../../../services/expericenDetailService';
 import {reloadExperience} from '../../../../redux/reloadSlice';
 
 const WorkExperienceCard = ({resumeId}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
   const {isReloadExperience} = useSelector(state => state.reload);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);

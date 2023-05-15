@@ -7,7 +7,8 @@ import {AUTH_CONFIG} from '../configs/constants';
 const httpRequest = axios.create({
   // baseURL: 'https://bkhuy-myjob.onrender.com/',
   // baseURL: 'https://bkhuy.pythonanywhere.com/',
-  baseURL: 'http://192.168.42.32:8000/',
+  // baseURL: 'https://bkhuy-myjob-api.up.railway.app/',
+  baseURL: 'http://192.168.43.26:8000/',
   // timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -38,6 +39,7 @@ httpRequest.interceptors.response.use(
     return response.data;
   },
   async error => {
+    console.log('VO LOI');
     const originalConfig = error.config;
 
     if (originalConfig.url !== 'api/auth/token/' && error.response) {
@@ -54,7 +56,11 @@ httpRequest.interceptors.response.use(
         }
 
         try {
-          console.log('---> Còn REFRESH TOKEN ---> LẤY TOKEN MỚI --> Refresh token là: ', refreshTokenLocal);
+          console.log(
+            '---> Còn REFRESH TOKEN ---> LẤY TOKEN MỚI --> Refresh token là: ',
+            refreshTokenLocal,
+          );
+          // here
           // await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
           const resData = await httpRequest.post('api/auth/token/', {
             grant_type: AUTH_CONFIG.REFRESH_TOKEN_KEY,

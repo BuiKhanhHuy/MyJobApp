@@ -1,6 +1,6 @@
 import React from 'react';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {Button, HStack, Text, View} from 'native-base';
+import {Button, HStack, ScrollView, Text, View} from 'native-base';
 
 import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
@@ -60,16 +60,17 @@ const MenuButtonComponent = ({tab, setTab}) => {
   );
 };
 
-const MyCompanyScreen = () => {
+const MyCompanyScreen = ({route}) => {
+  const {tabIndex} = route.params;
   const headerHeight = useHeaderHeight();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = React.useState(tabIndex);
 
   return (
     <>
       <View
         flex={1}
-        paddingX={6}
+        paddingX={3}
         paddingBottom={2}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>

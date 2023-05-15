@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {StyleSheet} from 'react-native';
+import {RefreshControl, StyleSheet} from 'react-native';
 import {Button, Center, FlatList, Spinner, View} from 'native-base';
 
 import {IMAGES} from '../../../configs/globalStyles';
@@ -10,7 +10,7 @@ import toastMessages from '../../../utils/toastMessages';
 import NoData from '../../../components/NoData/NoData';
 import JobPost from '../../../components/JobPost/JobPost';
 
-import { useLayout } from '../../../hooks';
+import {useLayout} from '../../../hooks';
 
 const pageSize = 10;
 
@@ -18,44 +18,59 @@ const JobPostSavedCard = () => {
   const navigation = useNavigation();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {jobPostSaved} = useSelector(state => state.reload);
-  const [isReload, setIsReload] = React.useState(false)
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    setIsReload(!isReload)
-    setPage(1);
-  }, [jobPostSaved]);
-
-  React.useEffect(() => {
-    const getJobPosts = async params => {
+  const getJobPosts = async params => {
+    if (!isLoadMoreLoading) {
       setIsLoading(true);
-      try {
-        const resData = await jobService.getJobPostsSaved(params);
-        const data = resData.data;
+    }
 
-        setCount(data.count);
+    try {
+      const resData = await jobService.getJobPostsSaved(params);
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setJobPosts([...jobPosts, ...data.results]);
+      } else {
         setJobPosts(data.results);
-      } catch (error) {
-        toastMessages.error();
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
       }
-    };
+    } catch (error) {
+      toastMessages.error();
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
 
+  React.useEffect(() => {
     getJobPosts({
       pageSize: pageSize,
       page: page,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, isReload]);
 
+  React.useEffect(() => {
+    if (!isLoading) {
+      console.log('SAVED DANG THAY ĐỔI!!!; status: ');
+      setIsReload(!isReload);
+      setPage(1);
+    }
+  }, [jobPostSaved]);
+
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
       setIsLoadMoreLoading(true);
     }
@@ -94,6 +109,15 @@ const JobPostSavedCard = () => {
             </Center>
           ) : (
             <FlatList
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isLoading}
+                  onRefresh={onRefresh}
+                  colors={['#FF9228']}
+                />
+              }
               data={jobPosts}
               renderItem={({item}) => (
                 <JobPost
@@ -126,7 +150,7 @@ const JobPostSavedCard = () => {
                 ) : null
               }
               onEndReached={handleLoadMore}
-              onEndReachedThreshold={0}
+              onEndReachedThreshold={0.2}
               getItemLayout={(data, index) => {
                 const itemHeight = 180; // Chiều cao của mỗi mục trong danh sách
                 const offset = itemHeight * index; // Vị trí của mục trong danh sách

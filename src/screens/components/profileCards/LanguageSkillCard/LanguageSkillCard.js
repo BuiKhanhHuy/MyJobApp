@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {SheetManager} from 'react-native-actions-sheet';
 import {
@@ -26,6 +26,7 @@ import {reloadLanguageSkill} from '../../../../redux/reloadSlice';
 
 const LanguageSkillCard = ({resumeId}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
   const {allConfig} = useSelector(state => state.config);
   const {isReloadLanguageSkill} = useSelector(state => state.reload);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
@@ -59,6 +60,7 @@ const LanguageSkillCard = ({resumeId}) => {
         dispatch(reloadLanguageSkill());
         toastMessages.success('Xóa thành công.');
       } catch (error) {
+        console.log(error)
         toastMessages.error();
       } finally {
         setIsFullScreenLoading(false);

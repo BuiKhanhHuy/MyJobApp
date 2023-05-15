@@ -30,7 +30,7 @@ const MainCompanyScreen = ({navigation}) => {
     let count = 0;
     for (let key in companyFilter) {
       if (!['kw', 'page', 'pageSize'].includes(key)) {
-        if (companyFilter[key] !== '') {
+        if (companyFilter[key] !== '' && companyFilter[key] !== null) {
           count += 1;
         }
       }
@@ -46,7 +46,7 @@ const MainCompanyScreen = ({navigation}) => {
 
   return (
     <>
-      <View style={{padding: 16}} onLayout={handleLayout}>
+      <View style={{padding: 16}} paddingX={4} onLayout={handleLayout}>
         {isLayoutLoading ? <BackdropLoading /> : <MainCompanyCard />}
       </View>
     </>

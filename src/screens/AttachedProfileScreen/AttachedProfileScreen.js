@@ -16,7 +16,7 @@ const AttachedProfileScreen = ({route, navigation}) => {
   return (
     <>
       <View
-        paddingX={6}
+        paddingX={3}
         paddingBottom={6}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>

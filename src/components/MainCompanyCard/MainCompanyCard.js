@@ -6,66 +6,90 @@ import toastMessages from '../../utils/toastMessages';
 import NoData from '../NoData/NoData';
 import Company from '../Company/Company';
 import companyService from '../../services/companyService';
+import { RefreshControl } from 'react-native';
 
 const MainCompanyCard = () => {
-  const {companyFollowed} = useSelector(state => state.reload)
+  const {companyFollowed} = useSelector(state => state.reload);
   const {companyFilter} = useSelector(state => state.filter);
   const {pageSize} = companyFilter;
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [companies, setCompanies] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
+  const getCompanies = async companyFilter => {
+    if (!isLoadMoreLoading) {
+      setIsLoading(true);
+    }
+
+    try {
+      const resData = await companyService.getCompanies({
+        ...companyFilter,
+        page: page,
+      });
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setCompanies([...companies, ...data.results]);
+      } else {
+        setCompanies(data.results);
+      }
+    } catch (error) {
+      toastMessages.error();
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
+
   React.useEffect(() => {
-    setIsLoading(true);
+    getCompanies(companyFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, isReload]);
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      setIsReload(!isReload);
+      setPage(1);
+    }
   }, [companyFilter]);
 
   React.useEffect(() => {
-    const getCompanies = async companyFilter => {
-      try {
-        const resData = await companyService.getCompanies({
-          ...companyFilter,
-          page: page,
-        });
-        const data = resData.data;
+    if (!isLoading) {
+      const companyChange = companies.find(
+        value => value.id === companyFollowed.id,
+      );
 
-        setCount(data.count);
-        setCompanies([...companies, ...data.results]);
-      } catch (error) {
-        toastMessages.error();
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
-      }
-    };
-
-    getCompanies(companyFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [companyFilter, page]);
-
-  React.useEffect(() => {
-    let companyNew = [];
-    const companyChange = companies.find(value => value.id === companyFollowed.id);
-
-    for (let i = 0; i < companies.length && companyChange; i++) {
-      if (companies[i].id === companyFollowed.id) {
-        companyNew.push({
-          ...companyChange,
-          isFollowed: companyFollowed.status,
-        });
-      } else {
-        companyNew.push(companies[i]);
+      if (companyChange) {
+        let companyNew = [];
+        for (let i = 0; i < companies.length; i++) {
+          if (companies[i].id === companyFollowed.id) {
+            companyNew.push({
+              ...companyChange,
+              isFollowed: companyFollowed.status,
+            });
+          } else {
+            companyNew.push(companies[i]);
+          }
+        }
+        setCompanies(companyNew);
       }
     }
-
-    setCompanies(companyNew);
   }, [companyFollowed]);
 
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
-      setIsLoading(true);
+      setIsLoadMoreLoading(true);
     }
   };
 
@@ -73,6 +97,8 @@ const MainCompanyCard = () => {
     <View>
       {isLoading ? (
         <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           numColumns={2}
           data={Array.from(Array(6).keys())}
           renderItem={({item}) => (
@@ -90,7 +116,16 @@ const MainCompanyCard = () => {
         </Center>
       ) : (
         <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           numColumns={2}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={onRefresh}
+              colors={['#FF9228']}
+            />
+          }
           data={companies}
           renderItem={({item}) => (
             <Center width="50%" paddingY="1" paddingX="1" key={item.id}>
@@ -113,7 +148,7 @@ const MainCompanyCard = () => {
             ) : null
           }
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.2}
           getItemLayout={(data, index) => {
             const itemHeight = 220; // Chiều cao của mỗi mục trong danh sách
             const offset = itemHeight * index; // Vị trí của mục trong danh sách

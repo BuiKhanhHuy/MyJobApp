@@ -1,7 +1,6 @@
 import React from 'react';
-import {ImageBackground} from 'react-native';
+import {ImageBackground, TouchableOpacity, RefreshControl} from 'react-native';
 import {
-  Avatar,
   Box,
   Button,
   HStack,
@@ -13,6 +12,7 @@ import {
   VStack,
 } from 'native-base';
 import {useDispatch, useSelector} from 'react-redux';
+import {SheetManager} from 'react-native-actions-sheet';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
@@ -27,24 +27,56 @@ import MyCareerCenterCard from '../components/profileCards/MyCareerCenterCard';
 import SettingOptionCard from '../../components/SettingOptionCard';
 import FeedbackCard from '../components/profileCards/FeedbackCard';
 import EditAvatar from '../../components/EditAvatar';
+import errorHandling from '../../utils/errorHandling';
 
 const ProfileScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const {currentUser, isAuthenticated} = useSelector(state => state.user);
+
+
 
   const handleLogin = () => {
     navigation.navigate('Login');
   };
 
-  const handleLogout = () => {
-    dispatch(removeUserInfo());
+  const handleLogout = async () => {
+    const logout = () => {
+      dispatch(removeUserInfo())
+        .unwrap()
+        .then(() => {
+          navigation.navigate('Login');
+          setIsFullScreenLoading(false);
+        })
+        .catch(error => {
+          console.log('ERROR: ', error);
+          errorHandling(error);
+          setIsFullScreenLoading(false);
+        });
+    };
+
+    const isOk = await SheetManager.show('confirm-sheet', {
+      payload: {
+        title: 'Đăng xuất',
+        description: 'Bạn có chắc chắn muốn đăng xuất?',
+        yesText: 'Đồng ý',
+        noText: 'Hủy bỏ',
+      },
+    });
+
+    if (isOk) {
+      setIsFullScreenLoading(true);
+      logout();
+    }
   };
 
   return (
     <>
       <View flex={1} onLayout={handleLayout}>
+        {isFullScreenLoading && <BackdropLoading />}
         {isLayoutLoading ? (
           <BackdropLoading />
         ) : (
@@ -65,26 +97,36 @@ const ProfileScreen = ({navigation}) => {
                   borderBottomRightRadius="3xl">
                   <View flex={1}>
                     <View flex={2} justifyContent="center">
-                      <HStack justifyContent="flex-end" alignItems="center">
-                        <Ionicons
-                          name="share-social-outline"
-                          color={colors.myJobCustomColors.white}
-                          size={24}
-                          style={{
-                            marginRight: 8,
-                          }}
-                        />
-                        <AntDesign
-                          name="setting"
-                          color={colors.myJobCustomColors.white}
-                          size={24}
-                          style={{
-                            marginLeft: 8,
-                          }}
-                        />
-                      </HStack>
+                      {isAuthenticated && (
+                        <>
+                          <HStack justifyContent="flex-end" alignItems="center">
+                            <Ionicons
+                              name="share-social-outline"
+                              color={colors.myJobCustomColors.white}
+                              size={24}
+                              style={{
+                                marginRight: 8,
+                              }}
+                            />
+
+                            <TouchableOpacity
+                              onPress={() =>
+                                navigation.navigate('SettingScreen')
+                              }>
+                              <AntDesign
+                                name="setting"
+                                color={colors.myJobCustomColors.white}
+                                size={24}
+                                style={{
+                                  marginLeft: 8,
+                                }}
+                              />
+                            </TouchableOpacity>
+                          </HStack>
+                        </>
+                      )}
                     </View>
-                    <View flex={6}>
+                    <View flex={isAuthenticated ? 10 : 5.5}>
                       <VStack mt="-5">
                         <Box paddingBottom={1}>
                           {/* Start: EditAvatar */}
@@ -92,84 +134,87 @@ const ProfileScreen = ({navigation}) => {
                           {/* End: EditAvatar */}
                         </Box>
                         <Box>
-                          <Text
-                            fontFamily="dMSansBold"
-                            lineHeight="2xl"
-                            fontSize="md"
-                            color="myJobCustomColors.white">
-                            {currentUser?.fullName || '---'}
-                          </Text>
+                          {isAuthenticated ? (
+                            <Text
+                              mt={0.5}
+                              fontFamily="dMSansBold"
+                              fontSize="md"
+                              color="myJobCustomColors.white">
+                              {currentUser?.fullName}
+                            </Text>
+                          ) : (
+                            <Text
+                              mt={4}
+                              fontFamily="dMSansBold"
+                              fontSize="md"
+                              color="myJobCustomColors.white">
+                              Vui lòng đăng nhập!
+                            </Text>
+                          )}
                         </Box>
                         <Box>
                           <Text
                             fontFamily="dMSansRegular"
-                            lineHeight="sm"
                             fontSize="sm"
                             color="myJobCustomColors.white">
-                            {currentUser?.email || '---'}
+                            {currentUser?.email}
+                          </Text>
+                          <Text
+                            fontFamily="dMSansRegular"
+                            fontSize="sm"
+                            color="myJobCustomColors.white">
+                            {currentUser?.jobSeekerProfilePhone ||
+                              (isAuthenticated && (
+                                <Text fontFamily="dMSansItalic" fontSize={13}>
+                                  SĐT chưa cập nhật
+                                </Text>
+                              ))}
                           </Text>
                         </Box>
                       </VStack>
                     </View>
-                    <View flex={2}>
+                    <View flex={2.2}>
                       <HStack flex={1} alignItems="center">
-                        {isAuthenticated && (
-                          <>
-                            <View flex={1}>
-                              <Text color="myJobCustomColors.white">
-                                <Text fontFamily="dMSansBold" fontSize="sm">
-                                  120K
-                                </Text>{' '}
-                                <Text fontFamily="dMSansRegular" fontSize="xs">
-                                  Follower
-                                </Text>
-                              </Text>
-                            </View>
-                            <View flex={1}>
-                              <Text color="myJobCustomColors.white">
-                                <Text fontFamily="dMSansBold" fontSize="sm">
-                                  20K
-                                </Text>
-                                <Text fontFamily="dMSansRegular" fontSize="xs">
-                                  Following
-                                </Text>
-                              </Text>
-                            </View>
-                          </>
-                        )}
                         <View flex={1}>
                           {isAuthenticated ? (
-                            <HStack space={3}>
-                              <Button
-                                backgroundColor="rgba(255, 255, 255, 0.1)"
-                                _text={{
-                                  fontFamily: 'dMSansRegular',
-                                  fontSize: 'xs',
-                                }}
-                                endIcon={
-                                  <Icon as={AntDesign} name="edit" size="md" />
-                                }
-                                onPress={() =>
-                                  navigation.navigate('EditAccountScreen')
-                                }>
-                                Tài khoản
-                              </Button>
-                            </HStack>
+                            <Button
+                              backgroundColor="rgba(255, 255, 255, 0.1)"
+                              _text={{
+                                fontFamily: 'dMSansRegular',
+                                fontSize: 'xs',
+                              }}
+                              endIcon={
+                                <Icon as={AntDesign} name="edit" size="md" />
+                              }
+                              onPress={() =>
+                                navigation.navigate('EditAccountScreen')
+                              }>
+                              Tài khoản
+                            </Button>
                           ) : (
                             <HStack space={4}>
                               <Button
+                                width="48%"
                                 onPress={handleLogin}
                                 rounded="lg"
-                                bgColor="myJobCustomColors.darkIndigo"
-                                fontFamily="DMSans-Bold">
-                                Đăng nhập
+                                variant={'outline'}>
+                                <Text
+                                  fontFamily="DMSansRegular"
+                                  color="myJobCustomColors.white">
+                                  Đăng nhập
+                                </Text>
                               </Button>
                               <Button
+                                width="48%"
                                 onPress={() => navigation.navigate('SignUp')}
                                 rounded="lg"
-                                bgColor="myJobCustomColors.neonCarrot"
-                                fontFamily="DMSans-Bold">
-                                Đăng ký
+                                variant={'solid'}
+                                bgColor="myJobCustomColors.deepSaffron">
+                                <Text
+                                  fontFamily="DMSansRegular"
+                                  color="myJobCustomColors.white">
+                                  Đăng ký
+                                </Text>
                               </Button>
                             </HStack>
                           )}
@@ -180,8 +225,10 @@ const ProfileScreen = ({navigation}) => {
                 </View>
               </ImageBackground>
             </View>
-            <View flex={5} padding={6}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+            <View flex={5} padding={3}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+               >
                 <VStack space={12} paddingBottom={PADDING_BOTTOM}>
                   {isAuthenticated && (
                     <>
@@ -189,7 +236,6 @@ const ProfileScreen = ({navigation}) => {
                         <Text
                           fontFamily="DMSans-Bold"
                           fontSize="lg"
-                          lineHeight="sm"
                           color="myJobCustomColors.haitiBluePurple">
                           MyJob profile
                         </Text>
@@ -203,7 +249,6 @@ const ProfileScreen = ({navigation}) => {
                         <Text
                           fontFamily="DMSans-Bold"
                           fontSize="lg"
-                          lineHeight="sm"
                           color="myJobCustomColors.haitiBluePurple">
                           CV đã tải lên MyJob
                         </Text>
@@ -217,7 +262,6 @@ const ProfileScreen = ({navigation}) => {
                         <Text
                           fontFamily="DMSans-Bold"
                           fontSize="lg"
-                          lineHeight="sm"
                           color="myJobCustomColors.haitiBluePurple">
                           Trung tâm nghề nghiệp của tôi
                         </Text>
@@ -233,7 +277,6 @@ const ProfileScreen = ({navigation}) => {
                     <Text
                       fontFamily="DMSans-Bold"
                       fontSize="lg"
-                      lineHeight="sm"
                       color="myJobCustomColors.haitiBluePurple">
                       Cài đặt chung
                     </Text>
@@ -241,21 +284,11 @@ const ProfileScreen = ({navigation}) => {
                       {/* Start: SettingOptionCard */}
                       <VStack space={2}>
                         <SettingOptionCard
-                          leftIconName="moon-outline"
+                          leftIconName="cog-outline"
                           rightIconName="chevron-forward"
-                          title="Giao diện"
-                          onPress={() => alert('Chức năng đang phát triển.')}
+                          title="Cài đặt"
+                          onPress={() => navigation.navigate('SettingScreen')}
                         />
-                        {isAuthenticated && (
-                          <SettingOptionCard
-                            leftIconName="ios-key-outline"
-                            rightIconName="chevron-forward"
-                            title="Đổi mật khẩu"
-                            onPress={() =>
-                              navigation.navigate('ChangePasswordScreen')
-                            }
-                          />
-                        )}
                         <SettingOptionCard
                           leftIconName="ios-alert-circle-outline"
                           rightIconName="chevron-forward"
@@ -298,6 +331,7 @@ const ProfileScreen = ({navigation}) => {
                       {isAuthenticated && (
                         <View>
                           <Button
+                            onPress={handleLogout}
                             shadow={'myJobCustomShadows.0'}
                             size="lg"
                             rounded="md"

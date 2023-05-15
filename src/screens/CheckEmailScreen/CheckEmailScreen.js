@@ -16,7 +16,7 @@ const CheckEmailScreen = ({navigation}) => {
 
   return (
     <>
-      <View paddingX="7" paddingTop="12">
+      <View paddingX="3" paddingTop="12">
         <View height="20%">
           <VStack alignItems="center">
             <Text

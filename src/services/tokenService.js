@@ -53,6 +53,7 @@ const tokenService = {
     }
   },
   removeLocalAccessTokenAndRefreshToken: serviceName => {
+    console.log("DA VO DAY VA XOA")
     return Keychain.resetInternetCredentials(serviceName);
   },
 };

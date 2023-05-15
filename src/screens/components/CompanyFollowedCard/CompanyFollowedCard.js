@@ -1,60 +1,75 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Center, FlatList, Spinner, View} from 'native-base';
+import {Center, FlatList, Spinner, Text, View} from 'native-base';
 
 import toastMessages from '../../../utils/toastMessages';
 import NoData from '../../../components/NoData/NoData';
 import Company from '../../../components/Company/Company';
 import companyFollowedService from '../../../services/companyFollowedService';
 import {useLayout} from '../../../hooks';
+import {RefreshControl} from 'react-native';
 
-const pageSize = 10;
+const pageSize = 14;
 
 const CompanyFollowedCard = () => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const {companyFollowed} = useSelector(state => state.reload);
-  const [isReload, setIsReload] = React.useState(false)
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [companies, setCompanies] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    setIsReload(!isReload)
-    setPage(1);
-  }, [companyFollowed]);
-
-  React.useEffect(() => {
-    const getCompaniesFollowed = async params => {
+  const getCompaniesFollowed = async params => {
+    if (!isLoadMoreLoading) {
       setIsLoading(true);
-      try {
-        const resData = await companyFollowedService.getCompaniesFollowed(
-          params,
-        );
-        const data = resData.data;
+    }
 
-        setCount(data.count);
+    try {
+      const resData = await companyFollowedService.getCompaniesFollowed(params);
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setCompanies([...companies, ...data.results]);
+      } else {
         setCompanies(data.results);
-      } catch (error) {
-        toastMessages.error();
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
       }
-    };
+    } catch (error) {
+      toastMessages.error();
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
 
+  React.useEffect(() => {
     getCompaniesFollowed({
       pageSize: pageSize,
       page: page,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, isReload]);
 
+  React.useEffect(() => {
+    if (!isLoading) {
+      console.log('SAVED DANG THAY ĐỔI!!!; status: ');
+      setIsReload(!isReload);
+      setPage(1);
+    }
+  }, [companyFollowed]);
+
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
+      console.log('LOAD MORE.....................');
       setPage(page + 1);
-      setIsLoading(true);
+      setIsLoadMoreLoading(true);
     }
   };
 
@@ -68,6 +83,8 @@ const CompanyFollowedCard = () => {
         <View>
           {isLoading ? (
             <FlatList
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
               numColumns={2}
               data={Array.from(Array(6).keys())}
               renderItem={({item}) => (
@@ -85,6 +102,15 @@ const CompanyFollowedCard = () => {
             </Center>
           ) : (
             <FlatList
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isLoading}
+                  onRefresh={onRefresh}
+                  colors={['#FF9228']}
+                />
+              }
               numColumns={2}
               data={companies}
               renderItem={({item}) => (
@@ -108,7 +134,7 @@ const CompanyFollowedCard = () => {
                 ) : null
               }
               onEndReached={handleLoadMore}
-              onEndReachedThreshold={0}
+              onEndReachedThreshold={0.2}
               getItemLayout={(data, index) => {
                 const itemHeight = 220; // Chiều cao của mỗi mục trong danh sách
                 const offset = itemHeight * index; // Vị trí của mục trong danh sách

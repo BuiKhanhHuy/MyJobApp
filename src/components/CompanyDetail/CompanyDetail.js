@@ -1,28 +1,33 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {StyleSheet} from 'react-native';
+import {Linking, StyleSheet, TouchableOpacity} from 'react-native';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import {
   Avatar,
   Center,
   HStack,
+  Icon,
   Link,
   Spinner,
   Text,
   VStack,
   View,
+  useToast,
 } from 'native-base';
 import HTMLView from 'react-native-htmlview';
+import Clipboard from '@react-native-clipboard/clipboard';
+import Feather from 'react-native-vector-icons/Feather';
 
 import {ICONS} from '../../configs/globalStyles';
 import {useLayout} from '../../hooks';
 import Map from '../Map/Map';
+import ImageCarousel from '../ImageCarousel';
 
 const textItem = value => (
   <>
     {value ? (
-      <Text style={styles.text} color="myJobCustomColors.mulledWine">
+      <Text style={[styles.text]} color="myJobCustomColors.mulledWine">
         {value}
       </Text>
     ) : (
@@ -52,8 +57,32 @@ const CompanyDetail = ({
   lng,
   companyImages,
 }) => {
+  const toast = useToast();
   const {allConfig} = useSelector(state => state.config);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+
+  const handleCopy = async text => {
+    if (text) {
+      await Clipboard.setString(text);
+      const copiedText = await Clipboard.getString(text);
+
+      toast.show({
+        description: `Đã sao chép: ${copiedText}`,
+        placement: 'top',
+        duration: 1000,
+      });
+    }
+  };
+
+  const handleOpenUrl = url => {
+    Linking.canOpenURL(url).then(supported => {
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.log('URL cannot be opened');
+      }
+    });
+  };
 
   return (
     <View onLayout={handleLayout}>
@@ -153,12 +182,21 @@ const CompanyDetail = ({
               color="myJobCustomColors.haitiBluePurple">
               Mã số thuế
             </Text>
-            <Text
-              mt={2}
-              style={styles.text}
-              color="myJobCustomColors.mulledWine">
-              {textItem(taxCode)}
-            </Text>
+            <HStack alignItems="center">
+              <Text
+                mt={2}
+                style={styles.text}
+                color="myJobCustomColors.mulledWine"
+                onPress={() => handleCopy(taxCode)}>
+                {textItem(taxCode)}{' '}
+              </Text>
+              <Icon
+                size={3}
+                as={Feather}
+                name="copy"
+                color="myJobCustomColors.mulledWine"
+              />
+            </HStack>
           </View>
           <View>
             <Text
@@ -166,12 +204,21 @@ const CompanyDetail = ({
               color="myJobCustomColors.haitiBluePurple">
               Email
             </Text>
-            <Text
-              mt={2}
-              style={styles.text}
-              color="myJobCustomColors.mulledWine">
-              {textItem(companyEmail)}
-            </Text>
+            <HStack alignItems="center">
+              <Text
+                mt={2}
+                style={styles.text}
+                color="myJobCustomColors.mulledWine"
+                onPress={() => handleCopy(companyEmail)}>
+                {textItem(companyEmail)}{' '}
+              </Text>
+              <Icon
+                size={3}
+                as={Feather}
+                name="copy"
+                color="myJobCustomColors.mulledWine"
+              />
+            </HStack>
           </View>
           <View>
             <Text
@@ -179,12 +226,21 @@ const CompanyDetail = ({
               color="myJobCustomColors.haitiBluePurple">
               Số điện thoại
             </Text>
-            <Text
-              mt={2}
-              style={styles.text}
-              color="myJobCustomColors.mulledWine">
-              {textItem(companyPhone)}
-            </Text>
+            <HStack alignItems="center">
+              <Text
+                mt={2}
+                style={styles.text}
+                color="myJobCustomColors.mulledWine"
+                onPress={() => handleCopy(companyPhone)}>
+                {textItem(companyPhone)}{' '}
+              </Text>
+              <Icon
+                size={3}
+                as={Feather}
+                name="copy"
+                color="myJobCustomColors.mulledWine"
+              />
+            </HStack>
           </View>
           <View>
             <Text
@@ -222,7 +278,17 @@ const CompanyDetail = ({
               color="myJobCustomColors.haitiBluePurple">
               Hình ảnh
             </Text>
-            <View mt={2}></View>
+            <View mt={2}>
+              {(companyImages || [])?.length === 0 ? (
+                <Text
+                  style={styles.textEmpty}
+                  color="myJobCustomColors.mulledWine">
+                  Không có hình ảnh nào
+                </Text>
+              ) : (
+                <ImageCarousel items={companyImages} />
+              )}
+            </View>
           </View>
           <View>
             <Text
@@ -232,33 +298,51 @@ const CompanyDetail = ({
             </Text>
             <View mt={2}>
               <HStack space={3}>
-                <Center>
-                  <Avatar
-                    bg="myJobCustomColors.white"
-                    alignSelf="center"
-                    size="sm"
-                    source={ICONS.FACEBOOK}>
-                    Facebook
-                  </Avatar>
-                </Center>
-                <Center>
-                  <Avatar
-                    bg="myJobCustomColors.white"
-                    alignSelf="center"
-                    size="sm"
-                    source={ICONS.YOUTUBE}>
-                    Youtube
-                  </Avatar>
-                </Center>
-                <Center>
-                  <Avatar
-                    bg="myJobCustomColors.white"
-                    alignSelf="center"
-                    size="sm"
-                    source={ICONS.LINKEDIN}>
-                    Linkedin
-                  </Avatar>
-                </Center>
+                {!facebookUrl && !youtubeUrl && !linkedinUrl ? (
+                  <Text
+                    style={styles.textEmpty}
+                    color="myJobCustomColors.mulledWine">
+                    Chưa liên kết mạng xã hội nào
+                  </Text>
+                ) : (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => handleOpenUrl(facebookUrl)}>
+                      <Center>
+                        <Avatar
+                          bg="myJobCustomColors.white"
+                          alignSelf="center"
+                          size="sm"
+                          source={ICONS.FACEBOOK}>
+                          Facebook
+                        </Avatar>
+                      </Center>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleOpenUrl(youtubeUrl)}>
+                      <Center>
+                        <Avatar
+                          bg="myJobCustomColors.white"
+                          alignSelf="center"
+                          size="sm"
+                          source={ICONS.YOUTUBE}>
+                          Youtube
+                        </Avatar>
+                      </Center>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleOpenUrl(linkedinUrl)}>
+                      <Center>
+                        <Avatar
+                          bg="myJobCustomColors.white"
+                          alignSelf="center"
+                          size="sm"
+                          source={ICONS.LINKEDIN}>
+                          Linkedin
+                        </Avatar>
+                      </Center>
+                    </TouchableOpacity>
+                  </>
+                )}
               </HStack>
             </View>
           </View>

@@ -45,8 +45,14 @@ const AddOrEditJobPostNotificationForm = ({
     experience: yup.number().notRequired().nullable(),
     salary: yup
       .number()
+      .nullable()
       .typeError('Mức lương mong muốn không hợp lệ.')
-      .min(0, 'Mức lương mong muốn không hợp lệ.'),
+      .transform((value, originalValue) => {
+        if (originalValue === '') {
+          return null;
+        }
+        return value;
+      }),
   });
 
   const {control, reset, handleSubmit} = useForm({

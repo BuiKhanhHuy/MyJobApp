@@ -10,44 +10,59 @@ import NoData from '../../../components/NoData/NoData';
 import AppliedJobPost from '../../../components/AppliedJobPost';
 
 import {useLayout} from '../../../hooks';
+import { RefreshControl } from 'react-native';
 
 const pageSize = 10;
 
 const JobPostAppliedCard = () => {
   const navigation = useNavigation();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    const getJobPosts = async params => {
+  const getJobPosts = async params => {
+    if (!isLoadMoreLoading) {
       setIsLoading(true);
-      try {
-        const resData = await jobPostActivityService.getJobPostActivity(params);
-        const data = resData.data;
+    }
 
-        setCount(data.count);
+    try {
+      const resData = await jobPostActivityService.getJobPostActivity(params);
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setJobPosts([...jobPosts, ...data.results]);
+      } else {
         setJobPosts(data.results);
-      } catch (error) {
-        toastMessages.error();
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
       }
-    };
+    } catch (error) {
+      toastMessages.error();
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
 
+  React.useEffect(() => {
     getJobPosts({
       pageSize: pageSize,
       page: page,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, isReload]);
+
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
 
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
       setIsLoadMoreLoading(true);
     }
@@ -86,6 +101,15 @@ const JobPostAppliedCard = () => {
             </Center>
           ) : (
             <FlatList
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={isLoading}
+                  onRefresh={onRefresh}
+                  colors={['#FF9228']}
+                />
+              }
               data={jobPosts}
               renderItem={({item}) => (
                 <AppliedJobPost
@@ -101,8 +125,12 @@ const JobPostAppliedCard = () => {
                   jobTypeId={item?.mobileJobPostDict?.jobType}
                   deadline={item?.mobileJobPostDict?.deadline}
                   cityId={item?.mobileJobPostDict?.locationDict?.city}
-                  companyName={item?.mobileJobPostDict?.companyDict?.companyName}
-                  companyImageUrl={item?.mobileJobPostDict?.companyDict?.companyImageUrl}
+                  companyName={
+                    item?.mobileJobPostDict?.companyDict?.companyName
+                  }
+                  companyImageUrl={
+                    item?.mobileJobPostDict?.companyDict?.companyImageUrl
+                  }
                   updateAt={item?.mobileJobPostDict?.updateAt}
                   appliedAt={item?.createAt}
                 />
@@ -116,7 +144,7 @@ const JobPostAppliedCard = () => {
                 ) : null
               }
               onEndReached={handleLoadMore}
-              onEndReachedThreshold={0}
+              onEndReachedThreshold={0.2}
               getItemLayout={(data, index) => {
                 const itemHeight = 180; // Chiều cao của mỗi mục trong danh sách
                 const offset = itemHeight * index; // Vị trí của mục trong danh sách

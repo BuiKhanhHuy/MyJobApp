@@ -60,16 +60,17 @@ const MenuButtonComponent = ({tab, setTab}) => {
   );
 };
 
-const MyJobScreen = () => {
+const MyJobScreen = ({route}) => {
+  const {tabIndex} = route.params;
   const headerHeight = useHeaderHeight();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
-  const [tab, setTab] = React.useState(0);
+  const [tab, setTab] = React.useState(tabIndex);
 
   return (
     <>
       <View
         flex={1}
-        paddingX={6}
+        paddingX={3}
         paddingBottom={2}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>

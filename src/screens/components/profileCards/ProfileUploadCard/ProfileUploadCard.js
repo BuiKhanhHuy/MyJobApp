@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import { SheetManager } from 'react-native-actions-sheet';
-import {Box, Button, HStack, Icon, ScrollView} from 'native-base';
+import {SheetManager} from 'react-native-actions-sheet';
+import {Box, Button, HStack, Icon, ScrollView, useToast} from 'native-base';
 import Feather from 'react-native-vector-icons/Feather';
 
 import {CV_TYPES} from '../../../../configs/constants';
@@ -14,15 +14,16 @@ import jobSeekerProfileService from '../../../../services/jobSeekerProfileServic
 import resumeService from '../../../../services/resumeService';
 import {reloadAttachedProfile} from '../../../../redux/reloadSlice';
 import errorHandling from '../../../../utils/errorHandling';
-import { reloadResume } from '../../../../redux/profileSlice';
+import {reloadResume} from '../../../../redux/profileSlice';
 import downloadFile from '../../../../utils/downloadFile';
 
 const ProfileUploadCard = () => {
+  const toast = useToast();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {
-    resume: { isReloadResume },
-  } = useSelector((state) => state.profile);
+    resume: {isReloadResume},
+  } = useSelector(state => state.profile);
   const {currentUser} = useSelector(state => state.user);
   const {isReloadAttachedProfile} = useSelector(state => state.reload);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
@@ -80,8 +81,8 @@ const ProfileUploadCard = () => {
     }
   };
 
-  const handleActive = (id) => {
-    const activeResume = async (resumeId) => {
+  const handleActive = id => {
+    const activeResume = async resumeId => {
       setIsFullScreenLoading(true);
       try {
         await resumeService.activeResume(resumeId);
@@ -98,14 +99,19 @@ const ProfileUploadCard = () => {
     activeResume(id);
   };
 
-  const handleDownload = fileUrl => {
-    downloadFile(fileUrl);
+  const handleDownload = async fileUrl => {
+    await downloadFile(fileUrl).then(res =>
+      toast.show({
+        title: 'Tải xuống thành công.',
+        placement: 'top',
+        duration: 1500,
+      }),
+    );
   };
-
 
   return (
     <>
-     {isFullScreenLoading && <BackdropLoading />}
+      {isFullScreenLoading && <BackdropLoading />}
       {isLoading ? (
         <ScrollView horizontal>
           <HStack space={4}>

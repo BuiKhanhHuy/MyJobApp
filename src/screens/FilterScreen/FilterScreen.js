@@ -31,7 +31,7 @@ const FilterScreen = () => {
   return (
     <>
       <View flex={1}>
-        <View flex={0.5} padding={6}>
+        <View flex={0.5} paddingY={6}  paddingX={4}>
           <Center>
             <Text
               fontFamily="dMSansBold"

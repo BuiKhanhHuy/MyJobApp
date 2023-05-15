@@ -47,7 +47,7 @@ const ForgotPasswordScreen = ({navigation}) => {
         ) : (
           <>
             {/* <ScrollView showsVerticalScrollIndicator={false}> */}
-            <View paddingX="7" paddingTop="12" flex={1}>
+            <View paddingX="4" paddingTop="12" flex={1}>
               <View flex={0.5}>
                 <VStack alignItems="center">
                   <Text

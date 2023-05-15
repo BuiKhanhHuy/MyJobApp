@@ -1,7 +1,19 @@
 import React from 'react';
-import {Center, Image, ScrollView, Text, VStack, View} from 'native-base';
+import {
+  Center,
+  Image,
+  ScrollView,
+  Text,
+  VStack,
+  HStack,
+  View,
+  useToast,
+  Icon,
+} from 'native-base';
 import {useNavigation} from '@react-navigation/native';
 import {useHeaderHeight} from '@react-navigation/elements';
+import Clipboard from '@react-native-clipboard/clipboard';
+import Feather from 'react-native-vector-icons/Feather';
 
 import {useLayout} from '../../hooks';
 import {LOGO_IMAGE} from '../../configs/globalStyles';
@@ -11,13 +23,27 @@ import Map from '../../components/Map/Map';
 const ContactUsScreen = () => {
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
+  const toast = useToast();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+
+  const handleCopy = async text => {
+    if (text) {
+      await Clipboard.setString(text);
+      const copiedText = await Clipboard.getString(text);
+
+      toast.show({
+        description: `Đã sao chép: ${copiedText}`,
+        placement: 'top',
+        duration: 1000,
+      });
+    }
+  };
 
   return (
     <>
       <View
         flex={1}
-        paddingX={6}
+        paddingX={3}
         paddingBottom={6}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>
@@ -139,11 +165,20 @@ const ContactUsScreen = () => {
                         color="myJobCustomColors.haitiBluePurple">
                         Điện thoại
                       </Text>
-                      <Text
-                        fontFamily="DMSansRegular"
-                        color="myJobCustomColors.mulledWine">
-                        0888-425-094
-                      </Text>
+                      <HStack alignItems="center">
+                        <Text
+                          fontFamily="DMSansRegular"
+                          color="myJobCustomColors.mulledWine"
+                          onPress={() => handleCopy('0888425094')}>
+                          0888-425-094{' '}
+                        </Text>
+                        <Icon
+                          size={4}
+                          as={Feather}
+                          name="copy"
+                          color="myJobCustomColors.mulledWine"
+                        />
+                      </HStack>
                     </View>
                     <View>
                       <Text
@@ -151,11 +186,20 @@ const ContactUsScreen = () => {
                         color="myJobCustomColors.haitiBluePurple">
                         Email
                       </Text>
-                      <Text
-                        fontFamily="DMSansRegular"
-                        color="myJobCustomColors.mulledWine">
-                        myjob.contact00000@gmail.com
-                      </Text>
+                      <HStack alignItems="center">
+                        <Text
+                          fontFamily="DMSansRegular"
+                          color="myJobCustomColors.mulledWine"
+                          onPress={() => handleCopy('myjob.contact00000@gmail.com')}>
+                          0888-425-094{' '}
+                        </Text>
+                        <Icon
+                          size={4}
+                          as={Feather}
+                          name="copy"
+                          color="myJobCustomColors.mulledWine"
+                        />
+                      </HStack>
                     </View>
                     <View>
                       <Text

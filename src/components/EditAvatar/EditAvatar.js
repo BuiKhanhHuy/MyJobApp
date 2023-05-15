@@ -20,7 +20,7 @@ import {deleteAvatar, updateAvatar} from '../../redux/userSlice';
 const EditAvatar = () => {
   const dispatch = useDispatch();
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
-  const {currentUser} = useSelector(state => state.user);
+  const {currentUser, isAuthenticated} = useSelector(state => state.user);
 
   const handleDelete = () => {
     setIsFullScreenLoading(true);
@@ -30,7 +30,7 @@ const EditAvatar = () => {
       .then(() => {
         toastMessages.success('Xóa ảnh đại diện thành công.');
       })
-      .catch((err) => {
+      .catch(err => {
         toastMessages.error();
       })
       .finally(() => setIsFullScreenLoading(false));
@@ -106,7 +106,7 @@ const EditAvatar = () => {
             noText: 'Hủy bỏ',
           },
         });
-    
+
         if (isOk) {
           handleDelete();
         }
@@ -121,16 +121,15 @@ const EditAvatar = () => {
       {isFullScreenLoading && <BackdropLoading />}
       <View>
         <Avatar
-          bg="myJobCustomColors.neonCarrot"
+          bg="myJobCustomColors.mistBluePurplyBlue"
           mr="1"
           size="lg"
           source={{
             uri: currentUser?.avatarUrl,
-          }}>
-          ---
-        </Avatar>
+          }}></Avatar>
         <Center position="absolute" left={9} top={8}>
           <IconButton
+            disabled={!isAuthenticated}
             borderWidth={0.5}
             borderColor="myJobCustomColors.cloud"
             size="sm"

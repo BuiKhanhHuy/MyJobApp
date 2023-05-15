@@ -1,4 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {AccessToken, LoginManager} from 'react-native-fbsdk';
 
 import {APP_NAME} from '../configs/constants';
 import authService from '../services/authService';
@@ -32,9 +34,28 @@ const updateUserInfo = createAsyncThunk(
 
 const removeUserInfo = createAsyncThunk(
   'user/removeUserInfo',
-  async (accessToken, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      // await authService.revokToken(accessToken);
+      const accessToken = await tokenService.getLocalAccessToken(APP_NAME);
+      if (!accessToken) {
+        return Promise.reject('Not found access token!');
+      }
+
+      // neu co dang nhap google
+      const isSignedIn = await GoogleSignin.isSignedIn();
+      if (isSignedIn) {
+        console.log('LOGOUT GOOGLE.');
+        await GoogleSignin.signOut();
+      }
+
+      // neu co dang nhap facebook
+      const isLoggedIn = (await AccessToken.getCurrentAccessToken()) !== null;
+      if (isLoggedIn) {
+        console.log('LOGOUT FB.');
+        LoginManager.logOut();
+      }
+
+      await authService.revokToken(accessToken);
 
       const removeResult =
         await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);

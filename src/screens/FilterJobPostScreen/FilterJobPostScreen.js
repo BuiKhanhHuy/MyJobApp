@@ -15,7 +15,7 @@ const FilterJobPostScreen = ({route, navigation}) => {
 
   return (
     <>
-      <View paddingX="4" onLayout={handleLayout}>
+      <View paddingX={4} onLayout={handleLayout}>
         {isLayoutLoading ? (
           <BackdropLoading />
         ) : (

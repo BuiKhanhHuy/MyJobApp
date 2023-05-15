@@ -46,6 +46,7 @@ import UploadProfileScreen from '../screens/UploadProfileScreen';
 import EditCvScreen from '../screens/EditCvScreen/EditCvScreen';
 import EditAccountScreen from '../screens/EditAccountScreen';
 
+import SettingScreen from '../screens/SettingScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import TermsOfUseScreen from '../screens/TermsOfUseScreen';
 import PrivacyPolicyScreen from '../screens/PrivacyPolicyScreen';
@@ -183,6 +184,7 @@ const Router = () => {
             options={{
               title: 'Việc làm của tôi',
             }}
+            initialParams={{tabIndex: 0}}
           />
           <RootStack.Screen
             name="MyCompanyScreen"
@@ -190,6 +192,7 @@ const Router = () => {
             options={{
               title: 'Công ty của tôi',
             }}
+            initialParams={{tabIndex: 0}}
           />
 
           <RootStack.Screen
@@ -237,6 +240,13 @@ const Router = () => {
             }}
           />
 
+          <RootStack.Screen
+            name="SettingScreen"
+            component={SettingScreen}
+            options={{
+              title: 'Cài đặt',
+            }}
+          />
           <RootStack.Screen
             name="ChangePasswordScreen"
             component={ChangePasswordScreen}

@@ -123,6 +123,7 @@ const Company = ({
                 style={{
                   width: 60,
                   height: 60,
+                  borderRadius: 50
                 }}
                 source={{
                   uri: companyImageUrl,
@@ -178,13 +179,13 @@ const Loading = () => (
           />
         </View>
 
-        <Skeleton rounded="md" h="10" width="100%" />
+        <Skeleton rounded="md" h="6" width="120" />
 
-        <Skeleton rounded="md" h="5" width="100%" />
+        <Skeleton rounded="md" h="5" width="120" />
 
         <Skeleton rounded="md" h="5" width="100%" />
       </VStack>
-      <Skeleton rounded="md" h="8" width="100%" />
+      <Skeleton rounded="md" h="8" width="120" />
     </VStack>
   </View>
 );

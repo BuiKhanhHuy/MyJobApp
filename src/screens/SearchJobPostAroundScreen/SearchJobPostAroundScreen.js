@@ -31,7 +31,7 @@ const SearchJobPostAroundScreen = ({navigation}) => {
     <>
       <View
         flex={1}
-        padding={6}
+        padding={4}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>
         {isLayoutLoading ? (

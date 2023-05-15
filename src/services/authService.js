@@ -26,7 +26,6 @@ const authService = {
       backend: provider,
       token: token,
     };
-
     return httpRequest.post(url, data);
   },
   revokToken: accessToken => {

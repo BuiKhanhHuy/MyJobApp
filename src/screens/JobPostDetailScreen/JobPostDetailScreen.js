@@ -3,7 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import {StyleSheet} from 'react-native';
-import {TouchableOpacity } from 'react-native';
+import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {
   ScrollView,
   Avatar,
@@ -16,10 +17,13 @@ import {
   Icon,
   IconButton,
   Box,
+  
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
+import Share from 'react-native-share';
 
 import {useLayout} from '../../hooks';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
@@ -31,6 +35,7 @@ import jobService from '../../services/jobService';
 import {reloadSaveJobPost} from '../../redux/reloadSlice';
 import NoData from '../../components/NoData/NoData';
 import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard/SuggestedJobPostsCard';
+import {WEBSITE_DOMAIN} from '../../configs/constants';
 
 const MenuButtonComponent = ({tab, setTab}) => {
   return (
@@ -114,7 +119,8 @@ const JobPostDetailScreen = ({route, navigation}) => {
       title: 'Chi tiết việc làm',
       headerRight: () => (
         <IconButton
-          icon={<Icon as={MaterialIcons} name="more-vert" />}
+          onPress={handleShareJobPost}
+          icon={<Icon as={Ionicons} name="md-share-social-outline" />}
           borderRadius="full"
           _icon={{
             color: 'myJobCustomColors.mulledWineBluePurple',
@@ -170,6 +176,30 @@ const JobPostDetailScreen = ({route, navigation}) => {
     saveJob(id);
   };
 
+  const handleShareJobPost = () => {
+    if (jobPostDetail !== null) {
+      try {
+        Share.open({
+          message: jobPostDetail?.jobName || '',
+          title: jobPostDetail?.jobName || '',
+          url: WEBSITE_DOMAIN.local + 'viec-lam/' + jobPostDetail?.slug,
+        })
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            err && console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log('NULL');
+    }
+  };
+
+
+
   return (
     <>
       <View onLayout={handleLayout} flex={1}>
@@ -181,19 +211,24 @@ const JobPostDetailScreen = ({route, navigation}) => {
               <View flex={1}>
                 <View flex={1} bgColor="#F9F9F9" zIndex={1}>
                   <Center bottom={-20}>
-                    <Avatar
-                      size={84}
-                      bg="myJobCustomColors.neonCarrot"
+                    <FastImage
+                      style={{
+                        width: 84,
+                        height: 84,
+                        borderRadius: 50,
+                        backgroundColor: '#A9A5B8',
+                      }}
                       source={{
                         uri: jobPostDetail?.mobileCompanyDict?.companyImageUrl,
-                      }}>
-                      ---
-                    </Avatar>
+                        priority: FastImage.priority.normal,
+                      }}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
                   </Center>
                 </View>
                 <View
                   flex={1}
-                  paddingX={6}
+                  paddingX={4}
                   bgColor="myJobCustomColors.porcelain">
                   <VStack pt={8} pb={4} space={3}>
                     <Center>
@@ -262,7 +297,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                     </View>
                   </VStack>
                 </View>
-                <View flex={6} paddingX={6} paddingY={2} bgColor="#F9F9F9">
+                <View flex={6} paddingX={4} paddingY={2} bgColor="#F9F9F9">
                   {/* Start: MenuButtonComponent */}
                   <MenuButtonComponent tab={tab} setTab={setTab} />
                   {/* End: MenuButtonComponent */}
@@ -341,7 +376,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                   </View>
                 </View>
 
-                <View marginTop={5} paddingX={6}>
+                <View marginTop={5} paddingX={4}>
                   <View>
                     <HStack space={3} justifyContent="space-between">
                       <Text

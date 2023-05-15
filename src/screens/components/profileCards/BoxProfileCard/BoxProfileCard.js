@@ -18,19 +18,20 @@ import {
 } from 'native-base';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {CV_TYPES} from '../../../../configs/constants';
 import NoData from '../../../../components/NoData/NoData';
 import BackdropLoading from '../../../../components/loadings/BackdropLoading';
-import {salaryString} from '../../../../utils/customData';
+import toSlug, {salaryString} from '../../../../utils/customData';
 import toastMessages from '../../../../utils/toastMessages';
 import errorHandling from '../../../../utils/errorHandling';
 import jobSeekerProfileService from '../../../../services/jobSeekerProfileService';
 import resumeService from '../../../../services/resumeService';
 import {reloadResume} from '../../../../redux/profileSlice';
 
-import CvDoc from '../../../../components/CvDoc';
 import {createPDF} from '../../../../utils/downloadFile';
+import cvHtmlString from '../../../../utils/cvHtmlString';
 
 const Loading = () => (
   <>
@@ -122,9 +123,28 @@ const BoxProfileCard = () => {
     activeResume(id);
   };
 
-  const downloadPDF = async () => {
-    const file = await createPDF();
-    console.log(file);
+  const downloadPDF = resumeId => {
+    const getProfileDetail = async resumeId => {
+      try {
+        setIsFullScreenLoading(true);
+        const resData = await resumeService.getCvPdf(resumeId);
+        const data = resData.data;
+
+        const fileName = `MyJob_CV-${toSlug(currentUser?.fullName || '')}`;
+        const file = await createPDF(cvHtmlString(allConfig, data), fileName);
+        navigation.navigate('ViewPdfScreen', {
+          title: 'MyJob CV',
+          fileUrl: file?.filePath,
+        });
+      } catch (error) {
+        console.log(error);
+        toastMessages.error();
+      } finally {
+        setIsFullScreenLoading(false);
+      }
+    };
+
+    getProfileDetail(resumeId);
   };
 
   return (
@@ -178,12 +198,12 @@ const BoxProfileCard = () => {
             )}
 
             <HStack space={4}>
-              <TouchableOpacity onPress={downloadPDF}>
+              <TouchableOpacity onPress={() => downloadPDF(resume.id)}>
                 <Icon
-                  size="lg"
+                  size="xl"
                   marginRight={1}
-                  as={AntDesign}
-                  name="download"
+                  as={Ionicons}
+                  name="eye-outline"
                   color="myJobCustomColors.deepSaffron"
                 />
               </TouchableOpacity>
@@ -212,7 +232,7 @@ const BoxProfileCard = () => {
             <HStack space={2}>
               <Box>
                 <Avatar
-                  bg="green.500"
+                  bg="myJobCustomColors.deepSaffron"
                   size="md"
                   source={{
                     uri: resume?.user?.avatarUrl,

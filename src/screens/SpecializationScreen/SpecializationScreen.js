@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   TouchableNativeFeedback,
+  RefreshControl,
 } from 'react-native';
 import {
   View,
@@ -94,6 +95,7 @@ const pageSize = 20;
 
 const SpecializationScreen = () => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
   const [kw, setKw] = React.useState('');
@@ -102,14 +104,21 @@ const SpecializationScreen = () => {
   const [count, setCount] = React.useState(0);
 
   const getAllCareers = async (params, type = 'LOAD') => {
-    setIsLoading(true);
+    if (!isLoadMoreLoading) {
+      setIsLoading(true);
+    }
+
     try {
       const resData = await commonService.getAllCareers(params);
 
       setCount(resData.count);
       switch (type) {
         case 'LOAD':
-          setCareers([...careers, ...resData.results]);
+          if (isLoadMoreLoading) {
+            setCareers([...careers, ...resData.results]);
+          } else {
+            setCareers(resData.results);
+          }
           break;
         case 'SUBMIT':
           setCareers(resData.results);
@@ -133,7 +142,7 @@ const SpecializationScreen = () => {
       },
       'LOAD',
     );
-  }, [page]);
+  }, [page, isReload]);
 
   const handleSubmit = () => {
     getAllCareers(
@@ -146,8 +155,14 @@ const SpecializationScreen = () => {
     );
   };
 
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setIsLoadMoreLoading(true);
       setPage(page + 1);
     }
@@ -231,13 +246,24 @@ const SpecializationScreen = () => {
                 <View style={[styles.categories, {rowGap: 15, columnGap: 15}]}>
                   {isLoading ? (
                     <FlatList
+                      showsHorizontalScrollIndicator={false}
+                      showsVerticalScrollIndicator={false}
                       numColumns={2}
                       data={Array.from(Array(8).keys())}
                       renderItem={({item}) => Loading(item)}
                     />
                   ) : (
                     <FlatList
+                      showsHorizontalScrollIndicator={false}
+                      showsVerticalScrollIndicator={false}
                       numColumns={2}
+                      refreshControl={
+                        <RefreshControl
+                          refreshing={isLoading}
+                          onRefresh={onRefresh}
+                          colors={['#FF9228']}
+                        />
+                      }
                       data={careers}
                       renderItem={({item}) => <CategoryItem value={item} />}
                       keyExtractor={item => item.id}
@@ -252,7 +278,7 @@ const SpecializationScreen = () => {
                         ) : null
                       }
                       onEndReached={handleLoadMore}
-                      onEndReachedThreshold={0}
+                      onEndReachedThreshold={0.2}
                       getItemLayout={(data, index) => {
                         const itemHeight = 210; // Chiều cao của mỗi mục trong danh sách
                         const offset = itemHeight * index; // Vị trí của mục trong danh sách

@@ -12,7 +12,7 @@ import {getAllConfig} from './redux/configSlice';
 import Router from './router';
 // Logo Screen
 import LogoScreen from './screens/LogoScreen';
-import { AUTH_CONFIG } from './configs/constants';
+import {AUTH_CONFIG} from './configs/constants';
 
 const config = {
   screens: {
@@ -29,9 +29,7 @@ const App = () => {
   const [loading, setLoading] = React.useState(true);
 
   const linking = {
-    prefixes: [
-      'MyJob://app',
-    ],
+    prefixes: ['MyJob://app'],
     config,
   };
 
@@ -60,7 +58,9 @@ const App = () => {
     ])
       .then(res => console.log('LOAD DATA SUCCESS.'))
       .catch(err => console.log(err))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   return loading ? (

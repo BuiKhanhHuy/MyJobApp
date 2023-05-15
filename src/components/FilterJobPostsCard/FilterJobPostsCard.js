@@ -6,69 +6,92 @@ import {StyleSheet} from 'react-native';
 import NoData from '../NoData/NoData';
 import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
+import {RefreshControl} from 'react-native';
 
 const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
   const {jobPostSaved} = useSelector(state => state.reload);
-  const [isFirstLoading, setIsFirstLoading] = React.useState(true);
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(false);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    const getJobPosts = async params => {
+  const getJobPosts = async params => {
+    if (!isLoadMoreLoading) {
       setIsLoading(true);
-      try {
-        const resData = await jobService.getJobPosts({
-          ...params,
-          page: page,
-          pageSize: pageSize,
-        });
-        const data = resData.data;
-
-        setCount(data.count);
-        setJobPosts([...jobPosts, ...data.results]);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsFirstLoading(false);
-        setIsLoading(false);
-      }
-    };
-
-    getJobPosts(params);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params, page]);
-
-  React.useEffect(() => {
-    let jobPostsNew = [];
-    const jobPostChange = jobPosts.find(value => value.id === jobPostSaved.id);
-
-    for (let i = 0; i < jobPosts.length && jobPostChange; i++) {
-      if (jobPosts[i].id === jobPostSaved.id) {
-        jobPostsNew.push({
-          ...jobPostChange,
-          isSaved: jobPostSaved.status,
-        });
-      } else {
-        jobPostsNew.push(jobPosts[i]);
-      }
     }
 
-    setJobPosts(jobPostsNew);
+    try {
+      const resData = await jobService.getJobPosts({
+        ...params,
+        page: page,
+        pageSize: pageSize,
+      });
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setJobPosts([...jobPosts, ...data.results]);
+      } else {
+        setJobPosts(data.results);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    getJobPosts(params);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, isReload]);
+  
+  React.useEffect(() => {
+    if (!isLoading) {
+      const jobPostChange = jobPosts.find(
+        value => value.id === jobPostSaved.id,
+      );
+
+      // co phan tu thay doi moi thuc hien
+      if (jobPostChange) {
+        let jobPostsNew = [];
+
+        for (let i = 0; i < jobPosts.length; i++) {
+          if (jobPosts[i].id === jobPostSaved.id) {
+            jobPostsNew.push({
+              ...jobPostChange,
+              isSaved: jobPostSaved.status,
+            });
+          } else {
+            jobPostsNew.push(jobPosts[i]);
+          }
+        }
+      
+        setJobPosts(jobPostsNew);
+      }
+    }
   }, [jobPostSaved]);
 
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
-      setIsLoading(true);
+      setIsLoadMoreLoading(true);
     }
   };
 
   if (!isPagination) {
     return (
       <View style={styles.container}>
-        {isFirstLoading ? (
+        {isLoading ? (
           Array.from(Array(3).keys()).map(value => (
             <JobPost.Loading key={value} />
           ))
@@ -107,7 +130,7 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
 
   return (
     <View style={styles.container}>
-      {isFirstLoading ? (
+      {isLoading ? (
         Array.from(Array(3).keys()).map(value => (
           <JobPost.Loading key={value} />
         ))
@@ -117,7 +140,16 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
         </Center>
       ) : (
         <FlatList
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           data={jobPosts}
+          refreshControl={
+            <RefreshControl
+              refreshing={isLoading}
+              onRefresh={onRefresh}
+              colors={['#FF9228']}
+            />
+          }
           renderItem={({item}) => (
             <JobPost
               id={item?.id}
@@ -142,24 +174,24 @@ const FilterJobPostCard = ({pageSize = 12, isPagination = false, params}) => {
           )}
           keyExtractor={item => item.id}
           ListFooterComponent={
-            isLoading ? (
+            isLoadMoreLoading ? (
               <Center my="3">
                 <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
               </Center>
             ) : null
           }
           onEndReached={handleLoadMore}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.2}
           getItemLayout={(data, index) => {
             const itemHeight = 180; // Chiều cao của mỗi mục trong danh sách
             const offset = itemHeight * index; // Vị trí của mục trong danh sách
             return {length: itemHeight, offset, index};
           }}
+          paddingBottom={300}
         />
       )}
     </View>
   );
-
 };
 
 export default React.memo(FilterJobPostCard);
@@ -167,5 +199,6 @@ export default React.memo(FilterJobPostCard);
 const styles = StyleSheet.create({
   container: {
     width: '100%',
+    paddingBottom: 10,
   },
 });

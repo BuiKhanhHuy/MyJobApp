@@ -4,12 +4,17 @@ import {StyleSheet} from 'react-native';
 import {
   Center,
   Divider,
+  HStack,
+  Icon,
   Spinner,
   Text,
   VStack,
   View,
+  useToast,
 } from 'native-base';
 import HTMLView from 'react-native-htmlview';
+import Clipboard from '@react-native-clipboard/clipboard';
+import Feather from 'react-native-vector-icons/Feather';
 
 import {salaryString} from '../../utils/customData';
 import {useLayout} from '../../hooks';
@@ -51,8 +56,22 @@ const JobPostDetail = ({
   lat,
   lng,
 }) => {
+  const toast = useToast();
   const {allConfig} = useSelector(state => state.config);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+
+  const handleCopy = async text => {
+    if (text) {
+      await Clipboard.setString(text);
+      const copiedText = await Clipboard.getString(text);
+
+      toast.show({
+        description: `Đã sao chép: ${copiedText}`,
+        placement: 'top',
+        duration: 1000,
+      });
+    }
+  };
 
   return (
     <View onLayout={handleLayout}>
@@ -302,12 +321,22 @@ const JobPostDetail = ({
                   color="myJobCustomColors.haitiBluePurple">
                   Email người liên hệ
                 </Text>
-                <Text
-                  mt={0.5}
-                  style={styles.text}
-                  color="myJobCustomColors.mulledWine">
-                  {textItem(contactPersonEmail)}
-                </Text>
+
+                <HStack alignItems="center">
+                  <Text
+                    mt={0.5}
+                    style={styles.text}
+                    color="myJobCustomColors.mulledWine"
+                    onPress={() => handleCopy(contactPersonEmail)}>
+                    {textItem(contactPersonEmail)}{' '}
+                  </Text>
+                  <Icon
+                    size={3}
+                    as={Feather}
+                    name="copy"
+                    color="myJobCustomColors.mulledWine"
+                  />
+                </HStack>
               </View>
               <Divider
                 my="3"
@@ -320,12 +349,21 @@ const JobPostDetail = ({
                   color="myJobCustomColors.haitiBluePurple">
                   Số điện thoại người liên hệ
                 </Text>
-                <Text
-                  mt={0.5}
-                  style={styles.text}
-                  color="myJobCustomColors.mulledWine">
-                  {textItem(contactPersonPhone)}
-                </Text>
+                <HStack alignItems="center">
+                  <Text
+                    mt={0.5}
+                    style={styles.text}
+                    color="myJobCustomColors.mulledWine"
+                    onPress={() => handleCopy(contactPersonPhone)}>
+                    {textItem(contactPersonPhone)}{' '}
+                  </Text>
+                  <Icon
+                    size={3}
+                    as={Feather}
+                    name="copy"
+                    color="myJobCustomColors.mulledWine"
+                  />
+                </HStack>
               </View>
               <Divider
                 my="3"

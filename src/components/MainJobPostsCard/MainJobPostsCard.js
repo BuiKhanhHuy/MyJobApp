@@ -6,63 +6,90 @@ import {Center, FlatList, Spinner, Text, View} from 'native-base';
 import NoData from '../NoData/NoData';
 import JobPost from '../JobPost/JobPost';
 import jobService from '../../services/jobService';
+import {RefreshControl} from 'react-native';
 
 const MainJobPostsCard = () => {
   const {jobPostSaved} = useSelector(state => state.reload);
   const {jobPostFilter} = useSelector(state => state.filter);
   const {pageSize} = jobPostFilter;
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(false);
   const [jobPosts, setJobPosts] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
+  const getJobPosts = async jobPostFilter => {
+    if (!isLoadMoreLoading) {
+      setIsLoading(true);
+    }
+
+    try {
+      const resData = await jobService.getJobPosts({
+        ...jobPostFilter,
+        page: page,
+      });
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setJobPosts([...jobPosts, ...data.results]);
+      } else {
+        setJobPosts(data.results);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
+
   React.useEffect(() => {
-    setIsLoading(true);
+    getJobPosts(jobPostFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, isReload]);
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      setIsReload(!isReload);
+      setPage(1);
+    }
   }, [jobPostFilter]);
 
   React.useEffect(() => {
-    const getJobPosts = async jobPostFilter => {
-      try {
-        const resData = await jobService.getJobPosts({
-          ...jobPostFilter,
-          page: page,
-        });
-        const data = resData.data;
+    if (!isLoading) {
+      const jobPostChange = jobPosts.find(
+        value => value.id === jobPostSaved.id,
+      );
 
-        setCount(data.count);
-        setJobPosts([...jobPosts, ...data.results]);
-      } catch (error) {
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
-      }
-    };
+      // co phan tu thay doi moi thuc hien
+      if (jobPostChange) {
+        let jobPostsNew = [];
 
-    getJobPosts(jobPostFilter);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jobPostFilter, page]);
+        for (let i = 0; i < jobPosts.length; i++) {
+          if (jobPosts[i].id === jobPostSaved.id) {
+            jobPostsNew.push({
+              ...jobPostChange,
+              isSaved: jobPostSaved.status,
+            });
+          } else {
+            jobPostsNew.push(jobPosts[i]);
+          }
+        }
 
-  React.useEffect(() => {
-    let jobPostsNew = [];
-    const jobPostChange = jobPosts.find(value => value.id === jobPostSaved.id);
-
-    for (let i = 0; i < jobPosts.length && jobPostChange; i++) {
-      if (jobPosts[i].id === jobPostSaved.id) {
-        jobPostsNew.push({
-          ...jobPostChange,
-          isSaved: jobPostSaved.status,
-        });
-      } else {
-        jobPostsNew.push(jobPosts[i]);
+        setJobPosts(jobPostsNew);
       }
     }
-
-    setJobPosts(jobPostsNew);
   }, [jobPostSaved]);
 
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
+
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
       setIsLoadMoreLoading(true);
     }
@@ -75,8 +102,7 @@ const MainJobPostsCard = () => {
           fontSize={18}
           fontFamily="DMSans-Bold"
           color="myJobCustomColors.haitiBluePurple">
-          <Text color="myJobCustomColors.burningOrange">{count}</Text>{' '}
-          việc làm
+          <Text color="myJobCustomColors.burningOrange">{count}</Text> việc làm
         </Text>
       </View>
       <View style={styles.container}>
@@ -93,6 +119,15 @@ const MainJobPostsCard = () => {
           </Center>
         ) : (
           <FlatList
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={onRefresh}
+                colors={['#FF9228']}
+              />
+            }
             data={jobPosts}
             renderItem={({item}) => (
               <JobPost

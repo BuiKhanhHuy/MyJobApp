@@ -1,8 +1,10 @@
 import React from 'react';
-import {Alert, Box, ScrollView, Text, View, VStack} from 'native-base';
+import {Alert, Box, Icon, ScrollView, Text, View, VStack} from 'native-base';
+import {TouchableOpacity} from 'react-native';
 import {getUserInfo} from '../../redux/userSlice';
 import {useDispatch} from 'react-redux';
 import {AccessToken, LoginManager} from 'react-native-fbsdk';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   GoogleSignin,
   statusCodes,
@@ -118,8 +120,9 @@ const LoginScreen = ({navigation}) => {
     provider,
     token,
   ) => {
-    setIsFullScreenLoading(true);
     try {
+      setIsFullScreenLoading(true);
+
       const resData = await authService.convertToken(
         clientId,
         clientSecrect,
@@ -141,9 +144,11 @@ const LoginScreen = ({navigation}) => {
           .unwrap()
           .then(() => {
             navigation.navigate('MainTab');
+            setIsFullScreenLoading(false);
           })
           .catch(() => {
             toastMessages.error();
+            setIsFullScreenLoading(false);
           });
       } else {
         toastMessages.error();
@@ -159,18 +164,23 @@ const LoginScreen = ({navigation}) => {
           toastMessages.error();
         }
       }
-    } finally {
+
       setIsFullScreenLoading(false);
     }
   };
 
   const handleFacebookLogin = async () => {
+    const isLoggedIn = (await AccessToken.getCurrentAccessToken()) !== null;
+    if (isLoggedIn) {
+      LoginManager.logOut();
+    }
+
     LoginManager.logInWithPermissions(['public_profile', 'email']).then(
       function (result) {
         if (!result.isCancelled) {
           AccessToken.getCurrentAccessToken().then(data => {
             const facebookAccessToken = data.accessToken.toString();
-
+            // call server
             handleSocialLogin(
               AUTH_CONFIG.CLIENT_ID,
               AUTH_CONFIG.CLIENT_SECRECT,
@@ -187,25 +197,35 @@ const LoginScreen = ({navigation}) => {
   };
 
   const handleGoogleLogin = async () => {
-    try {
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-
-      console.log(userInfo);
-    } catch (error) {
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('user cancelled the login flow: ', error);
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log(
-          ' operation (e.g. sign in) is in progress already: ',
-          error,
-        );
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('play services not available or outdated: ', error);
-      } else {
-        console.log('some other error happened: ', error);
-      }
+    const isSignedIn = await GoogleSignin.isSignedIn();
+    if (isSignedIn) {
+      console.log('DA DANG NHAP');
+      await GoogleSignin.signOut();
     }
+
+    GoogleSignin.hasPlayServices()
+      .then(() => {
+        return GoogleSignin.signIn();
+      })
+      .then(() => {
+        return GoogleSignin.getTokens();
+      })
+      .then(tokens => {
+        const accessToken = tokens.accessToken;
+
+        // Sử dụng access token
+        handleSocialLogin(
+          AUTH_CONFIG.CLIENT_ID,
+          AUTH_CONFIG.CLIENT_SECRECT,
+          AUTH_PROVIDER.GOOGLE,
+          accessToken,
+        );
+      })
+      .catch(error => {
+        if (error.code === !statusCodes.SIGN_IN_CANCELLED) {
+          toastMessages.error();
+        }
+      });
   };
 
   return (
@@ -217,8 +237,19 @@ const LoginScreen = ({navigation}) => {
           <BackdropLoading />
         ) : (
           <>
+            <View position="absolute" top={5} right={5} zIndex={1}>
+              <TouchableOpacity onPress={() => navigation.navigate('MainTab')}>
+                <Icon
+                  size="lg"
+                  marginRight={1}
+                  as={MaterialIcons}
+                  name="clear"
+                  color="myJobCustomColors.deepSaffron"
+                />
+              </TouchableOpacity>
+            </View>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <View paddingX="7" paddingY="12" flex={1}>
+              <View paddingX="4" paddingY="12" flex={1}>
                 <View flex={1}>
                   <VStack alignItems="center">
                     <Text

@@ -1,6 +1,6 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import { SheetManager } from 'react-native-actions-sheet';
 import {
@@ -27,6 +27,7 @@ import {reloadCertificate} from '../../../../redux/reloadSlice';
 
 const CertificateCard = ({resumeId}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
   const {isReloadCertificate} = useSelector(state => state.reload);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);

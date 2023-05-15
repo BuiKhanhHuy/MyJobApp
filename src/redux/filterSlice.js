@@ -13,7 +13,7 @@ export const userSlice = createSlice({
       jobTypeId: '',
       genderId: '',
       page: 1,
-      pageSize: 20,
+      pageSize: 14,
     },
     jobPostAroundFilter: {
       kw: '',
@@ -26,13 +26,13 @@ export const userSlice = createSlice({
       genderId: '',
       isPagination: 'NOTOK',
       page: 1,
-      pageSize: 20,
+      pageSize: 14,
     },
     companyFilter: {
       kw: '',
       cityId: '',
       page: 1,
-      pageSize: 20,
+      pageSize: 14,
     },
   },
   reducers: {
@@ -50,7 +50,7 @@ export const userSlice = createSlice({
         jobTypeId: '',
         genderId: '',
         page: 1,
-        pageSize: 20,
+        pageSize: 14,
       };
     },
     searchJobPostAround: (state, action) => {
@@ -71,7 +71,7 @@ export const userSlice = createSlice({
         genderId: '',
         isPagination: 'NOTOK',
         page: 1,
-        pageSize: 20,
+        pageSize: 14,
       };
     },
     searchCompany: (state, action) => {
@@ -82,7 +82,7 @@ export const userSlice = createSlice({
         kw: '',
         cityId: '',
         page: 1,
-        pageSize: 20,
+        pageSize: 14,
       };
     },
   },

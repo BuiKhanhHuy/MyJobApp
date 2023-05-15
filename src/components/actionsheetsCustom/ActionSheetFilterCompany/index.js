@@ -65,6 +65,7 @@ function ActionSheetFilterCompany({sheetId}) {
           options={allConfig?.cityOptions || []}
           title="Tỉnh thành"
           placeholder="Chọn tỉnh thành"
+          showBorder={true}
         />
       </View>
       <View>

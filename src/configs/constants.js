@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 const APP_NAME = 'MyJob';
 
-const PLATFORM = "APP"
+const PLATFORM = 'APP';
 
 const AUTH_PROVIDER = {
   FACEBOOK: 'facebook',
@@ -37,7 +37,7 @@ const AUTH_CONFIG = {
     'Av0DmLVNRE8m7HZGSTySLkyPaLX3Gg3b3cdt7I0ArXWxSmtKwqCpsUW6OE21t2z2',
 
   // RNKommunicateChat
-  CHAT_APP_ID: "35d278df447ef1a978999f93358dd91e9"
+  CHAT_APP_ID: '35d278df447ef1a978999f93358dd91e9',
 };
 
 const ROLES_NAME = {
@@ -100,6 +100,11 @@ const JOB_MAP_OPTIONS = {
   },
 };
 
+const WEBSITE_DOMAIN = {
+  local: 'http://127.0.0.1:3000/',
+  production: 'https://bkhuy-myjob.netlify.app/',
+};
+
 export {
   APP_NAME,
   PLATFORM,
@@ -112,5 +117,5 @@ export {
   CV_TYPES,
   DATE_OPTIONS,
   JOB_MAP_OPTIONS,
+  WEBSITE_DOMAIN
 };
- 

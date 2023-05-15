@@ -27,7 +27,7 @@ const MainJobPostScreen = ({navigation}) => {
     let count = 0;
     for (let key in jobPostFilter) {
       if (!['kw', 'page', 'pageSize'].includes(key)) {
-        if (jobPostFilter[key] !== '') {
+        if (jobPostFilter[key] !== '' && jobPostFilter[key] !== null) {
           count += 1;
         }
       }
@@ -43,12 +43,12 @@ const MainJobPostScreen = ({navigation}) => {
 
   return (
     <>
-      <View onLayout={handleLayout}>
+      <View onLayout={handleLayout} paddingBottom={'20'}>
         {isLayoutLoading ? (
           <BackdropLoading />
         ) : (
           <>
-            <View p={6} pt={0} mb={12}>
+            <View padding={3} pt={0} mb={12}>
               {/* Start: MainJobPostsCard */}
               <MainJobPostsCard />
               {/* End: MainJobPostsCard */}

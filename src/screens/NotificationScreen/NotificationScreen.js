@@ -2,84 +2,289 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useHeaderHeight} from '@react-navigation/elements';
-import {
-  Center,
-  FlatList,
-  Icon,
-  IconButton,
-  Spinner,
-  Text,
-  View,
-} from 'native-base';
-import {firebase} from '@react-native-firebase/database';
-import database from '@react-native-firebase/database';
-
+import {Button, Center, ScrollView, Spinner, Text, View} from 'native-base';
 import {useLayout} from '../../hooks';
-import NoData from '../../components/NoData/NoData';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-const pageSize = 12;
+import {
+  collection,
+  getDocs,
+  limit,
+  onSnapshot,
+  query,
+  where,
+  startAfter,
+  orderBy,
+  updateDoc,
+  doc,
+  writeBatch,
+} from 'firebase/firestore';
+import db from '../../configs/firebase';
+import {IMAGES} from '../../configs/globalStyles';
+import NoData from '../../components/NoData/NoData';
+import Notification from '../../components/Notification/Notification';
+import LoginRequiredCard from '../../components/LoginRequiredCard';
+
+const PAGE_SIZE = 12;
 const NotificationScreen = () => {
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
+  const {currentUser, isAuthenticated} = useSelector(state => state.user);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    const reference = firebase
-      .app()
-      .database('https://myjobpro-6283b-default-rtdb.asia-southeast1.firebasedatabase.app/')
-      .ref('/users/123');
+  const [notifications, setNotifications] = React.useState([]);
+  const [lastKey, setLastKey] = React.useState(null);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'Thông báo',
+      headerRight: () =>
+        notifications.length > 0 && (
+          <Text fontSize={16} color="#FC4646" onPress={() => handleRemoveAll()}>
+            Xóa tất cả
+          </Text>
+        ),
+    });
   }, []);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const notificationsRef = collection(
+        db,
+        'users',
+        `${currentUser.id}`,
+        'notifications',
+      );
+      const allQuery = query(
+        notificationsRef,
+        where('is_deleted', '==', false),
+      );
+
+      const unsubscribe = onSnapshot(allQuery, querySnapshot => {
+        let total = 0;
+        querySnapshot.forEach(doc => {
+          total = total + 1;
+        });
+        setCount(total);
+        console.log(total);
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [currentUser?.id]);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const notificationsRef = collection(
+        db,
+        'users',
+        `${currentUser.id}`,
+        'notifications',
+      );
+      const first = query(
+        notificationsRef,
+        where('is_deleted', '==', false),
+        orderBy('time', 'desc'),
+        limit(PAGE_SIZE),
+      );
+
+      const unsubscribe = onSnapshot(first, querySnapshot => {
+        const notificationList = [];
+        querySnapshot.forEach(doc => {
+          notificationList.push({
+            ...doc.data(),
+            key: doc.id,
+          });
+        });
+        // setNotifications(notificationList);
+        setLastKey(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        console.log('SET NOTI LẠI');
+
+        return () => {
+          unsubscribe();
+        };
+      });
+    }
+  }, [currentUser?.id]);
+
+  const loadMore = async () => {
+    const notificationsRef = collection(
+      db,
+      'users',
+      `${currentUser.id}`,
+      'notifications',
+    );
+    const nextQuery = query(
+      notificationsRef,
+      where('is_deleted', '==', false),
+      orderBy('time', 'desc'),
+      startAfter(lastKey),
+      limit(PAGE_SIZE),
+    );
+
+    const nextNotificationList = [];
+    const nextQuerySnapshot = await getDocs(nextQuery);
+    const lastVisible =
+      nextQuerySnapshot.docs[nextQuerySnapshot.docs.length - 1];
+
+    nextQuerySnapshot.forEach(doc => {
+      nextNotificationList.push({
+        ...doc.data(),
+        key: doc.id,
+      });
+    });
+
+    setNotifications([...notifications, ...nextNotificationList]);
+    setLastKey(lastVisible);
+    console.log(nextNotificationList);
+  };
+
+  const handleRemove = key => {
+    updateDoc(doc(db, 'users', `${currentUser.id}`, 'notifications', key), {
+      is_deleted: true,
+    })
+      .then(() => {
+        const index = notifications.findIndex(value => value.key === key);
+        if (index > -1) {
+          let newNotifications = [...notifications];
+          newNotifications.splice(index, 1);
+          setNotifications(newNotifications);
+        }
+        console.log('deleted noti success.');
+      })
+      .catch(error => {
+        console.log('deleted noti failed: ', error);
+      });
+  };
+
+  const handleRemoveAll = async () => {
+    // Get a reference to the notifications collection
+    const notificationsRef = collection(
+      db,
+      'users',
+      `${currentUser.id}`,
+      'notifications',
+    );
+    const deleteQuery = query(
+      notificationsRef,
+      where('is_deleted', '==', false),
+    );
+    const querySnapshot = await getDocs(deleteQuery);
+
+    // Create a batch write operation
+    const batch = writeBatch(db);
+
+    // Iterate over all documents and add them to the batch
+    querySnapshot.forEach(doc => {
+      const docRef = doc.ref;
+      batch.update(docRef, {is_deleted: true});
+    });
+
+    // Commit the batch write operation
+    await batch.commit();
+  };
+
+  const handleRead = key => {
+    updateDoc(doc(db, 'users', `${currentUser.id}`, 'notifications', key), {
+      is_read: true,
+    })
+      .then(() => {
+        console.log('read noti success.');
+      })
+      .catch(error => {
+        console.log('read noti failed: ', error);
+      });
+  };
+
+  const handleClickItem = item => {
+    switch (item.type) {
+      case 'SYSTEM':
+        handleRead(item.key);
+        navigation.navigate('HomeScreen');
+        break;
+      case 'EMPLOYER_VIEWED_RESUME':
+        handleRead(item.key);
+        navigation.navigate('MyCompanyScreen', {
+          tabIndex: 0,
+        });
+        break;
+      case 'EMPLOYER_SAVED_RESUME':
+        handleRead(item.key);
+        navigation.navigate('MyCompanyScreen', {
+          tabIndex: 0,
+        });
+        break;
+      case 'APPLY_STATUS':
+        handleRead(item.key);
+        navigation.navigate('MyJobScreen', {
+          tabIndex: 1,
+        });
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
       <View onLayout={handleLayout} style={{marginTop: headerHeight}}>
-        {isLayoutLoading ? (
-          <Center mt="5">
-            <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
-          </Center>
+        {isAuthenticated ? (
+          isLayoutLoading ? (
+            <Center mt="5">
+              <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+            </Center>
+          ) : (
+            <View>
+              {notifications.length === 0 ? (
+                <Center marginTop={50}>
+                  <NoData
+                    title="Không có thông báo nào"
+                    imgSize="3xs"
+                    img={IMAGES.img4}
+                  />
+                </Center>
+              ) : (
+                <ScrollView>
+                  <View paddingBottom={100}>
+                    {notifications.map(value => (
+                      <Center paddingX="3" key={value.key}>
+                        {/* Start: Notification */}
+                        <Notification
+                          key={value?.key}
+                          id={value?.key}
+                          title={value?.title}
+                          content={value?.content}
+                          image={value?.image}
+                          time={value?.time?.seconds}
+                          isRead={value?.is_read}
+                          item={value}
+                          handleRemove={handleRemove}
+                          handleClickItem={handleClickItem}
+                        />
+                        {/* End: Notification */}
+                      </Center>
+                    ))}
+                    {Math.ceil(count / PAGE_SIZE) > 1 && (
+                      <Text
+                        mt="3"
+                        textAlign="center"
+                        fontFamily="DMSans-Bold"
+                        color="myJobCustomColors.neonCarrot"
+                        onPress={loadMore}>
+                        Xem Thêm
+                      </Text>
+                    )}
+                  </View>
+                </ScrollView>
+              )}
+            </View>
+          )
         ) : (
-          <View>
-            {isLoading ? (
-              <Text>Loading</Text>
-            ) : [].length === 0 ? (
-              <Center marginTop={50}>
-                <NoData title="Không có thông báo nào" imgSize="3xs" />
-              </Center>
-            ) : (
-              <FlatList
-                data={[]}
-                renderItem={({item}) => (
-                  <Center paddingX="6" paddingY="2" key={item.id}>
-                    {/* Start: Notification */}
-
-                    {/* End: Notification */}
-                  </Center>
-                )}
-                keyExtractor={item => item.id}
-                ListFooterComponent={
-                  isLoadMoreLoading ? (
-                    <Center my="3">
-                      <Spinner
-                        size="lg"
-                        color="myJobCustomColors.deepSaffron"
-                      />
-                    </Center>
-                  ) : null
-                }
-                onEndReached={handleLoadMore}
-                onEndReachedThreshold={0}
-                getItemLayout={(data, index) => {
-                  const itemHeight = 120; // Chiều cao của mỗi mục trong danh sách
-                  const offset = itemHeight * index; // Vị trí của mục trong danh sách
-                  return {length: itemHeight, offset, index};
-                }}
-              />
-            )}
-          </View>
+          //  Start: LoginRequiredCard
+          <LoginRequiredCard />
+          // End: LoginRequiredCard
         )}
       </View>
     </>

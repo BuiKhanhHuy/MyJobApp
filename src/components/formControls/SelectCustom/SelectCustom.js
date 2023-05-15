@@ -19,6 +19,7 @@ const SelectCustom = ({
   title = null,
   showRequired = false,
   placeholder = '',
+  showBorder = false,
 }) => {
   return (
     <Controller
@@ -42,18 +43,35 @@ const SelectCustom = ({
               </FormControl.Label>
             )}
             <Dropdown
+              search={true}
+              searchPlaceholder="Nhập từ khóa"
+              inputSearchStyle={{
+                color: '#524B6B',
+                fontSize: 13,
+                borderRadius: 8
+              }}
+
               itemTextStyle={{color: '#524B6B', fontSize: 13}}
               selectedTextStyle={{color: '#524B6B', fontSize: 13}}
               fontFamily="DMSans-Regular"
-              style={[styles.dropdown, {
-                borderColor: fieldState.invalid ? '#FF464A': '#CBC8D4',
-              }]}
-              data={options}
+              style={[
+                styles.dropdown,
+                {
+                  borderColor: fieldState.invalid ? '#FF464A' : '#CBC8D4',
+                  borderWidth: (showBorder || fieldState.invalid) ? 1 : 0,
+                },
+              ]}
+              data={[{id: "", name: placeholder || "Chọn"}, ...options]}
               dropdownPosition="auto"
               labelField="name"
               valueField="id"
               value={field.value}
-              onChange={item => field.onChange(item.id)}
+              onChange={item => field.onChange(item.id || null)}
+              placeholder={placeholder}
+              placeholderStyle={{
+                color: '#CBC9D4',
+                fontSize: 12,
+              }}
             />
             {fieldState.invalid && (
               <FormControl.ErrorMessage

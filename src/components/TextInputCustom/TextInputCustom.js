@@ -11,6 +11,7 @@ import {
 import {Controller} from 'react-hook-form';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const TextInputCustom = ({
   control,
@@ -80,16 +81,31 @@ const TextInputCustom = ({
               }
               type={secureTextEntry ? (show ? 'text' : 'password') : 'text'}
               InputRightElement={
-                secureTextEntry ? (
-                  <Pressable onPress={() => setShow(!show)}>
-                    <Icon
-                      as={<Ionicons name={show ? 'eye' : 'eye-off'} />}
-                      size={6}
-                      mr="2"
-                      color="myJobCustomColors.blueGrey"
-                    />
-                  </Pressable>
-                ) : null
+                <>
+                  {field.value && (
+                    <Pressable
+                      disabled={field.value === '' ? true : false}
+                      onPress={() => field.onChange('')}>
+                      <Icon
+                        as={<MaterialIcons name="clear" />}
+                        size={4}
+                        mr="3"
+                        color={field.value === '' ? 'muted.400' : 'muted.800'}
+                      />
+                    </Pressable>
+                  )}
+
+                  {secureTextEntry ? (
+                    <Pressable onPress={() => setShow(!show)}>
+                      <Icon
+                        as={<Ionicons name={show ? 'eye' : 'eye-off'} />}
+                        size={6}
+                        mr="2"
+                        color="myJobCustomColors.blueGrey"
+                      />
+                    </Pressable>
+                  ) : null}
+                </>
               }
             />
             <FormControl.ErrorMessage

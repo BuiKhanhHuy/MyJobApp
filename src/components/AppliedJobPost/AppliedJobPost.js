@@ -98,7 +98,6 @@ const AppliedJobPost = ({
         <Text
           style={{
             height: 16,
-            lineHeight: 16,
             fontSize: 12,
             color: '#524b6b',
             fontFamily: 'DMSans-Medium',

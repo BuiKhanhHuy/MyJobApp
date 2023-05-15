@@ -6,6 +6,7 @@ import {Box, Center, FormControl, Text, WarningOutlineIcon} from 'native-base';
 import dayjs from 'dayjs';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
+import {current} from '@reduxjs/toolkit';
 
 const DateTimePickerCustom = ({
   control,
@@ -18,6 +19,7 @@ const DateTimePickerCustom = ({
   const showMode = () => {
     setShow(true);
   };
+ 
 
   return (
     <Controller
@@ -70,18 +72,20 @@ const DateTimePickerCustom = ({
               </FormControl.ErrorMessage>
             </FormControl>
           </Center>
-          <Text>{field.value}</Text>
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={new Date()}
+              value={field.value ? new Date(field.value) : new Date()}
               mode={'date'}
               is24Hour={true}
               onChange={(event, selectedDate) => {
                 const currentDate = selectedDate;
                 setShow(false);
-                field.onChange(currentDate);
+                field.onChange(dayjs(currentDate).format('YYYY-MM-DD'));
               }}
+              display="spinner"
+             
+              
             />
           )}
         </>

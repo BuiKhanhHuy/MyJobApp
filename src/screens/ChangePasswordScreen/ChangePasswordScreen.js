@@ -53,7 +53,7 @@ const ChangePasswordScreen = () => {
     <>
       <View
         flex={1}
-        paddingX={6}
+        paddingX={4}
         paddingBottom={6}
         onLayout={handleLayout}
         style={{marginTop: headerHeight}}>

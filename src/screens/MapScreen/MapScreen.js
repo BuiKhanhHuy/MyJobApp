@@ -9,7 +9,7 @@ import {
   VStack,
   View,
 } from 'native-base';
-import {Platform, PermissionsAndroid } from 'react-native';
+import {Platform, PermissionsAndroid, Dimensions} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
 
@@ -25,6 +25,8 @@ import NoData from '../../components/NoData/NoData';
 import AroundJobPost from '../../components/AroundJobPost/AroundJobPost';
 import JobsAroundMap from '../../components/JobsAroundMap';
 import jobService from '../../services/jobService';
+
+const windowWidth = Dimensions.get('window').width;
 
 const MapScreen = () => {
   console.log('MapScreen render');
@@ -186,7 +188,7 @@ const MapScreen = () => {
             setRadius={setRadius}
           />
         </View>
-        <View flex={3} p={4}>
+        <View flex={3} py={4} px={3}>
           <VStack>
             <HStack justifyContent="space-between">
               <Text
@@ -205,7 +207,7 @@ const MapScreen = () => {
                     headerTitle: `${jobPosts.length} việc trong khu vực`,
                     currentLatitude: currentLocation?.latitude,
                     currentLongitude: currentLocation?.longitude,
-                    radius: radius,
+                    radius: radius / 1000,
                   })
                 }>
                 Xem tất cả
@@ -223,7 +225,11 @@ const MapScreen = () => {
               ) : (
                 <ScrollView py={4} horizontal={true}>
                   {jobPosts.slice(0, 10).map(value => (
-                    <View maxWidth={320} mr={3} key={value.id}>
+                    <View
+                      maxWidth={320}
+                      mr={3}
+                      key={value.id}
+                      width={windowWidth * 0.8}>
                       <AroundJobPost
                         id={value?.id}
                         jobName={value?.jobName}

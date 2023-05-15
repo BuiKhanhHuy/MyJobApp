@@ -1,12 +1,13 @@
 import React from 'react';
-import {Linking } from 'react-native';
+import {Linking} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import 'moment/locale/vi';
 import {StyleSheet} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import Share from 'react-native-share';
 import {
   ScrollView,
-  Avatar,
   View,
   Text,
   VStack,
@@ -17,7 +18,6 @@ import {
   IconButton,
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {useLayout} from '../../hooks';
@@ -25,6 +25,7 @@ import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropL
 import toastMessages from '../../utils/toastMessages';
 import CompanyDetail from '../../components/CompanyDetail/CompanyDetail';
 
+import {WEBSITE_DOMAIN} from '../../configs/constants';
 import companyService from '../../services/companyService';
 import JobPostOfCompany from '../../components/JobPostOfCompany/JobPostOfCompany';
 import {reloadFollowCompany} from '../../redux/reloadSlice';
@@ -165,10 +166,11 @@ const CompanyDetailScreen = ({route, navigation}) => {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      title: '',
+      title: 'Chi tiết công ty',
       headerRight: () => (
         <IconButton
-          icon={<Icon as={MaterialIcons} name="more-vert" />}
+          onPress={() => handleShareCompany()}
+          icon={<Icon as={Ionicons} name="md-share-social-outline" />}
           borderRadius="full"
           _icon={{
             color: 'myJobCustomColors.mulledWineBluePurple',
@@ -194,6 +196,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
     };
 
     getCompanyDetail(id);
+
   }, [id]);
 
   const handleFollow = id => {
@@ -224,6 +227,26 @@ const CompanyDetailScreen = ({route, navigation}) => {
     followCompany(id);
   };
 
+  const handleShareCompany = () => {
+    if (companyDetail !== null) {
+      try {
+        Share.open({
+          message: companyDetail?.companyName || '',
+          title: companyDetail?.companyName || '',
+          url: WEBSITE_DOMAIN.local + 'cong-ty/' + companyDetail?.slug,
+        })
+          .then(res => {
+            console.log('Shared');
+          })
+          .catch(err => {
+            err && console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <>
       <View onLayout={handleLayout} flex={1}>
@@ -235,19 +258,24 @@ const CompanyDetailScreen = ({route, navigation}) => {
               <View flex={1}>
                 <View flex={1} bgColor="#F9F9F9" zIndex={1}>
                   <Center bottom={-20}>
-                    <Avatar
-                      size={84}
-                      bg="myJobCustomColors.neonCarrot"
+                    <FastImage
+                      style={{
+                        width: 84,
+                        height: 84,
+                        borderRadius: 50,
+                        backgroundColor: '#A9A5B8',
+                      }}
                       source={{
                         uri: companyDetail?.companyImageUrl,
-                      }}>
-                      LOGO
-                    </Avatar>
+                        priority: FastImage.priority.normal,
+                      }}
+                      resizeMode={FastImage.resizeMode.contain}
+                    />
                   </Center>
                 </View>
                 <View
                   flex={1}
-                  paddingX={6}
+                  paddingX={4}
                   bgColor="myJobCustomColors.porcelain">
                   <VStack pt={8} pb={4} space={3}>
                     <Center>
@@ -311,7 +339,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
                     </View>
                   </VStack>
                 </View>
-                <View flex={6} paddingX={6} paddingY={2} bgColor="#F9F9F9">
+                <View flex={6} paddingX={4} paddingY={2} bgColor="#F9F9F9">
                   {/* Start: ActionButtonComponent */}
                   <ActionButtonComponent
                     companyId={companyDetail?.id}

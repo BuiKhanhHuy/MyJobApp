@@ -17,15 +17,17 @@ import NoData from '../../components/NoData/NoData';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import JobPostNotification from '../../components/JobPostNotification';
 import jobPostNotificationService from '../../services/jobPostNotificationService';
+import {RefreshControl} from 'react-native';
 
-const pageSize = 12;
+const pageSize = 10;
 const JobPostNotificationScreen = () => {
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
-  const {isReloadNotification} = useSelector(state => state.reload);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const {isReloadNotification} = useSelector(state => state.reload);
+  const [isReload, setIsReload] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(false);
   const [jobPostNotifications, setJobPostNotifications] = React.useState([1]);
   const [page, setPage] = React.useState(1);
   const [count, setCount] = React.useState(0);
@@ -51,32 +53,54 @@ const JobPostNotificationScreen = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    const getJobPostNotifications = async params => {
-      try {
-        const resData =
-          await jobPostNotificationService.getJobPostNotifications(params);
-        const data = resData.data;
+  const getJobPostNotifications = async params => {
+    if (!isLoadMoreLoading) {
+      setIsLoading(true);
+    }
 
-        setCount(data.count);
+    try {
+      const resData = await jobPostNotificationService.getJobPostNotifications(
+        params,
+      );
+      const data = resData.data;
+
+      setCount(data.count);
+      if (isLoadMoreLoading) {
+        setJobPostNotifications([...jobPostNotifications, ...data.results]);
+      } else {
         setJobPostNotifications(data.results);
-      } catch (error) {
-      } finally {
-        setIsLoading(false);
-        setIsLoadMoreLoading(false);
       }
-    };
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+      setIsLoadMoreLoading(false);
+    }
+  };
 
+  React.useEffect(() => {
     getJobPostNotifications({
       page: page,
       pageSize: pageSize,
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, isReloadNotification]);
+  }, [page, isReload]);
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      setIsReload(!isReload);
+      setPage(1);
+    }
+  }, [isReloadNotification]);
+
+  const onRefresh = () => {
+    console.log('GỌI REFRESH...................');
+    setIsReload(!isReload);
+    setPage(1);
+  };
 
   const handleLoadMore = () => {
-    if (Math.ceil(count / pageSize) > page) {
+    if (Math.ceil(count / pageSize) > page && !isLoadMoreLoading) {
       setPage(page + 1);
       setIsLoadMoreLoading(true);
     }
@@ -93,9 +117,11 @@ const JobPostNotificationScreen = () => {
           <View>
             {isLoading ? (
               <FlatList
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
                 data={Array.from(Array(6).keys())}
                 renderItem={({item}) => (
-                  <Center paddingX="6" paddingY="2" key={item}>
+                  <Center paddingX="3" paddingY="2" key={item}>
                     <JobPostNotification.Loading />
                   </Center>
                 )}
@@ -109,9 +135,18 @@ const JobPostNotificationScreen = () => {
               </Center>
             ) : (
               <FlatList
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={isLoading}
+                    onRefresh={onRefresh}
+                    colors={['#FF9228']}
+                  />
+                }
                 data={jobPostNotifications}
                 renderItem={({item}) => (
-                  <Center paddingX="6" paddingY="2" key={item.id}>
+                  <Center paddingX="3" paddingY="2" key={item.id}>
                     {/* Start: JobPostNotification */}
                     <JobPostNotification
                       id={item.id}
@@ -139,7 +174,7 @@ const JobPostNotificationScreen = () => {
                   ) : null
                 }
                 onEndReached={handleLoadMore}
-                onEndReachedThreshold={0}
+                onEndReachedThreshold={0.2}
                 getItemLayout={(data, index) => {
                   const itemHeight = 120; // Chiều cao của mỗi mục trong danh sách
                   const offset = itemHeight * index; // Vị trí của mục trong danh sách
