@@ -24,6 +24,7 @@ import JobPostDetailScreen from '../screens/JobPostDetailScreen';
 import CompanyDetailScreen from '../screens/CompanyDetailScreen';
 
 import MainCompanyScreen from '../screens/MainCompanyScreen';
+import ApplyScreen from '../screens/ApplyScreen';
 
 // Notification
 import JobPostNotificationScreen from '../screens/JobPostNotificationScreen';
@@ -129,15 +130,24 @@ const Router = () => {
           <RootStack.Screen
             name="JobPostDetailScreen"
             component={JobPostDetailScreen}
+            initialParams={{
+              isApplySucess: false,
+            }}
           />
           <RootStack.Screen
             name="CompanyDetailScreen"
             component={CompanyDetailScreen}
           />
-
           <RootStack.Screen
             name="MainCompanyScreen"
             component={MainCompanyScreen}
+          />
+          <RootStack.Screen
+            name="ApplyScreen"
+            component={ApplyScreen}
+            options={{
+              title: 'Ứng tuyển công việc',
+            }}
           />
         </RootStack.Group>
         {/* End: Search */}
@@ -280,7 +290,10 @@ const Router = () => {
 
         {/* Start: Map */}
         <RootStack.Group>
-          <RootStack.Screen name="MapScreen" component={MapScreen} />
+          <RootStack.Screen
+            name="MapScreen"
+            component={MapScreen}
+          />
           <RootStack.Screen
             name="JobPostAroundScreen"
             component={JobPostAroundScreen}

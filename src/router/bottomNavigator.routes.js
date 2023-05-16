@@ -17,6 +17,7 @@ import ProfileRouter from './profile.routes';
 import SearchRouter from './search.routes';
 
 export default BottomTabNavigator = () => {
+
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
     let label = '';

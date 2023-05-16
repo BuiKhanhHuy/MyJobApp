@@ -114,7 +114,7 @@ const JobPost = ({
   };
 
   return (
-    <View style={styles.container} shadow={'myJobCustomShadows.0'}>
+    <View style={styles.container} shadow={'myJobCustomShadows.0'} >
       <View style={styles.header}>
         <View>
           <FastImage
@@ -134,6 +134,7 @@ const JobPost = ({
       </View>
       <View style={{paddingTop: 10}}>
         <Text
+          ellipsizeMode="tail"
           onPress={() =>
             navigation.navigate('JobPostDetailScreen', {
               id: id,

@@ -2,7 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
-import {StyleSheet} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {
@@ -17,7 +17,6 @@ import {
   Icon,
   IconButton,
   Box,
-  
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -36,6 +35,7 @@ import {reloadSaveJobPost} from '../../redux/reloadSlice';
 import NoData from '../../components/NoData/NoData';
 import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard/SuggestedJobPostsCard';
 import {WEBSITE_DOMAIN} from '../../configs/constants';
+import {useFocusEffect} from '@react-navigation/native';
 
 const MenuButtonComponent = ({tab, setTab}) => {
   return (
@@ -103,7 +103,7 @@ const textItem = value => (
 );
 
 const JobPostDetailScreen = ({route, navigation}) => {
-  const {id} = route.params;
+  const {id, isApplySucess} = route.params;
   const dispatch = useDispatch();
   const {isAuthenticated} = useSelector(state => state.user);
   const {allConfig} = useSelector(state => state.config);
@@ -147,6 +147,12 @@ const JobPostDetailScreen = ({route, navigation}) => {
 
     getJobPostDetail(id);
   }, [id, jobPostSaved]);
+
+  React.useEffect(() => {
+    if (isApplySucess && isApplySucess === true) {
+      setJobPostDetail({...jobPostDetail, isApplied: true});
+    }
+  }, [isApplySucess]);
 
   const handleSave = id => {
     const saveJob = async jobPostId => {
@@ -198,7 +204,16 @@ const JobPostDetailScreen = ({route, navigation}) => {
     }
   };
 
-
+  const handleMoveApplyScreen = () => {
+    navigation.navigate('ApplyScreen', {
+      jobPostId: jobPostDetail?.id,
+      jobName: jobPostDetail?.jobName,
+      companyName: jobPostDetail?.mobileCompanyDict?.companyName,
+      companyImageUrl: jobPostDetail?.mobileCompanyDict?.companyImageUrl,
+      salaryMin: jobPostDetail?.salaryMin,
+      salaryMax: jobPostDetail?.salaryMax,
+    });
+  };
 
   return (
     <>
@@ -443,15 +458,20 @@ const JobPostDetailScreen = ({route, navigation}) => {
               )}
             </Button>
             <Button
+              disabled={jobPostDetail?.isApplied}
               onPress={() =>
                 isAuthenticated
-                  ? alert('Ứng tuyển.')
+                  ? handleMoveApplyScreen()
                   : navigation.navigate('Login')
               }
               size="lg"
               flex={1}
               rounded="lg"
-              bgColor="myJobCustomColors.darkIndigo"
+              bgColor={
+                jobPostDetail?.isApplied
+                  ? '#C4C4C4'
+                  : 'myJobCustomColors.darkIndigo'
+              }
               fontFamily="DMSans-Bold"
               fontSize={14}
               lineHeight={18}>

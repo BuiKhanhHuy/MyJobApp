@@ -28,10 +28,9 @@ import jobService from '../../services/jobService';
 
 const windowWidth = Dimensions.get('window').width;
 
-const MapScreen = () => {
+const MapScreen = ({route, navigation}) => {
   console.log('MapScreen render');
   const dispatch = useDispatch();
-  const navigation = useNavigation();
   const {jobPostAroundFilter} = useSelector(state => state.filter);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [currentLocation, setCurrentLocation] = React.useState({
@@ -150,29 +149,31 @@ const MapScreen = () => {
   }, [radius]);
 
   React.useEffect(() => {
-    const getJobPostsAround = async (data, params) => {
-      setIsFullScreenLoading(true);
+    if (!isFullScreenLoading) {
+      const getJobPostsAround = async (data, params) => {
+        setIsFullScreenLoading(true);
 
-      try {
-        const resData = await jobService.getJobPostsAround(data, params);
+        try {
+          const resData = await jobService.getJobPostsAround(data, params);
 
-        setJobPosts(resData.data);
-        console.log('CALL API VA RENDER - MapScreen: ');
-      } catch (error) {
-        toastMessages.error();
-      } finally {
-        setIsFullScreenLoading(false);
+          setJobPosts(resData.data);
+          console.log('CALL API VA RENDER - MapScreen: ');
+        } catch (error) {
+          toastMessages.error();
+        } finally {
+          setIsFullScreenLoading(false);
+        }
+      };
+
+      const dataFilter = {
+        currentLatitude: currentLocation?.latitude,
+        currentLongitude: currentLocation?.longitude,
+        radius: radius / 1000,
+      };
+
+      if (currentLocation?.latitude && currentLocation?.longitude) {
+        getJobPostsAround(dataFilter, jobPostAroundFilter);
       }
-    };
-
-    const dataFilter = {
-      currentLatitude: currentLocation?.latitude,
-      currentLongitude: currentLocation?.longitude,
-      radius: radius / 1000,
-    };
-
-    if (currentLocation?.latitude && currentLocation?.longitude) {
-      getJobPostsAround(dataFilter, jobPostAroundFilter);
     }
   }, [radius, jobPostAroundFilter, currentLocation]);
 

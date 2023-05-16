@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {Center, Icon, IconButton, Text} from 'native-base';
+import {Center, Icon, IconButton, Spinner, Text} from 'native-base';
 import {StyleSheet, Dimensions, View, Linking, Platform} from 'react-native';
 import Pdf from 'react-native-pdf';
 import Share from 'react-native-share';
@@ -15,6 +15,7 @@ import toastMessages from '../../utils/toastMessages';
 import toSlug from '../../utils/customData';
 
 const ViewPdfScreen = ({route, navigation}) => {
+  const [isLoadingPdf, setIsLoadingPdf] = React.useState(true);
   const {currentUser} = useSelector(state => state.user);
   const [currentPage, setCurrentPage] = React.useState({
     page: 1,
@@ -108,6 +109,7 @@ const ViewPdfScreen = ({route, navigation}) => {
     <>
       <View style={styles.container}>
         <Pdf
+          onLoadProgress={() => console.log('Đang load')}
           trustAllCerts={false}
           source={{
             uri: `${fileUrl}`,
@@ -115,6 +117,7 @@ const ViewPdfScreen = ({route, navigation}) => {
           }}
           onLoadComplete={(numberOfPages, filePath) => {
             console.log(`Number of pages: ${numberOfPages}`);
+            setIsLoadingPdf(false);
           }}
           onPageChanged={(page, numberOfPages) => {
             setCurrentPage({
@@ -129,6 +132,11 @@ const ViewPdfScreen = ({route, navigation}) => {
             console.log(`Link pressed: ${uri}`);
           }}
           style={styles.pdf}
+          renderActivityIndicator={() => (
+            <Center mt="5">
+              <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+            </Center>
+          )}
         />
         <View
           style={{
@@ -136,11 +144,11 @@ const ViewPdfScreen = ({route, navigation}) => {
             bottom: 20,
             right: '50%',
           }}>
-          <Center>
+          {/* <Center>
             <Text textAlign="center">
               {currentPage.page}/{currentPage.numberOfPages}
             </Text>
-          </Center>
+          </Center> */}
         </View>
       </View>
     </>

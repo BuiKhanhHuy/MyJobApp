@@ -191,7 +191,9 @@ const JobsAroundMap = ({currentLocation, jobPosts, radius, setRadius}) => {
           provider={PROVIDER_GOOGLE}
           loadingIndicatorColor="#FF9228"
           loadingEnabled={true}
-          clusterColor="#FF9228">
+          clusterColor="#FF9228"
+          
+          >
           <Circle
             center={{
               latitude: currentLocation.latitude,
