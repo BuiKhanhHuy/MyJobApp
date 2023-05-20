@@ -15,9 +15,9 @@ import HomeRouter from './home.routes';
 import NotificationRouter from './notification.routes';
 import ProfileRouter from './profile.routes';
 import SearchRouter from './search.routes';
+import BackdropLoading from '../components/loadings/BackdropLoading';
 
 export default BottomTabNavigator = () => {
-
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
     let label = '';
@@ -81,63 +81,72 @@ export default BottomTabNavigator = () => {
       appId: AUTH_CONFIG.CHAT_APP_ID,
     };
 
-    RNKommunicateChat.buildConversation(
-      conversationObject,
-      (response, responseMessage) => {
-        if (response == 'Success') {
-          console.log('Conversation Successfully with id:' + responseMessage);
-        }
-      },
-    );
+    try {
+      RNKommunicateChat.buildConversation(
+        conversationObject,
+        (response, responseMessage) => {
+          if (response === 'Success') {
+            console.log(
+              'Conversation Successfully with id: ' + responseMessage,
+            );
+          }
+        },
+      );
+    } catch (error) {
+      console.error('An error occurred:', error);
+    } finally {
+    }
   };
 
   return (
-    <CurvedBottomBar.Navigator
-      strokeWidth={1}
-      style={styles.bottomBar}
-      height={55}
-      circleWidth={55}
-      bgColor="white"
-      initialRouteName="HomeTab"
-      renderCircle={({selectedTab, navigate}) => (
-        <Animated.View style={styles.btnCircle}>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-            }}
-            onPress={openChatBot}>
-            <Image
-              source={require('../assets/images/icons/chatbot-icon.png')}
-              style={{width: 35, height: 35}}
-              alt=""
-            />
-          </TouchableOpacity>
-        </Animated.View>
-      )}
-      screenOptions={{headerShown: false}}
-      tabBar={renderTabBar}>
-      <CurvedBottomBar.Screen
-        position="LEFT"
-        name="HomeTab"
-        component={HomeRouter}
-      />
-      <CurvedBottomBar.Screen
-        position="LEFT"
-        name="SearchTab"
-        component={SearchRouter}
-      />
-      <CurvedBottomBar.Screen
-        position="RIGHT"
-        name="NotificationTab"
-        component={NotificationRouter}
-      />
-      <CurvedBottomBar.Screen
-        position="RIGHT"
-        name="ProfileTab"
-        component={ProfileRouter}
-      />
-    </CurvedBottomBar.Navigator>
+    <>
+      <CurvedBottomBar.Navigator
+        strokeWidth={1}
+        style={styles.bottomBar}
+        height={55}
+        circleWidth={55}
+        bgColor="white"
+        initialRouteName="HomeTab"
+        renderCircle={({selectedTab, navigate}) => (
+          <Animated.View style={styles.btnCircle}>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+              }}
+              onPress={openChatBot}>
+              <Image
+                source={require('../assets/images/icons/chatbot-icon.png')}
+                style={{width: 35, height: 35}}
+                alt=""
+              />
+            </TouchableOpacity>
+          </Animated.View>
+        )}
+        screenOptions={{headerShown: false}}
+        tabBar={renderTabBar}>
+        <CurvedBottomBar.Screen
+          position="LEFT"
+          name="HomeTab"
+          component={HomeRouter}
+        />
+        <CurvedBottomBar.Screen
+          position="LEFT"
+          name="SearchTab"
+          component={SearchRouter}
+        />
+        <CurvedBottomBar.Screen
+          position="RIGHT"
+          name="NotificationTab"
+          component={NotificationRouter}
+        />
+        <CurvedBottomBar.Screen
+          position="RIGHT"
+          name="ProfileTab"
+          component={ProfileRouter}
+        />
+      </CurvedBottomBar.Navigator>
+    </>
   );
 };
 

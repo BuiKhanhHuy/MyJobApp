@@ -3,18 +3,19 @@ import {useHeaderHeight} from '@react-navigation/elements';
 import {useNavigation} from '@react-navigation/native';
 import {VStack, View} from 'native-base';
 import {SheetManager} from 'react-native-actions-sheet';
+import {useDispatch, useSelector} from 'react-redux';
 
 import errorHandling from '../../utils/errorHandling';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import SettingOptionCard from '../../components/SettingOptionCard';
 import {useLayout} from '../../hooks';
-import {useDispatch} from 'react-redux';
 import {removeUserInfo} from '../../redux/userSlice';
 
 const SettingScreen = () => {
   const dispatch = useDispatch();
   const headerHeight = useHeaderHeight();
   const navigation = useNavigation();
+  const {isAuthenticated} = useSelector(state => state.user);
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
 
@@ -82,18 +83,24 @@ const SettingScreen = () => {
                     )
                   }
                 />
-                <SettingOptionCard
-                  leftIconName="ios-key-outline"
-                  rightIconName="chevron-forward"
-                  title="Đổi mật khẩu"
-                  onPress={() => navigation.navigate('ChangePasswordScreen')}
-                />
-                <SettingOptionCard
-                  leftIconName="ios-exit-outline"
-                  rightIconName="chevron-forward"
-                  title="Đăng xuất"
-                  onPress={handleLogout}
-                />
+                {isAuthenticated && (
+                  <>
+                    <SettingOptionCard
+                      leftIconName="ios-key-outline"
+                      rightIconName="chevron-forward"
+                      title="Đổi mật khẩu"
+                      onPress={() =>
+                        navigation.navigate('ChangePasswordScreen')
+                      }
+                    />
+                    <SettingOptionCard
+                      leftIconName="ios-exit-outline"
+                      rightIconName="chevron-forward"
+                      title="Đăng xuất"
+                      onPress={handleLogout}
+                    />
+                  </>
+                )}
               </VStack>
             </View>
           </>

@@ -2,7 +2,17 @@ import React from 'react';
 import {TouchableNativeFeedback} from 'react-native';
 import {Controller} from 'react-hook-form';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {Box, Center, FormControl, Text, WarningOutlineIcon} from 'native-base';
+import {
+  Box,
+  Center,
+  FormControl,
+  HStack,
+  Icon,
+  IconButton,
+  Text,
+  WarningOutlineIcon,
+} from 'native-base';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import dayjs from 'dayjs';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
@@ -19,7 +29,6 @@ const DateTimePickerCustom = ({
   const showMode = () => {
     setShow(true);
   };
- 
 
   return (
     <Controller
@@ -44,7 +53,8 @@ const DateTimePickerCustom = ({
                 </FormControl.Label>
               )}
               <TouchableNativeFeedback onPress={showMode}>
-                <Box
+                <HStack
+                  justifyContent="space-between"
                   style={{height: 50, padding: 12, paddingTop: 20}}
                   borderWidth={fieldState.invalid ? 1 : 0}
                   borderColor="myJobCustomColors.lavaRed"
@@ -64,7 +74,16 @@ const DateTimePickerCustom = ({
                       <Text color="myJobCustomColors.bobel">DD/MM/YYYY</Text>
                     )}
                   </Text>
-                </Box>
+                  {field?.value && (
+                    <Icon
+                      onPress={() => field.onChange(null)}
+                      as={<Fontisto name={'close-a'} />}
+                      size={3}
+                      color="myJobCustomColors.black"
+                      mb={3}
+                    />
+                  )}
+                </HStack>
               </TouchableNativeFeedback>
               <FormControl.ErrorMessage
                 leftIcon={<WarningOutlineIcon size="xs" />}>
@@ -75,17 +94,23 @@ const DateTimePickerCustom = ({
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
-              value={field.value ? new Date(field.value) : new Date()}
+              value={
+                field.value ? new Date(field.value) : new Date('1000-01-01')
+              }
               mode={'date'}
               is24Hour={true}
               onChange={(event, selectedDate) => {
                 const currentDate = selectedDate;
                 setShow(false);
-                field.onChange(dayjs(currentDate).format('YYYY-MM-DD'));
+                if (
+                  currentDate.getTime() === new Date('1000-01-01').getTime()
+                ) {
+                  field.onChange(null);
+                } else {
+                  field.onChange(dayjs(currentDate).format('YYYY-MM-DD'));
+                }
               }}
               display="spinner"
-             
-              
             />
           )}
         </>

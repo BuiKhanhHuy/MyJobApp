@@ -23,21 +23,25 @@ import {IMAGES} from '../../configs/globalStyles';
 import NoData from '../../components/NoData/NoData';
 import Notification from '../../components/Notification/Notification';
 import LoginRequiredCard from '../../components/LoginRequiredCard';
+import toastMessages from '../../utils/toastMessages';
+import BackdropLoading from '../../components/loadings/BackdropLoading/BackdropLoading';
 
 const PAGE_SIZE = 12;
 const NotificationScreen = () => {
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
   const {currentUser, isAuthenticated} = useSelector(state => state.user);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(false);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [count, setCount] = React.useState(0);
 
   const [notifications, setNotifications] = React.useState([]);
   const [lastKey, setLastKey] = React.useState(null);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     navigation.setOptions({
-      title: 'Thông báo',
       headerRight: () =>
         notifications.length > 0 && (
           <Text fontSize={16} color="#FC4646" onPress={() => handleRemoveAll()}>
@@ -45,7 +49,7 @@ const NotificationScreen = () => {
           </Text>
         ),
     });
-  }, []);
+  }, [notifications.length]);
 
   React.useEffect(() => {
     if (isAuthenticated) {
@@ -66,7 +70,6 @@ const NotificationScreen = () => {
           total = total + 1;
         });
         setCount(total);
-        console.log(total);
       });
 
       return () => {
@@ -98,9 +101,9 @@ const NotificationScreen = () => {
             key: doc.id,
           });
         });
-        // setNotifications(notificationList);
+        setNotifications(notificationList);
         setLastKey(querySnapshot.docs[querySnapshot.docs.length - 1]);
-        console.log('SET NOTI LẠI');
+        setIsLoading(false);
 
         return () => {
           unsubscribe();
@@ -110,6 +113,7 @@ const NotificationScreen = () => {
   }, [currentUser?.id]);
 
   const loadMore = async () => {
+    setIsLoadMoreLoading(true);
     const notificationsRef = collection(
       db,
       'users',
@@ -138,10 +142,12 @@ const NotificationScreen = () => {
 
     setNotifications([...notifications, ...nextNotificationList]);
     setLastKey(lastVisible);
-    console.log(nextNotificationList);
+    setIsLoadMoreLoading(false);
   };
 
   const handleRemove = key => {
+    setIsFullScreenLoading(true);
+
     updateDoc(doc(db, 'users', `${currentUser.id}`, 'notifications', key), {
       is_deleted: true,
     })
@@ -152,38 +158,48 @@ const NotificationScreen = () => {
           newNotifications.splice(index, 1);
           setNotifications(newNotifications);
         }
-        console.log('deleted noti success.');
+        toastMessages.success('Xóa thành công');
+        setIsFullScreenLoading(false);
       })
       .catch(error => {
-        console.log('deleted noti failed: ', error);
+        toastMessages.error();
+        setIsFullScreenLoading(false);
       });
   };
 
   const handleRemoveAll = async () => {
-    // Get a reference to the notifications collection
-    const notificationsRef = collection(
-      db,
-      'users',
-      `${currentUser.id}`,
-      'notifications',
-    );
-    const deleteQuery = query(
-      notificationsRef,
-      where('is_deleted', '==', false),
-    );
-    const querySnapshot = await getDocs(deleteQuery);
+    try {
+      setIsFullScreenLoading(true);
+      // Get a reference to the notifications collection
+      const notificationsRef = collection(
+        db,
+        'users',
+        `${currentUser.id}`,
+        'notifications',
+      );
+      const deleteQuery = query(
+        notificationsRef,
+        where('is_deleted', '==', false),
+      );
+      const querySnapshot = await getDocs(deleteQuery);
 
-    // Create a batch write operation
-    const batch = writeBatch(db);
+      // Create a batch write operation
+      const batch = writeBatch(db);
 
-    // Iterate over all documents and add them to the batch
-    querySnapshot.forEach(doc => {
-      const docRef = doc.ref;
-      batch.update(docRef, {is_deleted: true});
-    });
+      // Iterate over all documents and add them to the batch
+      querySnapshot.forEach(doc => {
+        const docRef = doc.ref;
+        batch.update(docRef, {is_deleted: true});
+      });
 
-    // Commit the batch write operation
-    await batch.commit();
+      // Commit the batch write operation
+      await batch.commit();
+      toastMessages.success('Xóa tất cả thành công');
+    } catch (error) {
+      toastMessages.error();
+    } finally {
+      setIsFullScreenLoading(false);
+    }
   };
 
   const handleRead = key => {
@@ -229,6 +245,7 @@ const NotificationScreen = () => {
 
   return (
     <>
+      {isFullScreenLoading && <BackdropLoading />}
       <View onLayout={handleLayout} style={{marginTop: headerHeight}}>
         {isAuthenticated ? (
           isLayoutLoading ? (
@@ -237,7 +254,13 @@ const NotificationScreen = () => {
             </Center>
           ) : (
             <View>
-              {notifications.length === 0 ? (
+              {isLoading ? (
+                Array.from(Array(4).keys()).map(value => (
+                  <Center paddingX="3" key={value}>
+                    <Notification.Loading />
+                  </Center>
+                ))
+              ) : notifications.length === 0 ? (
                 <Center marginTop={50}>
                   <NoData
                     title="Không có thông báo nào"
@@ -266,16 +289,24 @@ const NotificationScreen = () => {
                         {/* End: Notification */}
                       </Center>
                     ))}
-                    {Math.ceil(count / PAGE_SIZE) > 1 && (
-                      <Text
-                        mt="3"
-                        textAlign="center"
-                        fontFamily="DMSans-Bold"
-                        color="myJobCustomColors.neonCarrot"
-                        onPress={loadMore}>
-                        Xem Thêm
-                      </Text>
-                    )}
+                    {Math.ceil(count / PAGE_SIZE) > 1 &&
+                      (isLoadMoreLoading ? (
+                        <Center mt="3">
+                          <Spinner
+                            size="lg"
+                            color="myJobCustomColors.deepSaffron"
+                          />
+                        </Center>
+                      ) : (
+                        <Text
+                          mt="3"
+                          textAlign="center"
+                          fontFamily="DMSans-Bold"
+                          color="myJobCustomColors.neonCarrot"
+                          onPress={loadMore}>
+                          Xem Thêm
+                        </Text>
+                      ))}
                   </View>
                 </ScrollView>
               )}

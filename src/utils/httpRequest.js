@@ -5,10 +5,9 @@ import {APP_NAME} from '../configs/constants';
 import {AUTH_CONFIG} from '../configs/constants';
 
 const httpRequest = axios.create({
-  // baseURL: 'https://bkhuy-myjob.onrender.com/',
-  // baseURL: 'https://bkhuy.pythonanywhere.com/',
   baseURL: 'https://bkhuy-myjob-api.up.railway.app/',
-  // baseURL: 'http://192.168.42.32:8000/',
+  // baseURL: 'http://127.0.0.1:8000/',
+  // baseURL: 'http://192.168.1.4:8000/',
   // timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -61,7 +60,7 @@ httpRequest.interceptors.response.use(
             refreshTokenLocal,
           );
           // here
-          // await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
+          await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
           const resData = await httpRequest.post('api/auth/token/', {
             grant_type: AUTH_CONFIG.REFRESH_TOKEN_KEY,
             client_id: AUTH_CONFIG.CLIENT_ID,

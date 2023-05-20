@@ -21,6 +21,9 @@ const SelectCustom = ({
   placeholder = '',
   showBorder = false,
 }) => {
+  const searchQuery = (keyword, labelValue) => {
+    return labelValue.toLowerCase().includes(keyword.toLowerCase());
+  };
   return (
     <Controller
       name={name}
@@ -43,14 +46,14 @@ const SelectCustom = ({
               </FormControl.Label>
             )}
             <Dropdown
+              searchQuery={searchQuery}
               search={true}
               searchPlaceholder="Nhập từ khóa"
               inputSearchStyle={{
                 color: '#524B6B',
                 fontSize: 13,
-                borderRadius: 8
+                borderRadius: 8,
               }}
-
               itemTextStyle={{color: '#524B6B', fontSize: 13}}
               selectedTextStyle={{color: '#524B6B', fontSize: 13}}
               fontFamily="DMSans-Regular"
@@ -58,10 +61,10 @@ const SelectCustom = ({
                 styles.dropdown,
                 {
                   borderColor: fieldState.invalid ? '#FF464A' : '#CBC8D4',
-                  borderWidth: (showBorder || fieldState.invalid) ? 1 : 0,
+                  borderWidth: showBorder || fieldState.invalid ? 1 : 0,
                 },
               ]}
-              data={[{id: "", name: placeholder || "Chọn"}, ...options]}
+              data={[{id: '', name: placeholder || 'Chọn'}, ...options]}
               dropdownPosition="auto"
               labelField="name"
               valueField="id"

@@ -6,8 +6,8 @@ import 'moment/locale/vi';
 import FastImage from 'react-native-fast-image';
 import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {HStack, Text, View, VStack} from 'native-base';
-import { TouchableNativeFeedback } from 'react-native';
+import {HStack, Skeleton, Text, View, VStack} from 'native-base';
+import {TouchableNativeFeedback} from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 
 const Notification = props => {
@@ -114,6 +114,36 @@ const Notification = props => {
     </TouchableNativeFeedback>
   );
 };
+
+const Loading = () => {
+  return (
+    <View style={styles.container}>
+      <HStack justifyContent="space-between" alignItems="center" mb={2}>
+        <Skeleton style={styles.logo} />
+        <Skeleton rounded="md" width={"80%"} h="4" />
+      </HStack>
+      <VStack space={4}>
+        <VStack space={2}>
+          <Skeleton rounded="md" h="4" />
+
+          <Skeleton rounded="md" h="4" />
+        </VStack>
+        <View>
+          <HStack justifyContent="space-between" alignItems="center">
+            <View>
+              <Skeleton rounded="md" h="4" />
+            </View>
+            <View>
+              <Skeleton size="5" w={48} rounded="md" />
+            </View>
+          </HStack>
+        </View>
+      </VStack>
+    </View>
+  );
+};
+
+Notification.Loading = Loading;
 
 export default Notification;
 

@@ -3,4 +3,253 @@
     <string name="fb_login_protocol_scheme">fb503591871851468</string>
     <string name="facebook_app_id">503591871851468</string>
     <string name="facebook_client_token">87054023f865721b313376d492bb4c04</string>
+
+    <string name="conversations">Trò chuyện</string>
+     <string name="channel_create_title">Nhóm mới</string>
+     <string name="channel_members_title">Thêm thành viên</string>
+     <string name="select_at_least">Phải chọn ít nhất 1 liên hệ</string>
+     <string name="group_name_hint">Tên nhóm</string>
+     <string name="empty_conversations">Không có cuộc trò chuyện nào!</string>
+     <string name="enter_message_hint">Viết nội dung ...</string>
+     <string name="send_text">GỬI</string>
+     <string name="cancel_text">HỦY</string>
+     <string name="ok_text">Được</string>
+     <string name="start_text">BẮT ĐẦU</string>
+     <string name="no_conversation">Bạn không có cuộc trò chuyện nào</string>
+     <string name="search_not_found_for_messages">Không tìm thấy cuộc trò chuyện nào</string>
+     <string name="info_broadcast_message">Tin nhắn sẽ được gửi đến từng người nhận</string>
+     <string name="shareOptions">Chia sẻ</string>
+
+     <string name="mobitexter_contact_sync_key">KEYMOBITEXTER_CONTACT_SYNC_</string>
+     <string name="call_history_display_within_messages_pref_key">CALL_HISTORY_DISPLAY_WITHIN_MESSAGES</string>
+     <string name="last_inbox_sync_time">LAST_INBOX_SYNC_TIME</string>
+     <string name="last_outbox_sync_time">LAST_OUTBOX_SYNC_TIME</string>
+     <string name="phone_number_key">phone_number_key</string>
+     <string name="group_sms_freq_key">GROUP_SMS_FREQ_KEY</string>
+     <string name="delivery_report_pref_key">DELIVERY_REPORT_ENABLE</string>
+     <string name="sent_sms_sync_pref_key">SENT_SMS_SYNC_FLAG</string>
+     <string name="received_sms_sync_pref_key">RECEIVED_SMS_SYNC_FLAG</string>
+     <string name="verify_contact_number">VERIFY_CONTACT_NUMBER</string>
+     <string name="device_key_string">DEVICE_KEY_STRING</string>
+     <string name="device_registration_id">DEVICE_REGISTRATION_ID</string>
+     <string name="last_sms_sync_time">LAST_SMS_SYNC_TIME</string>
+     <string name="last_message_stat_sync_time">LAST_MESSAGE_STAT_SYNC_TIME</string>
+     <string name="webhook_enable_key">WEBHOOK_ENABLE_KEY</string>
+     <string name="email">EMAIL_ID_VALUE</string>
+     <string name="email_verified">EMAIL_VERIFIED</string>
+     <string name="user_key_string">SU_USER_KEY_STRING</string>
+     <string name="stop_service">DỪNG DỊCH VỤ</string>
+     <string name="patch_available">NEWPATCHAVAILABLE</string>
+     <string name="update_push_registration">UPDATE_PUSH_REGISTRATION</string>
+     <string name="info_sample_contact_list">Điền danh bạ ứng dụng của bạn vào đây, hiển thị danh bạ thiết bị dưới dạng mẫu</string>
+     <string name="info_message_sync">Đang đồng bộ thư với máy chủ, có thể mất vài phút!</string>
+     <string name="instruction_open_conversation_thread">Nhấn vào bất kỳ cuộc trò chuyện nào để xem toàn bộ chủ đề</string>
+     <string name="instruction_go_back_to_recent_conversation_list">Để quay lại màn hình trước, trượt từ trái sang phải</string>
+     <string name="instruction_long_press_message">Để xóa và các tùy chọn khác, hãy nhấn và giữ tin nhắn</string>
+     <string name="title_activity_mobi_com">Hoạt động của MobiCom</string>
+     <string name="hello_world">Xin chào thế giới!</string>
+     <string name="action_settings">Cài đặt</string>
+     <string name="user_block">Chặn</string>
+     <string name="user_un_block">Bỏ chặn</string>
+     <string name="applozic_my_profile_option_info">Hồ sơ</string>
+
+     <string name="location_services_disabled_message">Việc gửi vị trí yêu cầu quyền truy cập vào vị trí của bạn. Bật truy cập vị trí.</string>
+     <string name="location_services_disabled_title">Đã tắt dịch vụ định vị</string>
+     <string name="location_service_settings">Cài đặt</string>
+     <string name="location_sending_cancelled">Đã hủy gửi vị trí</string>
+     <string name="unable_to_fetch_location">Không thể tìm nạp vị trí</string>
+     <string name="waiting_for_current_location">Đang chờ vị trí hiện tại</string>
+
+     <string name="select_file">Chọn tập tin</string>
+
+     <string name="applozic_select_photo">Chọn ảnh</string>
+     <string name="attachment_retry">Thử lại</string>
+
+
+     <string name="verification_success">Số điện thoại của bạn đã được xác minh thành công</string>
+     <string name="launch_mobitexter_app">LAUNCH_MOBITEXTER</string>
+     <string name="delete_conversation">Xóa</string>
+     <string name="delete_conversation_context">Xóa cuộc trò chuyện</string>
+     <string name="sync_messages_from_server">Đang đồng bộ hóa với máy chủ…</string>
+
+     <string name="incoming_call">Đã nhận cuộc gọi</string>
+     <string name="outgoing_call">Đã gọi</string>
+
+     <string name="welcome_message">Xin chào,
+         \nMobiTexter là Messenger &amp; Ứng dụng nhắn tin SMS
+         \nNhắn tin từ máy tính xách tay, điện thoại di động và bất kỳ thiết bị Android nào bằng số điện thoại của riêng bạn.
+         \nGửi và nhận văn bản trên trình duyệt máy tính xách tay/pc/máy tính từ http://www.mobitexter.net/
+         \nNếu có bất kỳ câu hỏi nào, hãy liên hệ với chúng tôi tại support@mobitexter.net</string>
+
+     <string name="info_app_not_found_to_open_file">Không tìm thấy ứng dụng nào để mở tệp này</string>
+     <string name="unable_to_play_requested_audio_file">Không tìm thấy ứng dụng nào để mở tập tin này</string>
+     <string name="file_not_sselect">Bạn có lỡ chọn tệp không?</string>
+     <string name="info_attachment_max_allowed_file_size">Không thể gửi, vượt quá giới hạn kích thước tệp tải lên tối đa!</string>
+     <string name="info_file_attachment_error">Không thể gửi! Đã xảy ra một số lỗi không mong muốn khi đọc tệp</string>
+     <string name="select_file_count_limit">Không thể chọn nhiều hơn 1 tệp</string>
+
+     <string name="multiple_selection_limit">Giới hạn lựa chọn tối đa là: %1$d</string>
+     <string name="send_max_limit_files">Gửi %1$d tệp đầu tiên</string>
+     <string name="reselect_files">Chọn lại tập tin</string>
+     <string name="max_media_select_title">Giới hạn lựa chọn tập tin</string>
+     <string name="max_media_select_message">Bạn chỉ có thể gửi %1$d tệp cùng một lúc.</string>
+
+    <string name="ScheduleText">Lên lịch</string>
+
+     <string name="enter_mt_message_hint">Viết tin nhắn…</string>
+     <string name="messageOptions">Tùy chọn tin nhắn</string>
+     <string name="conversation">Trò chuyện</string>
+     <string name="conversation_options">Tùy chọn</string>
+     <string name="enter_support_query_hint">nhập truy vấn, báo cáo lỗi hoặc phản hồi của bạn tại đây</string>
+     <string name="info_message_scheduled">Tin nhắn được lên lịch thành công</string>
+
+     <string name="sync_older_messages">Bạn có muốn đồng bộ các tin nhắn cũ hơn không?</string>
+
+     <string name="dialog_delete_conversation_title">Xóa cuộc trò chuyện</string>
+     <string name="dialog_delete_conversation_conir">Xóa tất cả tin nhắn của [name]?</string>
+
+     <string name="negetiveButtonText">Xóa</string>
+     <string name="scheduleDialogHeader">Lên lịch gửi tin nhắn</string>
+     <string name="scheduledDateText">Ngày dự kiến:</string>
+     <string name="scheduledTimeText">Thời gian dự kiến:</string>
+     <string name="defaultDate">dd-mm-yyyy</string>
+     <string name="defaultTime">HH:MM:SS</string>
+     <string name="selectionRequestText">Chọn ngày giờ để lên lịch cho tin nhắn của bạn.</string>
+
+     <string name="wearable_action_title">Trả lời</string>
+     <string name="wearable_action_label">Trả lời</string>
+
+     <string name="verify_phone_number_notify_message">gửi tin nhắn văn bản để xác minh số của bạn, chúng tôi sẽ tự động phát hiện khi nó đến</string>
+     <string name="verification_send_sms_itself">Chúng tôi cần xác nhận rằng [phone_number] là số điện thoại của bạn. Điện thoại của bạn sẽ được sử dụng để tự gửi tin nhắn.</string>
+     <string name="confirm_your_number">Xác nhận số của bạn</string>
+     <string name="edit">Sửa</string>
+     <string name="confirm">Xác nhận</string>
+     <string name="skip">Bỏ qua</string>
+     <string name="you_string">Bạn</string>
+
+     <string name="view_option_string">Xem</string>
+     <string name="message_option_string">Tin nhắn</string>
+
+     <string name="applozic_account_closed">Vui lòng liên hệ với Applozic để kích hoạt tính năng trò chuyện trong ứng dụng của bạn</string>
+     <string name="applozic_free_version_not_allowed_on_release_build">Vui lòng liên hệ với Applozic để kích hoạt trò chuyện trong ứng dụng của bạn</string>
+     <string name="quick_conversation_loading">đang tải hội thoại…</string>
+     <string name="alert_for_empty_message">Bạn có muốn gửi tin nhắn không có chữ không?</string>
+     <string name="yes_alert">Có</string>
+     <string name="no_alert">Không</string>
+     <string name="subtitle_last_seen_at_time">Nhìn thấy lần cuối</string>
+     <string name="is_typing">đang gõ…</string>
+     <string name="user_online">Trực tuyến</string>
+     <string name="typing">Đang gõ…</string>
+     <string name="removing_channel_user">Đang xóa…</string>
+     <string name="adding_channel_user">Đang thêm…</string>
+     <string name="deleting_channel_user">Đang xóa…</string>
+     <string name="channel_member_exit">Đang thoát…</string>
+     <string name="channel_update">Đang cập nhật thông tin nhóm…</string>
+     <string name="dialog_remove_group_user">Xóa [tên] khỏi [nhóm]?</string>
+     <string name="dialog_add_group_user">Thêm [tên] vào [nhóm]?</string>
+     <string name="group_name_info">[nhóm]</string>
+     <string name="groupType_info">[loại nhóm]</string>
+     <string name="group_string">nhóm</string>
+     <string name="broadcast_string">phát sóng</string>
+     <string name="new_broadcast_name_info">Phát sóng mới</string>
+     <string name="mute_Group">Tắt tiếng</string>
+     <string name="unmute_Group">Bật tiếng</string>
+     <string name="user_name_info">[tên]</string>
+     <string name="channel_member_title">Chọn liên hệ</string>
+     <string name="channel_exit_button">THOÁT NHÓM</string>
+     <string name="channel_delete_group_button">XÓA NHÓM</string>
+     <string name="broadcast_exit_button">THOÁT PHÁT SÓNG</string>
+     <string name="broadcast_delete_button">XÓA PHÁT SÓNG</string>
+     <string name="channel_created_by">Được tạo bởi</string>
+     <string name="remove_member">Xóa</string>
+     <string name="add">Thêm</string>
+     <string name="group_creating_info">Đang tạo nhóm, vui lòng đợi…</string>
+     <string name="broadcast_creating_info">Đang tạo chương trình phát sóng, vui lòng đợi…</string>
+     <string name="channel_exit">Thoát</string>
+     <string name="channel_deleting">Xóa</string>
+     <string name="leave_channel">Bạn có chắc chắn muốn thoát khỏi [loại nhóm] này không?</string>
+     <string name="exit_channel_message_info">Bạn có chắc muốn thoát khỏi [nhóm] [loại nhóm] không?</string>
+     <string name="delete_channel_messages_and_channel_info">Bạn có chắc chắn muốn xóa [nhóm] [loại nhóm] không?</string>
+     <string name="channel_name_empty">Tên nhóm không được để trống</string>
+     <string name="channel_add_alert">Không thể thêm người tham gia vào nhóm vì bạn không phải là người tham gia</string>
+     <string name="channel_edit_alert">Không thể thay đổi tên nhóm vì bạn không phải là người tham gia</string>
+     <string name="admin_text">Quản trị viên nhóm</string>
+     <string name="user_not_in_this_group_text">Bạn không còn là thành viên của nhóm này nữa</string>
+     <string name="group_has_been_deleted_text">Cuộc trò chuyện này đã bị xóa</string>
+     <string name="update_channel_title_name">Nhập tên nhóm</string>
+     <string name="new_channel_name_hint">Tên nhóm…</string>
+     <string name="user_block_info">Chặn [tên]? Người dùng bị chặn sẽ không thể gửi tin nhắn cho bạn nữa</string>
+     <string name="user_un_block_info">Bỏ chặn [tên] để gửi tin nhắn</string>
+     <string name="please_wait_info">Vui lòng đợi trong giây lát…</string>
+     <string name="applozic_userId_error_info_in_logs">UserId không được rỗng hoặc trống và khóa kênh không được rỗng</string>
+     <string name="applozic_channel_error_info_in_logs">Vui lòng kiểm tra xem tên nhóm có rỗng hay trống hay có ít nhất một thành viên được thêm vào nhóm</string>
+     <string name="applozic_add_user_to_multiple_channel_error_info_in_logs">UserId không được rỗng hoặc trống và danh sách khóa kênh không được rỗng</string>
+     <string name="user_logout_info">Đăng xuất thành công</string>
+     <string name="unable_share_message">Không thể chia sẻ bạn không phải là người tham gia nhóm này</string>
+     <string name="user_is_blocked">Không thể gửi người dùng bị chặn</string>
+     <string name="khi_on_wifi">Khi bật Wi-Fi</string>
+     <string name="khi_on_cellular_network">Khi ở trên mạng di động</string>
+     <string name="media_auto_download">Tải xuống phương tiện tự động</string>
+     <string name="applozic_network_usage">Sử dụng mạng</string>
+     <string name="enable_vibration_notification">Bật rung khi có thông báo</string>
+     <string name="user_has_been_deleted_text">Người dùng đã bị xóa</string>
+     <string name="make_admin_text_info">Đặt quyền quản trị nhóm</string>
+     <string name="attachment_string">Đính kèm</string>
+     <string name="photo_string">Ảnh</string>
+     <string name="contact_string">Liên hệ</string>
+     <string name="video_string">Video</string>
+     <string name="audio_string">Âm thanh</string>
+     <string name="al_location_string">Vị trí</string>
+     <string name="restricted_words_are_not_allowed">Các từ bị hạn chế không được phép</string>
+     <string name="ok_alert">OK</string>
+     <string name="km_read">Đọc</string>
+     <string name="km_not_read">Chưa đọc</string>
+     <string name="km_not_sent">Chưa gửi</string>
+     <string name="default_start_new_conversation">Bắt đầu cuộc trò chuyện mới</string>
+     <string name="start_conversation">Bắt đầu cuộc trò chuyện</string>
+     <string name="info_file_attachment_mime_type_not_supported">Không thể gửi loại tệp này!</string>
+     <string name="processing_take_over_from_bot">Tiếp quản từ bot</string>
+
+    <string name="DATE_SAVE_FILE_FORMAT">yyyyMMdd_HHmmss</string>
+    <string name="DATE_MEDIUM_FORMAT">"MMM dd, yyyy"</string>
+    <string name="DATE_DAY_FORMAT">EEEE</string> 
+
+    <string name="JUST_NOW">Bây giờ</string>
+    <string name="YESTERDAY">Hôm qua</string>
+
+    <plurals name="HOURS">
+        <item quantity="one">%d giờ</item>
+        <item quantity="other">%d giờ</item>
+    </plurals>
+
+    <plurals name="MINUTES">
+        <item quantity="one">%d min</item>
+        <item quantity="other">%d min</item>
+    </plurals>
+
+    <plurals name="MINUTES_AGO">
+        <item quantity="one">%d phút trước</item>
+        <item quantity="other">%d phút trước</item>
+    </plurals>
+
+    <plurals name="HOURS_AGO">
+        <item quantity="one">%d giờ trước</item>
+        <item quantity="other">%d giờ trước</item>
+    </plurals>
+
+  <string name="emailEt">Email</string>
+     <string name="nameEt">Tên</string>
+     <string name="phoneNumberEt">Điện thoại</string>
+     <string name="prechat_screen_text">Chúng tôi chỉ cần một số thông tin chi tiết để giúp bạn bắt đầu</string>
+     <string name="prechat_screen_toast_error_message">Bắt buộc phải có %1$s hoặc %2$s</string>
+     <string name="prechat_dropdown_toast_error_message">Bạn phải chọn một trong các tùy chọn</string>
+     <string name="invalid_contact_number">Vui lòng nhập số liên hệ hợp lệ</string>
+     <string name="invalid_email_id">Vui lòng nhập ID email hợp lệ</string>
+     <string name="via_email_text">qua email</string>
+     <string name="email_reply_reminder_message">Thư của bạn cũng sẽ được gửi dưới dạng thư trả lời</string>
+     <string name="km_take_over_from_bot_dialog_title">Bạn có chắc chắn muốn tiếp quản bot: %1$s không?</string>
+     <string name="km_take_over_from_bot_dialog_message">Bot sẽ bị xóa khỏi cuộc trò chuyện này và sẽ không trả lời bất kỳ tin nhắn nào nữa</string>
+     <string name="km_dialog_cancel_button">HỦY</string>
+     <string name="km_dialog_positive_button_text">THỤC LẠI TỪ BOT</string>
+     <string name="km_invalid_form_data_error">Dữ liệu biểu mẫu trống hoặc không hợp lệ</string>
 </resources>

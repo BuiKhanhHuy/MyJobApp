@@ -111,25 +111,9 @@ const JobPostDetailScreen = ({route, navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isFirstTitle, setIsFirstTitle] = React.useState(true);
   const [tab, setTab] = React.useState(0);
   const [jobPostDetail, setJobPostDetail] = React.useState(null);
-
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: 'Chi tiết việc làm',
-      headerRight: () => (
-        <IconButton
-          onPress={handleShareJobPost}
-          icon={<Icon as={Ionicons} name="md-share-social-outline" />}
-          borderRadius="full"
-          _icon={{
-            color: 'myJobCustomColors.mulledWineBluePurple',
-            size: 'lg',
-          }}
-        />
-      ),
-    });
-  }, []);
 
   React.useEffect(() => {
     const getJobPostDetail = async id => {
@@ -137,9 +121,8 @@ const JobPostDetailScreen = ({route, navigation}) => {
 
       try {
         const resData = await jobService.getJobPostDetailById(id);
-
         setJobPostDetail(resData.data);
-        setIsLoading(true);
+        setIsLoading(false);
       } catch (error) {
         toastMessages.error();
       }
@@ -147,6 +130,26 @@ const JobPostDetailScreen = ({route, navigation}) => {
 
     getJobPostDetail(id);
   }, [id, jobPostSaved]);
+
+  React.useEffect(() => {
+    if (jobPostDetail !== null) {
+      console.log('SUA LAI TITLE');
+      navigation.setOptions({
+        headerRight: () => (
+          <IconButton
+            onPress={handleShareJobPost}
+            icon={<Icon as={Ionicons} name="md-share-social-outline" />}
+            borderRadius="full"
+            _icon={{
+              color: 'myJobCustomColors.mulledWineBluePurple',
+              size: 'lg',
+            }}
+          />
+        ),
+      });
+  
+    }
+  }, [jobPostDetail?.id, id]);
 
   React.useEffect(() => {
     if (isApplySucess && isApplySucess === true) {
@@ -188,7 +191,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
         Share.open({
           message: jobPostDetail?.jobName || '',
           title: jobPostDetail?.jobName || '',
-          url: WEBSITE_DOMAIN.local + 'viec-lam/' + jobPostDetail?.slug,
+          url: WEBSITE_DOMAIN  + 'viec-lam/' + jobPostDetail?.slug,
         })
           .then(res => {
             console.log(res);

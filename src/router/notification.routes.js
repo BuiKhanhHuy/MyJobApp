@@ -29,6 +29,9 @@ const NotificationRouter = ({navigation}) => {
       <NotificationStack.Screen
         name="NotificationScreen"
         component={NotificationScreen}
+        options={{
+          title: "Thông báo"
+        }}
       />
     </NotificationStack.Navigator>
   );

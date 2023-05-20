@@ -25,7 +25,7 @@ const AUTH_CONFIG = {
 
   // GOOGLE AUTH
   GOOGLE_CLIENT_ID:
-    '717983009047-l046emjuhge9p8s9rqs4p7j9idsrnsb9.apps.googleusercontent.com',
+    '734184453591-slqdbvla02cs2s8q30gt4u6etlpgms12.apps.googleusercontent.com',
   GOOGLE_CLIENT_SECRET: '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',
 
   // GOONG
@@ -37,7 +37,7 @@ const AUTH_CONFIG = {
     'Av0DmLVNRE8m7HZGSTySLkyPaLX3Gg3b3cdt7I0ArXWxSmtKwqCpsUW6OE21t2z2',
 
   // RNKommunicateChat
-  CHAT_APP_ID: '35d278df447ef1a978999f93358dd91e9',
+  CHAT_APP_ID: '1a1bee586cc3e0f8985f65f4b3f10f03e'
 };
 
 const ROLES_NAME = {
@@ -100,10 +100,7 @@ const JOB_MAP_OPTIONS = {
   },
 };
 
-const WEBSITE_DOMAIN = {
-  local: 'http://127.0.0.1:3000/',
-  production: 'https://bkhuy-myjob.netlify.app/',
-};
+const WEBSITE_DOMAIN = 'https://bkhuy-myjob.netlify.app/';
 
 export {
   APP_NAME,
@@ -117,5 +114,5 @@ export {
   CV_TYPES,
   DATE_OPTIONS,
   JOB_MAP_OPTIONS,
-  WEBSITE_DOMAIN
+  WEBSITE_DOMAIN,
 };

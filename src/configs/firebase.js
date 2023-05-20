@@ -1,5 +1,5 @@
 import firebase from 'firebase/compat/app';
-import {getFirestore} from 'firebase/firestore';
+import { initializeFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCKr_uSX5ObUgxEEfLIOYhze750NPlTjgM',
@@ -13,6 +13,8 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = initializeFirestore(app, {
+  experimentalAutoDetectLongPolling: true
+})
 
 export default db;

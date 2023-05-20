@@ -133,10 +133,16 @@ const Router = () => {
             initialParams={{
               isApplySucess: false,
             }}
+            options={{
+              title: "Chi tiết việc làm"
+            }}
           />
           <RootStack.Screen
             name="CompanyDetailScreen"
             component={CompanyDetailScreen}
+            options={{
+              title: "Chi tiết công ty"
+            }}
           />
           <RootStack.Screen
             name="MainCompanyScreen"

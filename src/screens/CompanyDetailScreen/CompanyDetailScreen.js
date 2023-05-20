@@ -164,23 +164,6 @@ const CompanyDetailScreen = ({route, navigation}) => {
   const [tab, setTab] = React.useState(0);
   const [companyDetail, setCompanyDetail] = React.useState(null);
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: 'Chi tiết công ty',
-      headerRight: () => (
-        <IconButton
-          onPress={() => handleShareCompany()}
-          icon={<Icon as={Ionicons} name="md-share-social-outline" />}
-          borderRadius="full"
-          _icon={{
-            color: 'myJobCustomColors.mulledWineBluePurple',
-            size: 'lg',
-          }}
-        />
-      ),
-    });
-  }, []);
-
   React.useEffect(() => {
     const getCompanyDetail = async id => {
       setIsLoading(true);
@@ -196,8 +179,25 @@ const CompanyDetailScreen = ({route, navigation}) => {
     };
 
     getCompanyDetail(id);
-
   }, [id]);
+
+  React.useEffect(() => {
+    if (companyDetail !== null) {
+      navigation.setOptions({
+        headerRight: () => (
+          <IconButton
+            onPress={() => handleShareCompany()}
+            icon={<Icon as={Ionicons} name="md-share-social-outline" />}
+            borderRadius="full"
+            _icon={{
+              color: 'myJobCustomColors.mulledWineBluePurple',
+              size: 'lg',
+            }}
+          />
+        ),
+      });
+    }
+  }, [companyDetail?.id, id]);
 
   const handleFollow = id => {
     const followCompany = async companyId => {
@@ -233,7 +233,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
         Share.open({
           message: companyDetail?.companyName || '',
           title: companyDetail?.companyName || '',
-          url: WEBSITE_DOMAIN.local + 'cong-ty/' + companyDetail?.slug,
+          url: WEBSITE_DOMAIN  + 'cong-ty/' + companyDetail?.slug,
         })
           .then(res => {
             console.log('Shared');

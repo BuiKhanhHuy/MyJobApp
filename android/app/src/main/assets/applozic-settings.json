@@ -1,7 +1,7 @@
 {
   "customMessageBackgroundColor": "#e6e5ec",
   "sentMessageBackgroundColor": "#130160",
-  "receivedMessageBackgroundColor": "#e6e5ec",
+  "receivedMessageBackgroundColor": "#FF03A9F4",
   "sendButtonBackgroundColor": "#130160",
   "sentMessageCreatedAtTimeColor": "",
   "receivedMessageCreatedAtTimeColor": "",
@@ -83,8 +83,8 @@
   "hideGroupSubtitle": false,
   "toolbarTitleColor": "#ffffff",
   "toolbarSubtitleColor": "#ffffff",
-  "toolbarColor": "",
-  "statusBarColor": "#ffffff",
+  "toolbarColor": "#130160",
+  "statusBarColor": "#130160",
   "richMessageThemeColor": "",
   "restrictMessageTypingWithBots": false,
   "enableFaqOption": [

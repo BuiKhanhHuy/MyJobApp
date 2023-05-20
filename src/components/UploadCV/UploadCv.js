@@ -87,7 +87,7 @@ const UploadCv = ({title = null, showRequired=false, name, control}) => {
                           />
                         </View>
                         <VStack>
-                          <View>
+                          <View width={"95%"}>
                             <Text
                               color="myJobCustomColors.darkIndigo"
                               fontFamily="dMSansRegular">

@@ -6,12 +6,13 @@ import {
   Fab,
   HStack,
   Icon,
-  Image,
   ScrollView,
+  StatusBar,
   Text,
   View,
 } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FastImage from 'react-native-fast-image';
 
 import {HOME_FILTER_CAREER, ROLES_NAME} from '../../configs/constants';
 import {useLayout} from '../../hooks';
@@ -22,6 +23,7 @@ import BackdropLoading from '../../components/loadings/BackdropLoading';
 import TopCompanyCard from '../../components/TopCompanyCard';
 import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard';
 import FilterJobPostsCard from '../../components/FilterJobPostsCard';
+import BannerCarousel from '../../components/BannerCarousel';
 
 const HomeScreen = ({navigation}) => {
   const {isAuthenticated, currentUser} = useSelector(state => state.user);
@@ -69,9 +71,13 @@ const HomeScreen = ({navigation}) => {
                       onPress={() => navigation.navigate('Login')}
                       rounded="md"
                       variant={'outline'}
-                      borderColor="myJobCustomColors.darkIndigo"
-                     >
-                      <Text fontFamily="DMSans-Regular" color="myJobCustomColors.darkIndigo"> Đăng nhập</Text>
+                      borderColor="myJobCustomColors.darkIndigo">
+                      <Text
+                        fontFamily="DMSans-Regular"
+                        color="myJobCustomColors.darkIndigo">
+                        {' '}
+                        Đăng nhập
+                      </Text>
                     </Button>
                   )}
                 </View>
@@ -79,15 +85,9 @@ const HomeScreen = ({navigation}) => {
               <ScrollView showsVerticalScrollIndicator={false}>
                 <View paddingBottom={220}>
                   <View height="48" marginTop={4}>
-                    <Image
-                      source={{
-                        uri: 'https://res.cloudinary.com/dtnpj540t/image/upload/v1676043960/tam_anh_myjob/a2we0s9as6hzkybn1tn5.png',
-                      }}
-                      alt="Alternate Text"
-                      width="100%"
-                      height="100%"
-                      resizeMode="cover"
-                    />
+                    {/* Start: BannerCarousel */}
+                    <BannerCarousel />
+                    {/* End: BannerCarousel */}
                   </View>
                   <View height="56" marginTop={6}>
                     <View>
@@ -195,7 +195,10 @@ const HomeScreen = ({navigation}) => {
                     </View>
                     <View paddingTop={4}>
                       {/* Start: FilterJobPostsCard */}
-                      <FilterJobPostsCard pageSize={5} params={{isUrgent: true}} />
+                      <FilterJobPostsCard
+                        pageSize={5}
+                        params={{isUrgent: true}}
+                      />
                       {/* End: FilterJobPostsCard */}
                     </View>
                   </View>
