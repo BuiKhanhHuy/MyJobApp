@@ -4,6 +4,11 @@ import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {
+  GetFCMToken,
+  NotificationListener,
+  requestUserPermission,
+} from './utils/pushnotificationHelper';
 
 // redux
 import {getUserInfo} from './redux/userSlice';
@@ -46,6 +51,12 @@ const App = () => {
       openIdRealm: '',
       profileImageSize: 120,
     });
+  }, []);
+
+  React.useEffect(() => {
+    GetFCMToken();
+    requestUserPermission();
+    NotificationListener();
   }, []);
 
   React.useEffect(() => {

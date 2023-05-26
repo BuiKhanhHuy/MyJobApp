@@ -5,7 +5,7 @@ import {APP_NAME} from '../configs/constants';
 import {AUTH_CONFIG} from '../configs/constants';
 
 const httpRequest = axios.create({
-  baseURL: 'https://bkhuy-myjob-api.up.railway.app/',
+  baseURL: 'https://bkhuy-myjobapi.up.railway.app/',
   // baseURL: 'http://127.0.0.1:8000/',
   // baseURL: 'http://192.168.1.4:8000/',
   // timeout: 5000,
@@ -44,48 +44,50 @@ httpRequest.interceptors.response.use(
     if (originalConfig.url !== 'api/auth/token/' && error.response) {
       // Access Token was expired
       if (error.response.status === 401) {
-        const refreshTokenLocal = await tokenService.getLocalRefreshToken(
-          APP_NAME,
-        );
+        await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
 
-        if (!refreshTokenLocal) {
-          console.log('---> Không còn REFRESH TOKEN.');
-          await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
-          return Promise.reject(error);
-        }
+        // const refreshTokenLocal = await tokenService.getLocalRefreshToken(
+        //   APP_NAME,
+        // );
 
-        try {
-          console.log(
-            '---> Còn REFRESH TOKEN ---> LẤY TOKEN MỚI --> Refresh token là: ',
-            refreshTokenLocal,
-          );
-          // here
-          await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
-          const resData = await httpRequest.post('api/auth/token/', {
-            grant_type: AUTH_CONFIG.REFRESH_TOKEN_KEY,
-            client_id: AUTH_CONFIG.CLIENT_ID,
-            client_secret: AUTH_CONFIG.CLIENT_SECRECT,
-            refresh_token: refreshTokenLocal,
-          });
+        // if (!refreshTokenLocal) {
+        //   console.log('---> Không còn REFRESH TOKEN.');
+        //   await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
+        //   return Promise.reject(error);
+        // }
 
-          const {access_token: accessToken, refresh_token: refreshToken} =
-            resData.data;
-          console.log('Token mới: ', accessToken);
-          console.log('Refresh token token mới: ', refreshToken);
+        // try {
+        //   console.log(
+        //     '---> Còn REFRESH TOKEN ---> LẤY TOKEN MỚI --> Refresh token là: ',
+        //     refreshTokenLocal,
+        //   );
+        //   // here
+        //   await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
+        //   const resData = await httpRequest.post('api/auth/token/', {
+        //     grant_type: AUTH_CONFIG.REFRESH_TOKEN_KEY,
+        //     client_id: AUTH_CONFIG.CLIENT_ID,
+        //     client_secret: AUTH_CONFIG.CLIENT_SECRECT,
+        //     refresh_token: refreshTokenLocal,
+        //   });
 
-          // dispatch(refreshToken(accessToken));
-          // TokenService.updateLocalAccessToken(accessToken);
+        //   const {access_token: accessToken, refresh_token: refreshToken} =
+        //     resData.data;
+        //   console.log('Token mới: ', accessToken);
+        //   console.log('Refresh token token mới: ', refreshToken);
 
-          return axiosInstance(originalConfig);
-        } catch (_error) {
-          if (_error.response.status === 401) {
-            console.log('---> REFRESH TOKEN CŨNG HẾT HẠN.');
-            await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
-            return Promise.reject(error);
-          } else {
-            return Promise.reject(_error);
-          }
-        }
+        //   // dispatch(refreshToken(accessToken));
+        //   // TokenService.updateLocalAccessToken(accessToken);
+
+        //   return axiosInstance(originalConfig);
+        // } catch (_error) {
+        //   if (_error.response.status === 401) {
+        //     console.log('---> REFRESH TOKEN CŨNG HẾT HẠN.');
+        //     await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
+        //     return Promise.reject(error);
+        //   } else {
+        //     return Promise.reject(_error);
+        //   }
+        // }
       }
     }
 

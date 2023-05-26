@@ -11,9 +11,9 @@ const AUTH_PROVIDER = {
 
 const AUTH_CONFIG = {
   // BACKEND
-  CLIENT_ID: 'VYqeXWvCcINnPhStYBKg3HJC5BeJqCZaohYlyROz',
+  CLIENT_ID: 'tyL9BKk78we2N62FTy6rCV75efm1Pq8Cys43weP6',
   CLIENT_SECRECT:
-    'Buz6z6vwxy8W5QCVlxqCyfDnhFDDsGgf7N9B2lApShX1nj9hiFGyT8stTo6hSxn3ph2MttFPPfwWLUlwpaYaOjxvCjoYABdoq23EBoe5pMhF5zlUhUolwVdgQ7nuDtYG',
+    'RC8foVq5K8asqCZnuZUFT1QMX1qsYl9YFo2ZFOPv55r8hohHl14Lr1tvQZyG9MggkOpFqKRKegBmjVj3BV2eBTBOMTDqS43zb2xXLvH4RG3VjLsvYj6b6nsKaS1n4bGR',
   ACCESS_TOKEN_KEY: 'access_token',
   REFRESH_TOKEN_KEY: 'refresh_token',
   PASSWORD_KEY: 'password',
@@ -48,11 +48,11 @@ const ROLES_NAME = {
 
 const HOME_FILTER_CAREER = [
   {
-    id: 37,
+    id: 8,
     name: 'IT - Phần mềm',
   },
   {
-    id: 38,
+    id: 7,
     name: 'IT - Phần cứng',
   },
 ];

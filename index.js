@@ -12,7 +12,14 @@ import {NativeBaseProvider, extendTheme} from 'native-base';
 import {COLOR, CONFIG, FONTS, SHADOWS} from './src/configs/globalStyles';
 // Action Sheet
 import {SheetProvider} from 'react-native-actions-sheet/dist/src/provider';
+// firebase message
+import messaging from '@react-native-firebase/messaging';
 import './src/sheets';
+
+// Register background handler
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Message handled in the background!', remoteMessage);
+});
 
 const Root = () => {
   const theme = extendTheme({
@@ -29,7 +36,7 @@ const Root = () => {
           <App />
         </SheetProvider>
       </NativeBaseProvider>
-   </Provider> 
+    </Provider>
   );
 };
 
