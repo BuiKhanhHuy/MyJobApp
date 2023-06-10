@@ -146,7 +146,7 @@ const JobPostAppliedCard = () => {
               onEndReached={handleLoadMore}
               onEndReachedThreshold={0.2}
               getItemLayout={(data, index) => {
-                const itemHeight = 180; // Chiều cao của mỗi mục trong danh sách
+                const itemHeight = 260; // Chiều cao của mỗi mục trong danh sách
                 const offset = itemHeight * index; // Vị trí của mục trong danh sách
                 return {length: itemHeight, offset, index};
               }}

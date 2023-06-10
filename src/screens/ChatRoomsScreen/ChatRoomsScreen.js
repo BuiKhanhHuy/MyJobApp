@@ -1,103 +1,71 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {RefreshControl} from 'react-native';
+
 import {
   Box,
   Text,
   Pressable,
-  Icon,
   HStack,
-  Avatar,
   VStack,
   Spacer,
-  ScrollView,
   View,
+  FlatList,
+  Center,
+  Spinner,
 } from 'native-base';
-import {SwipeListView} from 'react-native-swipe-list-view';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
+import FastImage from 'react-native-fast-image';
 
-function Basic() {
+import {useLayout} from '../../hooks';
+import {ChatContext} from '../../context/ChatProvider';
+
+const RenderItem = ({item}) => {
+  const {setSelectedRoomId} = React.useContext(ChatContext);
   const navigation = useNavigation();
-  const data = [
-    {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      fullName: 'Afreen Khan',
-      timeStamp: '12:47 PM',
-      recentText: 'Good Day!',
-      avatarUrl:
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-    },
-    {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      fullName: 'Sujita Mathur',
-      timeStamp: '11:11 PM',
-      recentText: 'Cheer up, there!',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyEaZqT3fHeNrPGcnjLLX1v_W4mvBlgpwxnA&usqp=CAU',
-    },
-    {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      fullName: 'Anci Barroco',
-      timeStamp: '6:22 PM',
-      recentText: 'Good Day!',
-      avatarUrl: 'https://miro.medium.com/max/1400/0*0fClPmIScV5pTLoE.jpg',
-    },
-    {
-      id: '68694a0f-3da1-431f-bd56-142371e29d72',
-      fullName: 'Aniket Kumar',
-      timeStamp: '8:56 PM',
-      recentText: 'All the best',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr01zI37DYuR8bMV5exWQBSw28C1v_71CAh8d7GP1mplcmTgQA6Q66Oo--QedAN1B4E1k&usqp=CAU',
-    },
-    {
-      id: '28694a0f-3da1-471f-bd96-142456e29d72',
-      fullName: 'Kiara',
-      timeStamp: '12:47 PM',
-      recentText: 'I will call today.',
-      avatarUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBwgu1A5zgPSvfE83nurkuzNEoXs9DMNr8Ww&usqp=CAU',
-    },
-  ];
-  const [listData, setListData] = React.useState(data);
 
-  const closeRow = (rowMap, rowKey) => {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
+  const handleSelectRoom = chatRoomId => {
+    setSelectedRoomId(chatRoomId);
+    console.log('ĐÃ CHỌN CHAT ROOM: ', chatRoomId);
+    navigation.navigate('ChatScreen');
   };
 
-  const deleteRow = (rowMap, rowKey) => {
-    closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
-  };
-
-  const onRowDidOpen = rowKey => {
-    console.log('This row opened', rowKey);
-  };
-
-  const renderItem = ({item, index}) => (
+  return (
     <Box>
-      <Pressable onPress={() => navigation.navigate('ChatScreen')} bg="white">
-        <Box pl="4" pr="5" py="2">
+      <Pressable onPress={() => handleSelectRoom(item?.id)} bg="white">
+        <Box py={2}>
           <HStack alignItems="center" space={3}>
-            <Avatar
-              size="50px"
-              source={{
-                uri: item.avatarUrl,
+            <FastImage
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+                borderWidth: 0.5,
+                borderColor: '#E6E6E6',
               }}
+              source={{
+                uri: `${item?.user?.avatarUrl}`,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
             />
             <VStack>
-              <Text color="coolGray.800" bold>
-                {item.fullName}
+              <Text
+                color="myJobCustomColors.haitiBluePurple"
+                fontFamily="dMSansBold">
+                {`${item?.user?.name}`}
               </Text>
-              <Text color="coolGray.600">{item.recentText}</Text>
+              <Text
+                color="myJobCustomColors.purplishGrey"
+                fontFamily="dMSansRegular">
+                {`${item?.user?.company?.companyName}` || '---'}
+              </Text>
             </VStack>
             <Spacer />
-            <Text fontSize="xs" color="coolGray.800" alignSelf="flex-start">
+            <Text
+              fontSize="xs"
+              color="myJobCustomColors.mistBlue"
+              fontFamily="dMSansRegular"
+              alignSelf="flex-start">
               {item.timeStamp}
             </Text>
           </HStack>
@@ -105,75 +73,47 @@ function Basic() {
       </Pressable>
     </Box>
   );
-
-  const renderHiddenItem = (data, rowMap) => (
-    <HStack flex="1" pl="2">
-      <Pressable
-        w="70"
-        ml="auto"
-        cursor="pointer"
-        bg="coolGray.200"
-        justifyContent="center"
-        onPress={() => closeRow(rowMap, data.item.key)}
-        _pressed={{
-          opacity: 0.5,
-        }}>
-        <VStack alignItems="center" space={2}>
-          <Icon
-            as={<Entypo name="dots-three-horizontal" />}
-            size="xs"
-            color="coolGray.800"
-          />
-          <Text fontSize="xs" fontWeight="medium" color="coolGray.800">
-            More
-          </Text>
-        </VStack>
-      </Pressable>
-      <Pressable
-        w="70"
-        cursor="pointer"
-        bg="red.500"
-        justifyContent="center"
-        onPress={() => deleteRow(rowMap, data.item.key)}
-        _pressed={{
-          opacity: 0.5,
-        }}>
-        <VStack alignItems="center" space={2}>
-          <Icon as={<MaterialIcons name="delete" />} color="white" size="xs" />
-          <Text color="white" fontSize="xs" fontWeight="medium">
-            Delete
-          </Text>
-        </VStack>
-      </Pressable>
-    </HStack>
-  );
-
-  return (
-    <Box flex={1}>
-      <SwipeListView
-        data={listData}
-        renderItem={renderItem}
-        renderHiddenItem={renderHiddenItem}
-        rightOpenValue={-130}
-        previewRowKey={'0'}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
-      />
-    </Box>
-  );
-}
+};
 
 const ChatRoomsScreen = () => {
-  const [mode, setMode] = React.useState('Basic');
+  const {chatRooms} = React.useContext(ChatContext);
+  const navigation = useNavigation();
+  const [layout, isLayoutLoading, handleLayout] = useLayout();
+  const [page, setPage] = React.useState(1);
+  const [count, setCount] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(true);
 
   return (
-    <View h="100%" bg="white">
-      <ScrollView
+    <View h="100%" bg="white" px={4} py={1}>
+      <FlatList
         showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
-        <Basic />
-      </ScrollView>
+        showsVerticalScrollIndicator={false}
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={isLoading}
+        //     onRefresh={onRefresh}
+        //     colors={['#FF9228']}
+        //   />
+        // }
+        data={chatRooms}
+        renderItem={({item}) => <RenderItem item={item} key={item.id} />}
+        keyExtractor={item => item.id}
+        // ListFooterComponent={
+        //   isLoadMoreLoading ? (
+        //     <Center my="3">
+        //       <Spinner size="lg" color="myJobCustomColors.deepSaffron" />
+        //     </Center>
+        //   ) : null
+        // }
+        // onEndReached={handleLoadMore}
+        // onEndReachedThreshold={0.2}
+        getItemLayout={(data, index) => {
+          const itemHeight = 260; // Chiều cao của mỗi mục trong danh sách
+          const offset = itemHeight * index; // Vị trí của mục trong danh sách
+          return {length: itemHeight, offset, index};
+        }}
+      />
     </View>
   );
 };

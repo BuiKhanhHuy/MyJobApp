@@ -3,9 +3,10 @@ import {useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 import FastImage from 'react-native-fast-image';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {HStack, Skeleton, Text} from 'native-base';
+import {Button, HStack, View, Skeleton, Text, Icon} from 'native-base';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {salaryString} from '../../utils/customData';
 
@@ -162,6 +163,23 @@ const AppliedJobPost = ({
           </Text>
         </View>
       </View>
+      <View mt={4}>
+        <Button bgColor="myJobCustomColors.irishGreen:alpha.20" size="sm">
+          <HStack space={1.5} alignItems="center" justifyContent="center">
+            <Ionicons
+              key={2}
+              name="chatbubble-ellipses-outline"
+              color={'#04B015'}
+              size={20}
+            />
+            <Text
+              fontFamily="dMSansMedium"
+              color="myJobCustomColors.irishGreen">
+              Gửi tin nhắn
+            </Text>
+          </HStack>
+        </Button>
+      </View>
     </View>
   );
 };
@@ -193,6 +211,9 @@ const Loading = () => {
           <Skeleton rounded="md" flex={1} h="4" />
           <Skeleton rounded="md" flex={1} h="4" />
         </HStack>
+        <View mt={4}>
+          <Skeleton rounded="md" h="9" />
+        </View>
       </View>
     </>
   );
@@ -205,7 +226,7 @@ export default AppliedJobPost;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 210,
+    height: 260,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 20,
