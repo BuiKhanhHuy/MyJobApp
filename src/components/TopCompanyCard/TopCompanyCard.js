@@ -55,7 +55,10 @@ const TopCompanyCard = () => {
   return (
     <View>
       {isLoading ? (
-        <ScrollView horizontal={true}>
+        <ScrollView
+          horizontal={true}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}>
           <HStack space={4}>
             {Array.from(Array(3).keys()).map(value => (
               <Center key={value} width="200">
@@ -69,7 +72,10 @@ const TopCompanyCard = () => {
           <NoData title="Không có dữ liệu" imgSize="xl" />
         </View>
       ) : (
-        <ScrollView horizontal={true}>
+        <ScrollView
+          horizontal={true}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}>
           <HStack space={4}>
             {companies.map(value => (
               <Center key={value.id} width="200">

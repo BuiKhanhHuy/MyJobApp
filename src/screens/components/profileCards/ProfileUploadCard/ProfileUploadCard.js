@@ -113,7 +113,8 @@ const ProfileUploadCard = () => {
     <>
       {isFullScreenLoading && <BackdropLoading />}
       {isLoading ? (
-        <ScrollView horizontal>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
           <HStack space={4}>
             {Array.from(Array(2).keys()).map(value => (
               <CvUploadCard.Loading key={value} />
@@ -123,7 +124,8 @@ const ProfileUploadCard = () => {
       ) : resumes.length === 0 ? (
         <NoData title="Bạn chưa tải lên CV nào" />
       ) : (
-        <ScrollView horizontal>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}>
           <HStack space={4}>
             {resumes.map(value => (
               <CvUploadCard

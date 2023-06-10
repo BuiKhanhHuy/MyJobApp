@@ -49,7 +49,8 @@ const EditAccountForm = ({handleUpdate, serverErrors = {}}) => {
     <>
       <View paddingBottom={6} flex={1}>
         <View flex={10}>
-          <ScrollView>
+          <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
             <VStack space={4}>
               <TextInputCustom
                 name="fullName"

@@ -59,7 +59,8 @@ const AddOrEditLanguageSkillForm = ({
   return (
     <>
       <View flex={10}>
-        <ScrollView>
+        <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <VStack space={4}>
             <SelectCustom
               name="language"
@@ -98,7 +99,8 @@ const AddOrEditLanguageSkillForm = ({
 const Loading = () => (
   <>
     <View flex={10}>
-      <ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
         <VStack space={4}>
           <Skeleton rounded="md" h={6} />
           <Skeleton rounded="md" height={12} />

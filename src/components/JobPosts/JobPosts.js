@@ -33,7 +33,7 @@ const JobPost = () => {
           <Image
             source={{uri: 'https://img.icons8.com/fluency/1x/google-logo.png'}}
             style={styles.logo}
-            alt=''
+            alt=""
           />
         </View>
         <View style={{justifyContent: 'flex-start'}}>
@@ -65,7 +65,10 @@ const JobPost = () => {
         </Text>
       </View>
       <View style={{paddingVertical: 20}}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           {keyworkDescription('Design')}
           {keyworkDescription('Ho Chi Minh City')}
           {keyworkDescription('Work from home')}

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {
   Animated,
   StyleSheet,
@@ -9,6 +10,9 @@ import {
 } from 'react-native';
 import {CurvedBottomBar} from 'react-native-curved-bottom-bar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
+
+import firestore from '@react-native-firebase/firestore';
 
 import {AUTH_CONFIG} from '../configs/constants';
 import HomeRouter from './home.routes';
@@ -18,6 +22,33 @@ import SearchRouter from './search.routes';
 import BackdropLoading from '../components/loadings/BackdropLoading';
 
 export default BottomTabNavigator = () => {
+  const {currentUser, isAuthenticated} = useSelector(state => state.user);
+  const [isShowNewNoti, setIsShowNewNoti] = React.useState(false);
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isAuthenticated) {
+      const unsubscribe = firestore()
+        .collection('users')
+        .doc(`${currentUser.id}`)
+        .collection('notifications')
+        .where('is_deleted', '==', false)
+        .where('is_read', '==', false)
+        .onSnapshot(querySnapshot => {
+          let total = 0;
+          querySnapshot.forEach(doc => {
+            total = total + 1;
+          });
+
+          setIsShowNewNoti(total > 0);
+        });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [currentUser?.id]);
+
   const _renderIcon = (routeName, selectedTab) => {
     let icon = '';
     let label = '';
@@ -42,6 +73,14 @@ export default BottomTabNavigator = () => {
 
     return (
       <>
+        {routeName === 'NotificationTab' && isShowNewNoti && (
+          <Octicons
+            style={{position: 'absolute', top: 5, right: 35, zIndex: 1}}
+            size={15}
+            name="dot-fill"
+            color="#E5252A"
+          />
+        )}
         <Ionicons
           name={icon}
           size={25}
@@ -81,25 +120,22 @@ export default BottomTabNavigator = () => {
       appId: AUTH_CONFIG.CHAT_APP_ID,
     };
 
-    try {
-      RNKommunicateChat.buildConversation(
-        conversationObject,
-        (response, responseMessage) => {
-          if (response === 'Success') {
-            console.log(
-              'Conversation Successfully with id: ' + responseMessage,
-            );
-          }
-        },
-      );
-    } catch (error) {
-      console.error('An error occurred:', error);
-    } finally {
-    }
+    setIsFullScreenLoading(true);
+    RNKommunicateChat.buildConversation(
+      conversationObject,
+      (response, responseMessage) => {
+        if (response === 'Success') {
+          console.log('Conversation Successfully with id: ' + responseMessage);
+        }
+        setIsFullScreenLoading(false);
+      },
+    );
   };
 
   return (
     <>
+      {isFullScreenLoading && <BackdropLoading />}
+      
       <CurvedBottomBar.Navigator
         strokeWidth={1}
         style={styles.bottomBar}

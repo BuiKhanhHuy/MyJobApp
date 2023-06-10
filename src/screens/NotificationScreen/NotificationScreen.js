@@ -246,7 +246,8 @@ const NotificationScreen = () => {
                   />
                 </Center>
               ) : (
-                <ScrollView>
+                <ScrollView showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}>
                   <View paddingBottom={100}>
                     {notifications.map(value => (
                       <Center paddingX="3" key={value.key}>

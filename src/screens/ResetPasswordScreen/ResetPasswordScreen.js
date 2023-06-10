@@ -45,7 +45,8 @@ const ResetPasswordScreen = ({navigation}) => {
           <BackdropLoading />
         ) : (
           <>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
               <View paddingX="4" paddingY="12" flex={1}>
                 <View flex={1}>
                   <VStack alignItems="center">

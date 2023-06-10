@@ -67,7 +67,8 @@ const AddOrEditExperienceForm = ({handleAddOrUpdate, editData}) => {
   return (
     <>
       <View flex={10}>
-        <ScrollView>
+        <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <VStack space={4}>
             <TextInputCustom
               control={control}
@@ -124,7 +125,8 @@ const AddOrEditExperienceForm = ({handleAddOrUpdate, editData}) => {
 const Loading = () => (
   <>
     <View flex={10}>
-      <ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
         <VStack space={4}>
           <Skeleton rounded="md" h={6} />
           <Skeleton rounded="md" height={12}/>

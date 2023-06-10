@@ -26,7 +26,8 @@ const EditCvForm = ({handleUpdate}) => {
   return (
     <>
       <View flex={10}>
-        <ScrollView>
+        <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <VStack space={4}>
             <View>
               <UploadCv

@@ -21,7 +21,9 @@ const TermsOfUseScreen = () => {
           <BackdropLoading />
         ) : (
           <>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}>
               <View>
                 <Text
                   fontFamily="DMSans-Bold"

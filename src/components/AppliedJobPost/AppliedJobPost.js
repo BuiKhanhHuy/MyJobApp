@@ -106,7 +106,10 @@ const AppliedJobPost = ({
         </Text>
       </View>
       <View style={{paddingVertical: 20}}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           {careerId && keyworkDescription(allConfig?.careerDict[careerId])}
           {cityId && keyworkDescription(allConfig?.cityDict[cityId])}
           {experienceId &&

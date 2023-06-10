@@ -114,7 +114,7 @@ const JobPost = ({
   };
 
   return (
-    <View style={styles.container} shadow={'myJobCustomShadows.0'} >
+    <View style={styles.container} shadow={'myJobCustomShadows.0'}>
       <View style={styles.header}>
         <View>
           <FastImage
@@ -163,7 +163,10 @@ const JobPost = ({
         </Text>
       </View>
       <View style={{paddingVertical: 20}}>
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+        <ScrollView
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           {careerId && keyworkDescription(allConfig?.careerDict[careerId])}
           {cityId && keyworkDescription(allConfig?.cityDict[cityId])}
           {experienceId &&

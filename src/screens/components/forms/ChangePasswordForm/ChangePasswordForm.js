@@ -41,7 +41,8 @@ const ChangePasswordForm = ({handleUpdate, serverErrors = {}}) => {
   return (
     <>
       <View flex={10}>
-        <ScrollView>
+        <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <VStack space={4}>
             <TextInputCustom
               name="oldPassword"

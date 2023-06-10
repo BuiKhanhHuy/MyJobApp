@@ -30,6 +30,10 @@ import ApplyScreen from '../screens/ApplyScreen';
 import JobPostNotificationScreen from '../screens/JobPostNotificationScreen';
 import AddOrEditJobPostNotificationScreen from '../screens/AddOrEditJobPostNotificationScreen';
 
+// Chat
+import ChatRoomsScreen from '../screens/ChatRoomsScreen';
+import ChatScreen from '../screens/ChatScreen';
+
 // Profile
 import OnlineProfileScreen from '../screens/OnlineProfileScreen';
 import AttachedProfileScreen from '../screens/AttachedProfileScreen';
@@ -134,14 +138,14 @@ const Router = () => {
               isApplySucess: false,
             }}
             options={{
-              title: "Chi tiết việc làm"
+              title: 'Chi tiết việc làm',
             }}
           />
           <RootStack.Screen
             name="CompanyDetailScreen"
             component={CompanyDetailScreen}
             options={{
-              title: "Chi tiết công ty"
+              title: 'Chi tiết công ty',
             }}
           />
           <RootStack.Screen
@@ -173,6 +177,26 @@ const Router = () => {
           />
         </RootStack.Group>
         {/* End: Notification */}
+
+        {/* Start: Chat */}
+        <RootStack.Group>
+          <RootStack.Screen
+            name="ChatRoomsScreen"
+            component={ChatRoomsScreen}
+            options={{
+              title: 'MyJob Connect',
+            }}
+          />
+          <RootStack.Screen
+            name="ChatScreen"
+            component={ChatScreen}
+            options={{
+              title: '',
+              headerTransparent: true,
+            }}
+          />
+        </RootStack.Group>
+        {/* End: Chat */}
 
         {/* Start: Profile */}
         <RootStack.Group
@@ -296,10 +320,7 @@ const Router = () => {
 
         {/* Start: Map */}
         <RootStack.Group>
-          <RootStack.Screen
-            name="MapScreen"
-            component={MapScreen}
-          />
+          <RootStack.Screen name="MapScreen" component={MapScreen} />
           <RootStack.Screen
             name="JobPostAroundScreen"
             component={JobPostAroundScreen}

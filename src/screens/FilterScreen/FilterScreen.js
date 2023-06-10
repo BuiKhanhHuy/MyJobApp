@@ -44,6 +44,7 @@ const FilterScreen = () => {
         </View>
         <View flex={12} padding={6}>
           <ScrollView
+            showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}
             overScrollMode="never">
             <VStack space={2}>

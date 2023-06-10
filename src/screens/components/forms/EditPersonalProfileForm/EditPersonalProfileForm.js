@@ -106,7 +106,8 @@ const EditPersonalProfileForm = ({handleUpdate, editData}) => {
   return (
     <>
       <View flex={10}>
-        <ScrollView>
+        <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <VStack space={4}>
             <TextInputCustom
               name="user.fullName"
@@ -191,7 +192,8 @@ const EditPersonalProfileForm = ({handleUpdate, editData}) => {
 const Loading = () => (
   <>
     <View flex={10}>
-      <ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
         <VStack space={4}>
           <Skeleton rounded="md" h={6} />
           <Skeleton rounded="md" height={12} />

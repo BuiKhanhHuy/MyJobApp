@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground, TouchableOpacity, RefreshControl} from 'react-native';
+import {ImageBackground} from 'react-native';
 import {
   Box,
   Button,
@@ -28,6 +28,8 @@ import SettingOptionCard from '../../components/SettingOptionCard';
 import FeedbackCard from '../components/profileCards/FeedbackCard';
 import EditAvatar from '../../components/EditAvatar';
 import errorHandling from '../../utils/errorHandling';
+import ChatIcon from '../../components/ChatIcon';
+import SettingIcon from '../../components/SettingIcon';
 
 const ProfileScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
@@ -36,8 +38,6 @@ const ProfileScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const {currentUser, isAuthenticated} = useSelector(state => state.user);
-
-
 
   const handleLogin = () => {
     navigation.navigate('Login');
@@ -92,38 +92,29 @@ const ProfileScreen = ({navigation}) => {
                 resizeMode="cover">
                 <View
                   height="100%"
-                  padding={6}
+                  paddingTop={1}
+                  paddingBottom={6}
+                  paddingX={6}
                   borderBottomLeftRadius="3xl"
                   borderBottomRightRadius="3xl">
                   <View flex={1}>
-                    <View flex={2} justifyContent="center">
+                    <View flex={4} justifyContent="center">
                       {isAuthenticated && (
-                        <>
-                          <HStack justifyContent="flex-end" alignItems="center">
-                            <Ionicons
-                              name="share-social-outline"
-                              color={colors.myJobCustomColors.white}
-                              size={24}
-                              style={{
-                                marginRight: 8,
-                              }}
-                            />
+                        <HStack justifyContent="flex-end" alignItems="center">
+                          {/* Start: ChatIcon */}
+                          <ChatIcon
+                            color={colors.myJobCustomColors.white}
+                            bg={'rgba(255, 255, 255, 0.05)'}
+                          />
+                          {/* End: ChatIcon */}
 
-                            <TouchableOpacity
-                              onPress={() =>
-                                navigation.navigate('SettingScreen')
-                              }>
-                              <AntDesign
-                                name="setting"
-                                color={colors.myJobCustomColors.white}
-                                size={24}
-                                style={{
-                                  marginLeft: 8,
-                                }}
-                              />
-                            </TouchableOpacity>
-                          </HStack>
-                        </>
+                          {/* Start: SettingIcon */}
+                          <SettingIcon
+                            color={colors.myJobCustomColors.white}
+                            bg={'rgba(255, 255, 255, 0.05)'}
+                          />
+                          {/* End: SettingIcon */}
+                        </HStack>
                       )}
                     </View>
                     <View flex={isAuthenticated ? 10 : 5.5}>
@@ -227,8 +218,8 @@ const ProfileScreen = ({navigation}) => {
             </View>
             <View flex={5} padding={3}>
               <ScrollView
-                showsVerticalScrollIndicator={false}
-               >
+                showsHorizontalScrollIndicator={false}
+                showsVerticalScrollIndicator={false}>
                 <VStack space={12} paddingBottom={PADDING_BOTTOM}>
                   {isAuthenticated && (
                     <>

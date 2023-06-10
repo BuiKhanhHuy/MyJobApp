@@ -83,6 +83,16 @@ const SettingScreen = () => {
                     )
                   }
                 />
+                <SettingOptionCard
+                  leftIconName="ios-language-outline"
+                  rightIconName="chevron-forward"
+                  title="Ngôn ngữ"
+                  onPress={() =>
+                    alert(
+                      'Chức năng chưa được phát triển ở phiên bản hiện tại.',
+                    )
+                  }
+                />
                 {isAuthenticated && (
                   <>
                     <SettingOptionCard

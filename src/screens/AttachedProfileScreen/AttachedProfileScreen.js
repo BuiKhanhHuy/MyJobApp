@@ -23,7 +23,9 @@ const AttachedProfileScreen = ({route, navigation}) => {
         {isLayoutLoading ? (
           <BackdropLoading />
         ) : (
-          <ScrollView>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}>
             <VStack space={4}>
               {/* Start: PersonalProfileCard */}
               <PersonalProfileCard />

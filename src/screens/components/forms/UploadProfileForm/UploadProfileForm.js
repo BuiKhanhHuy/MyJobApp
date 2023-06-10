@@ -91,7 +91,8 @@ const UploadProfileForm = ({handleAdd}) => {
   return (
     <>
       <View flex={10}>
-        <ScrollView>
+        <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <VStack space={4}>
             <View>
               <UploadCv
@@ -210,7 +211,8 @@ const UploadProfileForm = ({handleAdd}) => {
 const Loading = () => (
   <>
     <View flex={10}>
-      <ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
         <VStack space={4}>
         <Skeleton rounded="md" h={6} />
           <Skeleton rounded="md" height={16} />

@@ -224,7 +224,11 @@ const MapScreen = ({route, navigation}) => {
                   <NoData title="Không có việc làm nào gần đây" />
                 </Center>
               ) : (
-                <ScrollView py={4} horizontal={true}>
+                <ScrollView
+                  py={4}
+                  horizontal={true}
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}>
                   {jobPosts.slice(0, 10).map(value => (
                     <View
                       maxWidth={320}

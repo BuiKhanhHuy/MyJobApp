@@ -2,12 +2,11 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
-import {Alert, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {
   ScrollView,
-  Avatar,
   View,
   Text,
   VStack,
@@ -16,7 +15,7 @@ import {
   Button,
   Icon,
   IconButton,
-  Box,
+  useTheme,
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -35,7 +34,6 @@ import {reloadSaveJobPost} from '../../redux/reloadSlice';
 import NoData from '../../components/NoData/NoData';
 import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard/SuggestedJobPostsCard';
 import {WEBSITE_DOMAIN} from '../../configs/constants';
-import {useFocusEffect} from '@react-navigation/native';
 
 const MenuButtonComponent = ({tab, setTab}) => {
   return (
@@ -104,6 +102,7 @@ const textItem = value => (
 
 const JobPostDetailScreen = ({route, navigation}) => {
   const {id, isApplySucess} = route.params;
+  const {colors} = useTheme();
   const dispatch = useDispatch();
   const {isAuthenticated} = useSelector(state => state.user);
   const {allConfig} = useSelector(state => state.config);
@@ -140,6 +139,9 @@ const JobPostDetailScreen = ({route, navigation}) => {
             onPress={handleShareJobPost}
             icon={<Icon as={Ionicons} name="md-share-social-outline" />}
             borderRadius="full"
+            _pressed={{
+              bg: colors.myJobCustomColors.mercury,
+            }}
             _icon={{
               color: 'myJobCustomColors.mulledWineBluePurple',
               size: 'lg',
@@ -147,7 +149,6 @@ const JobPostDetailScreen = ({route, navigation}) => {
           />
         ),
       });
-  
     }
   }, [jobPostDetail?.id, id]);
 
@@ -191,7 +192,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
         Share.open({
           message: jobPostDetail?.jobName || '',
           title: jobPostDetail?.jobName || '',
-          url: WEBSITE_DOMAIN  + 'viec-lam/' + jobPostDetail?.slug,
+          url: WEBSITE_DOMAIN + 'viec-lam/' + jobPostDetail?.slug,
         })
           .then(res => {
             console.log(res);
@@ -222,7 +223,9 @@ const JobPostDetailScreen = ({route, navigation}) => {
     <>
       <View onLayout={handleLayout} flex={1}>
         <View flex={9}>
-          <ScrollView>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}>
             {isLayoutLoading ? (
               <BackdropLoading />
             ) : (

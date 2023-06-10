@@ -41,6 +41,7 @@ const TextAreaCustom = ({
               </FormControl.Label>
             )}
             <TextArea
+              textAlign="justify"
               padding="4"
               value={value}
               onChangeText={onChange}

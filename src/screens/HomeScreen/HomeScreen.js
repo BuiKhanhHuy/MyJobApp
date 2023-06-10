@@ -7,25 +7,26 @@ import {
   HStack,
   Icon,
   ScrollView,
-  StatusBar,
   Text,
   View,
+  useTheme,
 } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FastImage from 'react-native-fast-image';
 
 import {HOME_FILTER_CAREER, ROLES_NAME} from '../../configs/constants';
 import {useLayout} from '../../hooks';
 
-import {PADDING_BOTTOM} from '../../configs/globalStyles';
 import JobTypePopulars from '../../components/JobTypePopulars';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import TopCompanyCard from '../../components/TopCompanyCard';
 import SuggestedJobPostsCard from '../../components/SuggestedJobPostsCard';
 import FilterJobPostsCard from '../../components/FilterJobPostsCard';
 import BannerCarousel from '../../components/BannerCarousel';
+import ChatIcon from '../../components/ChatIcon/ChatIcon';
+import MapIcon from '../../components/MapIcon/MapIcon';
 
 const HomeScreen = ({navigation}) => {
+  const {colors} = useTheme();
   const {isAuthenticated, currentUser} = useSelector(state => state.user);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
 
@@ -59,13 +60,24 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 <View>
                   {isAuthenticated ? (
-                    <Avatar
-                      bg="myJobCustomColors.neonCarrot"
-                      source={{
-                        uri: currentUser?.avatarUrl,
-                      }}>
-                      {currentUser?.fullName}
-                    </Avatar>
+                    <HStack justifyContent="flex-end" alignItems="center">
+                      {/* Start: ChatIcon */}
+                      <ChatIcon
+                        color={colors.myJobCustomColors.santaGrey}
+                        bg={colors.myJobCustomColors.mercury}
+                      />
+                      {/* End: ChatIcon */}
+                      <Avatar
+                        style={{
+                          marginLeft: 12,
+                        }}
+                        bg="myJobCustomColors.neonCarrot"
+                        source={{
+                          uri: currentUser?.avatarUrl,
+                        }}>
+                        {currentUser?.fullName}
+                      </Avatar>
+                    </HStack>
                   ) : (
                     <Button
                       onPress={() => navigation.navigate('Login')}
@@ -281,24 +293,10 @@ const HomeScreen = ({navigation}) => {
                 </View>
               </ScrollView>
             </View>
-            <Fab
-              renderInPortal={false}
-              size="md"
-              backgroundColor="myJobCustomColors.neonCarrot"
-              shadow={6}
-              padding={3}
-              right={5}
-              bottom={'40'}
-              icon={
-                <Icon
-                  color="white"
-                  as={MaterialCommunityIcons}
-                  name="map-marker-radius"
-                  size="xl"
-                />
-              }
-              onPress={() => navigation.navigate('MapScreen')}
-            />
+
+            {/* Start: MapIcon */}
+            <MapIcon />
+            {/* End: MapIcon */}
           </>
         )}
       </View>

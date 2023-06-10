@@ -54,7 +54,8 @@ const TopCareerCard = () => {
     <ScrollView
       style={{flexDirection: 'row'}}
       horizontal={true}
-      showsHorizontalScrollIndicator={false}>
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}>
       {isLoading
         ? Loading
         : careers.map(value => (

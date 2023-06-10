@@ -16,6 +16,7 @@ import {
   Button,
   Icon,
   IconButton,
+  useTheme
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -156,6 +157,7 @@ const textItem = value => (
 
 const CompanyDetailScreen = ({route, navigation}) => {
   const {id} = route.params;
+  const {colors} = useTheme();
   const dispath = useDispatch();
   const {allConfig} = useSelector(state => state.config);
   const [layout, isLayoutLoading, handleLayout] = useLayout();
@@ -189,6 +191,9 @@ const CompanyDetailScreen = ({route, navigation}) => {
             onPress={() => handleShareCompany()}
             icon={<Icon as={Ionicons} name="md-share-social-outline" />}
             borderRadius="full"
+            _pressed={{
+              bg: colors.myJobCustomColors.mercury,
+            }}
             _icon={{
               color: 'myJobCustomColors.mulledWineBluePurple',
               size: 'lg',
@@ -251,7 +256,8 @@ const CompanyDetailScreen = ({route, navigation}) => {
     <>
       <View onLayout={handleLayout} flex={1}>
         <View flex={9}>
-          <ScrollView>
+          <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
             {isLayoutLoading ? (
               <BackdropLoading />
             ) : (

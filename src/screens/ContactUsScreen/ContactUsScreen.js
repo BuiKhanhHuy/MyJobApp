@@ -51,7 +51,8 @@ const ContactUsScreen = () => {
           <BackdropLoading />
         ) : (
           <>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
               <VStack space={6}>
                 <Center>
                   <Image
