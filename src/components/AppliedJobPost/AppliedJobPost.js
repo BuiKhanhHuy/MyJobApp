@@ -9,6 +9,13 @@ import {Button, HStack, View, Skeleton, Text, Icon} from 'native-base';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {salaryString} from '../../utils/customData';
+import {
+  checkExists,
+  createUser,
+  checkChatRoomExists,
+  addDocument,
+} from '../../services/firebaseService';
+import {ChatContext} from '../../context/ChatProvider';
 
 const AppliedJobPost = ({
   id,
@@ -23,11 +30,17 @@ const AppliedJobPost = ({
   jobTypeId,
   deadline,
   cityId,
+  userId,
+  userFullName,
+  userEmail,
+  companyId,
+  companySlug,
   companyName,
   companyImageUrl,
   updateAt,
   appliedAt,
 }) => {
+  const {setSelectedRoomId, currentAccount} = React.useContext(ChatContext);
   const navigation = useNavigation();
   const {allConfig} = useSelector(state => state.config);
 
@@ -52,6 +65,44 @@ const AppliedJobPost = ({
         </Text>
       </View>
     );
+  };
+
+  const handleAddRoom = async (partnerId, userData) => {
+    // kiem tra user nay da duoc tao account tren firestore
+    let allowCreateNewChatRoom = false;
+    const isExists = await checkExists('accounts', partnerId);
+    if (!isExists) {
+      // tao moi user tren firestore.
+      const createResult = await createUser('accounts', userData, partnerId);
+      if (createResult) {
+        // tao phong tro chuyen
+        allowCreateNewChatRoom = true;
+      }
+    } else {
+      allowCreateNewChatRoom = true;
+    }
+
+    // tao phong tro chuyen
+    if (allowCreateNewChatRoom) {
+      // neu da ton tai phong co 2 user này => setSelectRoomID
+      let chatRoomId = await checkChatRoomExists(
+        'chatRooms',
+        currentAccount.userId,
+        partnerId,
+      );
+      // if (chatRoomId === null) {
+      //   // neu chua ton tai thi tao phong moi
+      //   chatRoomId = await addDocument('chatRooms', {
+      //     members: [`${currentAccount.userId}`, `${partnerId}`],
+      //     userId1: `${currentAccount.userId}`,
+      //     userId2: `${partnerId}`,
+      //   });
+      // }
+      console.log("chatRoomId: ", chatRoomId)
+
+      // set phong hien tai voi chatRoomId
+      // setSelectedRoomId(chatRoomId);
+    }
   };
 
   return (
@@ -164,7 +215,23 @@ const AppliedJobPost = ({
         </View>
       </View>
       <View mt={4}>
-        <Button bgColor="myJobCustomColors.irishGreen:alpha.20" size="sm">
+        <Button
+          bgColor="myJobCustomColors.irishGreen:alpha.20"
+          size="sm"
+          onPress={() =>
+            handleAddRoom(userId, {
+              userId: userId,
+              name: userFullName,
+              email: userEmail,
+              avatarUrl: companyImageUrl,
+              company: {
+                companyId: companyId,
+                slug: companySlug,
+                companyName: companyName,
+                imageUrl: companyImageUrl,
+              },
+            })
+          }>
           <HStack space={1.5} alignItems="center" justifyContent="center">
             <Ionicons
               key={2}

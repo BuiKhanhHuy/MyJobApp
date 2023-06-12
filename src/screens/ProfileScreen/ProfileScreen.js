@@ -99,23 +99,23 @@ const ProfileScreen = ({navigation}) => {
                   borderBottomRightRadius="3xl">
                   <View flex={1}>
                     <View flex={4} justifyContent="center">
-                      {isAuthenticated && (
-                        <HStack justifyContent="flex-end" alignItems="center">
-                          {/* Start: ChatIcon */}
+                      <HStack justifyContent="flex-end" alignItems="center">
+                        {/* Start: ChatIcon */}
+                        {isAuthenticated && (
                           <ChatIcon
                             color={colors.myJobCustomColors.white}
                             bg={'rgba(255, 255, 255, 0.05)'}
                           />
-                          {/* End: ChatIcon */}
+                        )}
+                        {/* End: ChatIcon */}
 
-                          {/* Start: SettingIcon */}
-                          <SettingIcon
-                            color={colors.myJobCustomColors.white}
-                            bg={'rgba(255, 255, 255, 0.05)'}
-                          />
-                          {/* End: SettingIcon */}
-                        </HStack>
-                      )}
+                        {/* Start: SettingIcon */}
+                        <SettingIcon
+                          color={colors.myJobCustomColors.white}
+                          bg={'rgba(255, 255, 255, 0.05)'}
+                        />
+                        {/* End: SettingIcon */}
+                      </HStack>
                     </View>
                     <View flex={isAuthenticated ? 10 : 5.5}>
                       <VStack mt="-5">

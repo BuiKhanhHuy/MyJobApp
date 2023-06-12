@@ -16,13 +16,13 @@ const ChatIcon = ({color, bg}) => {
       }}
       icon={
         <>
-          <Octicons
+          {/* <Octicons
             key={1}
             style={{position: 'absolute', top: 10, right: 10, zIndex: 1}}
             size={15}
             name="dot-fill"
             color="#E5252A"
-          />
+          /> */}
           <Ionicons
             key={2}
             name="chatbubble-ellipses-outline"

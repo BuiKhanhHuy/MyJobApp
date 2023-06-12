@@ -125,6 +125,11 @@ const JobPostAppliedCard = () => {
                   jobTypeId={item?.mobileJobPostDict?.jobType}
                   deadline={item?.mobileJobPostDict?.deadline}
                   cityId={item?.mobileJobPostDict?.locationDict?.city}
+                  userId={item?.mobileJobPostDict?.companyDict?.mobileUserDict?.id}
+                  userFullName={item?.mobileJobPostDict?.companyDict?.mobileUserDict?.fullName}
+                  userEmail={item?.mobileJobPostDict?.companyDict?.mobileUserDict?.email}
+                  companyId={item?.mobileJobPostDict?.companyDict?.id}
+                  companySlug={item?.mobileJobPostDict?.companyDict?.slug}
                   companyName={
                     item?.mobileJobPostDict?.companyDict?.companyName
                   }

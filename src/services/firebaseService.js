@@ -34,26 +34,6 @@ export const createUser = async (collectionName, userData, userId) => {
   }
 };
 
-// export const checkChatRoomExists = async (collectionName, member1, member2) => {
-//   const firestore = getFirestore();
-//   const chatRoomsRef = collection(firestore, collectionName);
-
-//   const q = query(
-//     chatRoomsRef,
-//     where('userId1', 'in', [`${member1}`, `${member2}`]),
-//     where('userId2', 'in', [`${member1}`, `${member2}`])
-//   );
-//   const querySnapshot = await getDocs(q);
-
-//   if (querySnapshot.size > 0) {
-//     const roomId = querySnapshot.docs[0].id;
-//     return roomId;
-//   } else {
-//     console.log('Room does not exist');
-//     return null;
-//   }
-// };
-
 export const getUserAccount = async (collectionName, userId) => {
   const user = await firestore()
     .collection(`${collectionName}`)
@@ -63,6 +43,21 @@ export const getUserAccount = async (collectionName, userId) => {
   if (user.exists) {
     return user.data();
   } else {
+    return null;
+  }
+};
+
+export const checkChatRoomExists = async (collectionName, member1, member2) => {
+  const querySnapshot = firestore()
+    .collection(collectionName)
+    .where('userId1', 'in', [`${member1}`, `${member2}`])
+    .where('userId2', 'in', [`${member1}`, `${member2}`]);
+
+  if (querySnapshot.count > 0) {
+    const roomId = querySnapshot.get().docs[0].id;
+    return roomId;
+  } else {
+    console.log('Room does not exist');
     return null;
   }
 };

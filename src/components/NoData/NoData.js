@@ -5,6 +5,7 @@ import {IMAGES} from '../../configs/globalStyles';
 
 const NoData = ({
   title = null,
+  subtitle=null,
   titleSize = 'xs',
   img = null,
   imgSize = 'lg',
@@ -29,6 +30,18 @@ const NoData = ({
             lineHeight="sm"
             color="#AAA6B9">
             {title}
+          </Text>
+        </Center>
+      )}
+       {subtitle && (
+        <Center>
+          <Text
+            textAlign="center"
+            fontFamily="dMSansRegular"
+            fontSize={'xs'}
+            lineHeight="sm"
+            color="#AAA6B9">
+            {subtitle}
           </Text>
         </Center>
       )}
