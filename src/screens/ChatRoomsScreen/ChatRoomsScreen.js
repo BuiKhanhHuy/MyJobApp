@@ -1,6 +1,6 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {RefreshControl} from 'react-native';
+import {RefreshControl, Dimensions} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 import {
@@ -16,14 +16,18 @@ import {
   Spinner,
   Skeleton,
   Button,
+  Icon,
 } from 'native-base';
 import FastImage from 'react-native-fast-image';
+import Octicons from 'react-native-vector-icons/Octicons';
 import {useLayout} from '../../hooks';
 import {ChatContext} from '../../context/ChatProvider';
 import NoData from '../../components/NoData/NoData';
 import {getUserAccount} from '../../services/firebaseService';
 import BackdropLoading from '../../components/loadings/BackdropLoading';
 import {IMAGES} from '../../configs/globalStyles';
+
+const screenWidth = Dimensions.get('window').width;
 
 const LoadingItem = () => {
   return (
@@ -40,29 +44,22 @@ const LoadingItem = () => {
 };
 
 const RenderItem = ({item}) => {
+  const {currentUserChat} = React.useContext(ChatContext);
   const {setSelectedRoomId} = React.useContext(ChatContext);
   const navigation = useNavigation();
 
   const handleSelectRoom = chatRoom => {
     setSelectedRoomId(chatRoom?.id);
-    console.log('ĐÃ CHỌN CHAT ROOM: ', chatRoom?.id);
-    navigation.navigate('ChatScreen', {
-      selectRoomId: chatRoom?.id,
-      selectRoomAvatar: chatRoom?.user?.avatarUrl,
-      selectRoomName: chatRoom?.user?.name,
-      selectRoomCompanyName: chatRoom?.user?.company?.companyName,
-      selectRoomCompanyId: chatRoom?.user?.company?.companyId,
-    });
+    navigation.navigate('ChatScreen');
   };
 
   return (
     <Box>
       <Pressable
         onPress={() => handleSelectRoom(item)}
-        // bg="white"
         _pressed={{
           bg: 'rgba(19, 1, 96, 0.1)',
-          borderRadius: 'md'
+          borderRadius: 'md',
         }}>
         <Box p={2}>
           <HStack alignItems="center" space={3}>
@@ -80,26 +77,30 @@ const RenderItem = ({item}) => {
               }}
               resizeMode={FastImage.resizeMode.contain}
             />
-            <VStack>
+            <VStack
+              style={{
+                overflow: 'hidden',
+                width: screenWidth - 112,
+              }}>
               <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
                 color="myJobCustomColors.haitiBluePurple"
                 fontFamily="dMSansBold">
                 {`${item?.user?.name}`}
               </Text>
               <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
                 color="myJobCustomColors.purplishGrey"
                 fontFamily="dMSansRegular">
                 {`${item?.user?.company?.companyName}` || '---'}
               </Text>
             </VStack>
-            <Spacer />
-            <Text
-              fontSize="xs"
-              color="myJobCustomColors.mistBlue"
-              fontFamily="dMSansRegular"
-              alignSelf="flex-start">
-              {item.timeStamp}
-            </Text>
+            {`${item?.recipientId}` === `${currentUserChat.userId}` &&
+              item?.unreadCount > 0 && (
+                <Icon as={Octicons} name="dot-fill" size="sm" color="#2979ff" />
+              )}
           </HStack>
         </Box>
       </Pressable>
@@ -111,13 +112,12 @@ const limitNum = 20;
 const chatRoomCollection = firestore().collection('chatRooms');
 
 const ChatRoomsScreen = () => {
-  const {currentAccount} = React.useContext(ChatContext);
-  const {userId} = currentAccount;
+  const {currentUserChat} = React.useContext(ChatContext);
+  const {userId} = currentUserChat;
   const navigation = useNavigation();
   const [layout, isLayoutLoading, handleLayout] = useLayout();
   const [isLoading, setIsLoading] = React.useState(true);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(false);
-  const [isLoadMore, setIsLoadMore] = React.useState(false);
   const [isReload, setIsReload] = React.useState(false);
   const [lastDocument, setLastDocument] = React.useState(null);
   const [chatRooms, setChatRooms] = React.useState([]);
@@ -128,12 +128,7 @@ const ChatRoomsScreen = () => {
     const unsubscribe = chatRoomCollection
       .where('members', 'array-contains', `${userId}`)
       .onSnapshot(querySnapshot => {
-        let total = 0;
-        querySnapshot.forEach(doc => {
-          total = total + 1;
-        });
-
-        setCount(total);
+        setCount(querySnapshot.size || 0);
       });
 
     return () => {
@@ -142,20 +137,11 @@ const ChatRoomsScreen = () => {
   }, [userId]);
 
   React.useEffect(() => {
-    console.log('==> VAO USE EFFECT page = ', page);
-    if (!isLoadMoreLoading) {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
 
-    let unsubscribe = chatRoomCollection
+    const unsubscribe = chatRoomCollection
       .where('members', 'array-contains', `${userId}`)
-      .orderBy('createdAt', 'desc');
-
-    if (lastDocument !== null) {
-      unsubscribe = unsubscribe.startAfter(lastDocument);
-    }
-
-    unsubscribe = unsubscribe
+      .orderBy('updatedAt', 'desc')
       .limit(limitNum)
       .onSnapshot(async querySnapshot => {
         let chatRoomsData = [];
@@ -165,10 +151,10 @@ const ChatRoomsScreen = () => {
             let partnerId = '';
             const chatRoomData = doc.data();
 
-            if (chatRoomData?.userId1 === `${userId}`) {
-              partnerId = chatRoomData?.userId2;
+            if (chatRoomData?.members[0] === `${currentUserChat.userId}`) {
+              partnerId = chatRoomData?.members[1];
             } else {
-              partnerId = chatRoomData?.userId1;
+              partnerId = chatRoomData?.members[0];
             }
 
             const userAccount = await getUserAccount(
@@ -186,39 +172,81 @@ const ChatRoomsScreen = () => {
           }
         });
 
-        setLastDocument(querySnapshot.docs[querySnapshot.docs.length - 1]);
-        await Promise.all(promises);
-        setPage(page + 1);
-        if (isLoadMoreLoading) {
-          setChatRooms([...chatRooms, ...chatRoomsData]);
-        } else {
-          setChatRooms(chatRoomsData);
+        if (querySnapshot.docs.length > 0) {
+          setLastDocument(querySnapshot.docs[querySnapshot.docs.length - 1]);
         }
-        setIsLoadMoreLoading(false);
+        await Promise.all(promises);
+
+        setPage(1);
+        setChatRooms(chatRoomsData);
         setIsLoading(false);
       });
 
     return () => unsubscribe();
-  }, [userId, isLoadMore, isReload]);
+  }, [userId, isReload]);
 
   const handleLoadMore = () => {
+    const getMoreData = async () => {
+      if (lastDocument !== null) {
+        const queryChatRooms = await chatRoomCollection
+          .where('members', 'array-contains', `${userId}`)
+          .orderBy('updatedAt', 'desc')
+          .startAfter(lastDocument)
+          .limit(limitNum)
+          .get();
+
+        let chatRoomsData = [];
+        const promises = queryChatRooms.docs.map(async doc => {
+          try {
+            let partnerId = '';
+            const chatRoomData = doc.data();
+
+            if (chatRoomData?.members[0] === `${currentUserChat.userId}`) {
+              partnerId = chatRoomData?.members[1];
+            } else {
+              partnerId = chatRoomData?.members[0];
+            }
+
+            const userAccount = await getUserAccount(
+              'accounts',
+              `${partnerId}`,
+            );
+
+            chatRoomsData.push({
+              ...chatRoomData,
+              id: doc.id,
+              user: userAccount,
+            });
+          } catch (error) {
+            console.error(error);
+          }
+        });
+
+        if (queryChatRooms.docs.length > 0) {
+          setLastDocument(queryChatRooms.docs[queryChatRooms.docs.length - 1]);
+        }
+        await Promise.all(promises);
+
+        setChatRooms([...chatRooms, ...chatRoomsData]);
+      }
+
+      setIsLoadMoreLoading(false);
+    };
+
     if (Math.ceil(count / limitNum) > page && !isLoadMoreLoading) {
-      console.log('LOAD MORE');
+      setPage(page + 1);
       setIsLoadMoreLoading(true);
-      setIsLoadMore(!isLoadMore);
+      getMoreData();
     }
   };
 
   const onRefresh = () => {
-    console.log('GỌI REFRESH...................');
     setIsReload(!isReload);
-    setLastDocument(null);
-    setPage(0);
   };
 
   return (
     <View h="100%" bg="white" py={1} onLayout={handleLayout}>
-      {false ? (
+      {isLayoutLoading ? (
         <BackdropLoading />
       ) : (
         <>

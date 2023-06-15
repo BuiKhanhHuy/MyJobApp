@@ -99,6 +99,9 @@ const RenderItem = ({item}) => {
             onPress={() => handleOpenLink(item?.buttonLink)}
             fontFamily="dMSansRegular"
             backgroundColor="myJobCustomColors.neonCarrot"
+            _pressed={{
+              bg: "myJobCustomColors.neonCarrot:alpha.50",
+            }}
             maxWidth={160}>
             {item?.buttonText}
           </Button>

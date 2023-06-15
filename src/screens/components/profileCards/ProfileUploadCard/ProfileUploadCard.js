@@ -113,8 +113,10 @@ const ProfileUploadCard = () => {
     <>
       {isFullScreenLoading && <BackdropLoading />}
       {isLoading ? (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <HStack space={4}>
             {Array.from(Array(2).keys()).map(value => (
               <CvUploadCard.Loading key={value} />
@@ -124,8 +126,10 @@ const ProfileUploadCard = () => {
       ) : resumes.length === 0 ? (
         <NoData title="Bạn chưa tải lên CV nào" />
       ) : (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}>
           <HStack space={4}>
             {resumes.map(value => (
               <CvUploadCard
@@ -146,11 +150,14 @@ const ProfileUploadCard = () => {
       )}
       <Box mt={6}>
         <Button
+          _pressed={{
+            bg: 'myJobCustomColors.neonCarrot:alpha.50',
+          }}
           onPress={() => navigation.navigate('UploadProfileScreen')}
           size="md"
           flex={1}
           rounded="lg"
-          bgColor="myJobCustomColors.neonCarrot"
+          bg="myJobCustomColors.neonCarrot"
           fontFamily="DMSans-Bold"
           fontSize={14}
           leftIcon={

@@ -16,6 +16,7 @@ import {
   addDocument,
 } from '../../services/firebaseService';
 import {ChatContext} from '../../context/ChatProvider';
+import BackdropLoading from '../loadings/BackdropLoading';
 
 const AppliedJobPost = ({
   id,
@@ -40,7 +41,8 @@ const AppliedJobPost = ({
   updateAt,
   appliedAt,
 }) => {
-  const {setSelectedRoomId, currentAccount} = React.useContext(ChatContext);
+  const {setSelectedRoomId, currentUserChat} = React.useContext(ChatContext);
+  const [isFullScreenLoading, setIsFullScreenLoading] = React.useState(false);
   const navigation = useNavigation();
   const {allConfig} = useSelector(state => state.config);
 
@@ -68,6 +70,8 @@ const AppliedJobPost = ({
   };
 
   const handleAddRoom = async (partnerId, userData) => {
+    setIsFullScreenLoading(true);
+
     // kiem tra user nay da duoc tao account tren firestore
     let allowCreateNewChatRoom = false;
     const isExists = await checkExists('accounts', partnerId);
@@ -80,6 +84,7 @@ const AppliedJobPost = ({
       }
     } else {
       allowCreateNewChatRoom = true;
+      5;
     }
 
     // tao phong tro chuyen
@@ -87,167 +92,181 @@ const AppliedJobPost = ({
       // neu da ton tai phong co 2 user này => setSelectRoomID
       let chatRoomId = await checkChatRoomExists(
         'chatRooms',
-        currentAccount.userId,
+        currentUserChat.userId,
         partnerId,
       );
-      // if (chatRoomId === null) {
-      //   // neu chua ton tai thi tao phong moi
-      //   chatRoomId = await addDocument('chatRooms', {
-      //     members: [`${currentAccount.userId}`, `${partnerId}`],
-      //     userId1: `${currentAccount.userId}`,
-      //     userId2: `${partnerId}`,
-      //   });
-      // }
-      console.log("chatRoomId: ", chatRoomId)
+      if (chatRoomId === null) {
+        // neu chua ton tai thi tao phong moi
+        chatRoomId = await addDocument('chatRooms', {
+          members: [`${currentUserChat.userId}`, `${partnerId}`],
+          membersString: [
+            `${currentUserChat.userId}-${partnerId}`,
+            `${partnerId}-${currentUserChat.userId}`,
+          ],
+          recipientId: `${partnerId}`,
+          unreadCount: 0,
+        });
+      }
 
+      setIsFullScreenLoading(false);
       // set phong hien tai voi chatRoomId
-      // setSelectedRoomId(chatRoomId);
+      setSelectedRoomId(chatRoomId);
+
+      // chuyen den chat screen
+      navigation.navigate('ChatScreen');
     }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <FastImage
-            style={styles.logo}
-            source={{
-              uri: companyImageUrl,
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-        </View>
-        <View style={{justifyContent: 'flex-start'}}>
-          <Text fontFamily="DMSans-Regular" color="#aaa6b9">
-            Ứng tuyển ngày:{' '}
-            <Text
-              color="myJobCustomColors.burningOrange"
-              fontFamily="DMSans-Bold">
-              {moment(appliedAt).format('DD/MM/YYYY')}
+    <>
+      {isFullScreenLoading && <BackdropLoading />}
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View>
+            <FastImage
+              style={styles.logo}
+              source={{
+                uri: companyImageUrl,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          </View>
+          <View style={{justifyContent: 'flex-start'}}>
+            <Text fontFamily="DMSans-Regular" color="#aaa6b9">
+              Ứng tuyển ngày:{' '}
+              <Text
+                color="myJobCustomColors.burningOrange"
+                fontFamily="DMSans-Bold">
+                {moment(appliedAt).format('DD/MM/YYYY')}
+              </Text>
             </Text>
+          </View>
+        </View>
+        <View style={{paddingTop: 10}}>
+          <Text
+            onPress={() =>
+              navigation.navigate('JobPostDetailScreen', {
+                id: id,
+              })
+            }
+            style={{
+              fontFamily: 'DMSans-Bold',
+              color: '#150a33',
+              fontSize: 14,
+              height: 18,
+              lineHeight: 18,
+            }}>
+            {jobName}
           </Text>
         </View>
-      </View>
-      <View style={{paddingTop: 10}}>
-        <Text
-          onPress={() =>
-            navigation.navigate('JobPostDetailScreen', {
-              id: id,
-            })
-          }
-          style={{
-            fontFamily: 'DMSans-Bold',
-            color: '#150a33',
-            fontSize: 14,
-            height: 18,
-            lineHeight: 18,
-          }}>
-          {jobName}
-        </Text>
-      </View>
-      <View style={{paddingTop: 4}}>
-        <Text
-          style={{
-            height: 16,
-            fontSize: 12,
-            color: '#524b6b',
-            fontFamily: 'DMSans-Medium',
-          }}>
-          {companyName}
-        </Text>
-      </View>
-      <View style={{paddingVertical: 20}}>
-        <ScrollView
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}>
-          {careerId && keyworkDescription(allConfig?.careerDict[careerId])}
-          {cityId && keyworkDescription(allConfig?.cityDict[cityId])}
-          {experienceId &&
-            keyworkDescription(allConfig?.experienceDict[experienceId])}
-          {academicLevelId &&
-            keyworkDescription(allConfig?.academicLevelDict[academicLevelId])}
-          {positionId &&
-            keyworkDescription(allConfig?.positionDict[positionId])}
-          {typeOfWorkplaceId &&
-            keyworkDescription(
-              allConfig?.typeOfWorkplaceDict[typeOfWorkplaceId],
-            )}
-          {jobTypeId && keyworkDescription(allConfig?.jobTypeDict[jobTypeId])}
-          {deadline &&
-            keyworkDescription(moment(deadline).format('DD/MM/YYYY'))}
-        </ScrollView>
-      </View>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <View>
+        <View style={{paddingTop: 4}}>
           <Text
             style={{
-              fontSize: 10,
-              lineHeight: 13,
-              fontFamily: 'DMSans-Regular',
-              color: '#aaa6b9',
+              height: 16,
+              fontSize: 12,
+              color: '#524b6b',
+              fontFamily: 'DMSans-Medium',
             }}>
-            {moment(updateAt).fromNow()}
+            {companyName}
           </Text>
         </View>
-        <View>
-          <Text>
+        <View style={{paddingVertical: 20}}>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}>
+            {careerId && keyworkDescription(allConfig?.careerDict[careerId])}
+            {cityId && keyworkDescription(allConfig?.cityDict[cityId])}
+            {experienceId &&
+              keyworkDescription(allConfig?.experienceDict[experienceId])}
+            {academicLevelId &&
+              keyworkDescription(allConfig?.academicLevelDict[academicLevelId])}
+            {positionId &&
+              keyworkDescription(allConfig?.positionDict[positionId])}
+            {typeOfWorkplaceId &&
+              keyworkDescription(
+                allConfig?.typeOfWorkplaceDict[typeOfWorkplaceId],
+              )}
+            {jobTypeId && keyworkDescription(allConfig?.jobTypeDict[jobTypeId])}
+            {deadline &&
+              keyworkDescription(moment(deadline).format('DD/MM/YYYY'))}
+          </ScrollView>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View>
             <Text
               style={{
-                lineHeight: 18,
-                fontSize: 14,
-                fontFamily: 'DMSans-Bold',
-                color: '#000',
-              }}>
-              {salaryString(salaryMin, salaryMax)}
-            </Text>
-            <Text
-              style={{
-                lineHeight: 16,
-                fontSize: 12,
-                fontFamily: 'DMSans-Medium',
+                fontSize: 10,
+                lineHeight: 13,
+                fontFamily: 'DMSans-Regular',
                 color: '#aaa6b9',
               }}>
-              /tháng
+              {moment(updateAt).fromNow()}
             </Text>
-          </Text>
+          </View>
+          <View>
+            <Text>
+              <Text
+                style={{
+                  lineHeight: 18,
+                  fontSize: 14,
+                  fontFamily: 'DMSans-Bold',
+                  color: '#000',
+                }}>
+                {salaryString(salaryMin, salaryMax)}
+              </Text>
+              <Text
+                style={{
+                  lineHeight: 16,
+                  fontSize: 12,
+                  fontFamily: 'DMSans-Medium',
+                  color: '#aaa6b9',
+                }}>
+                /tháng
+              </Text>
+            </Text>
+          </View>
+        </View>
+        <View mt={4}>
+          <Button
+            bgColor="myJobCustomColors.irishGreen:alpha.20"
+            size="sm"
+            _pressed={{
+              bg: 'myJobCustomColors.irishGreen:alpha.10',
+            }}
+            onPress={() =>
+              handleAddRoom(userId, {
+                userId: userId,
+                name: userFullName,
+                email: userEmail,
+                avatarUrl: companyImageUrl,
+                company: {
+                  companyId: companyId,
+                  slug: companySlug,
+                  companyName: companyName,
+                  imageUrl: companyImageUrl,
+                },
+              })
+            }
+          >
+            <HStack space={1.5} alignItems="center" justifyContent="center">
+              <Ionicons
+                key={2}
+                name="chatbubble-ellipses-outline"
+                color={'#04B015'}
+                size={20}
+              />
+              <Text
+                fontFamily="dMSansMedium"
+                color="myJobCustomColors.irishGreen">
+                Gửi tin nhắn
+              </Text>
+            </HStack>
+          </Button>
         </View>
       </View>
-      <View mt={4}>
-        <Button
-          bgColor="myJobCustomColors.irishGreen:alpha.20"
-          size="sm"
-          onPress={() =>
-            handleAddRoom(userId, {
-              userId: userId,
-              name: userFullName,
-              email: userEmail,
-              avatarUrl: companyImageUrl,
-              company: {
-                companyId: companyId,
-                slug: companySlug,
-                companyName: companyName,
-                imageUrl: companyImageUrl,
-              },
-            })
-          }>
-          <HStack space={1.5} alignItems="center" justifyContent="center">
-            <Ionicons
-              key={2}
-              name="chatbubble-ellipses-outline"
-              color={'#04B015'}
-              size={20}
-            />
-            <Text
-              fontFamily="dMSansMedium"
-              color="myJobCustomColors.irishGreen">
-              Gửi tin nhắn
-            </Text>
-          </HStack>
-        </Button>
-      </View>
-    </View>
+    </>
   );
 };
 

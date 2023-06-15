@@ -154,7 +154,7 @@ const ProfileScreen = ({navigation}) => {
                             fontFamily="dMSansRegular"
                             fontSize="sm"
                             color="myJobCustomColors.white">
-                            {currentUser?.jobSeekerProfilePhone ||
+                            {currentUser?.jobSeekerProfile?.phone ||
                               (isAuthenticated && (
                                 <Text fontFamily="dMSansItalic" fontSize={13}>
                                   SĐT chưa cập nhật
@@ -170,6 +170,9 @@ const ProfileScreen = ({navigation}) => {
                           {isAuthenticated ? (
                             <Button
                               backgroundColor="rgba(255, 255, 255, 0.1)"
+                              _pressed={{
+                                bg: 'myJobCustomColors.white:alpha.50',
+                              }}
                               _text={{
                                 fontFamily: 'dMSansRegular',
                                 fontSize: 'xs',

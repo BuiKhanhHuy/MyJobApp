@@ -1,5 +1,5 @@
 import React from 'react';
-import {HStack, Text, VStack, View} from 'native-base';
+import {HStack, Spinner, Text, VStack, View} from 'native-base';
 import moment from 'moment-timezone';
 import 'moment/locale/vi';
 
@@ -7,11 +7,11 @@ import {ChatContext} from '../../../context/ChatProvider';
 import FastImage from 'react-native-fast-image';
 
 const Message = ({userId, text, avatarUrl, createdAt}) => {
-  const {currentAccount} = React.useContext(ChatContext);
+  const {currentUserChat} = React.useContext(ChatContext);
 
   return (
     <View py={1}>
-      {`${currentAccount?.userId}` === `${userId}` ? (
+      {`${currentUserChat?.userId}` === `${userId}` ? (
         <VStack
           space={1}
           maxWidth={'80%'}
@@ -31,12 +31,14 @@ const Message = ({userId, text, avatarUrl, createdAt}) => {
               fontFamily="dMSansRegular"
               color="myJobCustomColors.mistBlue"
               fontSize={11}>
-              {moment(createdAt?.seconds * 1000).calendar(null, {
-                sameDay: '[Hôm nay] LT',
-                lastDay: '[Hôm qua] LT',
-                lastWeek: 'DD/MM/YYYY LT',
-                sameElse: 'DD/MM/YYYY LT',
-              })}
+              {createdAt?.seconds
+                ? moment(createdAt?.seconds * 1000).calendar(null, {
+                    sameDay: '[Hôm nay] LT',
+                    lastDay: '[Hôm qua] LT',
+                    lastWeek: 'DD/MM/YYYY LT',
+                    sameElse: 'DD/MM/YYYY LT',
+                  })
+                : 'Đang gửi ...'}
             </Text>
           </View>
         </VStack>
@@ -73,12 +75,14 @@ const Message = ({userId, text, avatarUrl, createdAt}) => {
               fontFamily="dMSansRegular"
               color="myJobCustomColors.mistBlue"
               fontSize={11}>
-              {moment(createdAt?.seconds * 1000).calendar(null, {
-                sameDay: '[Hôm nay] LT',
-                lastDay: '[Hôm qua] LT',
-                lastWeek: 'DD/MM/YYYY LT',
-                sameElse: 'DD/MM/YYYY LT',
-              })}
+              {createdAt?.seconds
+                ? moment(createdAt?.seconds * 1000).calendar(null, {
+                    sameDay: '[Hôm nay] LT',
+                    lastDay: '[Hôm qua] LT',
+                    lastWeek: 'DD/MM/YYYY LT',
+                    sameElse: 'DD/MM/YYYY LT',
+                  })
+                : 'Đang gửi ...'}
             </Text>
           </View>
         </VStack>

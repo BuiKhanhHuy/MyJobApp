@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Text, VStack, View} from 'native-base';
+import {Box, Skeleton, Text, VStack, View} from 'native-base';
 import FastImage from 'react-native-fast-image';
 
 const UserInfo = ({avatarUrl, title, subTitle}) => {
@@ -7,35 +7,47 @@ const UserInfo = ({avatarUrl, title, subTitle}) => {
     <Box mt={5}>
       <VStack space={1} alignItems="center">
         <View mb={1.5}>
-          <FastImage
-            style={{
-              width: 90,
-              height: 90,
-              borderRadius: 50,
-              borderWidth: 0.5,
-              borderColor: '#E6E6E6',
-            }}
-            source={{
-              uri: `${avatarUrl}`,
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
+          {avatarUrl ? (
+            <FastImage
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: 50,
+                borderWidth: 0.5,
+                borderColor: '#E6E6E6',
+              }}
+              source={{
+                uri: `${avatarUrl}`,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          ) : (
+            <Skeleton rounded="full" size="90" />
+          )}
         </View>
-        <Text
-          textAlign="center"
-          color="myJobCustomColors.haitiBluePurple"
-          fontSize="lg"
-          fontFamily="dMSansBold">
-          {title}
-        </Text>
-        <Text
-          textAlign="center"
-          color="myJobCustomColors.haitiBluePurple"
-          fontSize="md"
-          fontFamily="dMSansMedium">
-          {subTitle}
-        </Text>
+        {title ? (
+          <Text
+            textAlign="center"
+            color="myJobCustomColors.haitiBluePurple"
+            fontSize="lg"
+            fontFamily="dMSansBold">
+            {title}
+          </Text>
+        ) : (
+          <Skeleton h={5} rounded="md" />
+        )}
+        {subTitle ? (
+          <Text
+            textAlign="center"
+            color="myJobCustomColors.haitiBluePurple"
+            fontSize="md"
+            fontFamily="dMSansMedium">
+            {subTitle}
+          </Text>
+        ) : (
+          <Skeleton mt={1} h={5} rounded="md" />
+        )}
         <Text
           textAlign="center"
           color="myJobCustomColors.purplishGrey"

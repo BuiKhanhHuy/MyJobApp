@@ -1,9 +1,11 @@
 import React from 'react';
 import {
+  Box,
   Center,
   FlatList,
   HStack,
   IconButton,
+  Skeleton,
   Spinner,
   Text,
   TextArea,
@@ -16,142 +18,205 @@ import Feather from 'react-native-vector-icons/Feather';
 import firestore from '@react-native-firebase/firestore';
 
 import {ChatContext} from '../../context/ChatProvider';
-import {addDocument} from '../../services/firebaseService';
+import {addDocument, getChatRoomById} from '../../services/firebaseService';
 import Message from '../../components/chats/Message';
 import UserInfo from '../../components/chats/UserInfo';
 
 const limitNum = 20;
 const messageCollection = firestore().collection('messages');
 
-const ChatScreen = ({route, navigation}) => {
-  const {
-    selectRoomId,
-    selectRoomAvatar,
-    selectRoomName,
-    selectRoomCompanyName,
-    selectRoomCompanyId,
-  } = route.params;
-  const {currentAccount} = React.useContext(ChatContext);
+const ChatScreen = ({navigation}) => {
+  const {currentUserChat, selectedRoomId} = React.useContext(ChatContext);
   const [inputValue, setInputValue] = React.useState('');
   const inputRef = React.useRef(null);
 
   const [isLoading, setIsLoading] = React.useState(true);
+  const [isSubmitLoading, setIsSubmitLoading] = React.useState(false);
   const [isLoadMoreLoading, setIsLoadMoreLoading] = React.useState(false);
-  const [isLoadMore, setIsLoadMore] = React.useState(false);
-  const [isReload, setIsReload] = React.useState(false);
   const [lastDocument, setLastDocument] = React.useState(null);
   const [messages, setMessages] = React.useState([]);
+  const [selectedRoom, setSelectedRoom] = React.useState({});
+  const [partnerId, setPartnerId] = React.useState(null);
   const [page, setPage] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
+  // cap nhat unreadCount
   React.useEffect(() => {
-    navigation.setOptions({
-      headerTitle: props => (
-        <HStack justifyContent="flex-start" alignItems="center" space={3}>
-          <FastImage
-            style={{
-              width: 42,
-              height: 42,
-              borderRadius: 50,
-              borderWidth: 0.5,
-              borderColor: '#E6E6E6',
-            }}
-            source={{
-              uri: `${selectRoomAvatar}`,
-              priority: FastImage.priority.normal,
-            }}
-            resizeMode={FastImage.resizeMode.contain}
-          />
-          <VStack>
-            <Text
-              color="myJobCustomColors.haitiBluePurple"
-              fontFamily="dMSansBold">
-              {selectRoomName.substring(0, 30)}{' '}
-              {selectRoomName.length > 30 && ' ...'}
-            </Text>
-            <Text
-              color="myJobCustomColors.purplishGrey"
-              fontSize={'xs'}
-              fontFamily="dMSansRegular">
-              {selectRoomCompanyName.substring(0, 38)}
-              {selectRoomCompanyName.length > 38 && ' ...'}
-            </Text>
-          </VStack>
-        </HStack>
-      ),
-      headerRight: () => (
-        <IconButton
-          _pressed={{
-            bg: 'rgba(255, 158, 135, 0.1)',
-          }}
-          borderRadius="full"
-          icon={<Feather name="info" color="#FF9228" size={22} />}
-          onPress={() =>
-            navigation.navigate('CompanyDetailScreen', {
-              id: selectRoomCompanyId,
-            })
-          }
-        />
-      ),
-    });
-  }, []);
+    if (selectedRoomId && currentUserChat) {
+      const chatRoomDetailCollection = firestore()
+        .collection('chatRooms')
+        .doc(`${selectedRoomId}`);
 
+      const subscriber = chatRoomDetailCollection.onSnapshot(doc => {
+        const {recipientId, unreadCount} = doc.data();
+
+        if (recipientId === `${currentUserChat.userId}` && unreadCount > 0) {
+          chatRoomDetailCollection
+            .update({
+              unreadCount: 0,
+            })
+            .then(() => {
+              console.log('Unread chat room updated!');
+            });
+        }
+      });
+
+      return () => subscriber();
+    }
+  }, [selectedRoomId, currentUserChat]);
+
+  // lay thong tin partner
+  React.useEffect(() => {
+    const getChatRoom = async (selectedRoomId, userId) => {
+      const selectRoom = await getChatRoomById(selectedRoomId, userId);
+
+      setSelectedRoom(selectRoom);
+      setPartnerId(selectRoom?.user?.userId);
+    };
+
+    if (selectedRoomId && currentUserChat) {
+      getChatRoom(selectedRoomId, currentUserChat.userId);
+    }
+  }, [selectedRoomId, currentUserChat]);
+
+  // thiet lap header bar
+  React.useEffect(() => {
+    if (Object.keys(selectedRoom).length !== 0) {
+      navigation.setOptions({
+        headerTitle: props => (
+          <HStack justifyContent="flex-start" alignItems="center" space={3}>
+            <FastImage
+              style={{
+                width: 42,
+                height: 42,
+                borderRadius: 50,
+                borderWidth: 0.5,
+                borderColor: '#E6E6E6',
+              }}
+              source={{
+                uri: `${selectedRoom?.user?.avatarUrl}`,
+                priority: FastImage.priority.normal,
+              }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+            <VStack>
+              <Text
+                color="myJobCustomColors.haitiBluePurple"
+                fontFamily="dMSansBold">
+                {selectedRoom?.user?.name.substring(0, 30)}{' '}
+                {selectedRoom?.user?.name.length > 30 && ' ...'}
+              </Text>
+              <Text
+                color="myJobCustomColors.purplishGrey"
+                fontSize={'xs'}
+                fontFamily="dMSansRegular">
+                {selectedRoom?.user?.company?.companyName.substring(0, 38)}
+                {selectedRoom?.user?.company?.companyName.length > 38 && ' ...'}
+              </Text>
+            </VStack>
+          </HStack>
+        ),
+        headerRight: () => (
+          <IconButton
+            _pressed={{
+              bg: 'rgba(255, 158, 135, 0.1)',
+            }}
+            borderRadius="full"
+            icon={<Feather name="info" color="#FF9228" size={22} />}
+            onPress={() =>
+              navigation.navigate('CompanyDetailScreen', {
+                id: selectedRoom?.user?.company?.companyId,
+              })
+            }
+          />
+        ),
+      });
+    } else {
+      navigation.setOptions({
+        headerTitle: props => (
+          <HStack justifyContent="flex-start" alignItems="center" space={3}>
+            <Skeleton size={42} rounded="full" />
+            <VStack flex={1} space={1.5}>
+              <Skeleton h={3} w="70%" rounded="md" />
+              <Skeleton h={3} w="70%" rounded="md" />
+            </VStack>
+          </HStack>
+        ),
+        headerRight: () => (
+          <Center>
+            <Skeleton rounded="full" width={6} height={6} />
+          </Center>
+        ),
+      });
+    }
+  }, [selectedRoom]);
+
+  // tong message
   React.useEffect(() => {
     const unsubscribe = messageCollection
-      .where('roomId', '==', `${selectRoomId}`)
+      .where('roomId', '==', `${selectedRoomId}`)
       .onSnapshot(querySnapshot => {
-        let total = 0;
-        querySnapshot.forEach(doc => {
-          total = total + 1;
-        });
-
-        setCount(total);
+        setCount(querySnapshot.size || 0);
       });
 
     return () => {
       unsubscribe();
     };
-  }, [selectRoomId]);
+  }, [selectedRoomId]);
 
+  // lay danh sach messages
   React.useEffect(() => {
-    console.log('==> VAO USE EFFECT MESSAGE page = ', page);
-    if (!isLoadMoreLoading) {
-      setIsLoading(true);
-    }
+    setIsLoading(true);
 
     let unsubscribe = messageCollection
-      .where('roomId', '==', `${selectRoomId}`)
-      .orderBy('createdAt', 'desc');
+      .where('roomId', '==', `${selectedRoomId}`)
+      .orderBy('createdAt', 'desc')
+      .limit(limitNum)
+      .onSnapshot(querySnapshot => {
+        const messagesData = querySnapshot.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
 
-    if (lastDocument !== null) {
-      unsubscribe = unsubscribe.startAfter(lastDocument);
-    }
-
-    unsubscribe = unsubscribe.limit(limitNum).onSnapshot(querySnapshot => {
-      const messagesData = querySnapshot.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-
-      setLastDocument(querySnapshot.docs[querySnapshot.docs.length - 1]);
-      setPage(page + 1);
-      if (isLoadMoreLoading) {
-        setMessages([...messages, ...messagesData]);
-      } else {
+        if (querySnapshot.docs.length > 0) {
+          setLastDocument(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        }
+        setPage(1);
         setMessages(messagesData);
-      }
-      setIsLoadMoreLoading(false);
-      setIsLoading(false);
-    });
+        setIsLoading(false);
+      });
 
     return () => unsubscribe();
-  }, [selectRoomId, isLoadMore, isReload]);
+  }, [selectedRoomId]);
 
   const handleLoadMore = () => {
+    const getMoreData = async () => {
+      if (lastDocument !== null) {
+        const queryMessages = await messageCollection
+          .where('roomId', '==', `${selectedRoomId}`)
+          .orderBy('createdAt', 'desc')
+          .startAfter(lastDocument)
+          .limit(limitNum)
+          .get();
+
+        if (queryMessages.docs.length > 0) {
+          setLastDocument(queryMessages.docs[queryMessages.docs.length - 1]);
+        }
+        const messagesData = queryMessages.docs.map(doc => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setMessages([...messages, ...messagesData]);
+      }
+
+      setIsLoadMoreLoading(false);
+    };
+
     if (Math.ceil(count / limitNum) > page && !isLoadMoreLoading) {
-      console.log('LOAD MORE');
+      setPage(page + 1);
       setIsLoadMoreLoading(true);
-      setIsLoadMore(!isLoadMore);
+      getMoreData();
     }
   };
 
@@ -161,10 +226,14 @@ const ChatScreen = ({route, navigation}) => {
 
   const handleOnSubmit = () => {
     if (inputValue.trim() !== '') {
+      setIsSubmitLoading(true);
+
       addDocument('messages', {
         text: inputValue,
-        userId: `${currentAccount?.userId}`,
-        roomId: selectRoomId,
+        userId: `${currentUserChat?.userId}`,
+        roomId: selectedRoomId,
+      }).then(() => {
+        setIsSubmitLoading(false);
       });
 
       setInputValue('');
@@ -196,9 +265,9 @@ const ChatScreen = ({route, navigation}) => {
                 userId={item?.userId}
                 text={item?.text}
                 avatarUrl={
-                  `${currentAccount?.userId}` === `${item?.userId}`
-                    ? currentAccount?.avatarUrl
-                    : selectRoomAvatar
+                  `${currentUserChat?.userId}` === `${item?.userId}`
+                    ? currentUserChat?.avatarUrl
+                    : selectedRoom?.user?.avatarUrl
                 }
                 createdAt={item?.createdAt}
               />
@@ -215,11 +284,13 @@ const ChatScreen = ({route, navigation}) => {
             onEndReachedThreshold={0.2}
           />
         ) : (
-          <UserInfo
-            avatarUrl={selectRoomAvatar}
-            title={selectRoomName}
-            subTitle={selectRoomCompanyName}
-          />
+          selectedRoom && (
+            <UserInfo
+              avatarUrl={selectedRoom?.user?.avatarUrl}
+              title={selectedRoom?.user?.name}
+              subTitle={selectedRoom?.user?.company?.companyName}
+            />
+          )
         )}
       </View>
       <View px={4} pt={2} pb={4}>
@@ -244,17 +315,18 @@ const ChatScreen = ({route, navigation}) => {
 
           <IconButton
             onPress={handleOnSubmit}
-            bgColor="myJobCustomColors.darkIndigo"
-            colorScheme="indigo"
+            disabled={isSubmitLoading}
+            bgColor={'myJobCustomColors.darkIndigo'}
             variant="solid"
             borderRadius="lg"
             width="45"
-            height="45"
-            _icon={{
-              as: AntDeFontAwesomesign,
-              name: 'send-o',
-            }}
-          />
+            height="45">
+            {isSubmitLoading ? (
+              <Spinner color="myJobCustomColors.neonCarrot" />
+            ) : (
+              <AntDeFontAwesomesign name="send-o" color="white" size={20} />
+            )}
+          </IconButton>
         </HStack>
       </View>
     </View>

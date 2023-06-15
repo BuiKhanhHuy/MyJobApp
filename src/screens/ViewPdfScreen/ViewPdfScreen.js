@@ -37,6 +37,9 @@ const ViewPdfScreen = ({route, navigation}) => {
               color: 'myJobCustomColors.mulledWineBluePurple',
               size: 'lg',
             }}
+            _pressed={{
+              bg: 'myJobCustomColors.mercury',
+            }}
           />
 
           {fileUrl.startsWith('http') || fileUrl.startsWith('https') ? (

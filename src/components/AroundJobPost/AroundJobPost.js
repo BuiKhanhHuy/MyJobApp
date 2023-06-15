@@ -2,7 +2,16 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-import {Center, HStack, Skeleton, Stack, Text, VStack, View} from 'native-base';
+import {
+  Avatar,
+  Center,
+  HStack,
+  Skeleton,
+  Stack,
+  Text,
+  VStack,
+  View,
+} from 'native-base';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -126,7 +135,7 @@ const Loading = () => {
             <View>
               <Skeleton rounded={'full'} style={{height: 55, width: 55}} />
             </View>
-            <View width={"82%"}>
+            <View width={'82%'}>
               <Stack space={1} justifyContent="space-evenly">
                 <Skeleton rounded={'md'} h={5} />
 

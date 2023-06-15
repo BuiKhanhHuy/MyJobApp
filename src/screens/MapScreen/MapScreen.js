@@ -10,8 +10,8 @@ import {
   View,
 } from 'native-base';
 import {Platform, PermissionsAndroid, Dimensions} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import Geolocation from 'react-native-geolocation-service';
+import _ from 'lodash';
 
 import {
   JOB_MAP_OPTIONS,
@@ -41,6 +41,7 @@ const MapScreen = ({route, navigation}) => {
   });
   const [radius, setRadius] = React.useState(JOB_MAP_OPTIONS.o1.value);
   const [jobPosts, setJobPosts] = React.useState([]);
+  const [clusteredPosts, setClusteredPosts] = React.useState([]);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -156,7 +157,23 @@ const MapScreen = ({route, navigation}) => {
         try {
           const resData = await jobService.getJobPostsAround(data, params);
 
+          const groupedCoordinates = _.groupBy(
+            resData.data,
+            post => `${post.latitude}_${post.longitude}`,
+          );
+          // Đặt trạng thái cluster=true cho các bài post trùng nhau
+          const updatedPosts = _.flatMap(groupedCoordinates, coordinates => {
+            if (coordinates.length > 1) {
+              return coordinates.map(post => ({...post, cluster: true}));
+            } else {
+              return coordinates;
+            }
+          });
+          
           setJobPosts(resData.data);
+          setClusteredPosts(updatedPosts);
+
+          console.log(updatedPosts);
           console.log('CALL API VA RENDER - MapScreen: ');
         } catch (error) {
           toastMessages.error();
@@ -184,7 +201,7 @@ const MapScreen = ({route, navigation}) => {
         <View flex={10}>
           <JobsAroundMap
             currentLocation={currentLocation}
-            jobPosts={jobPosts}
+            clusteredPosts={clusteredPosts}
             radius={radius}
             setRadius={setRadius}
           />

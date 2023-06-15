@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, ImageBackground, TouchableOpacity} from 'react-native';
-import {Input, Icon, View} from 'native-base';
+import {Input, Icon, View, Button} from 'native-base';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 
 import {useLayout} from '../../hooks';
@@ -83,7 +83,7 @@ const SearchScreen = ({navigation}) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                   }}>
-                  <View
+                  <TouchableOpacity
                     style={{
                       height: 40,
                       width: 40,
@@ -91,19 +91,16 @@ const SearchScreen = ({navigation}) => {
                       borderRadius: 10,
                       padding: 8,
                       marginRight: 15,
-                    }}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('SpecializationScreen')
-                      }>
-                      <Image
-                        source={require('../../assets/images/icons/filter-icon.png')}
-                        resizeMode="contain"
-                        alt=""
-                        style={{width: '100%', height: '100%'}}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                    }}
+                    onPress={() => navigation.navigate('SpecializationScreen')}>
+                    <Image
+                      source={require('../../assets/images/icons/filter-icon.png')}
+                      resizeMode="contain"
+                      alt=""
+                      style={{width: '100%', height: '100%'}}
+                    />
+                  </TouchableOpacity>
+
                   {/* Start: TopCareerCard */}
                   <TopCareerCard />
                   {/* End: TopCareerCard */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {
   AlertDialog,
   Box,
@@ -15,6 +16,7 @@ import {
 import Octicons from 'react-native-vector-icons/Octicons';
 import MapView from 'react-native-map-clustering';
 import {PROVIDER_GOOGLE, Marker, Circle, Callout} from 'react-native-maps';
+import _ from 'lodash';
 
 import {ICONS} from '../../configs/globalStyles';
 import {JOB_MAP_OPTIONS} from '../../configs/constants';
@@ -84,7 +86,10 @@ const SettingPopup = ({setRadius}) => {
           variant="solid"
           borderWidth={0.5}
           borderColor="myJobCustomColors.greyChateauBluePurple"
-          backgroundColor="myJobCustomColors.white"
+          bg="myJobCustomColors.white"
+          _pressed={{
+            bg: 'myJobCustomColors.seashell',
+          }}
           _icon={{
             as: Octicons,
             name: 'gear',
@@ -133,7 +138,10 @@ const SettingPopup = ({setRadius}) => {
                   <Button.Group space={2}>
                     <Button
                       variant="unstyled"
-                      colorScheme="coolGray"
+                      bg="myJobCustomColors.porcelain"
+                      _pressed={{
+                        bg: 'myJobCustomColors.porcelain:alpha.30',
+                      }}
                       onPress={onClose}
                       ref={cancelRef}>
                       <Text
@@ -145,7 +153,10 @@ const SettingPopup = ({setRadius}) => {
                     <Button
                       colorScheme="danger"
                       onPress={handleChangeValue}
-                      backgroundColor="myJobCustomColors.darkIndigo">
+                      bg="myJobCustomColors.darkIndigo"
+                      _pressed={{
+                        bg: 'myJobCustomColors.darkIndigo:alpha.50',
+                      }}>
                       <Text
                         fontFamily="dMSansRegular"
                         color="myJobCustomColors.white">
@@ -163,7 +174,13 @@ const SettingPopup = ({setRadius}) => {
   );
 };
 
-const JobsAroundMap = ({currentLocation, jobPosts, radius, setRadius}) => {
+const JobsAroundMap = ({
+  currentLocation,
+  clusteredPosts,
+  radius,
+  setRadius,
+}) => {
+  const navigation = useNavigation();
   console.log('>>> JobsAroundMap Render');
 
   return (
@@ -191,7 +208,11 @@ const JobsAroundMap = ({currentLocation, jobPosts, radius, setRadius}) => {
           provider={PROVIDER_GOOGLE}
           loadingIndicatorColor="#FF9228"
           loadingEnabled={true}
-          clusterColor="#FF9228">
+          clusterColor="#FF9228"
+          onClusterPress={(cluster, markers) => {
+            console.log('Cluster: ', cluster);
+            console.log('Markers: ', markers);
+          }}>
           <Circle
             center={{
               latitude: currentLocation.latitude,
@@ -202,28 +223,35 @@ const JobsAroundMap = ({currentLocation, jobPosts, radius, setRadius}) => {
             strokeColor={'rgba(255, 99, 71, 0.2)'}
           />
 
-          {jobPosts.map(value => (
+          {clusteredPosts.map(clusteredPost => (
             <Marker
-              key={value.id}
+              key={clusteredPost.id}
               image={`${ICONS.JOB_LOCATION_ICON}`}
               coordinate={{
-                latitude: value?.latitude,
-                longitude: value?.longitude,
+                latitude: clusteredPost?.latitude,
+                longitude: clusteredPost?.longitude,
               }}>
-              <Callout key={value.id}>
+              <Callout
+                onPress={() =>
+                  navigation.navigate('JobPostDetailScreen', {
+                    id: clusteredPost.id,
+                  })
+                }>
                 <Center style={{maxWidth: 350, minWidth: 200}}>
                   <AroundJobPost
-                    key={value.id}
-                    id={value?.id}
-                    jobName={value?.jobName}
-                    salaryMin={value?.salaryMin}
-                    salaryMax={value?.salaryMax}
-                    deadline={value?.deadline}
-                    latitude={value?.latitude}
-                    longitude={value?.longitude}
-                    companyName={value?.mobileCompanyDict?.companyName}
-                    companyImageUrl={value?.mobileCompanyDict?.companyImageUrl}
-                    cityId={value?.locationDict?.city}
+                    key={clusteredPost.id}
+                    id={clusteredPost?.id}
+                    jobName={clusteredPost?.jobName}
+                    salaryMin={clusteredPost?.salaryMin}
+                    salaryMax={clusteredPost?.salaryMax}
+                    deadline={clusteredPost?.deadline}
+                    latitude={clusteredPost?.latitude}
+                    longitude={clusteredPost?.longitude}
+                    companyName={clusteredPost?.mobileCompanyDict?.companyName}
+                    companyImageUrl={
+                      clusteredPost?.mobileCompanyDict?.companyImageUrl
+                    }
+                    cityId={clusteredPost?.locationDict?.city}
                   />
                 </Center>
               </Callout>

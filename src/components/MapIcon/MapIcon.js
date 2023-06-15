@@ -10,7 +10,10 @@ const MapIcon = () => {
     <Fab
       renderInPortal={false}
       size="md"
-      backgroundColor="myJobCustomColors.neonCarrot"
+      bg="myJobCustomColors.neonCarrot"
+      _pressed={{
+        bg: 'myJobCustomColors.neonCarrot:alpha.60',
+      }}
       shadow={6}
       padding={3}
       right={5}

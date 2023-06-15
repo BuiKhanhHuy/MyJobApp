@@ -6,6 +6,7 @@ export const addDocument = async (collectionName, data) => {
     .add({
       ...data,
       createdAt: firestore.FieldValue.serverTimestamp(),
+      updatedAt: firestore.FieldValue.serverTimestamp(),
     });
 
   console.log('Document written with ID: ', docRef.id);
@@ -34,6 +35,33 @@ export const createUser = async (collectionName, userData, userId) => {
   }
 };
 
+export const getChatRoomById = async (chatRoomId, currentUserId) => {
+  const docSnap = await firestore()
+    .collection('chatRooms')
+    .doc(`${chatRoomId}`)
+    .get();
+
+  if (docSnap.exists) {
+    let partnerId = '';
+    const chatRoomData = docSnap.data();
+
+    if (chatRoomData?.members[0] === `${currentUserId}`) {
+      partnerId = chatRoomData?.members[1];
+    } else {
+      partnerId = chatRoomData?.members[0];
+    }
+
+    const userAccount = await getUserAccount('accounts', `${partnerId}`);
+    return {
+      ...chatRoomData,
+      id: docSnap.id,
+      user: userAccount,
+    };
+  } else {
+    return {};
+  }
+};
+
 export const getUserAccount = async (collectionName, userId) => {
   const user = await firestore()
     .collection(`${collectionName}`)
@@ -50,8 +78,7 @@ export const getUserAccount = async (collectionName, userId) => {
 export const checkChatRoomExists = async (collectionName, member1, member2) => {
   const querySnapshot = firestore()
     .collection(collectionName)
-    .where('userId1', 'in', [`${member1}`, `${member2}`])
-    .where('userId2', 'in', [`${member1}`, `${member2}`]);
+    .where('membersString', 'array-contains', `${member1}-${member2}`);
 
   if (querySnapshot.count > 0) {
     const roomId = querySnapshot.get().docs[0].id;

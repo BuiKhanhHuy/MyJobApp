@@ -67,7 +67,7 @@ const JobTypePopulars = () => {
             id={data[0].id}
             title={data[0].total}
             subTitle={data[0].name}
-            bgColor={colors.myJobCustomColors.frenchPass}
+            bgColor={'myJobCustomColors.frenchPass'}
             handleClick={handleClick}
           />
         )}
@@ -85,7 +85,7 @@ const JobTypePopulars = () => {
               id={data[1].id}
               title={data[1].total}
               subTitle={data[1].name}
-              bgColor={colors.myJobCustomColors.paleViolet}
+              bgColor={'myJobCustomColors.paleViolet'}
               handleClick={handleClick}
             />
           )}
@@ -102,7 +102,7 @@ const JobTypePopulars = () => {
               id={data[2].id}
               title={data[2].total}
               subTitle={data[2].name}
-              bgColor={colors.myJobCustomColors.lightApricot}
+              bgColor={'myJobCustomColors.lightApricot'}
               handleClick={handleClick}
             />
           )}

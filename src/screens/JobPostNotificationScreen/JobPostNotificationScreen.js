@@ -37,6 +37,9 @@ const JobPostNotificationScreen = () => {
       title: 'Thông báo việc làm',
       headerRight: () => (
         <IconButton
+          _pressed={{
+            bg: 'myJobCustomColors.neonCarrot:alpha.10',
+          }}
           onPress={() =>
             navigation.navigate('AddOrEditJobPostNotificationScreen', {
               id: null,
