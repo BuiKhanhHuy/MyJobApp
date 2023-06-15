@@ -104,6 +104,7 @@ const AppliedJobPost = ({
             `${partnerId}-${currentUserChat.userId}`,
           ],
           recipientId: `${partnerId}`,
+          createdBy: `${currentUserChat.userId}`,
           unreadCount: 0,
         });
       }

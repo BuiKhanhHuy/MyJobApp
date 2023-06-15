@@ -18,7 +18,11 @@ import Feather from 'react-native-vector-icons/Feather';
 import firestore from '@react-native-firebase/firestore';
 
 import {ChatContext} from '../../context/ChatProvider';
-import {addDocument, getChatRoomById} from '../../services/firebaseService';
+import {
+  addDocument,
+  getChatRoomById,
+  updateChatRoomByPartnerId,
+} from '../../services/firebaseService';
 import Message from '../../components/chats/Message';
 import UserInfo from '../../components/chats/UserInfo';
 
@@ -236,8 +240,10 @@ const ChatScreen = ({navigation}) => {
         setIsSubmitLoading(false);
       });
 
-      setInputValue('');
+      // cap nhat chat room
+      updateChatRoomByPartnerId(partnerId, selectedRoomId);
 
+      setInputValue('');
       if (inputRef?.current) {
         setTimeout(() => {
           inputRef.current.focus();
@@ -289,6 +295,11 @@ const ChatScreen = ({navigation}) => {
               avatarUrl={selectedRoom?.user?.avatarUrl}
               title={selectedRoom?.user?.name}
               subTitle={selectedRoom?.user?.company?.companyName}
+              description={
+                selectedRoom?.createdBy !== `${currentUserChat?.userId}`
+                  ? `${selectedRoom?.user?.company?.companyName} đã kết nối với bạn.`
+                  : `Bạn đã kết nối đến ${selectedRoom?.user?.company?.companyName}`
+              }
             />
           )
         )}

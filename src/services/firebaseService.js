@@ -13,6 +13,23 @@ export const addDocument = async (collectionName, data) => {
   return docRef.id;
 };
 
+export const updateChatRoomByPartnerId = (partnerId, chatRoomId) => {
+  firestore()
+    .collection('chatRooms')
+    .doc(`${chatRoomId}`)
+    .update({
+      recipientId: `${partnerId}`,
+      unreadCount: firestore.FieldValue.increment(1),
+      updatedAt: firestore.FieldValue.serverTimestamp(),
+    })
+    .then(() => {
+      console.log('update chatRoom success');
+    })
+    .catch(error => {
+      console.log('update chatRoom failed: ', error);
+    });
+};
+
 export const checkExists = async (collectionName, docId) => {
   const user = await firestore()
     .collection(`${collectionName}`)

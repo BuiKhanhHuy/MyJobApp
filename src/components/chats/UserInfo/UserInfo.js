@@ -1,8 +1,9 @@
 import React from 'react';
-import {Box, Skeleton, Text, VStack, View} from 'native-base';
+import {Box, HStack, Skeleton, Text, VStack, View} from 'native-base';
 import FastImage from 'react-native-fast-image';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const UserInfo = ({avatarUrl, title, subTitle}) => {
+const UserInfo = ({avatarUrl, title, subTitle, description}) => {
   return (
     <Box mt={5}>
       <VStack space={1} alignItems="center">
@@ -48,13 +49,36 @@ const UserInfo = ({avatarUrl, title, subTitle}) => {
         ) : (
           <Skeleton mt={1} h={5} rounded="md" />
         )}
-        <Text
-          textAlign="center"
-          color="myJobCustomColors.purplishGrey"
-          fontFamily="dMSansRegular"
-          mt={1.5}>
-          Hãy bắt đầu cuộc trò chuyện bằng một lời chào 😍
-        </Text>
+        {avatarUrl && title && subTitle ? (
+          <>
+            <HStack px={4} space={1} justifyContent="center" mt={1.5}>
+              <Ionicons
+                key={2}
+                name="checkmark-circle-outline"
+                color={'#04B015'}
+                size={20}
+              />
+              <Text
+                textAlign="center"
+                color="myJobCustomColors.mediumSeaGreen"
+                fontFamily="dMSansRegular">
+                {description}
+              </Text>
+            </HStack>
+
+            <Text
+              textAlign="center"
+              color="myJobCustomColors.purplishGrey"
+              fontFamily="dMSansRegular">
+              Hãy bắt đầu cuộc trò chuyện bằng một lời chào 😍
+            </Text>
+          </>
+        ) : (
+          <>
+            <Skeleton mt={1} h={4} rounded="md" mt={1.5} />
+            <Skeleton mt={1} h={4} rounded="md" />
+          </>
+        )}
       </VStack>
     </Box>
   );

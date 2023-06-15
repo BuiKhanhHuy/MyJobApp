@@ -6,6 +6,7 @@ import {
   Fab,
   HStack,
   Icon,
+  IconButton,
   ScrollView,
   Text,
   View,
@@ -67,16 +68,31 @@ const HomeScreen = ({navigation}) => {
                         bg={colors.myJobCustomColors.mercury}
                       />
                       {/* End: ChatIcon */}
-                      <Avatar
+                      <IconButton
+                        onPress={() => navigation.navigate('ProfileTab')}
+                        _pressed={{
+                          bg: 'myJobCustomColors.neonCarrot',
+                        }}
+                        icon={
+                          <Avatar
+                            style={{
+                              width: 45,
+                              height: 45,
+                            }}
+                            bg="myJobCustomColors.neonCarrot"
+                            source={{
+                              uri: currentUser?.avatarUrl,
+                            }}>
+                            {currentUser?.fullName}
+                          </Avatar>
+                        }
                         style={{
                           marginLeft: 12,
+                          width: 48,
+                          height: 48,
                         }}
-                        bg="myJobCustomColors.neonCarrot"
-                        source={{
-                          uri: currentUser?.avatarUrl,
-                        }}>
-                        {currentUser?.fullName}
-                      </Avatar>
+                        borderRadius="full"
+                      />
                     </HStack>
                   ) : (
                     <Button
