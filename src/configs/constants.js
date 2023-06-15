@@ -25,7 +25,7 @@ const AUTH_CONFIG = {
 
   // GOOGLE AUTH
   GOOGLE_CLIENT_ID:
-    '734184453591-slqdbvla02cs2s8q30gt4u6etlpgms12.apps.googleusercontent.com',
+    '717983009047-l046emjuhge9p8s9rqs4p7j9idsrnsb9.apps.googleusercontent.com',
   GOOGLE_CLIENT_SECRET: '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',
 
   // GOONG
@@ -37,7 +37,7 @@ const AUTH_CONFIG = {
     'Av0DmLVNRE8m7HZGSTySLkyPaLX3Gg3b3cdt7I0ArXWxSmtKwqCpsUW6OE21t2z2',
 
   // RNKommunicateChat
-  CHAT_APP_ID: '1a1bee586cc3e0f8985f65f4b3f10f03e'
+  CHAT_APP_ID: '1a1bee586cc3e0f8985f65f4b3f10f03e',
 };
 
 const ROLES_NAME = {

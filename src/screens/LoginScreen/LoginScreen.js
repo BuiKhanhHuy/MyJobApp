@@ -182,8 +182,8 @@ const LoginScreen = ({navigation}) => {
             const facebookAccessToken = data.accessToken.toString();
             // call server
             handleSocialLogin(
-              AUTH_CONFIG.CLIENT_ID,
-              AUTH_CONFIG.CLIENT_SECRECT,
+              AUTH_CONFIG.FACEBOOK_CLIENT_ID,
+              AUTH_CONFIG.FACEBOOK_CLIENT_SECRET,
               AUTH_PROVIDER.FACEBOOK,
               facebookAccessToken,
             );
@@ -215,8 +215,8 @@ const LoginScreen = ({navigation}) => {
 
         // Sử dụng access token
         handleSocialLogin(
-          AUTH_CONFIG.CLIENT_ID,
-          AUTH_CONFIG.CLIENT_SECRECT,
+          AUTH_CONFIG.GOOGLE_CLIENT_ID,
+          AUTH_CONFIG.GOOGLE_CLIENT_SECRET,
           AUTH_PROVIDER.GOOGLE,
           accessToken,
         );

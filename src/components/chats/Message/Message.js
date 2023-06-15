@@ -22,7 +22,7 @@ const Message = ({userId, text, avatarUrl, createdAt}) => {
             bgColor="myJobCustomColors.darkIndigo"
             roundedTopRight="xl"
             roundedLeft="xl">
-            <Text fontFamily="dMSansRegular" color="myJobCustomColors.white">
+            <Text textAlign="justify" fontFamily="dMSansRegular" color="myJobCustomColors.white">
               {text}
             </Text>
           </View>
@@ -50,6 +50,8 @@ const Message = ({userId, text, avatarUrl, createdAt}) => {
                 width: 45,
                 height: 45,
                 borderRadius: 50,
+                borderWidth: 0.5,
+                borderColor: '#E6E6E6',
               }}
               source={{
                 uri: `${avatarUrl}`,
@@ -63,6 +65,7 @@ const Message = ({userId, text, avatarUrl, createdAt}) => {
               roundedTopLeft="xl"
               roundedRight="xl">
               <Text
+                textAlign="justify"
                 fontFamily="dMSansRegular"
                 color="myJobCustomColors.gunPowderPurplyBlue">
                 {text}

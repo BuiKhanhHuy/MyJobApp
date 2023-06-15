@@ -36,11 +36,6 @@ const removeUserInfo = createAsyncThunk(
   'user/removeUserInfo',
   async (_, thunkAPI) => {
     try {
-      const accessToken = await tokenService.getLocalAccessToken(APP_NAME);
-      if (!accessToken) {
-        return Promise.reject('Not found access token!');
-      }
-
       // neu co dang nhap google
       const isSignedIn = await GoogleSignin.isSignedIn();
       if (isSignedIn) {
@@ -55,7 +50,15 @@ const removeUserInfo = createAsyncThunk(
         LoginManager.logOut();
       }
 
-      await authService.revokToken(accessToken);
+      /**
+       * Khong revoktoken
+       * RevokToken -> token web -> chet theo
+       */
+      // const accessToken = await tokenService.getLocalAccessToken(APP_NAME);
+      // if (!accessToken) {
+      //   return Promise.reject('Not found access token!');
+      // }
+      // await authService.revokToken(accessToken);
 
       const removeResult =
         await tokenService.removeLocalAccessTokenAndRefreshToken(APP_NAME);
