@@ -5,9 +5,9 @@
 <h2 align="center">MyJob Mobile Application (React Native)</h2>
 
  
-## [Video demo](https://www.youtube.com/watch?v=4vq1rl6vj5c)
-<a href="https://www.youtube.com/watch?v=4vq1rl6vj5c" target="_blank">
- <img src="https://github.com/BuiKhanhHuy/my-job-web-app/assets/69914972/6ed3db35-f195-4295-b152-a861fa30b3d7" alt="Watch the video" border="10" />
+## [Video demo](https://www.youtube.com/watch?v=BsgL6au9uVU)
+<a href="https://www.youtube.com/watch?v=BsgL6au9uVU" target="_blank">
+ <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c3a44465-c83e-4b9d-98bd-2b0ce75f825d" alt="Watch the video" border="10" />
 </a>
 
 ## Screenshots
