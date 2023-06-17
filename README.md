@@ -6,9 +6,7 @@
 
  
 ## [Video demo](https://www.youtube.com/watch?v=BsgL6au9uVU)
-<a href="https://www.youtube.com/watch?v=BsgL6au9uVU" target="_blank">
- <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c3a44465-c83e-4b9d-98bd-2b0ce75f825d" alt="Watch the video" border="10" />
-</a>
+[![Video Title](https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c3a44465-c83e-4b9d-98bd-2b0ce75f825d)](https://www.youtube.com/watch?v=BsgL6au9uVU)
 
 ## Screenshots
 <p align="center">
