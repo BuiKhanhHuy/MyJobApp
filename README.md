@@ -112,6 +112,8 @@
 
 ## Running
 
+❗Must run [Server Backend](https://github.com/BuiKhanhHuy/myjob_api)  first
+
 #### Clone & install
 
 * Clone this repo `https://github.com/BuiKhanhHuy/MyJobApp.git`
