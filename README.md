@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://github.com/BuiKhanhHuy/myjob_api/assets/69914972/ef0c454d-7947-46ab-a5e6-64ffe964bb3a" width="200"  alt="Image" />
+ <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/3ede98b7-68f6-4b6d-b3fd-85c74d225cfb" width="200"  alt="Image" />
 </p>
 <h1 align="center">JOB PORTAL SYSTEM</h1>
 <h2 align="center">MyJob Mobile Application (React Native)</h2>
