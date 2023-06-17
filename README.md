@@ -32,6 +32,7 @@
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/eb526440-8d6b-4f9e-a0ed-50e4f883678e" width="32%"> 
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/f7fa5588-8531-44e3-945c-35bb889ee3f4" width="32%"> 
 </p>
+
 ## React and React Native version
 
 * [react](https://github.com/facebook/react): 18.2.0
