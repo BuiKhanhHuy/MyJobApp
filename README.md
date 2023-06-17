@@ -5,7 +5,7 @@
 <h2 align="center">MyJob Mobile Application (React Native)</h2>
 
  
-## [Video demo](https://www.youtube.com/watch?v=BsgL6au9uVU)
+## 👉 [Video demo](https://www.youtube.com/watch?v=BsgL6au9uVU)
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c3a44465-c83e-4b9d-98bd-2b0ce75f825d"  > 
 
 ## Screenshots
