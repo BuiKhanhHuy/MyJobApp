@@ -12,7 +12,7 @@
 
 ## Screenshots
 
-<img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot0.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot1.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot2.png" width="280">
+<img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot0.png" width="33%"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot1.png" width="33%"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot2.png" width="33%">
 
 <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot3.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot4.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot5.png" width="280">
 
