@@ -123,7 +123,7 @@ const Company = ({
                 style={{
                   width: 60,
                   height: 60,
-                  borderRadius: 50
+                  borderRadius: 50,
                 }}
                 source={{
                   uri: companyImageUrl,
@@ -133,6 +133,7 @@ const Company = ({
               />
             </View>
             <Text
+              numberOfLines={3}
               textAlign="center"
               fontFamily="DMSans-Bold"
               fontSize={15}

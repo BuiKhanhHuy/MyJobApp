@@ -16,7 +16,7 @@ import {
   Button,
   Icon,
   IconButton,
-  useTheme
+  useTheme,
 } from 'native-base';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -41,11 +41,15 @@ const ActionButtonComponent = ({
   const {isAuthenticated} = useSelector(state => state.user);
 
   const handleOpenUrl = async websiteUrl => {
-    const supported = await Linking.canOpenURL(websiteUrl);
+    const url =
+      websiteUrl.startsWith('http://') || websiteUrl.startsWith('https://')
+        ? websiteUrl
+        : `https://${websiteUrl}`;
+    const supported = await Linking.canOpenURL(url);
     if (supported) {
-      await Linking.openURL(websiteUrl);
+      await Linking.openURL(url);
     } else {
-      Alert.alert(`Don't know how to open this URL: ${websiteUrl}`);
+      Alert.alert(`Don't know how to open this URL: ${url}`);
     }
   };
 
@@ -238,7 +242,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
         Share.open({
           message: companyDetail?.companyName || '',
           title: companyDetail?.companyName || '',
-          url: WEBSITE_DOMAIN  + 'cong-ty/' + companyDetail?.slug,
+          url: WEBSITE_DOMAIN + 'cong-ty/' + companyDetail?.slug,
         })
           .then(res => {
             console.log('Shared');
@@ -256,8 +260,9 @@ const CompanyDetailScreen = ({route, navigation}) => {
     <>
       <View onLayout={handleLayout} flex={1}>
         <View flex={9}>
-          <ScrollView showsHorizontalScrollIndicator={false}
-          showsVerticalScrollIndicator={false}>
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}>
             {isLayoutLoading ? (
               <BackdropLoading />
             ) : (

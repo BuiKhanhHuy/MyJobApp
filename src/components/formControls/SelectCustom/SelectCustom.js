@@ -8,8 +8,10 @@ import {
   WarningOutlineIcon,
   Text,
   Icon,
+  HStack,
 } from 'native-base';
 import {Dropdown} from 'react-native-element-dropdown';
+import Feather from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SelectCustom = ({
@@ -46,6 +48,24 @@ const SelectCustom = ({
               </FormControl.Label>
             )}
             <Dropdown
+              mode="modal"
+              renderRightIcon={() => (
+                <HStack space={1}>
+                  {field.value && (
+                    <MaterialIcons
+                      onPress={() => field.onChange(null)}
+                      name="clear"
+                      size={17}
+                      color={'#524b6b'}
+                    />
+                  )}
+
+                  <Feather name="chevron-down" size={17} color={'#C4C4C4'} />
+                </HStack>
+              )}
+              containerStyle={{
+                height: 600,
+              }}
               searchQuery={searchQuery}
               search={true}
               searchPlaceholder="Nhập từ khóa"
@@ -64,7 +84,7 @@ const SelectCustom = ({
                   borderWidth: showBorder || fieldState.invalid ? 1 : 0,
                 },
               ]}
-              data={[{id: '', name: placeholder || 'Chọn'}, ...options]}
+              data={options}
               dropdownPosition="auto"
               labelField="name"
               valueField="id"

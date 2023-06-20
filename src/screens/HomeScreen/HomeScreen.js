@@ -124,7 +124,7 @@ const HomeScreen = ({navigation}) => {
                         fontSize="lg"
                         lineHeight="sm"
                         color="myJobCustomColors.haitiBluePurple">
-                        Find Your Job
+                        Tìm công việc của bạn
                       </Text>
                     </View>
                     <View height="100%" paddingTop={4}>

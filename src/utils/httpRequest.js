@@ -6,7 +6,7 @@ import {AUTH_CONFIG} from '../configs/constants';
 
 const httpRequest = axios.create({
   // baseURL: 'https://bkhuy-myjobapi.up.railway.app/',
-  baseURL: 'http://192.168.1.9:8000/',
+  baseURL: 'http://192.168.43.26:8000/',
   // baseURL: 'http://192.168.1.4:8000/',
   // timeout: 5000,
   headers: {
