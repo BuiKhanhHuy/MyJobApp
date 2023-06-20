@@ -1,10 +1,15 @@
 <p align="center">
+<<<<<<< HEAD
  <img src="https://github.com/BuiKhanhHuy/myjob_api/assets/69914972/ef0c454d-7947-46ab-a5e6-64ffe964bb3a" width="200"  alt="Image" />
+=======
+ <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/3ede98b7-68f6-4b6d-b3fd-85c74d225cfb" width="200"  alt="Image" />
+>>>>>>> b100437c4366ceb111d8f91a66f69b67271df405
 </p>
 <h1 align="center">JOB PORTAL SYSTEM</h1>
 <h2 align="center">MyJob Mobile Application (React Native)</h2>
 
  
+<<<<<<< HEAD
 ## [Video demo](https://www.youtube.com/watch?v=4vq1rl6vj5c)
 <a href="https://www.youtube.com/watch?v=4vq1rl6vj5c" target="_blank">
  <img src="https://github.com/BuiKhanhHuy/my-job-web-app/assets/69914972/6ed3db35-f195-4295-b152-a861fa30b3d7" alt="Watch the video" border="10" />
@@ -15,6 +20,35 @@
 <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot0.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot1.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot2.png" width="280">
 
 <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot3.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot4.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot5.png" width="280">
+=======
+## 👉 [Video demo](https://www.youtube.com/watch?v=BsgL6au9uVU)
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c3a44465-c83e-4b9d-98bd-2b0ce75f825d"  > 
+
+## Screenshots
+<p align="center">
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/34062ccf-fd40-46cc-8358-01698ddca27c" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c4f799e0-695a-44a2-81dc-c1a0fc396a2b" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/d22cfe9c-557d-4f61-88f2-30320a705c42" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/1e480e34-56f8-4d4d-953e-ae9a31384bca" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/2d26df06-7ebd-4469-87d9-332a3f08f70c" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/fdddf1aa-673f-42c9-9d4e-3294728ab812" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/2e4631c7-f178-499c-bcac-998383eccd98" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/6b3bdb4a-9eef-43e5-b0b3-aa96d50eccd8" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/56bd1527-dfbb-42d0-b47a-acc8aba00467" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/5d81ec16-8ef6-4115-a3ac-dce9283d4f24" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/b4e72919-6a77-4928-b17e-767e1444e466" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/f2f89408-24a8-4b00-a2bc-4640a7019cf2" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/9c38eca7-f32b-4b10-b1b8-548ba31c731f" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/93b623d4-e232-4a64-b55b-fd144bb6f2f0" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/bc2069cc-0cd2-4180-8109-dd4388696fef" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/98607a0d-2c4f-4c4d-ab16-30d58f2dbd48" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/b6c5b4f2-f5ef-4aea-b54e-53622dc1e793" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/048d29c0-9bd9-4f42-a672-0936a652c014" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/716ad7f2-5dcd-4375-8130-e3f538350f82" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/eb526440-8d6b-4f9e-a0ed-50e4f883678e" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/f7fa5588-8531-44e3-945c-35bb889ee3f4" width="32%"> 
+</p>
+>>>>>>> b100437c4366ceb111d8f91a66f69b67271df405
 
 ## React and React Native version
 
