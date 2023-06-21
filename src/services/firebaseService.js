@@ -93,12 +93,13 @@ export const getUserAccount = async (collectionName, userId) => {
 };
 
 export const checkChatRoomExists = async (collectionName, member1, member2) => {
-  const querySnapshot = firestore()
+  const querySnapshot = await firestore()
     .collection(collectionName)
-    .where('membersString', 'array-contains', `${member1}-${member2}`);
+    .where('membersString', 'array-contains', `${member1}-${member2}`)
+    .get();
 
-  if (querySnapshot.count > 0) {
-    const roomId = querySnapshot.get().docs[0].id;
+  if (!querySnapshot.empty) {
+    const roomId = querySnapshot.docs[0].id;
     return roomId;
   } else {
     console.log('Room does not exist');

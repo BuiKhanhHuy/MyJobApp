@@ -120,7 +120,7 @@ const Loading = () => {
     <View style={styles.container}>
       <HStack justifyContent="space-between" alignItems="center" mb={2}>
         <Skeleton style={styles.logo} />
-        <Skeleton rounded="md" width={"80%"} h="4" />
+        <Skeleton rounded="md" width={'80%'} h="4" />
       </HStack>
       <VStack space={4}>
         <VStack space={2}>
@@ -165,5 +165,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 50,
+    borderWidth: 0.5,
+    borderColor: '#E6E6E6',
   },
 });

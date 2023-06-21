@@ -263,7 +263,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
           <ScrollView
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}>
-            {isLayoutLoading ? (
+            {false ? (
               <BackdropLoading />
             ) : (
               <View flex={1}>
@@ -274,7 +274,7 @@ const CompanyDetailScreen = ({route, navigation}) => {
                         width: 84,
                         height: 84,
                         borderRadius: 50,
-                        backgroundColor: '#A9A5B8',
+                        backgroundColor: '#E6E1FF',
                       }}
                       source={{
                         uri: companyDetail?.companyImageUrl,

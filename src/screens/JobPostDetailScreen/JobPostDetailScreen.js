@@ -237,7 +237,7 @@ const JobPostDetailScreen = ({route, navigation}) => {
                         width: 84,
                         height: 84,
                         borderRadius: 50,
-                        backgroundColor: '#A9A5B8',
+                        backgroundColor: '#E6E1FF',
                       }}
                       source={{
                         uri: jobPostDetail?.mobileCompanyDict?.companyImageUrl,

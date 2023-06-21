@@ -84,7 +84,6 @@ const AppliedJobPost = ({
       }
     } else {
       allowCreateNewChatRoom = true;
-      5;
     }
 
     // tao phong tro chuyen
@@ -231,6 +230,7 @@ const AppliedJobPost = ({
         </View>
         <View mt={4}>
           <Button
+            disabled={isFullScreenLoading}
             bgColor="myJobCustomColors.irishGreen:alpha.20"
             size="sm"
             _pressed={{
@@ -249,8 +249,7 @@ const AppliedJobPost = ({
                   imageUrl: companyImageUrl,
                 },
               })
-            }
-          >
+            }>
             <HStack space={1.5} alignItems="center" justifyContent="center">
               <Ionicons
                 key={2}
@@ -333,5 +332,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 50,
+    borderWidth: 0.5,
+    borderColor: '#E6E6E6',
   },
 });

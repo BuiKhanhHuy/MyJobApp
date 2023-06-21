@@ -37,7 +37,7 @@ const AUTH_CONFIG = {
     'Av0DmLVNRE8m7HZGSTySLkyPaLX3Gg3b3cdt7I0ArXWxSmtKwqCpsUW6OE21t2z2',
 
   // RNKommunicateChat
-  CHAT_APP_ID: '1a1bee586cc3e0f8985f65f4b3f10f03e',
+  CHAT_APP_ID: '37525d7363aaf26cc2d1c20b3f4b28d74',
 };
 
 const ROLES_NAME = {

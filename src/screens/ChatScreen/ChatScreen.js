@@ -33,6 +33,7 @@ const ChatScreen = ({navigation}) => {
   const {currentUserChat, selectedRoomId} = React.useContext(ChatContext);
   const [inputValue, setInputValue] = React.useState('');
   const inputRef = React.useRef(null);
+  const messageListRef = React.useRef(null);
 
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSubmitLoading, setIsSubmitLoading] = React.useState(false);
@@ -252,6 +253,13 @@ const ChatScreen = ({navigation}) => {
     }
   };
 
+  React.useEffect(() => {
+    // scroll to bottom after message changed
+    if (messageListRef?.current) {
+      messageListRef.current.scrollToOffset({offset: 0, animated: true});
+    }
+  }, [messages]);
+
   return (
     <View flex={1}>
       <View paddingX={3} flex={12}>
@@ -261,6 +269,7 @@ const ChatScreen = ({navigation}) => {
           </Center>
         ) : messages.length !== 0 ? (
           <FlatList
+            ref={messageListRef}
             inverted={true}
             showsHorizontalScrollIndicator={false}
             showsVerticalScrollIndicator={false}

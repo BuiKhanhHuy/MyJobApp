@@ -30,6 +30,11 @@ import EditAvatar from '../../components/EditAvatar';
 import errorHandling from '../../utils/errorHandling';
 import ChatIcon from '../../components/ChatIcon';
 import SettingIcon from '../../components/SettingIcon';
+import {
+  resetSearchCompany,
+  resetSearchJobPostAround,
+  resetSearchJobPostFilter,
+} from '../../redux/filterSlice';
 
 const ProfileScreen = ({navigation}) => {
   const [layout, isLayoutLoading, handleLayout] = useLayout();
@@ -48,6 +53,10 @@ const ProfileScreen = ({navigation}) => {
       dispatch(removeUserInfo())
         .unwrap()
         .then(() => {
+          dispatch(resetSearchJobPostFilter());
+          dispatch(resetSearchJobPostAround());
+          dispatch(resetSearchCompany());
+          
           navigation.navigate('Login');
           setIsFullScreenLoading(false);
         })
@@ -55,7 +64,7 @@ const ProfileScreen = ({navigation}) => {
           console.log('ERROR: ', error);
           errorHandling(error);
           setIsFullScreenLoading(false);
-        });
+        })
     };
 
     const isOk = await SheetManager.show('confirm-sheet', {

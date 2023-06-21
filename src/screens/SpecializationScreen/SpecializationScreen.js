@@ -2,13 +2,13 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {
-  Text,
   TouchableOpacity,
   StyleSheet,
   TouchableNativeFeedback,
   RefreshControl,
 } from 'react-native';
 import {
+  Text,
   View,
   Icon,
   Input,
@@ -71,7 +71,7 @@ const CategoryItem = ({value}) => {
         <View>
           <View style={styles.icon}>
             <FontAwesome5
-              name="hand-holding-heart"
+              name={`${value?.appIconName}`}
               style={{
                 fontSize: 25,
                 color: '#ff9228',
@@ -80,7 +80,7 @@ const CategoryItem = ({value}) => {
           </View>
         </View>
         <View>
-          <Text style={styles.titleText}>{value.name}</Text>
+          <Text numberOfLines={3} style={styles.titleText}>{value.name}</Text>
         </View>
         <View>
           <Text style={styles.subTitleText}>

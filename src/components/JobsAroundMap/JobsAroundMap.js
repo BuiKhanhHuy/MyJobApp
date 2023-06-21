@@ -208,11 +208,7 @@ const JobsAroundMap = ({
           provider={PROVIDER_GOOGLE}
           loadingIndicatorColor="#FF9228"
           loadingEnabled={true}
-          clusterColor="#FF9228"
-          onClusterPress={(cluster, markers) => {
-            console.log('Cluster: ', cluster);
-            console.log('Markers: ', markers);
-          }}>
+          clusterColor="#FF9228">
           <Circle
             center={{
               latitude: currentLocation.latitude,

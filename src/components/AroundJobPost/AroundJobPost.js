@@ -56,6 +56,8 @@ const AroundJobPost = ({
                   width: 60,
                   height: 60,
                   borderRadius: 50,
+                  borderWidth: 0.5,
+                  borderColor: '#E6E6E6',
                 }}
                 source={{
                   uri: companyImageUrl,

@@ -188,8 +188,8 @@ const ApplyScreen = ({route}) => {
                           width: 75,
                           height: 75,
                           borderRadius: 50,
-                          borderWidth: 1,
-                          borderColor: '#E6E1FF',
+                          borderWidth: 0.5,
+                          borderColor: '#E6E6E6'
                         }}
                         source={{
                           uri: companyImageUrl,

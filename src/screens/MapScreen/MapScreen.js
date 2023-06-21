@@ -173,7 +173,6 @@ const MapScreen = ({route, navigation}) => {
           setJobPosts(resData.data);
           setClusteredPosts(updatedPosts);
 
-          console.log(updatedPosts);
           console.log('CALL API VA RENDER - MapScreen: ');
         } catch (error) {
           toastMessages.error();

@@ -10,6 +10,11 @@ import BackdropLoading from '../../components/loadings/BackdropLoading';
 import SettingOptionCard from '../../components/SettingOptionCard';
 import {useLayout} from '../../hooks';
 import {removeUserInfo} from '../../redux/userSlice';
+import {
+  resetSearchCompany,
+  resetSearchJobPostAround,
+  resetSearchJobPostFilter,
+} from '../../redux/filterSlice';
 
 const SettingScreen = () => {
   const dispatch = useDispatch();
@@ -24,6 +29,10 @@ const SettingScreen = () => {
       dispatch(removeUserInfo())
         .unwrap()
         .then(() => {
+          dispatch(resetSearchJobPostFilter());
+          dispatch(resetSearchJobPostAround());
+          dispatch(resetSearchCompany());
+
           navigation.navigate('Login');
           setIsFullScreenLoading(false);
         })

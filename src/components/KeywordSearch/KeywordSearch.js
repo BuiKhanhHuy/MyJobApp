@@ -26,6 +26,15 @@ const KeywordSearch = props => {
       ? jobPostAroundKw
       : '',
   );
+  const inputRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (inputRef?.current) {
+      setTimeout(() => {
+        inputRef.current.focus();
+      });
+    }
+  }, []);
 
   const handleSubmit = () => {
     switch (searchType) {
@@ -45,6 +54,7 @@ const KeywordSearch = props => {
 
   return (
     <Input
+      ref={inputRef}
       width="97%"
       marginLeft={-12}
       backgroundColor="myJobCustomColors.whiteSmoke"
