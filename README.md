@@ -27,9 +27,9 @@
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/9c38eca7-f32b-4b10-b1b8-548ba31c731f" width="32%"> 
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/93b623d4-e232-4a64-b55b-fd144bb6f2f0" width="32%"> 
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/bc2069cc-0cd2-4180-8109-dd4388696fef" width="32%"> 
-<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/98607a0d-2c4f-4c4d-ab16-30d58f2dbd48" width="32%"> 
-<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/b6c5b4f2-f5ef-4aea-b54e-53622dc1e793" width="32%"> 
-<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/048d29c0-9bd9-4f42-a672-0936a652c014" width="32%"> 
+ <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/7890993e-a9a9-44e2-8570-bcacea8595bc" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/8ff7e160-3fc1-4d84-9d9f-e04b640e6836" width="32%"> 
+<img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/dde9cb2a-2c19-4f7c-a970-77bea5c8764b" width="32%"> 
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/716ad7f2-5dcd-4375-8130-e3f538350f82" width="32%"> 
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/eb526440-8d6b-4f9e-a0ed-50e4f883678e" width="32%"> 
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/f7fa5588-8531-44e3-945c-35bb889ee3f4" width="32%"> 
