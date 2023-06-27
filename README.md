@@ -13,11 +13,6 @@
  <img src="https://github.com/BuiKhanhHuy/my-job-web-app/assets/69914972/6ed3db35-f195-4295-b152-a861fa30b3d7" alt="Watch the video" border="10" />
 </a>
 
-## Screenshots
-
-<img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot0.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot1.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot2.png" width="280">
-
-<img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot3.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot4.png" width="280"> <img src="https://raw.github.com/7kfpun/FinanceReactNative/master/screenshots/screenshot5.png" width="280">
 =======
 ## 👉 [Video demo](https://www.youtube.com/watch?v=BsgL6au9uVU)
 <img src="https://github.com/BuiKhanhHuy/MyJobApp/assets/69914972/c3a44465-c83e-4b9d-98bd-2b0ce75f825d"  > 
